@@ -1,0 +1,3247 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Levmich Studio — дизайн-студия Михаила Левыкина</title>
+  <meta name="description" content="Студия дизайна Михаила Левыкина: сайты, брендинг, дизайн приложений." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Host+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="Assets/styles/style.css?v=100" />
+  <style>
+    body[data-page-version="v3"] {
+      /* Desktop: section rhythm is capped at 100px per latest spec. */
+      --section-gap: clamp(56px, 6vw, 100px);
+    }
+
+    body[data-page-version="v3"].is-menu-open {
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    /* Inline chevron sits next to the original arrow img inside
+       .portfolio-case__arrow. We only want it visible in the mobile
+       portrait layout — desktop keeps the original asset. */
+    body[data-page-version="v3"] .portfolio-case__arrow > svg {
+      display: none;
+    }
+
+    @media (orientation: portrait) {
+      body[data-page-version="v3"] {
+        /* Mobile: section rhythm is capped at 80px per latest spec. */
+        --section-gap: clamp(48px, 10vw, 80px);
+      }
+
+      /* Hero info plaque — center content */
+      body[data-page-version="v3"] .hero__info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      body[data-page-version="v3"] .hero__info-body {
+        align-items: center;
+        text-align: center;
+      }
+
+      body[data-page-version="v3"] .about {
+        padding: var(--section-gap) 10px;
+      }
+
+      body[data-page-version="v3"] .about__inner {
+        max-width: min(420px, calc(100vw - 20px));
+        align-items: center;
+        gap: 20px;
+      }
+
+      body[data-page-version="v3"] .about__head {
+        width: 100%;
+        max-width: 354px;
+        align-items: center;
+        gap: 10px;
+        text-align: center;
+      }
+
+      body[data-page-version="v3"] .about__title {
+        width: 317px;
+        max-width: 100%;
+        font-size: 60px;
+        line-height: normal;
+        text-align: center;
+      }
+
+      body[data-page-version="v3"] .about__lede {
+        width: min(354px, 100%);
+        font-size: 14px;
+        font-weight: 400;
+        line-height: normal;
+        text-align: center;
+      }
+
+      body[data-page-version="v3"] .about__photos {
+        width: min(325px, 100%);
+        height: auto;
+        aspect-ratio: 325 / 272;
+        align-self: center;
+      }
+
+      body[data-page-version="v3"] .about__photo-small {
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 45.538%;
+        height: 62.132%;
+        border-radius: 20px;
+      }
+
+      body[data-page-version="v3"] .about__photo-large {
+        position: absolute;
+        left: 36.538%;
+        top: 13.603%;
+        width: 63.385%;
+        height: 86.397%;
+        border-radius: 20px;
+        box-shadow: none;
+      }
+
+      body[data-page-version="v3"] .about__bio {
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        text-align: center;
+      }
+
+      body[data-page-version="v3"] .about__person {
+        gap: 2px;
+      }
+
+      body[data-page-version="v3"] .about__name {
+        font-size: 30px;
+        line-height: normal;
+      }
+
+      body[data-page-version="v3"] .about__roles {
+        gap: 5px;
+      }
+
+      body[data-page-version="v3"] .about__bio p {
+        width: min(404px, 100%);
+        font-size: 16px;
+        line-height: normal;
+        text-align: center;
+      }
+
+      /* ════════ V3 STACKED SCROLL — CASES (portrait) ════════
+         Same architecture — but no active/inactive states. */
+
+      body[data-page-version="v3"].v3-stacked-cases .portfolio {
+        padding-top: 0;
+        padding-right: 0;
+        padding-bottom: 0;
+        padding-left: 0;
+        min-height: calc(var(--v3-viewport-h, 100svh) + var(--v3-case-scroll, 0px));
+        overflow: visible;
+      }
+
+      body[data-page-version="v3"].v3-stacked-cases .portfolio__inner {
+        position: sticky;
+        top: 0;
+        height: var(--v3-viewport-h, 100svh);
+        display: block;
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        will-change: transform;
+        contain: layout paint;
+      }
+
+      body[data-page-version="v3"].v3-stacked-cases .portfolio__title {
+        position: absolute;
+        top: calc(env(safe-area-inset-top, 0px) + 24px);
+        left: 20px;
+        right: 20px;
+        z-index: 30;
+        margin: 0;
+        text-align: center;
+        pointer-events: auto;
+      }
+      body[data-page-version="v3"].v3-stacked-cases .portfolio__title.reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+
+      body[data-page-version="v3"].v3-stacked-cases .portfolio__grid {
+        position: absolute;
+        top: 0;
+        left: 20px;
+        right: 20px;
+        bottom: 0;
+        z-index: 10;
+        display: block;
+        width: auto;
+        height: auto;
+        max-width: none;
+        padding: 0;
+        margin: 0;
+        overflow: visible;
+      }
+
+      body[data-page-version="v3"].v3-stacked-cases .portfolio-case,
+      body[data-page-version="v3"].v3-stacked-cases .portfolio-case[data-case],
+      body[data-page-version="v3"].v3-stacked-cases .portfolio-case:is(:hover, :focus-within) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: auto;
+        height: var(--v3-case-h, calc(592px * var(--portrait-scale)));
+        min-height: 0;
+        margin: 0;
+        translate: none;
+        will-change: transform, opacity, filter;
+        transition: none;
+        pointer-events: none;
+      }
+      body[data-page-version="v3"].v3-stacked-cases .portfolio-case__media,
+      body[data-page-version="v3"].v3-stacked-cases .portfolio-case:is(:hover, :focus-within) .portfolio-case__media {
+        height: var(--v3-case-media-h, calc(505px * var(--portrait-scale)));
+        min-height: 0;
+      }
+      body[data-page-version="v3"].v3-stacked-cases .portfolio-case.reveal,
+      body[data-page-version="v3"].v3-stacked-cases .portfolio-case[data-case="three"].reveal {
+        transform: none;
+      }
+
+      /* Cases arrow button — Figma pill (node 266-2176): wide pill,
+         dark fill, subtle border, thin white right chevron. */
+      body[data-page-version="v3"] .portfolio-case__arrow {
+        width: 76px;
+        height: 44px;
+        border-radius: 20px;
+        border: 1px solid rgba(255,255,255,.5);
+        background: rgba(255,255,255,.1);
+        flex: 0 0 76px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+      }
+      body[data-page-version="v3"] .portfolio-case__arrow img {
+        display: none;
+      }
+      body[data-page-version="v3"] .portfolio-case__arrow svg {
+        width: 7px;
+        height: 14px;
+        display: block;
+        color: #fff;
+      }
+
+      /* Mobile case meta — text aligned LEFT per Figma 40-1566.
+         Only touches text alignment; image / arrow / animation untouched. */
+      body[data-page-version="v3"] .portfolio-case__meta {
+        align-items: flex-end;
+        justify-content: space-between;
+        text-align: left;
+      }
+      body[data-page-version="v3"] .portfolio-case__copy {
+        align-items: flex-start;
+        text-align: left;
+      }
+      body[data-page-version="v3"] .portfolio-case__title {
+        width: 100%;
+        text-align: left;
+      }
+      body[data-page-version="v3"] .portfolio-case__tags {
+        justify-content: flex-start;
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .v3-stack-spacer {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      body[data-page-version="v3"] .services__notice-text {
+        opacity: 1;
+        filter: none;
+        transform: none;
+        transition: none;
+      }
+    }
+
+    /* GoodV final-only polish: hero logo proportions. */
+    body[data-page-version="v3"] .hero__logo,
+    body[data-page-version="v3"] .dock__menu-logo {
+      transform: scaleY(.94);
+      transform-origin: center center;
+    }
+
+    body[data-page-version="v3"] .footer__info-card-service-label {
+      display: none;
+    }
+
+    @media (orientation: portrait) {
+      /* Keep stacked case heading mathematically centered on any mobile width. */
+      body[data-page-version="v3"].v3-stacked-cases .portfolio__title {
+        width: 100%;
+        margin-inline: auto;
+        text-align: center;
+      }
+
+      body[data-page-version="v3"].v3-stacked-cases .portfolio__title {
+        left: 50% !important;
+        right: auto !important;
+        max-width: calc(100vw - 40px);
+        transform: translate3d(-50%, 0, 0) !important;
+      }
+
+      /* Mobile hero plaque: compact glass label around text, lower-left.
+         Exactly 10px from the card's bottom and left edges per spec.
+         Uses !important to beat the older .hero__info portrait rule in
+         style.css (20px) which the cascade would otherwise apply. */
+      body[data-page-version="v3"] .hero__card .hero__info {
+        left: 10px !important;
+        right: auto !important;
+        bottom: 10px !important;
+        display: inline-flex;
+        flex-direction: column;
+        width: fit-content;
+        inline-size: fit-content;
+        min-width: 0;
+        max-width: calc(100% - 20px);
+        max-inline-size: calc(100% - 20px);
+        padding: 20px;
+        align-items: flex-start;
+        box-sizing: border-box;
+        overflow: hidden;
+        transition:
+          opacity .42s cubic-bezier(.32, 0, .24, 1),
+          filter .42s cubic-bezier(.32, 0, .24, 1),
+          transform .58s cubic-bezier(.18, 1, .28, 1),
+          clip-path .58s cubic-bezier(.18, 1, .28, 1);
+        clip-path: inset(0 0 0 0 round 40px);
+        will-change: transform, opacity, filter, clip-path;
+      }
+
+      body[data-page-version="v3"] .hero__info-body {
+        display: inline-flex;
+        flex-direction: column;
+        width: fit-content;
+        inline-size: fit-content;
+        min-width: 0;
+        max-width: min(320px, calc(100vw - 120px));
+        max-inline-size: min(320px, calc(100vw - 120px));
+        align-items: flex-start;
+        text-align: left;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+
+      body[data-page-version="v3"] .hero__info-title,
+      body[data-page-version="v3"] .hero__info-desc {
+        width: auto;
+        max-width: 100%;
+        min-width: 0;
+        text-align: left;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-break: normal;
+        box-sizing: border-box;
+      }
+
+      /* Match Figma / Screenshot 2: the "Подробнее" pill fills the plaque's
+         content area while the plaque itself stays width: fit-content. The
+         link contributes 0 to the plaque's intrinsic size (percent widths
+         don't seed fit-content), so the plaque is sized by the title/desc
+         and the link then stretches to match. */
+      body[data-page-version="v3"] .hero__info-link {
+        width: 100%;
+        max-width: 100%;
+        align-self: stretch;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        box-sizing: border-box;
+      }
+
+      /* Plaque hidden state: in portrait the plaque starts fully below
+         the image edge, then rises from the bottom of the card. */
+      body[data-page-version="v3"] .hero__card.neo-hero-plaque-hidden .hero__info {
+        opacity: 0;
+        filter: blur(5px) saturate(.96);
+        transform: translate3d(0, calc(100% + 10px), 0) scale(.965);
+        clip-path: inset(82% 18% 0 18% round 40px);
+        pointer-events: none;
+        transition:
+          opacity .42s cubic-bezier(.32, 0, .24, 1),
+          filter .42s cubic-bezier(.32, 0, .24, 1),
+          transform .58s cubic-bezier(.18, 1, .28, 1),
+          clip-path .58s cubic-bezier(.18, 1, .28, 1);
+      }
+
+      /* Mobile footer Info card: self-contained adaptive fill animation. */
+      body[data-page-version="v3"] .footer__info-card {
+        position: relative;
+        overflow: hidden;
+        box-sizing: border-box;
+        transition:
+          min-height .58s cubic-bezier(.34, 1.45, .45, 1),
+          padding .58s cubic-bezier(.34, 1.45, .45, 1),
+          border-radius .58s cubic-bezier(.34, 1.45, .45, 1),
+          border-color .32s var(--ease-soft),
+          background .32s var(--ease-soft),
+          transform .42s cubic-bezier(.34, 1.45, .45, 1);
+      }
+
+      /* Footer Info card list — match the Info page exactly: plain text
+         rows, no pill shape, no padding, no transform layer. Per request:
+         "this footer button must look the same on every page without
+         exception, in the design it has on the info page right now". */
+      body[data-page-version="v3"] .footer__info-card-list {
+        align-items: flex-start;
+        gap: 4px;
+      }
+
+      body[data-page-version="v3"] .footer__info-card-list > span {
+        position: static;
+        display: block;
+        width: auto;
+        min-height: 0;
+        padding: 0;
+        border-radius: 0;
+        background: transparent;
+        overflow: visible;
+        color: rgba(255,255,255,.8);
+        line-height: 1;
+        text-align: left;
+        font-size: 14px;
+        transform: none;
+        transition: none;
+      }
+
+      body[data-page-version="v3"] .footer__info-card-list > span::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        border-radius: inherit;
+        background: rgba(255,255,255,.10);
+        transform: scaleX(0);
+        transform-origin: left center;
+      }
+
+      body[data-page-version="v3"] .footer__info-card.is-info-filling .footer__info-card-list > span::before {
+        animation: infoRowFill .72s cubic-bezier(.34, 1.45, .45, 1) forwards;
+      }
+
+      body[data-page-version="v3"] .footer__info-card.is-info-filling .footer__info-card-list > span:nth-child(2)::before {
+        animation-delay: .34s;
+      }
+
+      body[data-page-version="v3"] .footer__info-card.is-info-filling .footer__info-card-list > span:nth-child(3)::before {
+        animation-delay: .68s;
+      }
+
+      body[data-page-version="v3"] .footer__info-card.is-info-filling .footer__info-card-list > span:nth-child(2) {
+        transition-delay: .12s;
+      }
+
+      body[data-page-version="v3"] .footer__info-card.is-info-filling .footer__info-card-list > span:nth-child(3) {
+        transition-delay: .24s;
+      }
+
+      body[data-page-version="v3"] .footer__info-card-service-label {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        padding: 0 24px;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 1;
+        text-align: center;
+        opacity: 0;
+        transform: translate3d(0, 10px, 0) scale(.96);
+        pointer-events: none;
+        transition:
+          opacity .28s var(--ease-soft),
+          transform .48s cubic-bezier(.34, 1.45, .45, 1);
+      }
+
+      body[data-page-version="v3"] .footer__info-card.is-info-complete {
+        width: min(298px, calc(100vw - 44px));
+        max-width: calc(100vw - 44px);
+        min-height: 54px;
+        padding: 0;
+        border-radius: 999px;
+        border-color: var(--accent);
+        background: var(--accent);
+        transform: translate3d(0, 0, 0) scale(1.01);
+      }
+
+      body[data-page-version="v3"] .footer__info-card.is-info-complete .footer__info-card-head,
+      body[data-page-version="v3"] .footer__info-card.is-info-complete .footer__info-card-list {
+        opacity: 0;
+        transform: translate3d(0, -8px, 0) scale(.96);
+        pointer-events: none;
+      }
+
+      body[data-page-version="v3"] .footer__info-card.is-info-complete .footer__info-card-service-label {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+    }
+
+    @keyframes infoRowFill {
+      0% { transform: scaleX(0); }
+      72% { transform: scaleX(1.035); }
+      100% { transform: scaleX(1); }
+    }
+
+    /* GoodV Services redesign: static premium cards, no stacked scene.
+       Bottom padding intentionally large so the last card and its CTA
+       always have room — fixes the "third card cut off" issue. The
+       :is(html, body) override below disables stale `overflow: hidden`
+       that older stacked-scenes left in place on landscape. */
+    body[data-page-version="v3"] .services.services--redesigned {
+      padding: var(--section-gap) 20px;
+      overflow: visible;
+      min-height: 0;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned,
+    body[data-page-version="v3"] .services.services--redesigned .services__inner,
+    body[data-page-version="v3"] .services.services--redesigned .services__grid {
+      overflow: visible;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__grid::after {
+      content: "";
+      display: block;
+      flex: 0 0 1px;
+      width: 100%;
+      height: 1px;
+      margin: 0;
+      visibility: hidden;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__inner {
+      width: 100%;
+      max-width: 1400px;
+      margin-inline: auto;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+      min-height: 0;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__grid {
+      width: min(1010px, calc(100vw - 390px));
+      max-width: 1010px;
+      flex: 1 1 1010px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      align-items: stretch;
+      order: 0;
+      padding-bottom: 0;
+      box-sizing: border-box;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__head {
+      position: sticky;
+      top: 40px;
+      width: 330px;
+      flex: 0 0 330px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      order: 1;
+      transform: none;
+    }
+
+    @media (orientation: landscape) and (min-width: 769px) {
+      body[data-page-version="v3"] .services.services--redesigned .services__head {
+        top: 12px;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .services__grid::after {
+        flex-basis: clamp(84px, 7vw, 96px);
+        height: clamp(84px, 7vw, 96px);
+      }
+    }
+
+    /* Hovered-pill explanation panel: desktop-only auto-layout style. */
+    body[data-page-version="v3"] .services.services--redesigned .services__explain {
+      width: fit-content;
+      min-width: min(260px, 100%);
+      max-width: min(320px, 100%);
+      height: auto;
+      min-height: 0;
+      padding: 20px;
+      border: none !important;
+      outline: none;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      box-sizing: border-box;
+      overflow: visible;
+      align-self: flex-start;
+      opacity: 0;
+      transform: translate3d(0, 10px, 0);
+      pointer-events: none;
+      will-change: width, height, transform, opacity;
+      transition:
+        width .36s cubic-bezier(.22, 1, .36, 1),
+        height .36s cubic-bezier(.22, 1, .36, 1),
+        opacity .26s var(--ease-soft),
+        transform .34s cubic-bezier(.22, 1, .36, 1),
+        background .26s var(--ease-soft);
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__explain.is-visible {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__explain-title {
+      display: block;
+      margin: 0 0 10px;
+      color: #ffffff;
+      font-family: 'Onest', sans-serif;
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 1.08;
+      transition:
+        opacity .16s var(--ease-soft),
+        transform .22s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__explain-text {
+      margin: 0;
+      color: rgba(255,255,255,.86);
+      font-family: 'Onest', sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.2;
+      transition:
+        opacity .16s var(--ease-soft),
+        transform .22s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__explain.is-changing .services__explain-title,
+    body[data-page-version="v3"] .services.services--redesigned .services__explain.is-changing .services__explain-text,
+    body[data-page-version="v3"] .services.services--redesigned .services__explain.is-changing .services__explain-price {
+      opacity: 0;
+      transform: translate3d(0, -4px, 0);
+    }
+
+    /* Orange price card inside the explain panel — only for Additional pills. */
+    body[data-page-version="v3"] .services.services--redesigned .services__explain-price {
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      width: 100%;
+      margin-top: 16px;
+      padding: 12px 16px;
+      border: 0;
+      border-radius: 20px;
+      background: var(--accent);
+      color: #0a0a0a;
+      box-sizing: border-box;
+      transition:
+        opacity .16s var(--ease-soft),
+        transform .22s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__explain.has-price .services__explain-price {
+      display: flex;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__explain-price-amount {
+      color: #0a0a0a;
+      font-family: 'Geist', sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 1.1;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__explain-price-note {
+      color: #0a0a0a;
+      font-family: 'Geist', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.2;
+    }
+
+    /* When an additional item has no note ("Оформление соцсетей") we keep
+       the price card tight — empty note collapses instead of leaving a gap. */
+    body[data-page-version="v3"] .services.services--redesigned .services__explain-price-note:empty {
+      display: none;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__title {
+      width: auto;
+      font-family: 'Onest', sans-serif;
+      font-size: 100px;
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: 0;
+      text-align: left;
+      color: #fff;
+      margin: 0;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__info {
+      position: static;
+      width: 100%;
+      height: auto;
+      flex: none;
+      opacity: 1;
+      filter: none;
+      transform: none;
+      pointer-events: auto;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__notice {
+      position: static;
+      width: 100%;
+      height: auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 14px;
+      padding: 20px;
+      border-radius: 40px;
+      background: rgba(255, 107, 0, 0.10);
+      opacity: 1;
+      filter: none;
+      transform: none;
+      pointer-events: auto;
+      box-sizing: border-box;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__notice-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px;
+      border-radius: 20px;
+      background: var(--accent);
+      color: #0a0a0a;
+      font-family: 'Onest', sans-serif;
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 1;
+      text-decoration: none;
+      cursor: pointer;
+      transition:
+        background .22s var(--ease-soft),
+        transform .28s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__notice-badge:hover,
+    body[data-page-version="v3"] .services.services--redesigned .services__notice-badge:focus-visible {
+      background: #ffffff !important;
+      color: #0a0a0a !important;
+      outline: none;
+      transform: translate3d(0, -1px, 0);
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__notice-arrow {
+      width: 14px;
+      height: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 14px;
+      color: #0a0a0a;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__notice-arrow svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__icon {
+      position: static;
+      width: 23px;
+      height: 23px;
+      flex: 0 0 23px;
+      opacity: 1;
+      filter: none;
+      transform: none;
+      margin: 0;
+      color: #0a0a0a;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__icon svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__notice-text {
+      width: auto;
+      max-width: none;
+      flex: none;
+      min-width: 0;
+      color: var(--accent);
+      font-family: 'Onest', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: normal;
+      text-align: left;
+      opacity: 1;
+      filter: none;
+      transform: none;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service,
+    body[data-page-version="v3"] .services.services--redesigned .service:is(:hover, :focus-within) {
+      width: 100%;
+      /* Figma card baseline is 377px. `height: auto` keeps the card from
+         clipping if translated copy grows, but the normal state stays at
+         the intended height. */
+      min-height: 377px !important;
+      height: auto !important;
+      display: grid;
+      grid-template-columns: minmax(0, 570px) 246px;
+      gap: clamp(40px, 8vw, 134px);
+      align-items: stretch;
+      justify-content: space-between;
+      padding: 30px;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 40px;
+      background: #0a0a0a;
+      box-shadow: none;
+      box-sizing: border-box;
+      overflow: visible;
+      transform: none;
+      transition:
+        border-color .28s var(--ease-soft),
+        background .28s var(--ease-soft),
+        transform .36s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service:hover {
+      border-color: rgba(255,255,255,.28);
+      background: #0a0a0a;
+      transform: translate3d(0, -2px, 0);
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service__main {
+      min-height: 317px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      min-width: 0;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service__top {
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+      align-items: flex-start;
+      max-width: 570px;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service__name {
+      font-family: 'Onest', sans-serif;
+      font-size: 50px;
+      font-weight: 500;
+      line-height: 1;
+      color: #fff;
+      letter-spacing: 0;
+      margin: 0;
+      overflow-wrap: anywhere;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service__desc {
+      width: min(570px, 100%);
+      font-family: 'Onest', sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: normal;
+      color: #fff;
+      margin: 0;
+      overflow-wrap: anywhere;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service__bottom {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: flex-start;
+      margin: 0;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service__price,
+    body[data-page-version="v3"] .services.services--redesigned .service:hover .service__price,
+    body[data-page-version="v3"] .services.services--redesigned .service:focus-within .service__price {
+      width: 100%;
+      font-family: 'Onest', sans-serif;
+      font-size: 40px;
+      font-weight: 500;
+      line-height: 1;
+      color: #fff;
+      margin: 0;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service__cta,
+    body[data-page-version="v3"] .services.services--redesigned .service:hover .service__cta,
+    body[data-page-version="v3"] .services.services--redesigned .service__cta:focus-visible {
+      width: 286px;
+      height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 20px;
+      margin: 0;
+      border-radius: 20px;
+      background: var(--accent);
+      color: #0a0a0a;
+      font-family: 'Onest', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1;
+      text-align: center;
+      text-decoration: none;
+      opacity: 1;
+      pointer-events: auto;
+      box-sizing: border-box;
+      transition:
+        background .22s var(--ease-soft),
+        transform .28s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service:hover .service__cta:hover,
+    body[data-page-version="v3"] .services.services--redesigned .service:focus-within .service__cta:focus-visible,
+    body[data-page-version="v3"] .services.services--redesigned .service__cta:hover,
+    body[data-page-version="v3"] .services.services--redesigned .service__cta:focus-visible {
+      background: #ffffff !important;
+      color: #0a0a0a !important;
+      transform: translateY(-1px);
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service__details {
+      min-height: 317px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 40px;
+      width: 246px;
+      min-width: 0;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service__detail-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 18px;
+      width: 100%;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service__detail-title {
+      margin: 0;
+      color: #fff;
+      font-family: 'Geist', sans-serif;
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 1.15;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service__pills,
+    body[data-page-version="v3"] .services.services--redesigned .service-toggle__panel {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      width: 100%;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service__pills--additional {
+      flex-direction: row;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      min-height: 38px;
+      padding: 10px 16px;
+      border-radius: 40px;
+      background: rgba(255,255,255,.1);
+      color: #fff;
+      font-family: 'Geist', sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 1;
+      max-width: 100%;
+      white-space: normal;
+      text-align: center;
+      box-sizing: border-box;
+      cursor: default;
+      transform-origin: center;
+      transition:
+        background .26s var(--ease-soft),
+        color .22s var(--ease-soft),
+        transform .3s cubic-bezier(.22, 1.18, .36, 1),
+        box-shadow .3s var(--ease-soft);
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned button.service-pill {
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: help;
+    }
+
+    /* Included pill hover: solid white fill + black text + subtle lift, per Figma 319-2307. */
+    body[data-page-version="v3"] .services.services--redesigned button.service-pill--included:is(:hover, :focus-visible) {
+      background: #ffffff;
+      color: #0a0a0a;
+      outline: none;
+      transform: translate3d(0, -1px, 0);
+      box-shadow: 0 6px 18px rgba(255, 255, 255, .12);
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service-pill--accent {
+      background: rgba(255,107,0,.1);
+      color: var(--accent);
+    }
+
+    /* Additional pill hover: solid accent fill + white text + subtle lift, per Figma 319-2307. */
+    body[data-page-version="v3"] .services.services--redesigned button.service-pill--accent:is(:hover, :focus-visible) {
+      background: var(--accent);
+      color: #0a0a0a;
+      font-weight: 500;
+      outline: none;
+      transform: translate3d(0, -1px, 0);
+      box-shadow: 0 6px 18px rgba(255, 107, 0, .25);
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service__mobile-toggle {
+      display: none;
+    }
+
+    @media (orientation: portrait), (max-width: 768px) {
+      body[data-page-version="v3"] .services.services--redesigned {
+        padding: var(--section-gap) 10px;
+        overflow: visible;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .services__inner {
+        width: 100%;
+        max-width: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 40px;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .services__head {
+        position: static;
+        order: -1;
+        width: min(382px, calc(100vw - 20px));
+        flex: none;
+        gap: 10px;
+        align-items: center;
+        text-align: center;
+        transform: none !important;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .services__title {
+        width: 100%;
+        height: 59px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 60px;
+        line-height: 1;
+        text-align: center;
+      }
+
+      /* Mobile Инфо notification is fully static — never animates,
+         never grows, never reacts to hover/focus/tap. */
+      body[data-page-version="v3"] .services.services--redesigned .services__notice {
+        min-height: 116px;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 10px;
+        border-radius: 30px;
+        text-align: center;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .services__notice-badge {
+        padding: 6px;
+        font-size: 18px;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .services__icon {
+        display: block;
+        width: 20px;
+        height: 20px;
+        flex-basis: 20px;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .services__notice-text {
+        width: 100%;
+        font-size: 12px;
+        line-height: normal;
+        text-align: center;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .services__grid {
+        width: min(400px, calc(100vw - 20px));
+        /* Mobile: 30px between service cards per latest spec. */
+        gap: 30px;
+        align-items: center;
+        padding-bottom: 0;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .services__explain {
+        display: none !important;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service,
+      body[data-page-version="v3"] .services.services--redesigned .service:is(:hover, :focus-within) {
+        width: 100%;
+        --service-mobile-h: clamp(540px, 68svh, 580px);
+        height: var(--service-mobile-h) !important;
+        min-height: var(--service-mobile-h) !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0;
+        padding: 20px;
+        margin: 0 !important;
+        border-radius: 40px;
+        text-align: center;
+        transform: none;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service:hover {
+        transform: none;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service__main {
+        min-height: 0;
+        display: contents;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service__top {
+        width: 100%;
+        max-width: 100%;
+        min-height: 178px;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+        order: 1;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service__name {
+        width: 100%;
+        font-size: 32px;
+        line-height: 1.05;
+        text-align: center;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service__desc {
+        width: 100%;
+        font-size: 16px;
+        line-height: 1.08;
+        text-align: center;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service__details {
+        display: none;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service__mobile-toggle {
+        width: 100%;
+        min-height: 118px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+        order: 2;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        min-height: 40px;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: #fff;
+        font-family: 'Onest', sans-serif;
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 1;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service-toggle__icon {
+        width: 24px;
+        height: 24px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        border-radius: 0;
+        color: #ffffff;
+        background: transparent;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service-toggle__icon svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      /* FIXED panels area so the gap between the toggle row and the pills
+         never grows or shrinks when switching included ↔ additional.
+         Height is locked (not min-height) and pills are top-aligned. */
+      body[data-page-version="v3"] .services.services--redesigned .service-toggle__panels {
+        position: relative;
+        width: 100%;
+        height: 84px;
+        min-height: 84px;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service-toggle__panel {
+        position: absolute;
+        inset: 0;
+        gap: 6px;
+        /* Override `align-items: center` from the base .service__pills rule
+           so pills sit at the top of the reserved area, not the middle. */
+        align-items: flex-start;
+        align-content: flex-start;
+        justify-content: center;
+        opacity: 0;
+        transform: translate3d(0, 8px, 0);
+        pointer-events: none;
+        transition:
+          opacity .24s var(--ease-soft),
+          transform .34s cubic-bezier(.22, 1, .36, 1);
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service-toggle__panel.is-active {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+        pointer-events: auto;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service-pill {
+        padding: 10px 14px;
+        font-size: 16px;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service__bottom {
+        width: 100%;
+        align-items: center;
+        gap: 20px;
+        order: 3;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service__price,
+      body[data-page-version="v3"] .services.services--redesigned .service:hover .service__price,
+      body[data-page-version="v3"] .services.services--redesigned .service:focus-within .service__price {
+        font-size: clamp(40px, 11.7vw, 50px);
+        text-align: center;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service__cta,
+      body[data-page-version="v3"] .services.services--redesigned .service:hover .service__cta,
+      body[data-page-version="v3"] .services.services--redesigned .service__cta:focus-visible {
+        width: 100%;
+        max-width: none;
+        background: var(--accent);
+        border: 0;
+        color: #0a0a0a;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service__cta:active {
+        background: rgba(255, 107, 0, 0.18);
+      }
+
+      @media (max-width: 360px) {
+        body[data-page-version="v3"] .services.services--redesigned .service,
+        body[data-page-version="v3"] .services.services--redesigned .service:is(:hover, :focus-within) {
+          --service-mobile-h: 600px;
+        }
+      }
+    }
+
+    @media (orientation: portrait) and (prefers-reduced-motion: reduce) {
+      body[data-page-version="v3"] .footer__info-card,
+      body[data-page-version="v3"] .footer__info-card-list > span,
+      body[data-page-version="v3"] .footer__info-card-list > span::before,
+      body[data-page-version="v3"] .footer__info-card-service-label {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    /* Desktop Services cards: compact horizontal layout from the latest reference.
+       Scoped to landscape only, so portrait/mobile cards keep their current system. */
+    @media (orientation: landscape) and (min-width: 769px) {
+      body[data-page-version="v3"] .services.services--redesigned .services__grid {
+        gap: clamp(28px, 3vw, 40px);
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service,
+      body[data-page-version="v3"] .services.services--redesigned .service:is(:hover, :focus-within) {
+        container-type: inline-size;
+        min-height: clamp(254px, 24vw, 377px) !important;
+        grid-template-columns: minmax(0, 1fr) minmax(150px, 28%);
+        gap: clamp(28px, 6vw, 96px);
+        padding: clamp(20px, 2.1vw, 30px);
+        border-radius: clamp(28px, 3vw, 40px);
+        align-items: stretch;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service__main {
+        min-height: 0;
+        gap: clamp(14px, 2cqw, 20px);
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service__top {
+        gap: clamp(8px, 1.15cqw, 26px);
+        max-width: none;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service__name {
+        font-size: clamp(30px, 4.85cqw, 50px);
+        line-height: 1;
+        overflow-wrap: normal;
+        text-wrap: balance;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service__desc {
+        width: 100%;
+        font-size: clamp(13px, 1.75cqw, 18px);
+        line-height: 1.12;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service__bottom {
+        gap: clamp(10px, 1.8cqw, 20px);
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service__price,
+      body[data-page-version="v3"] .services.services--redesigned .service:hover .service__price,
+      body[data-page-version="v3"] .services.services--redesigned .service:focus-within .service__price {
+        font-size: clamp(30px, 4cqw, 40px);
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service__cta,
+      body[data-page-version="v3"] .services.services--redesigned .service:hover .service__cta,
+      body[data-page-version="v3"] .services.services--redesigned .service__cta:focus-visible {
+        width: clamp(193px, 28cqw, 286px);
+        height: clamp(34px, 5cqw, 50px);
+        padding: 0 clamp(14px, 2cqw, 20px);
+        font-size: clamp(11px, 1.55cqw, 16px);
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service__details {
+        width: 100%;
+        min-height: 0;
+        justify-content: flex-start;
+        gap: clamp(24px, 4cqw, 40px);
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service__detail-group {
+        gap: clamp(10px, 1.65cqw, 18px);
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service__detail-title {
+        font-size: clamp(16px, 2.35cqw, 24px);
+        line-height: 1.1;
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service__pills,
+      body[data-page-version="v3"] .services.services--redesigned .service-toggle__panel {
+        gap: clamp(6px, 1cqw, 10px);
+      }
+
+      body[data-page-version="v3"] .services.services--redesigned .service-pill {
+        min-height: 0;
+        padding: clamp(7px, 1cqw, 10px) clamp(10px, 1.6cqw, 16px);
+        font-size: clamp(12px, 1.55cqw, 18px);
+      }
+    }
+
+    /* ──────────────────────────────────────────────────────────────────
+       DESKTOP HERO PLAQUE — COMPACT (lower-left, content-driven)
+       Scoped to landscape ≥ 769px so it never touches the mobile layout.
+       Forces the plaque to be sized by its content + padding (Figma
+       Auto Layout style) instead of stretching across the card. Anchors
+       it to left + bottom only (right: auto) and gives the "Подробнее"
+       link its own intrinsic width so it can't push the parent wide.
+       Does not touch the rotation/animation — only size + positioning.
+       ────────────────────────────────────────────────────────────── */
+    @media (orientation: landscape) and (min-width: 769px) {
+      body[data-page-version="v3"] .hero__card .hero__info {
+        left: 20px !important;
+        right: auto !important;
+        bottom: 20px !important;
+
+        width: auto !important;
+        inline-size: fit-content !important;
+        min-width: 0 !important;
+        max-width: min(390px, calc(100% - 40px)) !important;
+
+        padding: 20px !important;
+        box-sizing: border-box !important;
+
+        display: inline-flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+
+        text-align: left !important;
+        overflow: hidden !important;
+      }
+
+      body[data-page-version="v3"] .hero__info-body {
+        width: auto !important;
+        inline-size: fit-content !important;
+        max-width: 330px !important;
+        min-width: 0 !important;
+
+        display: inline-flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        text-align: left !important;
+        box-sizing: border-box !important;
+      }
+
+      body[data-page-version="v3"] .hero__info-title,
+      body[data-page-version="v3"] .hero__info-desc {
+        width: auto !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+
+        white-space: normal !important;
+        overflow-wrap: break-word !important;
+        text-align: left !important;
+      }
+
+      body[data-page-version="v3"] .hero__info-link {
+        width: auto !important;
+        align-self: flex-start !important;
+        max-width: 100% !important;
+        white-space: nowrap !important;
+      }
+    }
+  </style>
+</head>
+<body data-lang="ru" data-page-version="v3">
+
+  <main>
+    <section class="hero" id="hero" aria-label="Levmich Studio">
+      <div class="hero__brand">
+        <img class="hero__logo" src="Assets/SVG_files/Levmich_Studio_Logo_01.svg" alt="Levmich Studio" />
+        <p class="hero__slogan">Делаем красиво<br/>Некрасиво&nbsp;— не&nbsp;делаем</p>
+      </div>
+
+      <div class="hero__track" id="hero-track">
+        <article class="hero__card" data-href="case-front.html">
+          <img class="hero__card-img" src="Assets/Main_page/Property 1=Photo 1.png" alt="Front" />
+          <div class="hero__info">
+            <div class="hero__info-body">
+              <h2 class="hero__info-title">Новый проект</h2>
+              <p class="hero__info-desc">Наша студия задизайнила логотип и сайт для крупного патентного бюро Front</p>
+              <a class="hero__info-link" href="case-front.html">Подробнее</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="hero__card" data-href="case-three.html">
+          <img class="hero__card-img" src="Assets/Main_page/Property 1=Photo 3.png" alt="Три семёрки" />
+          <div class="hero__info">
+            <div class="hero__info-body">
+              <h2 class="hero__info-title">Три семёрки</h2>
+              <p class="hero__info-desc">Бренд для регионального грузоперевозчика, который запомнят на дороге</p>
+              <a class="hero__info-link" href="case-three.html">Подробнее</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="hero__card" data-href="case-wedding.html">
+          <img class="hero__card-img" src="Assets/Main_page/Property 1=Photo 2.png" alt="Оксана и Костя" />
+          <div class="hero__info">
+            <div class="hero__info-body">
+              <h2 class="hero__info-title">Оксана и Костя</h2>
+              <p class="hero__info-desc">Сайт-приглашение, который взял на себя всю логистику свадьбы</p>
+              <a class="hero__info-link" href="case-wedding.html">Подробнее</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <div class="about__inner">
+        <header class="about__head reveal">
+          <h2 class="about__title">Your <br/>GOAT</h2>
+          <p class="about__lede">Человек, который считается непревзойдённым в&nbsp;своей сфере.</p>
+        </header>
+
+        <div class="about__photos reveal" data-about-parallax>
+          <figure class="about__photo-small">
+            <img src="Assets/2a144ef9aad2531389597825e180388d3c0aa5f1.png" alt="Михаил Левыкин" />
+          </figure>
+          <figure class="about__photo-large">
+            <img src="Assets/7b06567811b6b765380e41ba4878fd538873b93f.png" alt="Михаил Левыкин" />
+          </figure>
+        </div>
+
+        <div class="about__bio reveal">
+          <div class="about__person">
+            <h3 class="about__name">Михаил</h3>
+            <div class="about__roles" aria-label="Роли">
+              <span class="chip">Дизайнер</span>
+              <span class="chip">Фаундер</span>
+            </div>
+          </div>
+          <p>Я делаю современные сайты, удобные интерфейсы и запоминающийся брендинг, объединяя стильный минимализм с продуманной структурой и ярким образом, чтобы дизайн вызывал доверие и эмоции.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="services services--redesigned" id="services">
+      <div class="services__inner">
+        <div class="services__grid">
+          <article class="service reveal" data-service-view="included">
+            <div class="service__main">
+              <div class="service__top">
+                <h3 class="service__name">Дизайн сайта</h3>
+                <p class="service__desc">Сайт, который не просто красиво выглядит, а приводит клиентов. Продумываю структуру, поведение пользователя — чтобы посетитель за 30 секунд понял, чем вы можете быть ему полезны, и оставил контакт.</p>
+              </div>
+              <div class="service__bottom">
+                <p class="service__price">от 23.000 ₽</p>
+                <a class="service__cta" href="https://t.me/levmich_studio_bot" target="_blank" rel="noopener">Начать бриф</a>
+              </div>
+            </div>
+            <div class="service__details" aria-label="Состав услуги">
+              <div class="service__detail-group">
+                <h4 class="service__detail-title service__detail-title--included">В услугу входят:</h4>
+                <div class="service__pills service__pills--included" data-service-pills="included">
+                  <button class="service-pill service-pill--included" type="button" data-explain-key="prototype">Прототип</button>
+                  <button class="service-pill service-pill--included" type="button" data-explain-key="adaptive">Адаптивы</button>
+                  <button class="service-pill service-pill--included" type="button" data-explain-key="uikit">Ui-Kit</button>
+                  <button class="service-pill service-pill--included" type="button" data-explain-key="design">Дизайн</button>
+                </div>
+              </div>
+              <div class="service__detail-group">
+                <h4 class="service__detail-title service__detail-title--additional">Дополнительно:</h4>
+                <div class="service__pills service__pills--additional" data-service-pills="additional">
+                  <button class="service-pill service-pill--accent" type="button" data-explain-key="ai-image">ИИ изображение</button>
+                  <button class="service-pill service-pill--accent" type="button" data-explain-key="layout">Вёрстка</button>
+                </div>
+              </div>
+            </div>
+            <div class="service__mobile-toggle">
+              <button class="service-toggle" type="button" aria-label="Переключить состав услуги">
+                <span class="service-toggle__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 8.2a6 6 0 0 1 9.7-1.1l1.6 1.6M16.8 15.8a6 6 0 0 1-9.7 1.1l-1.6-1.6M18.5 4.8v3.9h-3.9M5.5 19.2v-3.9h3.9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span class="service-toggle__label">В стоимость входят:</span>
+              </button>
+              <div class="service-toggle__panels">
+                <div class="service-toggle__panel is-active" data-toggle-panel="included">
+                  <span class="service-pill">Прототип</span>
+                  <span class="service-pill">Дизайн</span>
+                  <span class="service-pill">Адаптивы</span>
+                  <span class="service-pill">Ui-Kit</span>
+                </div>
+                <div class="service-toggle__panel" data-toggle-panel="additional">
+                  <span class="service-pill service-pill--accent">ИИ изображение</span>
+                  <span class="service-pill service-pill--accent">Вёрстка</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="service reveal" data-service-view="included">
+            <div class="service__main">
+              <div class="service__top">
+                <h3 class="service__name">Брендинг</h3>
+                <p class="service__desc">Не только логотип. Целостная визуальная система: знак, шрифт, цвета, паттерны — и применение во всех точках контакта. Чтобы бренд узнавался без подписи.</p>
+              </div>
+              <div class="service__bottom">
+                <p class="service__price">от 25.000 ₽</p>
+                <a class="service__cta" href="https://t.me/levmich_studio_bot" target="_blank" rel="noopener">Начать бриф</a>
+              </div>
+            </div>
+            <div class="service__details" aria-label="Состав услуги">
+              <div class="service__detail-group">
+                <h4 class="service__detail-title service__detail-title--included">В услугу входят:</h4>
+                <div class="service__pills service__pills--included" data-service-pills="included">
+                  <button class="service-pill service-pill--included" type="button" data-explain-key="logo">Логотип</button>
+                  <button class="service-pill service-pill--included" type="button" data-explain-key="identity">Фирменный стиль</button>
+                  <button class="service-pill service-pill--included" type="button" data-explain-key="guideline">Гайдлайн</button>
+                </div>
+              </div>
+              <div class="service__detail-group">
+                <h4 class="service__detail-title service__detail-title--additional">Дополнительно:</h4>
+                <div class="service__pills service__pills--additional" data-service-pills="additional">
+                  <button class="service-pill service-pill--accent" type="button" data-explain-key="social">Оформление соцсетей</button>
+                  <button class="service-pill service-pill--accent" type="button" data-explain-key="brandbook">Брендбук</button>
+                </div>
+              </div>
+            </div>
+            <div class="service__mobile-toggle">
+              <button class="service-toggle" type="button" aria-label="Переключить состав услуги">
+                <span class="service-toggle__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 8.2a6 6 0 0 1 9.7-1.1l1.6 1.6M16.8 15.8a6 6 0 0 1-9.7 1.1l-1.6-1.6M18.5 4.8v3.9h-3.9M5.5 19.2v-3.9h3.9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span class="service-toggle__label">Дополнительно:</span>
+              </button>
+              <div class="service-toggle__panels">
+                <div class="service-toggle__panel is-active" data-toggle-panel="included">
+                  <span class="service-pill">Логотип</span>
+                  <span class="service-pill">Фирменный стиль</span>
+                  <span class="service-pill">Гайдлайн</span>
+                </div>
+                <div class="service-toggle__panel" data-toggle-panel="additional">
+                  <span class="service-pill service-pill--accent">Оформление соцсетей</span>
+                  <span class="service-pill service-pill--accent">Брендбук</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="service reveal" data-service-view="included">
+            <div class="service__main">
+              <div class="service__top">
+                <h3 class="service__name">Дизайн приложений</h3>
+                <p class="service__desc">Интерфейс, в котором пользователь не теряется. Проектирую путь от первого экрана до целевого действия так, чтобы каждый шаг был очевиден. Ваше приложение получает не просто красивые экраны, а продуманную логику взаимодействия.</p>
+              </div>
+              <div class="service__bottom">
+                <p class="service__price">от 41.000 ₽</p>
+                <a class="service__cta" href="https://t.me/levmich_studio_bot" target="_blank" rel="noopener">Начать бриф</a>
+              </div>
+            </div>
+            <div class="service__details" aria-label="Состав услуги">
+              <div class="service__detail-group">
+                <h4 class="service__detail-title service__detail-title--included">В услугу входят:</h4>
+                <div class="service__pills service__pills--included" data-service-pills="included">
+                  <button class="service-pill service-pill--included" type="button" data-explain-key="userflow">Пользовательский сценарий</button>
+                  <button class="service-pill service-pill--included" type="button" data-explain-key="design">Дизайн</button>
+                  <button class="service-pill service-pill--included" type="button" data-explain-key="prototype">Прототип</button>
+                  <button class="service-pill service-pill--included" type="button" data-explain-key="uikit">Ui-Kit</button>
+                </div>
+              </div>
+              <div class="service__detail-group">
+                <h4 class="service__detail-title service__detail-title--additional">Дополнительно:</h4>
+                <div class="service__pills service__pills--additional" data-service-pills="additional">
+                  <button class="service-pill service-pill--accent" type="button" data-explain-key="ai-image">ИИ изображение</button>
+                </div>
+              </div>
+            </div>
+            <div class="service__mobile-toggle">
+              <button class="service-toggle" type="button" aria-label="Переключить состав услуги">
+                <span class="service-toggle__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 8.2a6 6 0 0 1 9.7-1.1l1.6 1.6M16.8 15.8a6 6 0 0 1-9.7 1.1l-1.6-1.6M18.5 4.8v3.9h-3.9M5.5 19.2v-3.9h3.9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span class="service-toggle__label">Дополнительно:</span>
+              </button>
+              <div class="service-toggle__panels">
+                <div class="service-toggle__panel is-active" data-toggle-panel="included">
+                  <span class="service-pill">Пользовательский сценарий</span>
+                  <span class="service-pill">Дизайн</span>
+                  <span class="service-pill">Прототип</span>
+                  <span class="service-pill">Ui-Kit</span>
+                </div>
+                <div class="service-toggle__panel" data-toggle-panel="additional">
+                  <span class="service-pill service-pill--accent">ИИ изображение</span>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <header class="services__head reveal">
+          <h2 class="services__title">Услуги</h2>
+          <div class="services__info" tabindex="0" aria-label="Информация о согласии">
+            <span class="services__notice">
+              <a class="services__notice-badge" href="info.html#info-top" aria-label="Инфо">
+                <span class="services__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2C17.523 2 22 6.477 22 12C22 17.523 17.523 22 12 22C6.477 22 2 17.523 2 12ZM10.5 8C10.5 7.60218 10.658 7.22064 10.9393 6.93934C11.2206 6.65804 11.6022 6.5 12 6.5H12.01C12.4078 6.5 12.7894 6.65804 13.0707 6.93934C13.352 7.22064 13.51 7.60218 13.51 8V8.01C13.51 8.40782 13.352 8.78936 13.0707 9.07066C12.7894 9.35196 12.4078 9.51 12.01 9.51H12C11.6022 9.51 11.2206 9.35196 10.9393 9.07066C10.658 8.78936 10.5 8.40782 10.5 8.01V8ZM12 11C12.2652 11 12.5196 11.1054 12.7071 11.2929C12.8946 11.4804 13 11.7348 13 12V16C13 16.2652 12.8946 16.5196 12.7071 16.7071C12.5196 16.8946 12.2652 17 12 17C11.7348 17 11.4804 16.8946 11.2929 16.7071C11.1054 16.5196 11 16.2652 11 16V12C11 11.7348 11.1054 11.4804 11.2929 11.2929C11.4804 11.1054 11.7348 11 12 11Z" fill="currentColor"/></svg>
+                </span>
+                <span class="services__notice-label">Инфо</span>
+                <span class="services__notice-arrow" aria-hidden="true">
+                  <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </a>
+              <span class="services__notice-text">Нажимая кнопку «Начать бриф», вы&nbsp;даёте согласие с&nbsp;пользовательским соглашением и&nbsp;политикой конфиденциальности.</span>
+            </span>
+          </div>
+          <div class="services__explain is-visible" aria-live="polite">
+            <strong class="services__explain-title">Что входит в услугу?</strong>
+            <p class="services__explain-text">Наведите курсор на плашку и в этом окне появится пояснение к компоненту услуги</p>
+            <div class="services__explain-price" aria-hidden="true">
+              <span class="services__explain-price-amount"></span>
+              <span class="services__explain-price-note"></span>
+            </div>
+          </div>
+        </header>
+      </div>
+    </section>
+
+    <section class="portfolio" id="portfolio">
+      <div class="portfolio__inner">
+        <h2 class="portfolio__title section-title reveal">Кейсы</h2>
+        <div class="portfolio__grid">
+          <article class="portfolio-case reveal" data-case="three">
+            <a class="portfolio-case__media" href="case-three.html" aria-label="Открыть кейс Три Семёрки">
+              <img class="portfolio-case__img" src="Assets/Main_page/Property 1=Photo 3.png" alt="Три Семёрки" />
+            </a>
+            <div class="portfolio-case__meta">
+              <div class="portfolio-case__copy">
+                <h3 class="portfolio-case__title">Три Семёрки</h3>
+                <div class="portfolio-case__tags">
+                  <span class="portfolio-tag portfolio-tag--branding">Брендинг <img src="Assets/SVG_files/mage_stars-c.svg" alt="" /></span>
+                </div>
+              </div>
+              <a class="portfolio-case__arrow" href="case-three.html" aria-label="Открыть кейс">
+                <img src="Assets/SVG_files/arrow-forward.svg" alt="" />
+                <svg viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a class="portfolio-case__button" href="case-three.html">Подробнее</a>
+            </div>
+          </article>
+
+          <article class="portfolio-case reveal" data-case="wedding">
+            <a class="portfolio-case__media" href="case-wedding.html" aria-label="Открыть кейс Свадебный сайт">
+              <img class="portfolio-case__img" src="Assets/Main_page/Property 1=Photo 2.png" alt="Свадебный сайт" />
+            </a>
+            <div class="portfolio-case__meta">
+              <div class="portfolio-case__copy">
+                <h3 class="portfolio-case__title">Свадебный сайт</h3>
+                <div class="portfolio-case__tags">
+                  <span class="portfolio-tag portfolio-tag--site">Сайт <img src="Assets/SVG_files/dashicons_admin-site-alt3.svg" alt="" /></span>
+                </div>
+              </div>
+              <a class="portfolio-case__arrow" href="case-wedding.html" aria-label="Открыть кейс">
+                <img src="Assets/SVG_files/arrow-forward.svg" alt="" />
+                <svg viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a class="portfolio-case__button" href="case-wedding.html">Подробнее</a>
+            </div>
+          </article>
+
+          <article class="portfolio-case reveal" data-case="front">
+            <a class="portfolio-case__media" href="case-front.html" aria-label="Открыть кейс Front">
+              <img class="portfolio-case__img" src="Assets/Main_page/Property 1=Photo 1.png" alt="Front" />
+            </a>
+            <div class="portfolio-case__meta">
+              <div class="portfolio-case__copy">
+                <h3 class="portfolio-case__title">Front</h3>
+                <div class="portfolio-case__tags">
+                  <span class="portfolio-tag portfolio-tag--branding">Брендинг <img src="Assets/SVG_files/mage_stars-c.svg" alt="" /></span>
+                  <span class="portfolio-tag portfolio-tag--site">Сайт <img src="Assets/SVG_files/dashicons_admin-site-alt3.svg" alt="" /></span>
+                </div>
+              </div>
+              <a class="portfolio-case__arrow" href="case-front.html" aria-label="Открыть кейс">
+                <img src="Assets/SVG_files/arrow-forward.svg" alt="" />
+                <svg viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a class="portfolio-case__button" href="case-front.html">Подробнее</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="footer">
+    <div class="footer__top">
+      <section class="footer__consult reveal" aria-labelledby="footer-consult-title">
+        <div class="footer__consult-copy">
+          <h2 class="footer__title" id="footer-consult-title">Не нашли ответ?</h2>
+          <p class="footer__text">Оставьте заявку — ответим в течение одного рабочего дня.</p>
+        </div>
+        <a class="footer__button" href="https://t.me/levmich_studio_bot" target="_blank" rel="noopener" data-magnetic>Оставить заявку</a>
+      </section>
+
+      <nav class="footer__nav reveal" aria-label="Навигация по сайту">
+        <h2 class="footer__heading">Навигация</h2>
+        <a class="footer__nav-item" href="index.html#about">Обо мне <img src="Assets/SVG_files/mini_me.svg" alt=""/></a>
+        <a class="footer__nav-item" href="index.html#services">Услуги <img src="Assets/SVG_files/Consulation.svg" alt=""/></a>
+        <a class="footer__nav-item" href="index.html#portfolio">Кейсы <img src="Assets/SVG_files/Case.svg" alt=""/></a>
+      </nav>
+
+      <section class="footer__media reveal" aria-labelledby="footer-media-title">
+        <h2 class="footer__heading" id="footer-media-title">Медиа</h2>
+        <div class="footer__socials">
+          <a href="#" aria-label="Telegram"><img src="Assets/SVG_files/Telegram.svg" alt=""/></a>
+          <a href="#" aria-label="Instagram"><img src="Assets/SVG_files/Instagram.svg" alt=""/></a>
+          <a href="#" aria-label="Threads"><img src="Assets/SVG_files/Threads.svg" alt=""/></a>
+          <a href="#" aria-label="Behance"><img src="Assets/SVG_files/Behance.svg" alt=""/></a>
+        </div>
+        <p class="footer__meta-disclaimer">*Компания Meta — признана в России террористической организацией</p>
+      </section>
+    </div>
+
+    <div class="footer__bottom">
+      <a class="footer__logo-link reveal" href="index.html#hero" aria-label="На главную">
+        <img class="footer__logo" src="Assets/SVG_files/Levmich_Studio_Logo_01.svg" alt="Levmich Studio" />
+      </a>
+      <p class="footer__copyright reveal">© Levmich Studio 2026</p>
+      <a class="footer__info-card reveal" href="info.html#info-top" aria-label="Открыть информационную страницу">
+        <span class="footer__info-card-head">
+          <span class="footer__info-card-title">Инфо</span>
+          <span class="footer__info-card-arrow" aria-hidden="true">
+            <svg viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </span>
+        <span class="footer__info-card-list">
+          <span>Договор оферты</span>
+          <span>Политика конфиденциальности</span>
+          <span>Пользовательское соглашение</span>
+        </span>
+        <span class="footer__info-card-service-label" aria-hidden="true">К услугам</span>
+      </a>
+    </div>
+  </footer>
+
+  <div class="dock" id="dock" data-state="rest">
+    <div class="dock__pill">
+      <button class="dock__menu-btn" id="dock-menu-btn" aria-label="Меню" aria-expanded="false" type="button">
+        <span class="burger"><span></span><span></span></span>
+      </button>
+      <a class="dock__magnet" href="index.html#services"><span>К услугам</span></a>
+      <button class="dock__lang-btn" id="dock-lang-btn" aria-label="Язык" type="button">
+        <span class="dock__lang-current">Ru</span>
+        <span class="dock__lang-arrow" aria-hidden="true">
+          <svg viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="dock__lang-target">En</span>
+      </button>
+
+      <nav class="dock__menu" id="dock-menu" aria-hidden="true">
+        <div class="dock__menu-left">
+          <h3 class="dock__menu-title">Меню</h3>
+          <ul class="dock__menu-list">
+            <li><a href="index.html#about">Обо мне <img src="Assets/SVG_files/mini_me.svg" alt=""/></a></li>
+            <li><a href="index.html#services">Услуги <img src="Assets/SVG_files/Consulation.svg" alt=""/></a></li>
+            <li><a href="index.html#portfolio">Кейсы <img src="Assets/SVG_files/Case.svg" alt=""/></a></li>
+          </ul>
+        </div>
+        <div class="dock__menu-right">
+          <div class="dock__menu-brand">
+            <img class="dock__menu-logo" src="Assets/SVG_files/Levmich_Studio_Logo_01.svg" alt="Levmich Studio"/>
+            <p class="dock__menu-slogan">Делаем красиво. Некрасиво&nbsp;— не&nbsp;делаем</p>
+          </div>
+          <div class="dock__menu-socials">
+            <a href="#" aria-label="Telegram"><img src="Assets/SVG_files/Telegram.svg" alt=""/></a>
+            <a href="#" aria-label="Instagram"><img src="Assets/SVG_files/Instagram.svg" alt=""/></a>
+            <a href="#" aria-label="Threads"><img src="Assets/SVG_files/Threads.svg" alt=""/></a>
+            <a href="#" aria-label="Behance"><img src="Assets/SVG_files/Behance.svg" alt=""/></a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <div class="case-cursor" id="case-cursor" aria-hidden="true">
+    <span>Подробнее</span>
+    <svg class="case-cursor__icon" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.94031 8.94031C9.15234 8.72827 9.46606 8.65453 9.75053 8.74935L16.8755 11.1243C17.1791 11.2256 17.3916 11.4994 17.4144 11.8186C17.4371 12.138 17.2655 12.44 16.9791 12.5832L14.0483 14.0483L12.5832 16.9791C12.44 17.2655 12.138 17.4371 11.8186 17.4144C11.4994 17.3916 11.2256 17.1791 11.1243 16.8755L8.74935 9.75053C8.65453 9.46606 8.72827 9.15234 8.94031 8.94031ZM5.61515 12.2655C5.92432 11.9563 6.42545 11.9563 6.73462 12.2655C7.04378 12.5746 7.04378 13.0758 6.73462 13.3849L4.9928 15.1267C4.68361 15.4356 4.18239 15.4358 3.87333 15.1267C3.56427 14.8177 3.56448 14.3165 3.87333 14.0073L5.61515 12.2655ZM12.0212 14.5616L12.7502 13.1043C12.8268 12.9511 12.9511 12.8268 13.1043 12.7502L14.5616 12.0212L10.7509 10.7509L12.0212 14.5616ZM4.75004 8.70837C5.18727 8.70837 5.54171 9.06282 5.54171 9.50004C5.54171 9.93727 5.18727 10.2917 4.75004 10.2917H2.37504C1.93782 10.2917 1.58337 9.93727 1.58337 9.50004C1.58337 9.06282 1.93782 8.70837 2.37504 8.70837H4.75004ZM3.87333 3.87333C4.18239 3.56427 4.68361 3.56448 4.9928 3.87333L6.73462 5.61515C7.04378 5.92432 7.04378 6.42545 6.73462 6.73462C6.42545 7.04378 5.92432 7.04378 5.61515 6.73462L3.87333 4.9928C3.56448 4.68361 3.56427 4.18239 3.87333 3.87333ZM14.0073 3.87333C14.3165 3.56448 14.8177 3.56427 15.1267 3.87333C15.4358 4.18239 15.4356 4.68361 15.1267 4.9928L13.3849 6.73462C13.0758 7.04378 12.5746 7.04378 12.2655 6.73462C11.9563 6.42545 11.9563 5.92432 12.2655 5.61515L14.0073 3.87333ZM8.70837 4.75004V2.37504C8.70837 1.93782 9.06282 1.58337 9.50004 1.58337C9.93727 1.58337 10.2917 1.93782 10.2917 2.37504V4.75004C10.2917 5.18727 9.93727 5.54171 9.50004 5.54171C9.06282 5.54171 8.70837 5.18727 8.70837 4.75004Z" fill="#0A0A0A"/></svg>
+  </div>
+
+  <div class="menu-overlay" id="menu-overlay" aria-hidden="true"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="Assets/scripts/main-v2.js?v=66" defer></script>
+
+  <script>
+  /* ═══════════════════════════════════════════════════
+     V3 STACKED SCROLL — portrait-only card animation
+     Cards appear one-by-one from bottom, become active,
+     then blur/fade when replaced by the next card.
+     Services: active/inactive visual states (orange border, text).
+     Cases: same stacking, no color state changes.
+
+     Architecture:
+       - Single IIFE; nothing runs early. We don't gate-out by
+         orientation at module-load time.
+       - applyMode() toggles between 'portrait' and 'landscape'.
+       - initMobileMode() builds the stacked scenes, registers their
+         ScrollTriggers in `activeSTs`.
+       - destroyMobileMode() kills those STs, wipes inline styles & state
+         classes so desktop CSS takes over cleanly.
+       - matchMedia('(orientation: portrait)') change re-applies mode.
+     ═══════════════════════════════════════════════════ */
+  (function() {
+    'use strict';
+
+    var body = document.body;
+    if (body.dataset.pageVersion !== 'v3') return;
+
+    var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (rm) return; /* respect reduced motion — no scroll animation */
+
+    var portraitMQ = window.matchMedia('(orientation: portrait)');
+    function isPortrait() {
+      return portraitMQ.matches;
+    }
+
+    var currentMode = null;       /* 'portrait' | 'landscape' | null */
+    var activeSTs = [];           /* STs created by initMobileMode() */
+    var activeScenes = [];        /* cached mobile scene measurements */
+    var resizeRaf = 0;
+    var managedCardsSelector = '.portfolio__grid .portfolio-case';
+    var managedHeadsSelector = '.portfolio__title';
+
+    /* Wait for all scripts (GSAP, main-v2, Lenis) + layout stability,
+       then start the mode controller. */
+    var _booted = false;
+    function boot() {
+      if (_booted) return;
+      _booted = true;
+      if (!window.gsap || !window.ScrollTrigger) return;
+      applyMode(true);
+    }
+    function schedBoot() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(boot);
+      });
+      /* fallback: if rAF is throttled (hidden tab), fire after 120ms */
+      setTimeout(boot, 120);
+    }
+    if (document.readyState === 'complete') {
+      schedBoot();
+    } else {
+      window.addEventListener('load', schedBoot);
+    }
+
+    /* ── Mode controller ─────────────────────────────
+       Switches the v3-stacked mobile scene on/off without reload. */
+
+    function detectLayoutMode() {
+      return isPortrait() ? 'portrait' : 'landscape';
+    }
+
+    function applyMode(forceRefresh) {
+      var nextMode = detectLayoutMode();
+      var modeChanged = nextMode !== currentMode;
+
+      if (modeChanged) {
+        if (currentMode === 'portrait') destroyMobileMode();
+        if (currentMode === 'landscape') destroyDesktopMode();
+
+        currentMode = nextMode;
+        if (nextMode === 'portrait') initMobileMode();
+        else initDesktopMode();
+      }
+
+      if (modeChanged || forceRefresh) {
+        recalculateMeasurements();
+        if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+        updateCurrentScrollState();
+      }
+    }
+
+    function initMobileMode() {
+      if (!window.gsap || !window.ScrollTrigger) return;
+      var gsap = window.gsap;
+      var ST   = window.ScrollTrigger;
+      activeScenes = [];
+
+      /* Add the stacked class only for the Cases mobile scene. */
+      body.classList.add('v3-stacked-cases');
+      body.classList.remove('v3-desktop');
+
+      /* Strip reveal/is-in from cards we control — main-v2 reveal
+         system would otherwise leave them at opacity 0. */
+      document.querySelectorAll(managedCardsSelector + ', ' + managedHeadsSelector).forEach(function(c) {
+        c.classList.remove('reveal', 'is-in');
+        gsap.killTweensOf(c);
+        c.style.transform = '';
+        c.style.opacity = '';
+      });
+
+      initStackedCases(gsap, ST);
+    }
+
+    function destroyMobileMode() {
+      /* Kill our STs */
+      activeSTs.forEach(function(st) {
+        try { st.kill(); } catch (e) {}
+      });
+      activeSTs = [];
+      activeScenes = [];
+
+      /* Reset scene-lock — killed STs won't fire onLeave callbacks. */
+      liveSceneCount = 0;
+      refreshQueuedDuringActive = false;
+
+      /* Remove state classes */
+      body.classList.remove('v3-stacked', 'v3-stacked-cases', 'v3-svc-notice');
+
+      clearManagedCardState();
+      clearStackVars();
+    }
+
+    function initDesktopMode() {
+      body.classList.add('v3-desktop');
+      body.classList.remove('v3-stacked', 'v3-stacked-cases', 'v3-svc-notice');
+      clearManagedCardState();
+      clearStackVars();
+    }
+
+    function destroyDesktopMode() {
+      body.classList.remove('v3-desktop');
+    }
+
+    function clearManagedCardState() {
+      document.querySelectorAll(managedCardsSelector).forEach(function(c) {
+        c.style.transform = '';
+        c.style.opacity = '';
+        c.style.filter = '';
+        c.style.zIndex = '';
+        c.style.pointerEvents = '';
+        c.style.willChange = '';
+        c.classList.remove('v3-card-active');
+        delete c.dataset.v3T;
+        delete c.dataset.v3O;
+        delete c.dataset.v3F;
+        delete c.dataset.v3Pe;
+        delete c.dataset.v3SceneTransform;
+      });
+      document.querySelectorAll(managedHeadsSelector).forEach(function(c) {
+        c.style.transform = '';
+        c.style.opacity = '';
+        delete c.dataset.v3T;
+        delete c.dataset.v3SceneTransform;
+      });
+    }
+
+    function clearStackVars() {
+      ['.services', '.portfolio'].forEach(function(sel) {
+        var el = document.querySelector(sel);
+        if (!el) return;
+        ['--v3-case-scroll', '--v3-case-h', '--v3-case-media-h', '--stack-title-bottom',
+         '--stack-card-top', '--stack-bottom-menu-top', '--stack-card-height'
+        ].forEach(function(v) { el.style.removeProperty(v); });
+      });
+      body.style.removeProperty('--v3-viewport-h');
+    }
+
+    function recalculateMeasurements() {
+      activeScenes.forEach(function(scene) {
+        if (scene && scene.measure) scene.measure();
+      });
+    }
+
+    function updateCurrentScrollState() {
+      activeScenes.forEach(function(scene) {
+        if (scene && scene.updateCurrent) scene.updateCurrent();
+      });
+    }
+
+    /* ── Resize stability layer ─────────────────────
+       Mobile browsers fire `resize` and `visualViewport.resize`
+       during normal scrolling (URL bar collapses/expands). The
+       scene MUST NOT rebuild while the user is scrolling — that
+       is the primary cause of stacked-card jitter.
+
+       Rules:
+         • Orientation flip → full rebuild (debounced 1 frame).
+         • Significant width change → full rebuild.
+         • Height-only change while in portrait → ignore for the
+           current scroll. Schedule an "idle refresh" that only
+           fires after the user stops scrolling for ~200ms.
+    */
+    var WIDTH_REBUILD_THRESHOLD = 24;   /* px */
+    var IDLE_REFRESH_DELAY      = 450;  /* ms after resize event */
+    var SCROLL_IDLE_DELAY       = 200;  /* ms after last scroll tick */
+
+    var lastViewportWidth = window.innerWidth;
+    var lastIsPortrait    = isPortrait();
+    var isUserScrolling   = false;
+    var idleRefreshPending = false;
+    var idleRefreshTimer  = 0;
+    var scrollIdleTimer   = 0;
+
+    /* Scene-lock: how many stacked scenes are currently in their
+       active scroll range. While any scene is live, geometry must
+       not change — measure() / ScrollTrigger.refresh() are queued
+       and only applied after the user leaves the scene. */
+    var liveSceneCount = 0;
+    var refreshQueuedDuringActive = false;
+
+    function isAnyStackedSceneActive() {
+      return liveSceneCount > 0;
+    }
+    function notifySceneLive(live) {
+      if (live) {
+        liveSceneCount++;
+      } else {
+        liveSceneCount = Math.max(0, liveSceneCount - 1);
+        if (liveSceneCount === 0 && refreshQueuedDuringActive) {
+          refreshQueuedDuringActive = false;
+          /* Run the queued refresh shortly after the scene releases —
+             never inside the same frame as the leave callback. */
+          setTimeout(function() {
+            if (!isUserScrolling && !isAnyStackedSceneActive()) doIdleRefresh();
+          }, 140);
+        }
+      }
+    }
+
+    function doIdleRefresh() {
+      if (currentMode !== 'portrait') return;
+      if (isAnyStackedSceneActive()) {
+        /* Scene is locked — queue. We'll fire after release. */
+        refreshQueuedDuringActive = true;
+        return;
+      }
+      recalculateMeasurements();
+      if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+      updateCurrentScrollState();
+    }
+
+    function markScrollActive() {
+      isUserScrolling = true;
+      if (scrollIdleTimer) clearTimeout(scrollIdleTimer);
+      scrollIdleTimer = setTimeout(function() {
+        isUserScrolling = false;
+        scrollIdleTimer = 0;
+        if (idleRefreshPending) {
+          idleRefreshPending = false;
+          doIdleRefresh();
+        }
+      }, SCROLL_IDLE_DELAY);
+    }
+    window.addEventListener('scroll', markScrollActive, { passive: true });
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('scroll', markScrollActive);
+    }
+
+    function scheduleIdleRefresh() {
+      if (idleRefreshTimer) clearTimeout(idleRefreshTimer);
+      idleRefreshTimer = setTimeout(function() {
+        idleRefreshTimer = 0;
+        if (isUserScrolling) {
+          idleRefreshPending = true;
+          return;
+        }
+        doIdleRefresh();
+      }, IDLE_REFRESH_DELAY);
+    }
+
+    function scheduleFullModeApply() {
+      if (resizeRaf) cancelAnimationFrame(resizeRaf);
+      resizeRaf = requestAnimationFrame(function() {
+        resizeRaf = 0;
+        lastViewportWidth = window.innerWidth;
+        lastIsPortrait = isPortrait();
+        applyMode(true);
+      });
+    }
+
+    function onAnyResize() {
+      var nowPortrait = isPortrait();
+      var nowWidth = window.innerWidth;
+
+      if (nowPortrait !== lastIsPortrait) {
+        scheduleFullModeApply();
+        return;
+      }
+      if (Math.abs(nowWidth - lastViewportWidth) >= WIDTH_REBUILD_THRESHOLD) {
+        scheduleFullModeApply();
+        return;
+      }
+      /* Height-only change (mobile URL bar). Never rebuild mid-scroll. */
+      if (currentMode === 'portrait') {
+        scheduleIdleRefresh();
+      } else {
+        scheduleFullModeApply();
+      }
+    }
+
+    if (portraitMQ.addEventListener) {
+      portraitMQ.addEventListener('change', scheduleFullModeApply);
+    } else if (portraitMQ.addListener) {
+      portraitMQ.addListener(scheduleFullModeApply);
+    }
+    window.addEventListener('orientationchange', scheduleFullModeApply, { passive: true });
+    window.addEventListener('resize', onAnyResize, { passive: true });
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', onAnyResize);
+    }
+
+    /* ── Helpers ─────────────────────────────────── */
+    function clamp01(t) { return Math.min(1, Math.max(0, t)); }
+    function smooth01(t) {
+      t = clamp01(t);
+      return t * t * (3 - 2 * t);
+    }
+    function snapPx(value) {
+      var ratio = Math.max(1, window.devicePixelRatio || 1);
+      return Math.round(value * ratio) / ratio;
+    }
+    function killCardAnims(gsap, ST, cards) {
+      cards.forEach(function(card) {
+        gsap.killTweensOf(card);
+        ST.getAll().forEach(function(st) {
+          var trig = st.trigger;
+          var targets = st.animation && st.animation.targets ? st.animation.targets() : [];
+          if (trig === card || trig === card.parentElement || targets.indexOf(card) !== -1) st.kill();
+        });
+        card.classList.remove('reveal', 'is-in', 'v3-card-active');
+        gsap.set(card, { clearProps: 'all' });
+      });
+    }
+    function orderedCards(grid, selector) {
+      return Array.from(grid.querySelectorAll(selector))
+        .map(function(card, index) {
+          var order = parseFloat(window.getComputedStyle(card).order);
+          return {
+            card: card,
+            index: index,
+            order: Number.isFinite(order) ? order : 0
+          };
+        })
+        .sort(function(a, b) {
+          return (a.order - b.order) || (a.index - b.index);
+        })
+        .map(function(item) { return item.card; });
+    }
+    function bottomMenuTop() {
+      var pill = document.querySelector('.dock__pill');
+      var dock = document.getElementById('dock');
+      var el = pill || dock;
+      var vh = viewportHeight();
+      if (!el) return vh;
+      var rect = el.getBoundingClientRect();
+      if (!rect.height || rect.top <= 0 || rect.top > vh) return vh;
+      return rect.top;
+    }
+    function viewportHeight() {
+      return (window.visualViewport && window.visualViewport.height) ||
+        window.innerHeight ||
+        document.documentElement.clientHeight ||
+        0;
+    }
+    /* Stable layout height — does NOT change when the mobile URL bar
+       collapses/expands. Use this for the sticky scene height so the
+       scroll scene stays geometrically calm during scroll. */
+    function stableLayoutHeight() {
+      return window.innerHeight ||
+        (window.visualViewport && window.visualViewport.height) ||
+        document.documentElement.clientHeight ||
+        0;
+    }
+    var lastStableVh = 0;
+    var VH_SNAP_THRESHOLD = 32; /* px — ignore tiny URL-bar deltas */
+    function lerp(a, b, t) {
+      return a + (b - a) * t;
+    }
+
+    /* ═══════════════════════════════════════════════
+       Core stacked-scroll engine — used by the mobile Cases scene.
+
+       Geometry (per spec):
+         • Active top = title/header bottom + 20px.
+         • Active bottom = fixed bottom menu top - 20px.
+         • Incoming card starts with its top 60px below the active card bottom.
+         • Previous card starts blur only after 20px of overlap.
+         • Previous card is gone when the next top is 20px below active top.
+         • The last card never blurs — it stays visible until release.
+       ═══════════════════════════════════════════════ */
+    var ACTIVATE_OFFSET = 20;
+    var BOTTOM_MENU_GAP = 60;
+    var NEXT_START_GAP = 60;
+    var OVERLAP_BEFORE_BLUR = 20;
+    var BLUR_MAX_PX = 5;              /* reduced from 12 — heavy blur shimmers on mobile */
+    var BLUR_QUANT  = 0.5;            /* px — round blur to this step to avoid per-frame shimmer */
+    var ACTIVE_HYSTERESIS = 16;
+
+    /* Visual-only per-frame writer. Updates transform/opacity/filter/
+       pointer-events. Active class is handled SEPARATELY (see
+       applyServiceActiveIndex) so we never toggle classes every frame. */
+    function applyCardVisual(card, y, opacity, blur, pointerEnabled) {
+      var t = 'translate3d(0,' + y + 'px,0)';
+      if (card.dataset.v3T !== t) {
+        card.dataset.v3T = t;
+        card.style.transform = t;
+      }
+      var op = opacity.toFixed(2);
+      if (card.dataset.v3O !== op) {
+        card.dataset.v3O = op;
+        card.style.opacity = op;
+      }
+      /* Quantize blur to 0.5px steps. Eliminates per-frame filter
+         re-rasterization that causes shimmer on mobile WebKit. */
+      var bq = blur > 0.25 ? Math.round(blur / BLUR_QUANT) * BLUR_QUANT : 0;
+      var fKey = bq > 0 ? bq.toFixed(1) : '0';
+      if (card.dataset.v3F !== fKey) {
+        card.dataset.v3F = fKey;
+        card.style.filter = bq > 0 ? 'blur(' + bq + 'px)' : '';
+      }
+      var pe = pointerEnabled ? 'auto' : 'none';
+      if (card.dataset.v3Pe !== pe) {
+        card.dataset.v3Pe = pe;
+        card.style.pointerEvents = pe;
+      }
+    }
+
+    /* Class-only writer. Runs only when the logical active card
+       changes — not every frame. Removes from previous, adds to next. */
+    function applyServiceActiveIndex(cards, newIndex, ref) {
+      if (newIndex === ref.value) return;
+      if (ref.value >= 0 && cards[ref.value]) {
+        cards[ref.value].classList.remove('v3-card-active');
+      }
+      if (newIndex >= 0 && cards[newIndex]) {
+        cards[newIndex].classList.add('v3-card-active');
+      }
+      ref.value = newIndex;
+    }
+
+    function buildStackedScene(opts) {
+      var ST = opts.ST;
+      var section = opts.section;
+      var scene   = opts.scene;
+      var head    = opts.head;
+      var grid    = opts.grid;
+      var cards   = opts.cards;
+      var headBottomEl = opts.headBottomEl || head;
+      var hasActiveState = !!opts.hasActiveState;
+      var scrollVar = opts.scrollVar;
+      var cardHeightVar = opts.cardHeightVar;
+      var mediaHeightVar = opts.mediaHeightVar;
+      var firstCardInPlace = !!opts.firstCardInPlace;
+      var sceneStarted = false;
+      var activeIndex = hasActiveState ? -1 : null;
+
+      if (!ST || !section || !scene || !grid || !cards.length) return null;
+      var n = cards.length;
+
+      var measured = null;
+      var lastActiveIndexRef = { value: -1 };
+      var sceneLockHeld = false;
+      function setSceneLockHeld(held) {
+        if (held === sceneLockHeld) return;
+        sceneLockHeld = held;
+        notifySceneLive(held);
+      }
+      function measure() {
+        /* Use stable layout height (window.innerHeight) for the sticky
+           scene var. visualViewport.height oscillates as the mobile URL
+           bar shows/hides — that creates feedback into the scroll position
+           and is the main source of jitter. We also snap to a 32px
+           threshold so any residual deltas don't propagate. */
+        var vhRaw = stableLayoutHeight();
+        if (!lastStableVh || Math.abs(vhRaw - lastStableVh) >= VH_SNAP_THRESHOLD) {
+          lastStableVh = vhRaw;
+        }
+        var vh = lastStableVh || vhRaw;
+        body.style.setProperty('--v3-viewport-h', vh + 'px');
+        var sceneRect = scene.getBoundingClientRect();
+        var hbRect = headBottomEl ? headBottomEl.getBoundingClientRect() : null;
+        var activePos = snapPx(hbRect
+          ? (hbRect.bottom - sceneRect.top) + ACTIVATE_OFFSET
+          : 100);
+        var bottomLimit = bottomMenuTop() - BOTTOM_MENU_GAP;
+        var cardH = Math.max(240, bottomLimit - activePos);
+        var nextStartTop = activePos + cardH + NEXT_START_GAP;
+        var blurStartTop = activePos + cardH - OVERLAP_BEFORE_BLUR;
+        var previousGoneTop = activePos + ACTIVATE_OFFSET;
+        var segment = Math.max(1100, Math.min(1800, cardH * 2.35));
+        var transitionCount = firstCardInPlace ? Math.max(0, n - 1) : n;
+        var total = Math.max(1, transitionCount * segment);
+        var metaH = 72;
+        if (mediaHeightVar) {
+          var meta = cards[0].querySelector('.portfolio-case__meta');
+          metaH = meta ? meta.offsetHeight : 72;
+        }
+        measured = {
+          activePos: activePos,
+          cardH: cardH,
+          nextStartTop: nextStartTop,
+          blurStartTop: blurStartTop,
+          previousGoneTop: previousGoneTop,
+          segment: segment,
+          total: total
+        };
+        section.style.setProperty('--stack-title-bottom', (hbRect ? hbRect.bottom : 0) + 'px');
+        section.style.setProperty('--stack-card-top', activePos + 'px');
+        section.style.setProperty('--stack-bottom-menu-top', bottomLimit + 'px');
+        section.style.setProperty('--stack-card-height', cardH + 'px');
+        if (cardHeightVar) section.style.setProperty(cardHeightVar, cardH + 'px');
+        if (mediaHeightVar) section.style.setProperty(mediaHeightVar, Math.max(120, cardH - metaH - 10) + 'px');
+        section.style.setProperty(scrollVar, total + 'px');
+        return measured;
+      }
+
+      function resolveActiveIndex(S, sceneLive, m) {
+        if (!hasActiveState || !sceneLive) return -1;
+        var raw = Math.max(0, Math.min(n - 1, Math.floor(S / m.segment)));
+        if (activeIndex < 0) {
+          activeIndex = raw;
+          return activeIndex;
+        }
+        if (raw > activeIndex) {
+          if (S >= (activeIndex + 1) * m.segment) activeIndex = raw;
+        } else if (raw < activeIndex) {
+          if (S < activeIndex * m.segment - ACTIVE_HYSTERESIS) activeIndex = raw;
+        }
+        return activeIndex;
+      }
+
+      function update(progress) {
+        var m = measured || measure();
+        var S = clamp01(progress) * m.total;
+        var activePos = m.activePos;
+        var segment = m.segment;
+        var sceneLive = sceneStarted;
+        var activeCardIndex = resolveActiveIndex(S, sceneLive, m);
+
+        for (var i = 0; i < n; i++) {
+          var card = cards[i];
+          var isLast = (i === n - 1);
+          var tArrive = (firstCardInPlace ? i : i + 1) * segment;
+          var tStart = tArrive - segment;
+          var activeNow = hasActiveState && i === activeCardIndex;
+          var y = activePos;
+          var opacity = 1;
+          var blur = 0;
+          var pointerEnabled;
+
+          if (S < tStart) {
+            applyCardVisual(card, snapPx(m.nextStartTop), 0, 0, false);
+            continue;
+          }
+
+          if (S < tArrive) {
+            var q = clamp01((S - tStart) / segment);
+            var easedIn = smooth01(q);
+            y = lerp(m.nextStartTop, activePos, easedIn);
+            opacity = firstCardInPlace && i === 0 ? 1 : smooth01(q / 0.18);
+            applyCardVisual(card, snapPx(y), opacity, 0, false);
+            continue;
+          }
+
+          if (!isLast) {
+            var nextArrive = (i + 1) * segment;
+            if (S < nextArrive) {
+              var nextQ = clamp01((S - tArrive) / segment);
+              var nextY = lerp(m.nextStartTop, activePos, smooth01(nextQ));
+              if (nextY <= m.blurStartTop) {
+                var fade = clamp01((m.blurStartTop - nextY) / Math.max(1, m.blurStartTop - m.previousGoneTop));
+                var easedFade = smooth01(fade);
+                opacity = 1 - easedFade;
+                blur = BLUR_MAX_PX * easedFade;
+              }
+            } else {
+              opacity = 0;
+              blur = BLUR_MAX_PX;
+            }
+          }
+
+          pointerEnabled = opacity > 0.35 && (hasActiveState ? activeNow : true);
+          applyCardVisual(card, snapPx(activePos), opacity, blur, pointerEnabled);
+        }
+
+        /* Active class is written ONCE per frame, only when the
+           logical active index actually changes. No per-card
+           class toggling. */
+        if (hasActiveState) {
+          applyServiceActiveIndex(cards, sceneLive ? activeCardIndex : -1, lastActiveIndexRef);
+        }
+      }
+
+      measure();
+      update(0);
+
+      var st = ST.create({
+        trigger: section,
+        start: 'top top',
+        end: function() {
+          return '+=' + (measured ? measured.total : measure().total);
+        },
+        invalidateOnRefresh: true,
+        onEnter: function(self) {
+          sceneStarted = true;
+          setSceneLockHeld(true);
+          update(self.progress);
+        },
+        onEnterBack: function(self) {
+          sceneStarted = true;
+          setSceneLockHeld(true);
+          update(self.progress);
+        },
+        onLeave: function(self) {
+          /* Past the last card — scene released, last card stays
+             where it landed. Drop the geometry lock. */
+          setSceneLockHeld(false);
+        },
+        onLeaveBack: function(self) {
+          sceneStarted = false;
+          activeIndex = -1;
+          setSceneLockHeld(false);
+          update(self.progress);
+        },
+        onRefresh: function(self) {
+          measure();
+          var nowLive = !!(self && self.isActive);
+          sceneStarted = nowLive || !!(self && self.progress > 0);
+          if (!sceneStarted) activeIndex = -1;
+          setSceneLockHeld(nowLive);
+          update(self ? self.progress : 0);
+        },
+        /* onUpdate is the only per-frame source. It does NOT flip
+           sceneStarted (that's owned by enter/leave) — preventing
+           edge oscillation around progress 0. */
+        onUpdate: function(self) {
+          update(self.progress);
+        }
+      });
+
+      /* Resize/orientation is handled centrally by applyMode/scheduleApply
+         in the mode controller — no per-scene listener is registered. */
+
+      if (st) {
+        activeSTs.push(st);
+        activeScenes.push({
+          st: st,
+          measure: measure,
+          updateCurrent: function() { update(st.progress || 0); }
+        });
+      }
+      return st;
+    }
+
+    /* ═══════════════════════════════════════════════
+       CASES — stacked scroll (no active/inactive states)
+       ═══════════════════════════════════════════════ */
+    function initStackedCases(gsap, ST) {
+      var section = document.querySelector('.portfolio');
+      var scene   = section && section.querySelector('.portfolio__inner');
+      var title   = section && section.querySelector('.portfolio__title');
+      var grid    = section && section.querySelector('.portfolio__grid');
+      if (!section || !scene || !grid) return;
+
+      var cards = orderedCards(grid, '.portfolio-case');
+      if (!cards.length) return;
+
+      killCardAnims(gsap, ST, cards);
+      cards.forEach(function(card, i) {
+        card.style.zIndex = String(i + 1);
+      });
+
+      buildStackedScene({
+        ST: ST,
+        section: section,
+        scene: scene,
+        head: title,
+        headBottomEl: title,
+        grid: grid,
+        cards: cards,
+        scrollVar: '--v3-case-scroll',
+        cardHeightVar: '--v3-case-h',
+        mediaHeightVar: '--v3-case-media-h',
+        hasActiveState: false,
+        firstCardInPlace: true
+      });
+    }
+  })();
+  </script>
+
+  <script>
+  (function() {
+    'use strict';
+
+    function initServicePillMetrics() {
+      var pills = Array.prototype.slice.call(document.querySelectorAll('.services--redesigned .service__pills button.service-pill'));
+      if (!pills.length) return;
+
+      function lockWidths() {
+        pills.forEach(function(pill) {
+          pill.style.minWidth = '';
+          var oldWeight = pill.style.fontWeight;
+          pill.style.fontWeight = '500';
+          var width = Math.ceil(pill.getBoundingClientRect().width);
+          pill.style.fontWeight = oldWeight;
+          if (width) pill.style.minWidth = width + 'px';
+        });
+      }
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(lockWidths).catch(lockWidths);
+      } else {
+        window.requestAnimationFrame(lockWidths);
+      }
+
+      new MutationObserver(function() {
+        window.requestAnimationFrame(lockWidths);
+      }).observe(document.body, { attributes: true, attributeFilter: ['data-lang'] });
+    }
+
+    function initMobileGoatParallax() {
+      var wrap = document.querySelector('[data-about-parallax]');
+      if (!wrap) return;
+      var small = wrap.querySelector('.about__photo-small');
+      var large = wrap.querySelector('.about__photo-large');
+      if (!small || !large) return;
+
+      var portraitMQ = window.matchMedia('(orientation: portrait)');
+      var reduceMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
+      var raf = 0;
+      var wasPortrait = false;
+
+      function reset() {
+        small.style.transform = '';
+        large.style.transform = '';
+      }
+
+      function update() {
+        raf = 0;
+
+        if (!portraitMQ.matches) {
+          if (wasPortrait) reset();
+          wasPortrait = false;
+          return;
+        }
+
+        wasPortrait = true;
+        if (reduceMQ.matches) {
+          reset();
+          return;
+        }
+
+        var rect = wrap.getBoundingClientRect();
+        var vh = window.innerHeight || document.documentElement.clientHeight || 1;
+        var travel = vh + rect.height;
+        var progress = Math.min(1, Math.max(0, (vh - rect.top) / Math.max(1, travel)));
+        var centered = progress - 0.5;
+        var smallY = -centered * 18;
+        var largeY = centered * 26;
+
+        small.style.transform = 'translate3d(0,' + smallY.toFixed(2) + 'px,0)';
+        large.style.transform = 'translate3d(0,' + largeY.toFixed(2) + 'px,0)';
+      }
+
+      function requestUpdate() {
+        if (!raf) raf = window.requestAnimationFrame(update);
+      }
+
+      window.addEventListener('scroll', requestUpdate, { passive: true });
+      window.addEventListener('resize', requestUpdate, { passive: true });
+      window.addEventListener('orientationchange', requestUpdate, { passive: true });
+      if (portraitMQ.addEventListener) portraitMQ.addEventListener('change', requestUpdate);
+      if (reduceMQ.addEventListener) reduceMQ.addEventListener('change', requestUpdate);
+      requestUpdate();
+    }
+
+    function init() {
+      initServicePillMetrics();
+      initMobileGoatParallax();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init, { once: true });
+    } else {
+      init();
+    }
+  })();
+  </script>
+
+  <script>
+  (function() {
+    'use strict';
+
+    var body = document.body;
+    if (!body || body.dataset.pageVersion !== 'v3') return;
+
+    var portraitMQ = window.matchMedia('(orientation: portrait)');
+    var hero = document.querySelector('.hero');
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.hero__card'));
+    if (!hero || !cards.length) return;
+
+    var inView = true;
+    var running = false;
+    var fallbackTimer = 0;
+
+    function isPortrait() {
+      return portraitMQ.matches;
+    }
+
+    function isHeroNearViewport() {
+      var r = hero.getBoundingClientRect();
+      var h = window.innerHeight || document.documentElement.clientHeight || 1;
+      return r.bottom > -120 && r.top < h + 120;
+    }
+
+    function shouldHidePlaque(card) {
+      if (!isPortrait()) return false;
+      var rect = card.getBoundingClientRect();
+      var vw = window.innerWidth || document.documentElement.clientWidth || 1;
+      if (!rect.width || !rect.height) return true;
+
+      var visibleW = Math.max(0, Math.min(rect.right, vw) - Math.max(rect.left, 0));
+      var visibleRatio = visibleW / rect.width;
+      var cardCenter = rect.left + rect.width / 2;
+      var centerDelta = Math.abs(cardCenter - vw / 2);
+      var centeredEnough = centerDelta <= Math.max(8, vw * 0.018);
+      var mostlyVisible = visibleRatio >= 0.985;
+      var notLeavingLeft = rect.left >= -1;
+      var notLeavingRight = rect.right <= vw + 1;
+
+      return !(centeredEnough && mostlyVisible && notLeavingLeft && notLeavingRight);
+    }
+
+    function updateHeroPlaques() {
+      if (!isPortrait()) {
+        cards.forEach(function(card) { card.classList.remove('neo-hero-plaque-hidden'); });
+        return;
+      }
+      cards.forEach(function(card) {
+        card.classList.toggle('neo-hero-plaque-hidden', shouldHidePlaque(card));
+      });
+    }
+
+    function loop() {
+      if (!isPortrait() || !inView) {
+        running = false;
+        updateHeroPlaques();
+        return;
+      }
+      updateHeroPlaques();
+      window.requestAnimationFrame(loop);
+    }
+
+    function startLoop() {
+      inView = isHeroNearViewport();
+      if (!isPortrait() || !inView || running) {
+        updateHeroPlaques();
+        return;
+      }
+      running = true;
+      window.requestAnimationFrame(loop);
+    }
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function(entries) {
+        inView = entries.some(function(entry) { return entry.isIntersecting; });
+        startLoop();
+      }, { rootMargin: '160px 0px 160px 0px' });
+      io.observe(hero);
+    }
+
+    window.addEventListener('scroll', startLoop, { passive: true });
+    window.addEventListener('resize', startLoop, { passive: true });
+    window.addEventListener('orientationchange', function() {
+      window.setTimeout(startLoop, 120);
+    }, { passive: true });
+
+    if (portraitMQ.addEventListener) {
+      portraitMQ.addEventListener('change', startLoop);
+    } else if (portraitMQ.addListener) {
+      portraitMQ.addListener(startLoop);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', startLoop, { once: true });
+    } else {
+      startLoop();
+    }
+
+    fallbackTimer = window.setInterval(function() {
+      if (!document.body.contains(hero)) {
+        window.clearInterval(fallbackTimer);
+        return;
+      }
+      startLoop();
+    }, 250);
+  })();
+  </script>
+
+  <script>
+  (function() {
+    'use strict';
+
+    var labels = {
+      ru: {
+        included: 'В стоимость входят:',
+        additional: 'Дополнительно:',
+        aria: 'Переключить состав услуги'
+      },
+      en: {
+        included: 'Included:',
+        additional: 'Additional:',
+        aria: 'Switch service details'
+      }
+    };
+
+    var explanations = {
+      ru: {
+        prototype: {
+          title: 'Прототип',
+          text: 'Прототип сайта или приложения — это простой черновик, который показывает, как будет выглядеть и работать будущий продукт. Это как макет, чтобы понять идею до начала работы.'
+        },
+        adaptive: {
+          title: 'Адаптивы',
+          text: 'Адаптивы — это версии дизайна для разных экранов: телефона, планшета и компьютера. Так сайт выглядит аккуратно и удобно везде.'
+        },
+        uikit: {
+          title: 'Ui-Kit',
+          text: 'Ui-Kit — это набор повторяющихся элементов интерфейса: кнопки, поля, карточки, стили текста и состояния. Он помогает поддерживать единый вид проекта.'
+        },
+        design: {
+          title: 'Дизайн',
+          text: 'Дизайн — это финальный визуальный вид экранов или страниц: композиция, типографика, цвета, отступы и визуальная система.'
+        },
+        logo: {
+          title: 'Логотип',
+          text: 'Логотип — это основной знак бренда, по которому компанию узнают в разных точках контакта.'
+        },
+        identity: {
+          title: 'Фирменный стиль',
+          text: 'Фирменный стиль — это набор визуальных правил: цвета, шрифты, графика и принципы оформления, чтобы бренд выглядел цельно.'
+        },
+        guideline: {
+          title: 'Гайдлайн',
+          text: 'Гайдлайн — это инструкция по использованию фирменного стиля: как применять логотип, цвета, шрифты и элементы без ошибок.'
+        },
+        userflow: {
+          title: 'Пользовательский сценарий',
+          text: 'Пользовательский сценарий — это путь человека внутри продукта: что он видит, куда нажимает и как приходит к нужному действию.'
+        },
+        'ai-image': {
+          title: 'ИИ изображение',
+          text: 'Генерация или доработка изображения с помощью ИИ под стиль проекта. Подходит для обложек, карточек, визуалов и презентаций.',
+          price: '+3.000 ₽ к общей цене'
+        },
+        layout: {
+          title: 'Вёрстка',
+          text: 'Перенос готового дизайна в работающую веб-страницу с адаптивом и базовой настройкой поведения.',
+          price: '+15.000 ₽ к общей цене'
+        },
+        brandbook: {
+          title: 'Брендбук',
+          text: 'Подробный гайд со всеми правилами использования фирстиля: логотип, шрифты, цвета, примеры на носителях и в соцсетях.',
+          price: '+10.000 ₽ к общей цене',
+          priceNote: '*Цена за 1 страницу'
+        },
+        social: {
+          title: 'Оформление соцсетей',
+          text: 'Визуальные шаблоны и оформление профиля, чтобы бренд выглядел цельно в соцсетях.',
+          price: '+8.000 ₽ к общей цене'
+        }
+      },
+      en: {
+        prototype: {
+          title: 'Prototype',
+          text: 'A prototype is a simple draft that shows how the future website or app will look and work before the final design starts.'
+        },
+        adaptive: {
+          title: 'Responsive layouts',
+          text: 'Responsive layouts are versions for phone, tablet and desktop, so the interface stays clean and comfortable everywhere.'
+        },
+        uikit: {
+          title: 'Ui-Kit',
+          text: 'A Ui-Kit is a set of reusable interface elements: buttons, fields, cards, text styles and states for a consistent product.'
+        },
+        design: {
+          title: 'Design',
+          text: 'Design is the final visual system for screens or pages: composition, typography, colors, spacing and hierarchy.'
+        },
+        logo: {
+          title: 'Logo',
+          text: 'A logo is the main brand mark that helps people recognize the company across different touchpoints.'
+        },
+        identity: {
+          title: 'Visual identity',
+          text: 'Visual identity is a set of visual rules: colors, typography, graphics and principles that keep the brand consistent.'
+        },
+        guideline: {
+          title: 'Guideline',
+          text: 'A guideline explains how to use the identity correctly: logo, colors, typography and graphic elements.'
+        },
+        userflow: {
+          title: 'User flow',
+          text: 'A user flow is the path a person takes inside the product: what they see, where they tap and how they reach the target action.'
+        },
+        'ai-image': {
+          title: 'AI image',
+          text: 'Generating or refining an image with AI to match the project style. Useful for covers, cards, visuals and presentations.',
+          price: '+$38 to the total'
+        },
+        layout: {
+          title: 'Coding',
+          text: 'Turning the approved design into a working responsive web page with basic interaction setup.',
+          price: '+$188 to the total'
+        },
+        brandbook: {
+          title: 'Brand book',
+          text: 'A detailed guide with all the rules for using the identity: logo, fonts, colors and examples across touchpoints and social.',
+          price: '+$125 to the total',
+          priceNote: '*Price per page'
+        },
+        social: {
+          title: 'Social media kit',
+          text: 'Visual templates and profile styling so the brand looks consistent across social media.',
+          price: '+$100 to the total'
+        }
+      }
+    };
+
+    function currentLang() {
+      return document.body.getAttribute('data-lang') === 'en' ? 'en' : 'ru';
+    }
+
+    function initServicesExplain() {
+      var section = document.querySelector('.services--redesigned');
+      if (!section || section.dataset.explainBound === 'true') return;
+      var panel = section.querySelector('.services__explain');
+      var title = section.querySelector('.services__explain-title');
+      var text = section.querySelector('.services__explain-text');
+      var priceAmount = section.querySelector('.services__explain-price-amount');
+      var priceNote = section.querySelector('.services__explain-price-note');
+      var priceBox = section.querySelector('.services__explain-price');
+      // Both Included AND Additional pills feed the explain panel.
+      var pills = section.querySelectorAll('.service__pills--included .service-pill[data-explain-key], .service__pills--additional .service-pill[data-explain-key]');
+      if (!panel || !title || !text || !pills.length) return;
+
+      section.dataset.explainBound = 'true';
+      var activeKey = '';
+      var activeKind = '';
+      var hideTimer = 0;
+      var changeTimer = 0;
+      var heightTimer = 0;
+      var hasMeasuredHeight = false;
+      var mobileMQ = window.matchMedia('(orientation: portrait), (max-width: 768px)');
+
+      function defaultCopy() {
+        return currentLang() === 'en'
+          ? {
+              title: 'What is included?',
+              text: 'Hover over a pill and this panel will show an explanation of the service component'
+            }
+          : {
+              title: 'Что входит в услугу?',
+              text: 'Наведите курсор на плашку и в этом окне появится пояснение к компоненту услуги'
+            };
+      }
+
+      function mutatePanel(mutator, instant) {
+        if (mobileMQ.matches) {
+          mutator();
+          panel.style.height = '';
+          panel.style.width = '';
+          return;
+        }
+
+        window.clearTimeout(heightTimer);
+        if (instant || !hasMeasuredHeight) {
+          mutator();
+          panel.style.height = 'auto';
+          panel.style.width = '';
+          hasMeasuredHeight = true;
+          return;
+        }
+
+        var startRect = panel.getBoundingClientRect();
+        var startWidth = startRect.width;
+        var startHeight = startRect.height;
+        panel.style.width = startWidth + 'px';
+        panel.style.height = startHeight + 'px';
+        panel.offsetHeight;
+        mutator();
+
+        panel.style.width = '';
+        panel.style.height = '';
+        var targetRect = panel.getBoundingClientRect();
+        var targetWidth = Math.ceil(targetRect.width);
+        var targetHeight = Math.ceil(targetRect.height);
+
+        panel.style.width = startWidth + 'px';
+        panel.style.height = startHeight + 'px';
+        panel.offsetHeight;
+
+        window.requestAnimationFrame(function() {
+          panel.style.width = targetWidth + 'px';
+          panel.style.height = targetHeight + 'px';
+          heightTimer = window.setTimeout(function() {
+            if (!panel.classList.contains('is-changing')) {
+              panel.style.width = '';
+              panel.style.height = 'auto';
+            }
+          }, 420);
+        });
+      }
+
+      function setDefault() {
+        window.clearTimeout(changeTimer);
+        activeKey = '';
+        activeKind = '';
+        var data = defaultCopy();
+        mutatePanel(function() {
+          title.textContent = data.title;
+          text.textContent = data.text;
+          if (priceAmount) priceAmount.textContent = '';
+          if (priceNote) priceNote.textContent = '';
+          if (priceBox) priceBox.setAttribute('aria-hidden', 'true');
+          panel.classList.remove('is-additional', 'has-price', 'is-changing');
+          panel.classList.toggle('is-visible', !mobileMQ.matches);
+        }, !hasMeasuredHeight);
+      }
+
+      function hide() {
+        window.clearTimeout(hideTimer);
+        setDefault();
+      }
+
+      function show(key, kind) {
+        if (mobileMQ.matches) return hide();
+        var data = explanations[currentLang()][key];
+        if (!data) return hide();
+        window.clearTimeout(hideTimer);
+        window.clearTimeout(changeTimer);
+        var nextKind = kind || 'included';
+        var sameContent = activeKey === key && activeKind === nextKind;
+
+        function render() {
+          mutatePanel(function() {
+            activeKey = key;
+            activeKind = nextKind;
+            title.textContent = data.title;
+            text.textContent = data.text;
+            // The price card lives inside the panel; toggle it via `has-price`
+            // so only Additional items reveal the orange price box.
+            if (data.price && priceAmount && priceNote) {
+              priceAmount.textContent = data.price;
+              priceNote.textContent = data.priceNote || '';
+              if (priceBox) priceBox.setAttribute('aria-hidden', 'false');
+              panel.classList.add('has-price');
+            } else {
+              if (priceAmount) priceAmount.textContent = '';
+              if (priceNote) priceNote.textContent = '';
+              if (priceBox) priceBox.setAttribute('aria-hidden', 'true');
+              panel.classList.remove('has-price');
+            }
+            panel.classList.toggle('is-additional', activeKind === 'additional');
+            panel.classList.add('is-visible');
+          }, false);
+        }
+
+        if (!sameContent && panel.classList.contains('is-visible')) {
+          panel.classList.add('is-changing');
+          changeTimer = window.setTimeout(function() {
+            render();
+            window.requestAnimationFrame(function() {
+              panel.classList.remove('is-changing');
+            });
+          }, 110);
+        } else {
+          render();
+          panel.classList.remove('is-changing');
+        }
+      }
+
+      pills.forEach(function(pill) {
+        var kind = pill.classList.contains('service-pill--accent') ? 'additional' : 'included';
+        pill.addEventListener('mouseenter', function() { show(pill.dataset.explainKey, kind); });
+        pill.addEventListener('focus', function() { show(pill.dataset.explainKey, kind); });
+        pill.addEventListener('mouseleave', function() {
+          window.clearTimeout(hideTimer);
+          hideTimer = window.setTimeout(hide, 90);
+        });
+        pill.addEventListener('blur', function() {
+          window.clearTimeout(hideTimer);
+          hideTimer = window.setTimeout(hide, 90);
+        });
+      });
+
+      mobileMQ.addEventListener?.('change', function() {
+        setDefault();
+      });
+
+      new MutationObserver(function() {
+        if (activeKey) show(activeKey, activeKind);
+        else setDefault();
+      }).observe(document.body, { attributes: true, attributeFilter: ['data-lang'] });
+
+      setDefault();
+    }
+
+    function syncServiceToggle(card) {
+      var lang = currentLang();
+      var view = card.getAttribute('data-service-view') === 'additional' ? 'additional' : 'included';
+      var button = card.querySelector('.service-toggle');
+      var label = card.querySelector('.service-toggle__label');
+      var panels = card.querySelectorAll('.service-toggle__panel');
+
+      if (button) {
+        button.setAttribute('aria-label', labels[lang].aria);
+        button.setAttribute('aria-pressed', String(view === 'additional'));
+      }
+      if (label) label.textContent = labels[lang][view];
+      panels.forEach(function(panel) {
+        panel.classList.toggle('is-active', panel.getAttribute('data-toggle-panel') === view);
+      });
+    }
+
+    function initServiceToggles() {
+      document.querySelectorAll('.services--redesigned .service').forEach(function(card) {
+        syncServiceToggle(card);
+        var button = card.querySelector('.service-toggle');
+        if (!button || button.dataset.bound === 'true') return;
+        button.dataset.bound = 'true';
+        button.addEventListener('click', function() {
+          var current = card.getAttribute('data-service-view') === 'additional' ? 'additional' : 'included';
+          card.setAttribute('data-service-view', current === 'included' ? 'additional' : 'included');
+          syncServiceToggle(card);
+        });
+      });
+      initServicesExplain();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initServiceToggles, { once: true });
+    } else {
+      initServiceToggles();
+    }
+
+    new MutationObserver(function() {
+      document.querySelectorAll('.services--redesigned .service').forEach(syncServiceToggle);
+    }).observe(document.body, { attributes: true, attributeFilter: ['data-lang'] });
+  })();
+  </script>
+
+  <script>
+  (function() {
+    'use strict';
+
+    var card = document.querySelector('.footer__info-card');
+    if (!card) return;
+
+    var label = card.querySelector('.footer__info-card-service-label');
+    if (!label) return;
+
+    var portraitMQ = window.matchMedia('(orientation: portrait)');
+    var reducedMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var originalHref = card.getAttribute('href') || 'info.html#info-top';
+    var closeTimer = 0;
+    var observer = null;
+
+    function currentLang() {
+      return document.body.getAttribute('data-lang') === 'en' ? 'en' : 'ru';
+    }
+
+    function serviceText() {
+      return currentLang() === 'en' ? 'To services' : 'К услугам';
+    }
+
+    function infoLabel() {
+      return currentLang() === 'en' ? 'Open information page' : 'Открыть информационную страницу';
+    }
+
+    function syncCopy() {
+      label.textContent = serviceText();
+      if (card.classList.contains('is-info-complete')) {
+        card.setAttribute('aria-label', serviceText());
+      } else {
+        card.setAttribute('aria-label', infoLabel());
+      }
+    }
+
+    function resetInfoCard() {
+      window.clearTimeout(closeTimer);
+      card.classList.remove('is-info-filling', 'is-info-complete');
+      card.setAttribute('href', originalHref);
+      syncCopy();
+    }
+
+    function completeInfoCard() {
+      if (!portraitMQ.matches) return;
+      card.classList.remove('is-info-filling');
+      card.classList.add('is-info-complete');
+      card.setAttribute('href', '#services');
+      syncCopy();
+    }
+
+    function startInfoCard() {
+      if (!portraitMQ.matches) return;
+      if (card.classList.contains('is-info-filling') || card.classList.contains('is-info-complete')) return;
+
+      syncCopy();
+      card.classList.add('is-info-filling');
+      closeTimer = window.setTimeout(completeInfoCard, reducedMQ.matches ? 40 : 1480);
+    }
+
+    function disconnectObserver() {
+      if (observer) {
+        observer.disconnect();
+        observer = null;
+      }
+    }
+
+    function bindInfoCard() {
+      disconnectObserver();
+      // Static state per Screenshot 3: the footer Info card stays as
+      // "Инфо" + arrow + 3 document links and links to info.html. The
+      // fill/morph CSS is left in place but is no longer auto-triggered
+      // from this page — it's reserved for future opt-in use.
+      resetInfoCard();
+    }
+
+    if (portraitMQ.addEventListener) {
+      portraitMQ.addEventListener('change', bindInfoCard);
+    } else if (portraitMQ.addListener) {
+      portraitMQ.addListener(bindInfoCard);
+    }
+
+    new MutationObserver(syncCopy).observe(document.body, {
+      attributes: true,
+      attributeFilter: ['data-lang']
+    });
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bindInfoCard, { once: true });
+    } else {
+      bindInfoCard();
+    }
+  })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Инфо — Levmich Studio</title>
+  <meta name="description" content="Договор оферты, политика конфиденциальности и пользовательское соглашение Levmich Studio." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Host+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="Assets/styles/style.css?v=101" />
+  <style>
+    @media (orientation: portrait), (max-width: 768px) {
+      body.info-page {
+        --info-visual-bottom-shift: max(0px, calc(100vh - 100dvh));
+      }
+
+      body.info-page .dock--info {
+        bottom: calc(var(--info-visual-bottom-shift) + env(safe-area-inset-bottom, 0px) + 20px) !important;
+      }
+
+      body.info-page .dock--info .info-mobile-status {
+        position: absolute !important;
+        left: 50% !important;
+        bottom: calc(100% + 12px) !important;
+        z-index: 4;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        width: max-content;
+        max-width: calc(100vw - 40px);
+        min-width: 0;
+        min-height: 44px;
+        padding: 10px 16px;
+        gap: 10px;
+        border-radius: 24px;
+        border: 1px solid rgba(255,255,255,.28);
+        background: rgba(255,255,255,.08);
+        color: #fff;
+        overflow: hidden;
+        white-space: normal;
+        box-sizing: border-box;
+        box-shadow: 0 14px 38px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.12);
+        transform: translateX(-50%) translate3d(0, var(--info-bounce-y, 0px), 0) rotate(var(--info-bounce-tilt, 0deg));
+        transform-origin: center bottom;
+        backdrop-filter: blur(18px) saturate(150%);
+        -webkit-backdrop-filter: blur(18px) saturate(150%);
+        transition:
+          opacity .18s var(--ease-soft),
+          visibility .18s var(--ease-soft),
+          transform .24s cubic-bezier(.22, 1, .36, 1),
+          background .24s cubic-bezier(.22, 1, .36, 1),
+          border-color .2s var(--ease-soft),
+          box-shadow .24s var(--ease-soft),
+          padding .24s cubic-bezier(.22, 1, .36, 1),
+          gap .2s cubic-bezier(.22, 1, .36, 1),
+          min-width .24s cubic-bezier(.22, 1, .36, 1);
+      }
+
+      body.info-page .info-mobile-status__label {
+        display: inline-block;
+        max-width: min(260px, calc(100vw - 104px));
+        min-width: 0;
+        overflow: hidden;
+        text-align: center;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        line-height: 1.12;
+      }
+
+      body.info-page .info-progress-ring--small {
+        width: 18px;
+        height: 18px;
+        flex: 0 0 18px;
+        display: grid;
+        place-items: center;
+        align-self: center;
+        line-height: 0;
+        margin-left: 2px;
+        transition:
+          width .2s cubic-bezier(.22, 1, .36, 1),
+          flex-basis .2s cubic-bezier(.22, 1, .36, 1),
+          opacity .14s var(--ease-soft),
+          transform .2s cubic-bezier(.22, 1, .36, 1);
+      }
+
+      body.info-page .info-progress-ring--small > svg {
+        inset: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-90deg);
+        transform-origin: center;
+      }
+
+      body.info-page .info-progress-ring__bar {
+        transition: stroke-dashoffset .16s cubic-bezier(.22, 1, .36, 1);
+      }
+
+      body.info-page .info-mobile-status.is-label-out {
+        transform: translateX(-50%) translate3d(0, calc(var(--info-bounce-y, 0px) - 1px), 0) rotate(var(--info-bounce-tilt, 0deg)) scale(.992);
+      }
+
+      body.info-page .info-mobile-status.is-label-in {
+        transform: translateX(-50%) translateY(0) scale(1.015);
+      }
+
+      body.info-page .info-mobile-status.is-all-read {
+        min-width: 150px;
+        min-height: 50px;
+        padding: 13px 24px;
+        gap: 0;
+        border-color: var(--accent);
+        background: var(--accent);
+        color: #fff;
+        font-weight: 500;
+        box-shadow: 0 18px 44px rgba(255,107,0,.22), 0 12px 34px rgba(0,0,0,.28);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+
+      body.info-page .info-mobile-status.is-all-read .info-mobile-status__label {
+        max-width: calc(100vw - 88px);
+        text-overflow: clip;
+      }
+
+      body.info-page .info-mobile-status.is-all-read .info-progress-ring--small {
+        width: 0;
+        flex-basis: 0;
+        margin: 0;
+        opacity: 0;
+        transform: scale(.6);
+      }
+
+      body.info-page .dock--info[data-state="open"] .info-mobile-status,
+      body.info-page .dock--info[data-state="hidden"] .info-mobile-status {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateX(-50%) translateY(14px) scale(.96);
+      }
+    }
+  </style>
+</head>
+<body class="info-page" data-info-id="all">
+
+  <main class="info-layout" id="info-top">
+    <div class="info-grid">
+
+      <div class="info-content">
+      <section class="info-doc" id="doc-oferta" data-doc-id="oferta">
+  <header class="info-doc__head">
+    <h2 class="info-doc__title">Договор оферты</h2>
+    <p class="info-doc__subtitle">Договор на оказание дизайн-услуг Levmich Studio<br/>Версия 1.0. Действует с даты публикации на сайте.</p>
+  </header>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">1. Общие положения</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">1.1.</span> Настоящий документ является публичной офертой в соответствии со ст. 437 Гражданского кодекса Российской Федерации.</p>
+    <p class="info-p"><span class="info-p__num">1.2.</span> Исполнитель — Левыкин Михаил Алексеевич, самозанятый (плательщик налога на профессиональный доход), г. Екатеринбург.</p>
+    <p class="info-p"><span class="info-p__num">1.3.</span> Заказчик — физическое или юридическое лицо, оформившее заявку через Telegram-бот @Levmich_Studio_Bot и оплатившее предоплату.</p>
+    <p class="info-p"><span class="info-p__num">1.4.</span> Акцептом настоящей оферты (полным и безоговорочным принятием условий) считается оплата Заказчиком предоплаты по выбранным услугам через указанные Исполнителем реквизиты.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">2. Предмет договора</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">2.1.</span> Исполнитель обязуется оказать Заказчику дизайн-услуги в соответствии с выбранным в Telegram-боте составом работ (далее — «Услуги»), а Заказчик обязуется принять и оплатить Услуги в порядке и на условиях настоящего Договора.</p>
+    <p class="info-p"><span class="info-p__num">2.2.</span> Перечень и состав Услуг определяется в момент оформления заявки через Telegram-бот и фиксируется в финальной смете, формируемой ботом.</p>
+    <p class="info-p"><span class="info-p__num">2.3.</span> Виды Услуг и базовая стоимость:</p>
+    <ul class="info-list">
+      <li>Дизайн сайта — лендинги, многостраничные сайты, концепции. От 23 000 ₽.</li>
+      <li>Брендинг — логотип, фирменный стиль, гайдлайн, оформление точек контакта. От 25 000 ₽.</li>
+      <li>Дизайн приложений — интерфейсы мобильных и веб-приложений. От 41 000 ₽.</li>
+      <li>Сопутствующие услуги — анализ целевой аудитории, анализ конкурентов, вёрстка на Tilda, ИИ-изображения и иные опции, доступные при формировании заказа.</li>
+      <li>Финальная стоимость рассчитывается индивидуально в Telegram-боте в зависимости от состава работ, выбранных опций, уровня сложности и сроков выполнения.</li>
+    </ul>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">3. Порядок оформления заказа и стоимость</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">3.1.</span> Заказчик проходит брифинг в Telegram-боте, по результатам которого формируется индивидуальная смета.</p>
+    <p class="info-p"><span class="info-p__num">3.2.</span> В смете указываются:</p>
+    <ul class="info-list">
+      <li>Состав работ</li>
+      <li>Общая стоимость</li>
+      <li>Срок выполнения</li>
+      <li>Размер предоплаты (50% от полной стоимости)</li>
+    </ul>
+    <p class="info-p"><span class="info-p__num">3.3.</span> Стоимость услуг рассчитывается с учётом множителей сложности (×1.0 — стандарт, ×1.3 — продвинутый, ×1.5 — премиум) и срочности (×1.3 при заказе со сроком до 2 недель).</p>
+    <p class="info-p"><span class="info-p__num">3.4.</span> Цены, указанные в Telegram-боте на момент акцепта оферты, являются окончательными для данного заказа. Изменение цен после акцепта возможно только по соглашению сторон при изменении объёма работ.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">4. Порядок оплаты</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">4.1.</span> Оплата производится в два этапа:</p>
+    <ul class="info-list">
+      <li>Предоплата — 50% от стоимости заказа, оплачивается до начала работ.</li>
+      <li>Окончательный расчёт — 50% от стоимости заказа, оплачивается после согласования финального макета и до передачи исходных файлов.</li>
+    </ul>
+    <p class="info-p"><span class="info-p__num">4.2.</span> Оплата производится через Систему быстрых платежей (СБП) по реквизитам, предоставляемым Исполнителем в Telegram-боте.</p>
+    <p class="info-p"><span class="info-p__num">4.3.</span> Исполнитель выписывает чеки самозанятого через официальный сервис ФНС «Мой налог» в день поступления каждой оплаты.</p>
+    <p class="info-p"><span class="info-p__num">4.4.</span> Заказчик подтверждает оплату, отправляя скриншот платежа через Telegram-бот.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">5. Сроки выполнения работ</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">5.1.</span> Срок выполнения работ указывается в финальной смете в Telegram-боте на момент оформления заказа.</p>
+    <p class="info-p"><span class="info-p__num">5.2.</span> Срок исчисляется в рабочих днях (с понедельника по пятницу, исключая праздничные дни РФ) с момента поступления предоплаты на счёт Исполнителя.</p>
+    <p class="info-p"><span class="info-p__num">5.3.</span> Если Заказчик не предоставляет необходимые для работы материалы (контент, тексты, фотографии, обратную связь) в течение 3 (трёх) рабочих дней с момента запроса — срок выполнения автоматически продлевается на соответствующий период.</p>
+    <p class="info-p"><span class="info-p__num">5.4.</span> Если Заказчик не выходит на связь более 14 (четырнадцати) календарных дней на любом этапе работы — Исполнитель имеет право считать заказ выполненным и не возвращает предоплату.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">6. Правки и доработки</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">6.1.</span> Стоимость заказа включает создание одной концепции в соответствии с выбранным составом работ.</p>
+    <p class="info-p"><span class="info-p__num">6.2.</span> Правки оплачиваются отдельно. Стоимость и предполагаемое количество правок определяются на этапе брифинга и фиксируются в смете.</p>
+    <p class="info-p"><span class="info-p__num">6.3.</span> Депозит за правки резервируется отдельной суммой при оплате заказа:</p>
+    <ul class="info-list">
+      <li>Если правки не потребуются — депозит возвращается Заказчику полностью</li>
+      <li>Если правки производятся — стоимость каждой правки списывается из депозита, остаток возвращается Заказчику</li>
+    </ul>
+    <p class="info-p"><span class="info-p__num">6.4.</span> Под «правкой» понимается изменение в рамках утверждённой концепции. Полная переработка концепции не является правкой и оплачивается как новый заказ.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">7. Передача результатов и права на работу</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">7.1.</span> После окончательной оплаты Исполнитель передаёт Заказчику все исходные материалы в соответствии с выбранной услугой (Figma-файл, экспортированные макеты, брендбук — в зависимости от заказа).</p>
+    <p class="info-p"><span class="info-p__num">7.2.</span> Исключительные права на финальный дизайн переходят к Заказчику в момент окончательной оплаты.</p>
+    <p class="info-p"><span class="info-p__num">7.3.</span> Исполнитель имеет право использовать выполненную работу в своём портфолио (на сайте, в Behance, в социальных сетях) только с письменного согласия Заказчика, выраженного в Telegram-боте или ином мессенджере при подтверждении заказа.</p>
+    <p class="info-p"><span class="info-p__num">7.4.</span> До момента окончательной оплаты исключительные права на материалы остаются у Исполнителя.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">8. Поддержка после сдачи</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">8.1.</span> В течение 7 (семи) календарных дней с момента передачи финальных файлов Исполнитель отвечает на вопросы Заказчика по работе с материалами и помогает с мелкими техническими уточнениями.</p>
+    <p class="info-p"><span class="info-p__num">8.2.</span> Поддержка не включает в себя правки и переработку дизайна — для таких работ оформляется отдельная заявка по тарифам Исполнителя.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">9. Возврат средств</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">9.1.</span> Заказчик имеет право отказаться от исполнения Договора в любой момент в порядке, установленном ст. 32 Закона РФ «О защите прав потребителей», оплатив Исполнителю фактически понесённые расходы.</p>
+    <p class="info-p"><span class="info-p__num">9.2.</span> Работы выполняются и сдаются поэтапно. Каждый этап (брифинг, анализ ЦА, анализ конкурентов, прототип, дизайн, адаптив и др.) считается принятым с момента подтверждения Заказчиком в Telegram-боте или ином канале связи.</p>
+    <p class="info-p"><span class="info-p__num">9.3.</span> Размер возврата при отказе от Договора:</p>
+    <ul class="info-list">
+      <li>Если с момента оплаты прошло менее 48 (сорока восьми) часов и Исполнитель не приступил к работе — возврат 100% предоплаты</li>
+      <li>Если работы начаты, но ни один этап не принят Заказчиком — возврат за вычетом 10% (организационные расходы и банковские комиссии)</li>
+      <li>Если приняты один или несколько этапов — возврат за вычетом стоимости принятых этапов согласно смете</li>
+    </ul>
+    <p class="info-p"><span class="info-p__num">9.4.</span> После окончательной сдачи работы и передачи исходных файлов возврат не производится — услуга считается оказанной в полном объёме.</p>
+    <p class="info-p"><span class="info-p__num">9.5.</span> Возврат осуществляется в течение 10 (десяти) рабочих дней с момента получения письменного запроса на email Исполнителя (levmichstudio@gmail.com).</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">10. Ответственность сторон</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">10.1.</span> За неисполнение или ненадлежащее исполнение обязательств стороны несут ответственность в соответствии с законодательством Российской Федерации.</p>
+    <p class="info-p"><span class="info-p__num">10.2.</span> Исполнитель не несёт ответственности за:</p>
+    <ul class="info-list">
+      <li>Последствия использования материалов Заказчиком (коммерческие результаты, юридические претензии третьих лиц)</li>
+      <li>Соответствие финального дизайна личным субъективным предпочтениям Заказчика, если работа выполнена в соответствии с утверждённым на этапе брифинга составом</li>
+      <li>Невозможность выполнения работы по причине непредоставления Заказчиком необходимых материалов в установленные сроки</li>
+    </ul>
+    <p class="info-p"><span class="info-p__num">10.3.</span> Ответственность Исполнителя ограничена суммой полученной оплаты по данному Договору.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">11. Форс-мажор</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">11.1.</span> Стороны освобождаются от ответственности за частичное или полное неисполнение обязательств вследствие обстоятельств непреодолимой силы (форс-мажор).</p>
+    <p class="info-p"><span class="info-p__num">11.2.</span> К форс-мажору относятся: стихийные бедствия, военные действия, забастовки, технические аварии, изменения в законодательстве, тяжёлая болезнь Исполнителя, подтверждённая медицинским документом.</p>
+    <p class="info-p"><span class="info-p__num">11.3.</span> В случае болезни Исполнителя срок выполнения работы продлевается на срок болезни. При срочных заказах применяется политика компенсации, определяемая в индивидуальном порядке.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">12. Разрешение споров</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">12.1.</span> Все споры разрешаются путём переговоров.</p>
+    <p class="info-p"><span class="info-p__num">12.2.</span> Претензионный порядок: сторона, считающая свои права нарушенными, направляет письменную претензию на email другой стороны. Срок ответа — 14 (четырнадцать) календарных дней.</p>
+    <p class="info-p"><span class="info-p__num">12.3.</span> В случае невозможности разрешения спора путём переговоров — спор передаётся в суд по месту регистрации Исполнителя (г. Екатеринбург).</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">13. Заключительные положения</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">13.1.</span> Настоящий Договор может быть изменён Исполнителем в одностороннем порядке. Изменения публикуются на сайте levmich.studio.</p>
+    <p class="info-p"><span class="info-p__num">13.2.</span> К отношениям сторон, не урегулированным настоящим Договором, применяется законодательство Российской Федерации.</p>
+    <p class="info-p"><span class="info-p__num">13.3.</span> Признание судом одного из пунктов Договора недействительным не влечёт недействительности всего Договора.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">14. Реквизиты Исполнителя</h3>
+  <div class="info-subsection__body">
+    <ul class="info-list">
+      <li>ФИО: Левыкин Михаил Алексеевич</li>
+      <li>Статус: Самозанятый (плательщик НПД)</li>
+      <li>Город: Екатеринбург</li>
+      <li>Email: levmichstudio@gmail.com</li>
+      <li>Telegram: @levmich_work</li>
+      <li>Сайт: levmich.studio</li>
+    </ul>
+  </div>
+</section>
+    </section>
+
+      <section class="info-doc" id="doc-privacy" data-doc-id="privacy">
+  <header class="info-doc__head">
+    <h2 class="info-doc__title">Политика конфиденциальности</h2>
+    <p class="info-doc__subtitle">Политика обработки персональных данных Levmich Studio<br/>Версия 1.0. Действует с даты публикации на сайте.</p>
+  </header>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">1. Общие положения</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">1.1.</span> Настоящая Политика конфиденциальности (далее — «Политика») определяет порядок обработки и защиты персональных данных пользователей сайта levmich.studio и Telegram-бота, связанного с проектом Levmich Studio.</p>
+    <p class="info-p"><span class="info-p__num">1.2.</span> Оператором персональных данных является Левыкин Михаил Алексеевич, самозанятый, г. Екатеринбург (далее — «Исполнитель» или «Оператор»).</p>
+    <p class="info-p"><span class="info-p__num">1.3.</span> Контактные данные Оператора:</p>
+    <ul class="info-list">
+      <li>Email: levmichstudio@gmail.com</li>
+      <li>Telegram: @levmich_work</li>
+    </ul>
+    <p class="info-p"><span class="info-p__num">1.4.</span> Используя сайт или Telegram-бот, пользователь подтверждает согласие с условиями настоящей Политики. Если пользователь не согласен с условиями — он должен прекратить использование сервисов.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">2. Какие данные мы собираем</h3>
+  <div class="info-subsection__body">
+    <p class="info-p info-p--plain">Оператор собирает следующие категории данных:</p>
+    <p class="info-p"><span class="info-p__num">2.1.</span> При использовании Telegram-бота:</p>
+    <ul class="info-list">
+      <li>Telegram ID пользователя</li>
+      <li>Имя и фамилия из профиля Telegram (если указаны пользователем)</li>
+      <li>Username (@логин) Telegram</li>
+      <li>Ответы на вопросы брифа: информация о проекте, целевой аудитории, предпочтениях по дизайну, бюджете и сроках</li>
+      <li>Скриншоты с подтверждением оплаты</li>
+      <li>История взаимодействия с ботом (выбранные опции, сделанные заказы)</li>
+    </ul>
+    <p class="info-p"><span class="info-p__num">2.2.</span> При использовании сайта:</p>
+    <ul class="info-list">
+      <li>Технические данные: IP-адрес, тип браузера, операционная система, страницы посещений, время сессии</li>
+      <li>Куки-файлы для обеспечения работы сайта</li>
+    </ul>
+    <p class="info-p"><span class="info-p__num">2.3.</span> При оплате:</p>
+    <ul class="info-list">
+      <li>Подтверждение факта оплаты через Систему быстрых платежей (СБП)</li>
+      <li>Имя плательщика, как оно отображается при переводе через СБП</li>
+      <li>Оператор не запрашивает и не хранит:</li>
+      <li>Полные реквизиты банковских карт</li>
+      <li>Паспортные данные</li>
+      <li>Иные данные, выходящие за рамки необходимости оказания услуги</li>
+    </ul>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">3. Цели обработки данных</h3>
+  <div class="info-subsection__body">
+    <p class="info-p info-p--plain">Персональные данные обрабатываются исключительно в следующих целях:</p>
+    <p class="info-p"><span class="info-p__num">3.1.</span> Приём и обработка заказов на дизайн-услуги.</p>
+    <p class="info-p"><span class="info-p__num">3.2.</span> Связь с клиентами по вопросам выполнения заказа.</p>
+    <p class="info-p"><span class="info-p__num">3.3.</span> Подтверждение оплаты и выписка чеков самозанятого через сервис ФНС «Мой налог».</p>
+    <p class="info-p"><span class="info-p__num">3.4.</span> Улучшение качества услуг и работы сервисов.</p>
+    <p class="info-p"><span class="info-p__num">3.5.</span> Соблюдение требований законодательства РФ.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">4. Правовые основания обработки</h3>
+  <div class="info-subsection__body">
+    <p class="info-p info-p--plain">Обработка персональных данных осуществляется на следующих основаниях:</p>
+    <p class="info-p"><span class="info-p__num">4.1.</span> Согласие пользователя, выраженное путём использования сервисов Оператора.</p>
+    <p class="info-p"><span class="info-p__num">4.2.</span> Заключение и исполнение договора об оказании услуг (пп. 5 п. 1 ст. 6 ФЗ-152 «О персональных данных»).</p>
+    <p class="info-p"><span class="info-p__num">4.3.</span> Соблюдение требований законодательства РФ (налогового, гражданского).</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">5. Сроки хранения данных</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">5.1.</span> Данные о выполненных заказах хранятся 3 (три) года с момента завершения оказания услуги — для возможности рассмотрения возможных претензий.</p>
+    <p class="info-p"><span class="info-p__num">5.2.</span> Данные о чеках самозанятого хранятся в соответствии с требованиями ФНС.</p>
+    <p class="info-p"><span class="info-p__num">5.3.</span> Технические данные сайта (куки, IP) хранятся не более 12 (двенадцати) месяцев.</p>
+    <p class="info-p"><span class="info-p__num">5.4.</span> По истечении сроков данные удаляются или обезличиваются.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">6. Передача данных третьим лицам</h3>
+  <div class="info-subsection__body">
+    <p class="info-p info-p--plain">Оператор не передаёт персональные данные третьим лицам, за исключением:</p>
+    <p class="info-p"><span class="info-p__num">6.1.</span> Налоговых органов РФ — в части данных, требуемых для выписки чеков самозанятого (имя клиента, сумма платежа).</p>
+    <p class="info-p"><span class="info-p__num">6.2.</span> Сервиса Telegram (Telegram FZ-LLC) — в части данных, неизбежно обрабатываемых платформой при использовании мессенджера.</p>
+    <p class="info-p"><span class="info-p__num">6.3.</span> По требованию государственных органов в порядке, установленном законом.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">7. Места хранения данных</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">7.1.</span> Данные хранятся на серверах, расположенных за пределами Российской Федерации. Оператор предпринимает разумные технические и организационные меры для защиты данных от несанкционированного доступа.</p>
+    <p class="info-p"><span class="info-p__num">7.2.</span> Передача данных при использовании сервисов осуществляется по защищённым каналам связи.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">8. Права пользователей</h3>
+  <div class="info-subsection__body">
+    <ul class="info-list">
+      <li>Пользователь имеет право:</li>
+      <li>Получить информацию о своих данных, обрабатываемых Оператором</li>
+      <li>Требовать уточнения, блокировки или удаления своих данных</li>
+      <li>Отозвать согласие на обработку данных</li>
+      <li>Обжаловать действия Оператора в Роскомнадзоре</li>
+      <li>Запросы по реализации прав направляются на email levmichstudio@gmail.com и рассматриваются в течение 30 (тридцати) календарных дней с момента получения.</li>
+    </ul>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">9. Куки и аналитика</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">9.1.</span> Сайт использует куки-файлы для технической работы и улучшения пользовательского опыта.</p>
+    <p class="info-p"><span class="info-p__num">9.2.</span> Пользователь может отключить куки в настройках браузера, но в этом случае часть функций сайта может работать некорректно.</p>
+    <p class="info-p"><span class="info-p__num">9.3.</span> Сайт может использовать сторонние сервисы аналитики. Эти сервисы могут собирать обезличенную информацию о поведении на сайте в соответствии со своими политиками конфиденциальности.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">10. Изменения Политики</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">10.1.</span> Оператор оставляет за собой право изменять настоящую Политику. Актуальная версия всегда доступна на сайте levmich.studio.</p>
+    <p class="info-p"><span class="info-p__num">10.2.</span> Существенные изменения публикуются не позднее чем за 7 (семь) дней до вступления в силу.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">11. Контакты для вопросов</h3>
+  <div class="info-subsection__body">
+    <ul class="info-list">
+      <li>По всем вопросам, связанным с обработкой персональных данных:</li>
+      <li>Email: levmichstudio@gmail.com</li>
+      <li>Telegram: @levmich_work</li>
+      <li>Сайт: levmich.studio</li>
+    </ul>
+  </div>
+</section>
+    </section>
+
+      <section class="info-doc" id="doc-terms" data-doc-id="terms">
+  <header class="info-doc__head">
+    <h2 class="info-doc__title">Пользовательское соглашение</h2>
+    <p class="info-doc__subtitle">Соглашение об использовании сайта levmich.studio<br/>Версия 1.0. Действует с даты публикации на сайте.</p>
+  </header>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">1. Термины и определения</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">1.1.</span> Сайт — интернет-ресурс, размещённый по адресу levmich.studio, и связанный с ним Telegram-бот @Levmich_Studio_Bot.</p>
+    <p class="info-p"><span class="info-p__num">1.2.</span> Администратор — Левыкин Михаил Алексеевич, самозанятый, г. Екатеринбург.</p>
+    <p class="info-p"><span class="info-p__num">1.3.</span> Пользователь — любое лицо, посещающее Сайт или использующее связанный с ним Telegram-бот.</p>
+    <p class="info-p"><span class="info-p__num">1.4.</span> Услуги — дизайн-услуги, предлагаемые через Сайт и Бот (дизайн сайтов, брендинг, дизайн приложений и сопутствующие услуги).</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">2. Предмет соглашения</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">2.1.</span> Настоящее Соглашение регулирует общие правила использования Сайта и Telegram-бота.</p>
+    <p class="info-p"><span class="info-p__num">2.2.</span> Условия оказания платных Услуг регулируются отдельным документом — Договором-офертой на оказание услуг, размещённым на Сайте.</p>
+    <p class="info-p"><span class="info-p__num">2.3.</span> Условия обработки персональных данных регулируются отдельным документом — Политикой конфиденциальности, размещённой на Сайте.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">3. Правила использования</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">3.1.</span> Пользователь обязуется использовать Сайт и Бот добросовестно:</p>
+    <ul class="info-list">
+      <li>не пытаться нарушить работу сервисов;</li>
+      <li>не загружать вредоносное программное обеспечение;</li>
+      <li>не использовать автоматизированные средства массового сбора информации;</li>
+      <li>не использовать сервисы для распространения противоправного контента.</li>
+    </ul>
+    <p class="info-p"><span class="info-p__num">3.2.</span> Пользователь обязуется предоставлять достоверную информацию в брифах и при заключении договора. Администратор не несёт ответственности за последствия предоставления Пользователем недостоверных данных.</p>
+    <p class="info-p"><span class="info-p__num">3.3.</span> Все материалы Сайта (тексты, дизайн, изображения работ из портфолио) принадлежат Администратору и охраняются законом РФ об авторском праве. Использование материалов без письменного разрешения Администратора запрещено.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">4. Ответственность</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">4.1.</span> Сайт и Бот предоставляются «как есть». Администратор прилагает разумные усилия для бесперебойной работы, но не гарантирует отсутствие технических сбоев.</p>
+    <p class="info-p"><span class="info-p__num">4.2.</span> Администратор не несёт ответственности за временную недоступность Сайта или Бота по техническим причинам (отказ хостинга, сбои Telegram, форс-мажорные обстоятельства).</p>
+    <p class="info-p"><span class="info-p__num">4.3.</span> Администратор не несёт ответственности за ущерб, возникший в результате использования Сайта Пользователем не по назначению.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">5. Изменения Соглашения</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">5.1.</span> Администратор вправе изменять настоящее Соглашение. Актуальная версия размещена на Сайте.</p>
+    <p class="info-p"><span class="info-p__num">5.2.</span> Продолжение использования Сайта после публикации изменений означает согласие Пользователя с новой редакцией Соглашения.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">6. Применимое право и разрешение споров</h3>
+  <div class="info-subsection__body">
+    <p class="info-p"><span class="info-p__num">6.1.</span> Настоящее Соглашение регулируется законодательством Российской Федерации.</p>
+    <p class="info-p"><span class="info-p__num">6.2.</span> Все споры, связанные с использованием Сайта и Бота, разрешаются по месту регистрации Администратора — в г. Екатеринбурге.</p>
+  </div>
+</section>
+
+      <section class="info-subsection">
+  <h3 class="info-subsection__title">7. Контакты</h3>
+  <div class="info-subsection__body">
+    <ul class="info-list">
+      <li>Email: levmichstudio@gmail.com</li>
+      <li>Telegram: @levmich_work</li>
+      <li>Сайт: levmich.studio</li>
+    </ul>
+  </div>
+</section>
+    </section>
+      </div>
+
+      <aside class="info-side" aria-label="Документы">
+        <nav class="info-side__list" aria-label="Разделы информации">
+          <a class="info-side__item" href="#doc-oferta" data-doc="oferta" style="--dash: 100">
+            <span class="info-side__label">Договор оферты</span>
+            <span class="info-progress-ring" data-progress-ring data-doc="oferta" aria-hidden="true">
+              <svg viewBox="0 0 36 36" focusable="false">
+                <circle class="info-progress-ring__track" cx="18" cy="18" r="15.5" pathLength="100"></circle>
+                <circle class="info-progress-ring__bar" cx="18" cy="18" r="15.5" pathLength="100"></circle>
+              </svg>
+              <span class="info-progress-ring__done">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M5.5 12.6l4.1 4.1 8.9-9.3" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </span>
+          </a>
+          <a class="info-side__item" href="#doc-privacy" data-doc="privacy" style="--dash: 100">
+            <span class="info-side__label">Политика конфиденциальности</span>
+            <span class="info-progress-ring" data-progress-ring data-doc="privacy" aria-hidden="true">
+              <svg viewBox="0 0 36 36" focusable="false">
+                <circle class="info-progress-ring__track" cx="18" cy="18" r="15.5" pathLength="100"></circle>
+                <circle class="info-progress-ring__bar" cx="18" cy="18" r="15.5" pathLength="100"></circle>
+              </svg>
+              <span class="info-progress-ring__done">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M5.5 12.6l4.1 4.1 8.9-9.3" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </span>
+          </a>
+          <a class="info-side__item" href="#doc-terms" data-doc="terms" style="--dash: 100">
+            <span class="info-side__label">Пользовательское соглашение</span>
+            <span class="info-progress-ring" data-progress-ring data-doc="terms" aria-hidden="true">
+              <svg viewBox="0 0 36 36" focusable="false">
+                <circle class="info-progress-ring__track" cx="18" cy="18" r="15.5" pathLength="100"></circle>
+                <circle class="info-progress-ring__bar" cx="18" cy="18" r="15.5" pathLength="100"></circle>
+              </svg>
+              <span class="info-progress-ring__done">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M5.5 12.6l4.1 4.1 8.9-9.3" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </span>
+          </a>
+        </nav>
+
+        <section class="info-complete" id="info-complete" aria-hidden="true">
+          <h2 class="info-complete__title">Спасибо, что ознакомились с информацией!</h2>
+          <p class="info-complete__text">Теперь вы можете вернуться к услугам и выбрать именно то, что вам нужно</p>
+          <a class="info-complete__button" href="index.html#services">К услугам</a>
+        </section>
+      </aside>
+
+    </div>
+  </main>
+
+  <footer class="footer" id="footer">
+    <div class="footer__top">
+      <section class="footer__consult reveal" aria-labelledby="footer-consult-title">
+        <div class="footer__consult-copy">
+          <h2 class="footer__title" id="footer-consult-title">Не нашли ответ?</h2>
+          <p class="footer__text">Оставьте заявку — ответим в течение одного рабочего дня.</p>
+        </div>
+        <a class="footer__button" href="https://t.me/levmich_studio_bot" target="_blank" rel="noopener" data-magnetic>Оставить заявку</a>
+      </section>
+
+      <nav class="footer__nav reveal" aria-label="Навигация по сайту">
+        <h2 class="footer__heading">Навигация</h2>
+        <a class="footer__nav-item" href="index.html#about">Обо мне <img src="Assets/SVG_files/mini_me.svg" alt=""/></a>
+        <a class="footer__nav-item" href="index.html#services">Услуги <img src="Assets/SVG_files/Consulation.svg" alt=""/></a>
+        <a class="footer__nav-item" href="index.html#portfolio">Кейсы <img src="Assets/SVG_files/Case.svg" alt=""/></a>
+      </nav>
+
+      <section class="footer__media reveal" aria-labelledby="footer-media-title">
+        <h2 class="footer__heading" id="footer-media-title">Медиа</h2>
+        <div class="footer__socials">
+          <a href="#" aria-label="Telegram"><img src="Assets/SVG_files/Telegram.svg" alt=""/></a>
+          <a href="#" aria-label="Instagram"><img src="Assets/SVG_files/Instagram.svg" alt=""/></a>
+          <a href="#" aria-label="Threads"><img src="Assets/SVG_files/Threads.svg" alt=""/></a>
+          <a href="#" aria-label="Behance"><img src="Assets/SVG_files/Behance.svg" alt=""/></a>
+        </div>
+        <p class="footer__meta-disclaimer">*Компания Meta — признана в России террористической организацией</p>
+      </section>
+    </div>
+
+    <div class="footer__bottom">
+      <a class="footer__logo-link reveal" href="index.html#hero" aria-label="На главную">
+        <img class="footer__logo" src="Assets/SVG_files/Levmich_Studio_Logo_01.svg" alt="Levmich Studio" />
+      </a>
+      <p class="footer__copyright reveal">© Levmich Studio 2026</p>
+      <a class="footer__info-card reveal" href="info.html#info-top" aria-label="Открыть информационную страницу">
+        <span class="footer__info-card-head">
+          <span class="footer__info-card-title">Инфо</span>
+          <span class="footer__info-card-arrow" aria-hidden="true">
+            <svg viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </span>
+        <span class="footer__info-card-list">
+          <span>Договор оферты</span>
+          <span>Политика конфиденциальности</span>
+          <span>Пользовательское соглашение</span>
+        </span>
+      </a>
+    </div>
+  </footer>
+
+  <div class="dock dock--info" id="dock" data-state="rest">
+    <button class="info-mobile-status" id="info-mobile-status" type="button" aria-label="Переключить документ">
+      <span class="info-mobile-status__label">Договор оферты</span>
+      <span class="info-progress-ring info-progress-ring--small" data-progress-current aria-hidden="true">
+        <svg viewBox="0 0 36 36" focusable="false">
+          <circle class="info-progress-ring__track" cx="18" cy="18" r="15.5" pathLength="100"></circle>
+          <circle class="info-progress-ring__bar" cx="18" cy="18" r="15.5" pathLength="100"></circle>
+        </svg>
+        <span class="info-progress-ring__done">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5.5 12.6l4.1 4.1 8.9-9.3" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </span>
+    </button>
+    <div class="dock__pill">
+      <button class="dock__menu-btn" id="dock-menu-btn" aria-label="Меню" aria-expanded="false" type="button">
+        <span class="burger"><span></span><span></span></span>
+      </button>
+      <a class="dock__back" href="index.html#hero" aria-label="На главную">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M15 6l-6 6 6 6" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <button class="dock__info-progress" id="dock-info-progress" type="button" aria-label="Переключить документ">
+        <span class="info-progress-ring info-progress-ring--dock" data-progress-dock aria-hidden="true">
+          <svg viewBox="0 0 36 36" focusable="false">
+            <circle class="info-progress-ring__track" cx="18" cy="18" r="15.5" pathLength="100"></circle>
+            <circle class="info-progress-ring__bar" cx="18" cy="18" r="15.5" pathLength="100"></circle>
+          </svg>
+          <span class="info-progress-ring__done">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5.5 12.6l4.1 4.1 8.9-9.3" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </span>
+      </button>
+      <button class="dock__lang-btn" id="dock-lang-btn" aria-label="Язык" type="button">
+        <span class="dock__lang-current">Ru</span>
+        <span class="dock__lang-arrow" aria-hidden="true">
+          <svg viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="dock__lang-target">En</span>
+      </button>
+      <nav class="dock__menu" id="dock-menu" aria-hidden="true">
+        <div class="dock__menu-left">
+          <h3 class="dock__menu-title">Меню</h3>
+          <ul class="dock__menu-list">
+            <li><a href="index.html#about">Обо мне <img src="Assets/SVG_files/mini_me.svg" alt=""/></a></li>
+            <li><a href="index.html#services">Услуги <img src="Assets/SVG_files/Consulation.svg" alt=""/></a></li>
+            <li><a href="index.html#portfolio">Кейсы <img src="Assets/SVG_files/Case.svg" alt=""/></a></li>
+          </ul>
+        </div>
+        <div class="dock__menu-right">
+          <div class="dock__menu-brand">
+            <img class="dock__menu-logo" src="Assets/SVG_files/Levmich_Studio_Logo_01.svg" alt="Levmich Studio"/>
+            <p class="dock__menu-slogan">Делаем красиво. Некрасиво&nbsp;— не&nbsp;делаем</p>
+          </div>
+          <div class="dock__menu-socials">
+            <a href="#" aria-label="Telegram"><img src="Assets/SVG_files/Telegram.svg" alt=""/></a>
+            <a href="#" aria-label="Instagram"><img src="Assets/SVG_files/Instagram.svg" alt=""/></a>
+            <a href="#" aria-label="Threads"><img src="Assets/SVG_files/Threads.svg" alt=""/></a>
+            <a href="#" aria-label="Behance"><img src="Assets/SVG_files/Behance.svg" alt=""/></a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <div class="menu-overlay" id="menu-overlay" aria-hidden="true"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="Assets/scripts/main-v2.js?v=64" defer></script>
+  <script src="Assets/scripts/info-progress.js?v=12" defer></script>
+  <script>
+    (function() {
+      function syncInfoMobileViewport() {
+        var body = document.body;
+        if (!body || !body.classList.contains('info-page')) return;
+        var isMobile = window.matchMedia('(orientation: portrait), (max-width: 768px)').matches;
+        if (!isMobile) {
+          body.style.removeProperty('--info-visual-bottom-shift');
+          return;
+        }
+        var visualHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+        var shift = Math.max(0, Math.round((window.innerHeight || visualHeight) - visualHeight));
+        body.style.setProperty('--info-visual-bottom-shift', shift + 'px');
+      }
+      syncInfoMobileViewport();
+      window.addEventListener('resize', syncInfoMobileViewport, { passive: true });
+      window.addEventListener('orientationchange', syncInfoMobileViewport, { passive: true });
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', syncInfoMobileViewport, { passive: true });
+        window.visualViewport.addEventListener('scroll', syncInfoMobileViewport, { passive: true });
+      }
+    })();
+  </script>
+
+</body>
+</html>
+
+

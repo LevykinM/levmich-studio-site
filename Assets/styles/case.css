@@ -1,0 +1,233 @@
+/* ============================================================
+   Case-page styles. Подключается ВТОРЫМ файлом после style.css.
+   Базовые токены, шрифты, dock, footer наследуются.
+   ============================================================ */
+
+.case-page { padding-top: 0; }
+
+/* ---- Шапка кейса --------------------------------------------- */
+.case-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px var(--pad);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: linear-gradient(180deg, rgba(10,10,11,.92) 0%, rgba(10,10,11,0) 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.case-nav__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px 10px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.10);
+  font-weight: 600;
+  font-size: 14px;
+  transition: background .25s var(--ease-soft), transform .25s var(--ease-soft);
+}
+.case-nav__back:hover { background: rgba(255,255,255,.16); transform: translateX(-2px); }
+.case-nav__back img { width: 14px; height: 14px; filter: invert(100%); }
+.case-nav__title {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+
+/* ---- Cover --------------------------------------------------- */
+.case-cover {
+  max-width: var(--max);
+  margin: 16px auto 0;
+  padding: 0 var(--pad);
+}
+.case-cover img {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  display: block;
+}
+
+/* ---- Текстовые блоки ---------------------------------------- */
+.case-block {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 80px var(--pad);
+  text-align: center;
+}
+.case-block__title {
+  font-size: clamp(36px, 4.4vw, 56px);
+  margin-bottom: 24px;
+  letter-spacing: -.03em;
+}
+.case-block__text {
+  color: var(--text-dim);
+  font-size: 16px;
+  line-height: 1.6;
+}
+.case-block__text + .case-block__text { margin-top: 14px; }
+
+/* ---- Пара изображений --------------------------------------- */
+.case-pair {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--pad);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.case-pair__item {
+  margin: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  background: #222;
+}
+.case-pair__item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* ---- Mockup сайта (стилизация под рендер) ------------------ */
+.case-screenshot {
+  max-width: var(--max);
+  margin: 80px auto 0;
+  padding: 0 var(--pad);
+}
+.case-mockup {
+  position: relative;
+  background: #fff;
+  color: #111;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  min-height: 520px;
+}
+.case-mockup__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid #eee;
+}
+.case-mockup__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 18px;
+  color: #ff2f6a;
+}
+.case-mockup__brand img { width: 28px; height: 28px; filter: invert(38%) sepia(98%) saturate(2200%) hue-rotate(325deg) brightness(105%); }
+.case-mockup__nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #5a5a60;
+}
+.case-mockup__cta {
+  background: #ff2f6a;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 700;
+  margin-left: 4px;
+}
+.case-mockup__hero {
+  text-align: center;
+  padding: 60px 24px 40px;
+}
+.case-mockup__hero h3 {
+  font-size: 42px;
+  color: #111;
+  margin-bottom: 12px;
+  letter-spacing: -.02em;
+}
+.case-mockup__hero p {
+  color: #6e6e72;
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+.case-mockup__btn {
+  display: inline-flex;
+  align-items: center;
+  height: 38px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: #fff;
+  color: #ff2f6a;
+  border: 1.5px solid #ffb8d0;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+}
+.case-mockup__art {
+  height: 220px;
+  background:
+    radial-gradient(60% 90% at 50% 100%, #ff2f6a 0%, transparent 70%),
+    radial-gradient(50% 80% at 50% 95%, #ff5f87 0%, transparent 70%);
+  border-top-left-radius: 50% 100%;
+  border-top-right-radius: 50% 100%;
+  margin: 0 -10% -10%;
+}
+
+/* ---- Полноширинный шот мокапа (без браузерной обёртки) ------ */
+.case-fullshot {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #111;
+}
+.case-fullshot img {
+  width: 100%;
+  display: block;
+  height: auto;
+}
+
+/* ---- Блок "Было разработано" -------------------------------- */
+.case-deliverables {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--pad);
+  text-align: left;
+}
+.deliverable {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 22px;
+  display: grid;
+  grid-template-columns: 14px 1fr;
+  gap: 0 14px;
+  align-items: start;
+}
+.deliverable__dot {
+  width: 14px; height: 14px;
+  border-radius: 999px;
+  background: var(--accent);
+  margin-top: 6px;
+  grid-row: 1 / span 2;
+}
+.deliverable h3 {
+  grid-column: 2;
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+.deliverable p {
+  grid-column: 2;
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.45;
+}
+
+/* ---- Адаптив для кейс-страницы (минимум) -------------------- */
+@media (max-width: 900px) {
+  .case-pair { grid-template-columns: 1fr; }
+  .case-deliverables { grid-template-columns: 1fr; }
+  .case-mockup__nav { display: none; }
+}
