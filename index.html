@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Host+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="Assets/styles/style.css?v=100" />
+  <link rel="stylesheet" href="Assets/styles/style.css?v=103" />
   <style>
     body[data-page-version="v3"] {
       /* Desktop: section rhythm is capped at 100px per latest spec. */
@@ -322,12 +322,11 @@
         box-sizing: border-box;
         overflow: hidden;
         transition:
-          opacity .42s cubic-bezier(.32, 0, .24, 1),
-          filter .42s cubic-bezier(.32, 0, .24, 1),
-          transform .58s cubic-bezier(.18, 1, .28, 1),
-          clip-path .58s cubic-bezier(.18, 1, .28, 1);
+          opacity .34s cubic-bezier(.32, 0, .24, 1),
+          filter .34s cubic-bezier(.32, 0, .24, 1),
+          transform .42s cubic-bezier(.18, 1, .28, 1);
         clip-path: inset(0 0 0 0 round 40px);
-        will-change: transform, opacity, filter, clip-path;
+        will-change: transform, opacity, filter;
       }
 
       body[data-page-version="v3"] .hero__info-body {
@@ -370,19 +369,17 @@
         box-sizing: border-box;
       }
 
-      /* Plaque hidden state: in portrait the plaque starts fully below
-         the image edge, then rises from the bottom of the card. */
+      /* Plaque hidden state: portrait exit only dissolves. The GSAP entry
+         animation handles the gentle upward float from the image bottom. */
       body[data-page-version="v3"] .hero__card.neo-hero-plaque-hidden .hero__info {
         opacity: 0;
-        filter: blur(5px) saturate(.96);
-        transform: translate3d(0, calc(100% + 10px), 0) scale(.965);
-        clip-path: inset(82% 18% 0 18% round 40px);
+        filter: blur(8px);
+        transform: translate3d(0, 0, 0) scale(1);
+        clip-path: inset(0 0 0 0 round 40px);
         pointer-events: none;
         transition:
-          opacity .42s cubic-bezier(.32, 0, .24, 1),
-          filter .42s cubic-bezier(.32, 0, .24, 1),
-          transform .58s cubic-bezier(.18, 1, .28, 1),
-          clip-path .58s cubic-bezier(.18, 1, .28, 1);
+          opacity .34s cubic-bezier(.32, 0, .24, 1),
+          filter .34s cubic-bezier(.32, 0, .24, 1);
       }
 
       /* Mobile footer Info card: self-contained adaptive fill animation. */
@@ -558,8 +555,10 @@
     }
 
     body[data-page-version="v3"] .services.services--redesigned .services__head {
+      --services-head-height: 520px;
+      --services-head-sticky-top: 40px;
       position: sticky;
-      top: 40px;
+      top: var(--services-head-sticky-top);
       width: 330px;
       flex: 0 0 330px;
       display: flex;
@@ -573,7 +572,8 @@
 
     @media (orientation: landscape) and (min-width: 769px) {
       body[data-page-version="v3"] .services.services--redesigned .services__head {
-        top: 12px;
+        --services-head-sticky-top: max(40px, calc((100svh - var(--services-head-height, 520px)) / 2));
+        top: var(--services-head-sticky-top);
       }
 
       body[data-page-version="v3"] .services.services--redesigned .services__grid::after {
@@ -1886,7 +1886,7 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-  <script src="Assets/scripts/main-v2.js?v=66" defer></script>
+  <script src="Assets/scripts/main-v2.js?v=68" defer></script>
 
   <script>
   /* ═══════════════════════════════════════════════════
@@ -3144,6 +3144,60 @@
     new MutationObserver(function() {
       document.querySelectorAll('.services--redesigned .service').forEach(syncServiceToggle);
     }).observe(document.body, { attributes: true, attributeFilter: ['data-lang'] });
+  })();
+  </script>
+
+  <script>
+  (function() {
+    'use strict';
+
+    var section = document.querySelector('.services--redesigned');
+    if (!section) return;
+
+    var head = section.querySelector('.services__head');
+    if (!head) return;
+
+    var landscapeMQ = window.matchMedia('(orientation: landscape) and (min-width: 769px)');
+    var frame = 0;
+
+    function syncServicesHeadCenter() {
+      if (frame) cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(function() {
+        frame = 0;
+        if (!landscapeMQ.matches) {
+          head.style.removeProperty('--services-head-height');
+          return;
+        }
+
+        var height = Math.ceil(head.getBoundingClientRect().height);
+        if (height > 0) {
+          var next = height + 'px';
+          if (head.style.getPropertyValue('--services-head-height') !== next) {
+            head.style.setProperty('--services-head-height', next);
+          }
+        }
+      });
+    }
+
+    syncServicesHeadCenter();
+    window.addEventListener('resize', syncServicesHeadCenter, { passive: true });
+    window.addEventListener('orientationchange', syncServicesHeadCenter, { passive: true });
+
+    if (landscapeMQ.addEventListener) {
+      landscapeMQ.addEventListener('change', syncServicesHeadCenter);
+    } else if (landscapeMQ.addListener) {
+      landscapeMQ.addListener(syncServicesHeadCenter);
+    }
+
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(syncServicesHeadCenter).observe(head);
+    }
+
+    new MutationObserver(syncServicesHeadCenter).observe(head, {
+      childList: true,
+      subtree: true,
+      characterData: true
+    });
   })();
   </script>
 

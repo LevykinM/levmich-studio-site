@@ -1191,11 +1191,11 @@
       ? {
           opacity: 0,
           x: 0,
-          yPercent: 100,
-          y: 12,
-          scale: .965,
-          filter: 'blur(7px) saturate(.96)',
-          clipPath: 'inset(82% 18% 0% 18% round 40px)',
+          yPercent: 0,
+          y: 18,
+          scale: .98,
+          filter: 'blur(8px)',
+          clipPath: 'inset(0% 0% 0% 0% round 40px)',
           transformOrigin: '50% 100%'
         }
       : {
@@ -1217,9 +1217,9 @@
       scale: 1,
       filter: 'blur(0px) saturate(1)',
       clipPath: 'inset(0% 0% 0% 0% round 40px)',
-      duration: IS_MOBILE ? 0.78 : 0.74,
+      duration: IS_MOBILE ? 0.62 : 0.74,
       delay,
-      ease: IS_MOBILE ? 'expo.out' : 'back.out(1.35)'
+      ease: IS_MOBILE ? 'sine.out' : 'back.out(1.35)'
     });
 
     // Plaque enters from the bottom image edge in portrait and keeps the
@@ -1245,6 +1245,23 @@
       const info = card.querySelector('.hero__info');
       if (!info) return;
       gsap.killTweensOf(info);
+      if (IS_MOBILE) {
+        gsap.to(info, {
+          opacity: 0,
+          yPercent: 0,
+          y: 0,
+          scale: 1,
+          filter: 'blur(8px)',
+          clipPath: 'inset(0% 0% 0% 0% round 40px)',
+          duration: Math.min(dur, 0.34),
+          ease: 'sine.out',
+          onComplete: () => {
+            card.classList.add('neo-hero-plaque-hidden');
+            gsap.set(info, plaqueHiddenVars());
+          }
+        });
+        return;
+      }
       card.classList.add('neo-hero-plaque-hidden');
       const hiddenVars = plaqueHiddenVars();
       gsap.to(info, {
