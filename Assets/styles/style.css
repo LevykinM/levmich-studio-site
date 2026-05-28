@@ -6117,3 +6117,136 @@ body.case-page .case-component__desc {
 #dock .dock__menu-btn:focus-visible {
   background: rgba(255, 255, 255, .16) !important;
 }
+
+/* Mobile menu final layout from Figma node 141:1633.
+   Sizes use container units so the full composition scales with the card. */
+@media (orientation: portrait), (max-width: 768px) {
+  #dock .dock__menu {
+    container-type: inline-size;
+    width: min(382px, calc(100vw - 16px)) !important;
+    min-height: 0 !important;
+    max-height: calc(100svh - 94px) !important;
+    padding: clamp(34px, 10.47cqw, 40px) clamp(24px, 7.85cqw, 30px) clamp(34px, 10.47cqw, 40px) !important;
+    border-radius: clamp(42px, 14.14cqw, 54px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    gap: 0 !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+    clip-path: inset(84% 28% 0 28% round clamp(42px, 14.14cqw, 54px)) !important;
+  }
+
+  #dock[data-state="open"] .dock__menu {
+    clip-path: inset(0 0 0 0 round clamp(42px, 14.14cqw, 54px)) !important;
+  }
+
+  #dock .dock__menu-left,
+  #dock .dock__menu-right {
+    width: 100% !important;
+    flex: 0 0 auto !important;
+  }
+
+  #dock .dock__menu-left {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: clamp(12px, 3.66cqw, 14px) !important;
+  }
+
+  #dock .dock__menu-title {
+    width: 100% !important;
+    margin: 0 !important;
+    font-size: clamp(42px, 13.1cqw, 50px) !important;
+    font-weight: 400 !important;
+    line-height: 1.05 !important;
+    text-align: center !important;
+    letter-spacing: 0 !important;
+  }
+
+  #dock .dock__menu-list {
+    width: 100% !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: clamp(7px, 2.1cqw, 8px) !important;
+    margin: 0 !important;
+  }
+
+  #dock .dock__menu-list a {
+    width: 100% !important;
+    height: clamp(39px, 11.78cqw, 45px) !important;
+    min-height: clamp(39px, 11.78cqw, 45px) !important;
+    padding: 0 clamp(12px, 3.66cqw, 14px) !important;
+    border-radius: clamp(22px, 6.8cqw, 26px) !important;
+    font-size: clamp(18px, 5.24cqw, 20px) !important;
+    line-height: 1 !important;
+  }
+
+  #dock .dock__menu-list img {
+    width: clamp(20px, 6.28cqw, 24px) !important;
+    height: clamp(20px, 6.28cqw, 24px) !important;
+  }
+
+  #dock .dock__menu-right {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: clamp(14px, 5cqw, 19px) !important;
+    margin-top: clamp(30px, 8.9cqw, 34px) !important;
+    min-height: 0 !important;
+    height: auto !important;
+  }
+
+  #dock .dock__menu-brand {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: clamp(7px, 2.1cqw, 8px) !important;
+    min-width: 0 !important;
+  }
+
+  #dock .dock__menu-logo {
+    width: min(58.4cqw, 223px) !important;
+    height: auto !important;
+    aspect-ratio: 900 / 395 !important;
+    object-fit: contain !important;
+    object-position: left center !important;
+  }
+
+  #dock .dock__menu-slogan {
+    width: min(58.4cqw, 223px) !important;
+    margin: 0 !important;
+    font-size: clamp(13px, 4.2cqw, 16px) !important;
+    line-height: 1.16 !important;
+    text-align: left !important;
+  }
+
+  #dock .dock__menu-socials {
+    display: grid !important;
+    grid-template-columns: repeat(2, clamp(35px, 11.26cqw, 43px)) !important;
+    grid-template-rows: repeat(2, clamp(35px, 11.26cqw, 43px)) !important;
+    grid-auto-flow: row !important;
+    align-items: center !important;
+    justify-content: end !important;
+    align-content: center !important;
+    gap: clamp(10px, 3.66cqw, 14px) !important;
+    width: auto !important;
+    align-self: center !important;
+  }
+
+  #dock .dock__menu-socials a,
+  #dock .dock__menu-socials img {
+    width: clamp(35px, 11.26cqw, 43px) !important;
+    height: clamp(35px, 11.26cqw, 43px) !important;
+  }
+
+  @media (max-height: 520px) {
+    #dock .dock__menu {
+      overflow: auto !important;
+    }
+  }
+}
