@@ -577,8 +577,10 @@
       }
 
       body[data-page-version="v3"] .services.services--redesigned .services__grid::after {
-        flex-basis: clamp(84px, 7vw, 96px);
-        height: clamp(84px, 7vw, 96px);
+        display: none;
+        flex-basis: 0;
+        width: 0;
+        height: 0;
       }
     }
 
@@ -810,6 +812,34 @@
       opacity: 1;
       filter: none;
       transform: none;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__notice,
+    body[data-page-version="v3"] .services.services--redesigned .services__info:is(:hover, :focus-within) .services__notice,
+    body[data-page-version="v3"] .services.services--redesigned:has(.service:hover) .services__notice,
+    body[data-page-version="v3"] .services.services--redesigned:has(.service__cta:is(:hover, :focus-visible)) .services__notice,
+    body[data-page-version="v3"] .services.services--redesigned.is-notice-active .services__notice,
+    body[data-page-version="v3"] .services.services--redesigned.is-notice-closing .services__notice {
+      width: 100% !important;
+      height: auto !important;
+      min-height: 0 !important;
+      padding: 20px !important;
+      gap: 14px !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .services__notice-text,
+    body[data-page-version="v3"] .services.services--redesigned .services__info:is(:hover, :focus-within) .services__notice-text,
+    body[data-page-version="v3"] .services.services--redesigned:has(.service:hover) .services__notice-text,
+    body[data-page-version="v3"] .services.services--redesigned:has(.service__cta:is(:hover, :focus-visible)) .services__notice-text,
+    body[data-page-version="v3"] .services.services--redesigned.is-notice-active .services__notice-text,
+    body[data-page-version="v3"] .services.services--redesigned.is-notice-closing .services__notice-text {
+      width: auto !important;
+      max-width: none !important;
+      flex: none !important;
+      opacity: 1 !important;
+      transform: none !important;
     }
 
     body[data-page-version="v3"] .services.services--redesigned .service,
