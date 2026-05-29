@@ -6089,14 +6089,10 @@ body.case-page .case-component__desc {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  #dock:not(.dock--case) .dock__menu,
-  #dock:not(.dock--case) .dock__menu-list a,
-  #dock:not(.dock--case) .dock__menu-socials a,
-  .burger span {
-    transition: none;
-  }
-}
+/* The menu slide-out + burger morph now play even under
+   prefers-reduced-motion: iPhones commonly report it and were getting a
+   static (non-sliding) menu. Owner's product decision — the site should feel
+   animated on every device. */
 
 /* Final simple blur treatment: white 10% fill, no decorative glass layers. */
 .hero__info {
