@@ -464,6 +464,46 @@ body[data-lang="en"] .hero__info-body {
   color: #0a0a0a;
 }
 
+/* ---- Mobile hero hint pill --------------------------------------------
+   A single white "Подробнее" pill pinned to the centre-top of the big hero
+   card on phones. It does NOT travel with the cards — initHeroRotation()
+   sets its left/top to the big slot and GSAP fades/slides it in from above
+   after the card grows, then dissolves it before the next card shrinks.
+   Visual treatment mirrors the desktop .case-cursor follower. */
+.hero__pill {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  z-index: 5;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 33px;
+  padding: 0 12px;
+  border-radius: 20px;
+  background: #fff;
+  color: #0a0a0a;
+  font-family: 'Onest', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .22);
+  will-change: transform, opacity;
+}
+.hero__pill-icon {
+  width: 19px;
+  height: 19px;
+  flex: 0 0 19px;
+  color: #0a0a0a;
+}
+@media (orientation: portrait) {
+  .hero__pill { display: inline-flex; }
+}
+
 /* ============================================================
    ABOUT
    ============================================================ */

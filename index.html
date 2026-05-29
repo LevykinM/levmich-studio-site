@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Host+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="Assets/styles/style.css?v=104" />
+  <link rel="stylesheet" href="Assets/styles/style.css?v=105" />
   <style>
     body[data-page-version="v3"] {
       /* Desktop: section rhythm is capped at 100px per latest spec. */
@@ -1507,37 +1507,26 @@
 
       <div class="hero__track" id="hero-track">
         <article class="hero__card" data-href="case-front.html">
-          <img class="hero__card-img" src="Assets/Main_page/Property 1=Photo 1.png" alt="Front" />
-          <div class="hero__info">
-            <div class="hero__info-body">
-              <h2 class="hero__info-title">Новый проект</h2>
-              <p class="hero__info-desc">Наша студия задизайнила логотип и сайт для крупного патентного бюро Front</p>
-              <a class="hero__info-link" href="case-front.html">Подробнее</a>
-            </div>
-          </div>
+          <img class="hero__card-img" src="Assets/Main_page/Property 1=Photo 1.webp" alt="Front" />
         </article>
 
         <article class="hero__card" data-href="case-three.html">
-          <img class="hero__card-img" src="Assets/Main_page/Property 1=Photo 3.png" alt="Три семёрки" />
-          <div class="hero__info">
-            <div class="hero__info-body">
-              <h2 class="hero__info-title">Три семёрки</h2>
-              <p class="hero__info-desc">Бренд для регионального грузоперевозчика, который запомнят на дороге</p>
-              <a class="hero__info-link" href="case-three.html">Подробнее</a>
-            </div>
-          </div>
+          <img class="hero__card-img" src="Assets/Main_page/Property 1=Photo 3.webp" alt="Три семёрки" />
         </article>
 
         <article class="hero__card" data-href="case-wedding.html">
-          <img class="hero__card-img" src="Assets/Main_page/Property 1=Photo 2.png" alt="Оксана и Костя" />
-          <div class="hero__info">
-            <div class="hero__info-body">
-              <h2 class="hero__info-title">Оксана и Костя</h2>
-              <p class="hero__info-desc">Сайт-приглашение, который взял на себя всю логистику свадьбы</p>
-              <a class="hero__info-link" href="case-wedding.html">Подробнее</a>
-            </div>
-          </div>
+          <img class="hero__card-img" src="Assets/Main_page/Property 1=Photo 2.webp" alt="Оксана и Костя" />
         </article>
+
+        <!-- Mobile-only hint pill. Lives in the track (same coordinate frame
+             as the cards) but is a SINGLE element pinned to the centre-top of
+             the big slot: it does not travel with the photos. JS fades it in
+             from above after the big card finishes growing and dissolves it
+             before the next card shrinks. -->
+        <div class="hero__pill" id="hero-pill" aria-hidden="true">
+          <span class="hero__pill-text">Подробнее</span>
+          <svg class="hero__pill-icon" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.94031 8.94031C9.15234 8.72827 9.46606 8.65453 9.75053 8.74935L16.8755 11.1243C17.1791 11.2256 17.3916 11.4994 17.4144 11.8186C17.4371 12.138 17.2655 12.44 16.9791 12.5832L14.0483 14.0483L12.5832 16.9791C12.44 17.2655 12.138 17.4371 11.8186 17.4144C11.4994 17.3916 11.2256 17.1791 11.1243 16.8755L8.74935 9.75053C8.65453 9.46606 8.72827 9.15234 8.94031 8.94031ZM5.61515 12.2655C5.92432 11.9563 6.42545 11.9563 6.73462 12.2655C7.04378 12.5746 7.04378 13.0758 6.73462 13.3849L4.9928 15.1267C4.68361 15.4356 4.18239 15.4358 3.87333 15.1267C3.56427 14.8177 3.56448 14.3165 3.87333 14.0073L5.61515 12.2655ZM12.0212 14.5616L12.7502 13.1043C12.8268 12.9511 12.9511 12.8268 13.1043 12.7502L14.5616 12.0212L10.7509 10.7509L12.0212 14.5616ZM4.75004 8.70837C5.18727 8.70837 5.54171 9.06282 5.54171 9.50004C5.54171 9.93727 5.18727 10.2917 4.75004 10.2917H2.37504C1.93782 10.2917 1.58337 9.93727 1.58337 9.50004C1.58337 9.06282 1.93782 8.70837 2.37504 8.70837H4.75004ZM3.87333 3.87333C4.18239 3.56427 4.68361 3.56448 4.9928 3.87333L6.73462 5.61515C7.04378 5.92432 7.04378 6.42545 6.73462 6.73462C6.42545 7.04378 5.92432 7.04378 5.61515 6.73462L3.87333 4.9928C3.56448 4.68361 3.56427 4.18239 3.87333 3.87333ZM14.0073 3.87333C14.3165 3.56448 14.8177 3.56427 15.1267 3.87333C15.4358 4.18239 15.4356 4.68361 15.1267 4.9928L13.3849 6.73462C13.0758 7.04378 12.5746 7.04378 12.2655 6.73462C11.9563 6.42545 11.9563 5.92432 12.2655 5.61515L14.0073 3.87333ZM8.70837 4.75004V2.37504C8.70837 1.93782 9.06282 1.58337 9.50004 1.58337C9.93727 1.58337 10.2917 1.93782 10.2917 2.37504V4.75004C10.2917 5.18727 9.93727 5.54171 9.50004 5.54171C9.06282 5.54171 8.70837 5.18727 8.70837 4.75004Z" fill="#0A0A0A"/></svg>
+        </div>
       </div>
     </section>
 
@@ -1550,10 +1539,10 @@
 
         <div class="about__photos reveal" data-about-parallax>
           <figure class="about__photo-small">
-            <img src="Assets/2a144ef9aad2531389597825e180388d3c0aa5f1.png" alt="Михаил Левыкин" />
+            <img src="Assets/2a144ef9aad2531389597825e180388d3c0aa5f1.webp" alt="Михаил Левыкин" />
           </figure>
           <figure class="about__photo-large">
-            <img src="Assets/7b06567811b6b765380e41ba4878fd538873b93f.png" alt="Михаил Левыкин" />
+            <img src="Assets/7b06567811b6b765380e41ba4878fd538873b93f.webp" alt="Михаил Левыкин" />
           </figure>
         </div>
 
@@ -1757,7 +1746,7 @@
         <div class="portfolio__grid">
           <article class="portfolio-case reveal" data-case="three">
             <a class="portfolio-case__media" href="case-three.html" aria-label="Открыть кейс Три Семёрки">
-              <img class="portfolio-case__img" src="Assets/Main_page/Property 1=Photo 3.png" alt="Три Семёрки" />
+              <img class="portfolio-case__img" src="Assets/Main_page/Property 1=Photo 3.webp" alt="Три Семёрки" />
             </a>
             <div class="portfolio-case__meta">
               <div class="portfolio-case__copy">
@@ -1776,7 +1765,7 @@
 
           <article class="portfolio-case reveal" data-case="wedding">
             <a class="portfolio-case__media" href="case-wedding.html" aria-label="Открыть кейс Свадебный сайт">
-              <img class="portfolio-case__img" src="Assets/Main_page/Property 1=Photo 2.png" alt="Свадебный сайт" />
+              <img class="portfolio-case__img" src="Assets/Main_page/Property 1=Photo 2.webp" alt="Свадебный сайт" />
             </a>
             <div class="portfolio-case__meta">
               <div class="portfolio-case__copy">
@@ -1795,7 +1784,7 @@
 
           <article class="portfolio-case reveal" data-case="front">
             <a class="portfolio-case__media" href="case-front.html" aria-label="Открыть кейс Front">
-              <img class="portfolio-case__img" src="Assets/Main_page/Property 1=Photo 1.png" alt="Front" />
+              <img class="portfolio-case__img" src="Assets/Main_page/Property 1=Photo 1.webp" alt="Front" />
             </a>
             <div class="portfolio-case__meta">
               <div class="portfolio-case__copy">
@@ -1917,7 +1906,7 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-  <script src="Assets/scripts/main-v2.js?v=68" defer></script>
+  <script src="Assets/scripts/main-v2.js?v=69" defer></script>
 
   <script>
   /* ═══════════════════════════════════════════════════
@@ -1943,8 +1932,10 @@
     var body = document.body;
     if (body.dataset.pageVersion !== 'v3') return;
 
-    var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (rm) return; /* respect reduced motion — no scroll animation */
+    /* The stacked-card scroll animation now runs regardless of
+       prefers-reduced-motion: many iPhones report reduce-motion (Low Power
+       Mode / accessibility) and were getting a fully static page. The motion
+       here is scroll-linked (user-driven), so it stays comfortable. */
 
     var portraitMQ = window.matchMedia('(orientation: portrait)');
     function isPortrait() {

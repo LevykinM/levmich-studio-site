@@ -617,9 +617,8 @@
       $('meta[name="description"]')?.setAttribute('content', d.meta.description);
 
       setHtml('.hero__slogan', d.hero.slogan);
-      setTexts('.hero__info-title', d.hero.titles);
-      setTexts('.hero__info-desc', d.hero.descs);
-      setTexts('.hero__info-link', d.hero.titles.map(() => d.portfolio.cursor));
+      // Hero card plaques were removed — only the mobile hint pill remains.
+      setText('#hero-pill .hero__pill-text', d.portfolio.cursor);
       $$('.hero__card-img').forEach((img, i) => {
         if (d.hero.titles[i]) img.setAttribute('alt', d.hero.titles[i].replace(/<[^>]*>/g, ' '));
       });
@@ -822,6 +821,16 @@
     gsap.ticker.lagSmoothing(0);
   }
 
+  // iOS Safari mis-measures ScrollTrigger start/end positions before web
+  // fonts + images settle and as the address bar collapses. Refresh once the
+  // page and fonts are ready so every scroll-linked scene lines up there too.
+  if (window.ScrollTrigger) {
+    window.addEventListener('load', () => ScrollTrigger.refresh());
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => ScrollTrigger.refresh()).catch(() => {});
+    }
+  }
+
   // ============================================================
   // 2. REVEAL ON SCROLL
   //    Лёгкое появление без blur и без class-toggle в момент старта:
@@ -839,7 +848,7 @@
   });
 
   const revealEls = $$('.reveal').filter(el => !(isV3Homepage && el.matches(stackManagedRevealSelector)));
-  if (reduceMotion || !window.gsap || !window.ScrollTrigger) {
+  if (!window.gsap) {
     revealEls.forEach(el => el.classList.add('is-in'));
   } else {
     gsap.set(revealEls, {
@@ -849,37 +858,50 @@
       willChange: 'transform, opacity',
     });
 
-    revealEls.forEach(el => {
+    const revealOne = (el) => {
+      if (el.classList.contains('is-in')) return;
       let delay = 0;
       if (el.classList.contains('service')) {
         const siblings = [...el.parentElement.querySelectorAll('.service.reveal')];
-        delay = siblings.indexOf(el) * 0.05;
+        delay = Math.max(0, siblings.indexOf(el)) * 0.05;
       } else if (el.classList.contains('portfolio-case')) {
         const siblings = [...el.parentElement.querySelectorAll('.portfolio-case.reveal')];
-        delay = siblings.indexOf(el) * 0.06;
+        delay = Math.max(0, siblings.indexOf(el)) * 0.06;
       }
-
-      ScrollTrigger.create({
-        trigger: el.classList.contains('service') || el.classList.contains('portfolio-case')
-          ? el.parentElement : el,
-        start: 'top 90%',
-        once: true,
-        onEnter: () => {
-          gsap.to(el, {
-            autoAlpha: 1,
-            y: 0,
-            duration: 0.72,
-            delay,
-            ease: 'power2.out',
-            overwrite: 'auto',
-            onComplete: () => {
-              el.classList.add('is-in');
-              el.style.willChange = 'auto';
-            },
-          });
+      gsap.to(el, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.72,
+        delay,
+        ease: 'power2.out',
+        overwrite: 'auto',
+        onComplete: () => {
+          el.classList.add('is-in');
+          el.style.willChange = 'auto';
         },
       });
-    });
+    };
+
+    // Reveal via IntersectionObserver rather than ScrollTrigger. IO is rock
+    // solid on iOS Safari — where ScrollTrigger combined with the dynamic
+    // address-bar resize can mis-measure start positions — and it is no
+    // longer hidden behind prefers-reduced-motion. iPhones commonly ship
+    // with "Reduce Motion" enabled (often via Low Power Mode / accessibility),
+    // which previously froze every reveal on the page; the studio wants the
+    // signature reveal to play on every device.
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            revealOne(entry.target);
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -10% 0px', threshold: 0.01 });
+      revealEls.forEach(el => io.observe(el));
+    } else {
+      revealEls.forEach(revealOne);
+    }
   }
 
   // ============================================================
@@ -1142,6 +1164,10 @@
 
     let { slots: SLOTS, heroH, mobile: IS_MOBILE, gap: SLOT_GAP, scale: HERO_SCALE } = computeSlots();
 
+    // Mobile-only hint pill (single element, lives in the track). Pinned to
+    // the centre-top of the big slot — it never travels with the cards.
+    const heroPill = document.getElementById('hero-pill');
+
     // Применяем высоту hero и позицию brand
     const brand = heroEl.querySelector('.hero__brand');
     function applyLayout() {
@@ -1160,6 +1186,7 @@
           brand.style.width = brandW + 'px';
         }
       }
+      positionPill();
     }
     applyLayout();
 
@@ -1187,112 +1214,60 @@
       card.classList.toggle('is-big', slotIdx === 0);
     };
 
-    const plaqueHiddenVars = () => IS_MOBILE
-      ? {
-          opacity: 0,
-          x: 0,
-          yPercent: 0,
-          y: 18,
-          scale: .98,
-          filter: 'blur(8px)',
-          clipPath: 'inset(0% 0% 0% 0% round 40px)',
-          transformOrigin: '50% 100%'
-        }
-      : {
-          opacity: 0,
-          x: 0,
-          yPercent: 0,
-          y: 34,
-          scale: .92,
-          filter: 'blur(7px) saturate(.96)',
-          clipPath: 'inset(0% 0% 0% 0% round 40px)',
-          transformOrigin: '24px 100%'
-        };
+    // ---- Mobile hint pill --------------------------------------
+    // Single "Подробнее" pill pinned to the centre-top of the big slot. It
+    // does NOT travel with the cards — it fades/slides in from above after the
+    // big card has grown and dissolves before the next card shrinks. Desktop
+    // keeps the hover cursor-follower, so the pill is display:none there and
+    // these helpers are effectively no-ops.
+    function positionPill() {
+      if (!heroPill) return;
+      if (!IS_MOBILE) { heroPill.style.display = 'none'; return; }
+      heroPill.style.display = '';
+      const big = SLOTS[0];
+      heroPill.style.left = Math.round(big.x + big.w / 2) + 'px';
+      heroPill.style.top  = Math.round(big.y + 16) + 'px';
+    }
 
-    const plaqueVisibleVars = (delay = 0) => ({
-      opacity: 1,
-      x: 0,
-      yPercent: 0,
-      y: 0,
-      scale: 1,
-      filter: 'blur(0px) saturate(1)',
-      clipPath: 'inset(0% 0% 0% 0% round 40px)',
-      duration: IS_MOBILE ? 0.62 : 0.74,
-      delay,
-      ease: IS_MOBILE ? 'sine.out' : 'back.out(1.35)'
-    });
-
-    // Plaque enters from the bottom image edge in portrait and keeps the
-    // existing lower-left liquid-glass unfold on desktop.
-    const showInfo = (card, delay = 0.3) => {
-      const info = card.querySelector('.hero__info');
-      if (!info) return;
-      card.classList.remove('neo-hero-plaque-hidden');
-      gsap.killTweensOf(info);
-      gsap.fromTo(info,
-        plaqueHiddenVars(),
-        plaqueVisibleVars(delay)
+    // Enters from above (y:-14 → 0) so it visually drops in from the top.
+    const showPill = (delay = 0.05) => {
+      if (!heroPill || !IS_MOBILE || !window.gsap) return;
+      positionPill();
+      gsap.killTweensOf(heroPill);
+      gsap.fromTo(heroPill,
+        { xPercent: -50, y: -14, autoAlpha: 0, scale: 0.98 },
+        { xPercent: -50, y: 0, autoAlpha: 1, scale: 1, duration: 0.5, delay, ease: 'back.out(1.6)' }
       );
     };
 
-    // The plaque lives inside .hero__card, so the card's own transform
-    // already carries the plaque visually as the card slides away. The
-    // plaque's exit is a gentle dissolve (small translateY + opacity)
-    // synchronised with the card's motion — NOT a hard snap. No blur, no
-    // visibility:hidden, no large 56px drop — those were the things that
-    // made the plaque pop out before the card actually moved.
-    const hideInfo = (card, dur = 0.45) => {
-      const info = card.querySelector('.hero__info');
-      if (!info) return;
-      gsap.killTweensOf(info);
-      if (IS_MOBILE) {
-        gsap.to(info, {
-          opacity: 0,
-          yPercent: 0,
-          y: 0,
-          scale: 1,
-          filter: 'blur(8px)',
-          clipPath: 'inset(0% 0% 0% 0% round 40px)',
-          duration: Math.min(dur, 0.34),
-          ease: 'sine.out',
-          onComplete: () => {
-            card.classList.add('neo-hero-plaque-hidden');
-            gsap.set(info, plaqueHiddenVars());
-          }
-        });
-        return;
-      }
-      card.classList.add('neo-hero-plaque-hidden');
-      const hiddenVars = plaqueHiddenVars();
-      gsap.to(info, {
-        opacity: hiddenVars.opacity,
-        yPercent: hiddenVars.yPercent,
-        y: hiddenVars.y,
-        scale: hiddenVars.scale,
-        filter: 'blur(5px) saturate(.96)',
-        clipPath: hiddenVars.clipPath,
-        duration: IS_MOBILE ? Math.min(dur, 0.5) : Math.min(dur, 0.44),
-        ease: IS_MOBILE ? 'power3.inOut' : 'power2.out',
-        onComplete: () => { gsap.set(info, plaqueHiddenVars()); }
-      });
+    // Quick dissolve back up — finishes well before the card has shrunk.
+    const hidePill = (dur = 0.26) => {
+      if (!heroPill || !window.gsap) return;
+      gsap.killTweensOf(heroPill);
+      gsap.to(heroPill, { xPercent: -50, y: -14, autoAlpha: 0, scale: 0.98, duration: dur, ease: 'power2.in' });
     };
+
+    // Back-compat wrappers for the rotation call sites — the card argument is
+    // ignored since the pill is a single shared element.
+    const showInfo = (card, delay = 0.05) => showPill(delay);
+    const hideInfo = (card, dur = 0.45) => hidePill(Math.min(dur, 0.3));
 
     // ---- Стартовое состояние ------------------------------------
     // Карточки расставлены в соответствии с РАНДОМНЫМ order: слот 0 = big.
     order.forEach((cardIdx, slotIdx) => setSlot(cards[cardIdx], slotIdx));
-    // На входе info скрыта у ВСЕХ карточек — потом покажем у big по окончанию intro.
-    // Старт-поза = смещение в нижне-левый угол карточки, чтобы плашка
-    // «выползала» из угла большого изображения после его раскрытия.
-    cards.forEach(c => {
-      const info = c.querySelector('.hero__info');
-      c.classList.add('neo-hero-plaque-hidden');
-      if (info) gsap.set(info, plaqueHiddenVars());
-    });
+    // Pill starts hidden just above its slot; it's shown once the first big
+    // card has landed (intro onComplete below).
+    if (heroPill && window.gsap) {
+      positionPill();
+      gsap.set(heroPill, { xPercent: -50, y: -14, autoAlpha: 0, scale: 0.98 });
+    }
 
     // === Intro-анимация: при загрузке все элементы Hero поднимаются
     //     из темноты (fade-in + slide-up). Логотип/слоган + 3 карточки. ===
     const brandEl = heroEl.querySelector('.hero__brand');
-    if (!reduceMotion && window.gsap) {
+    // Intro plays regardless of prefers-reduced-motion — many iPhones report
+    // reduce-motion and would otherwise get no hero entrance at all.
+    if (window.gsap) {
       if (brandEl) {
         gsap.from(brandEl, {
           opacity: 0,
@@ -1340,9 +1315,9 @@
       const rightCard  = cards[order[1]];
       const leftCard   = cards[order[2]];
 
-      // Match the centerCard travel-to-right duration so the plaque rides
-      // with the image as it slides away to the right (matching Figma intent).
-      hideInfo(centerCard, 0.62);
+      // Dissolve the hint pill first (quick, up & out) so it is gone before
+      // the big card visibly shrinks — exactly the requested order.
+      hidePill(0.22);
       rightCard.classList.add('is-big');
       centerCard.classList.remove('is-big');
       leftCard.classList.remove('is-big');
@@ -1368,7 +1343,7 @@
         height: S[2].h,
         duration: 0.72,
         ease: 'power3.inOut'
-      }, 0.06);
+      }, 0.16);
 
       tl.to(rightCard, {
         left: S[0].x,
@@ -1377,7 +1352,7 @@
         height: S[0].h,
         duration: 0.78,
         ease: 'power3.inOut'
-      }, 0.08);
+      }, 0.18);
 
       tl.set(leftCard, {
         left: S[1].x + S[1].w + SLOT_GAP,
