@@ -1631,11 +1631,13 @@ body[data-lang="en"] .footer__meta-disclaimer {
     opacity   .45s var(--ease-soft),
     transform .45s var(--ease-soft);
 }
-/* Состояние hidden: dock полностью растворяется (на футере) */
+/* Состояние hidden: dock полностью растворяется (на футере).
+   Pure opacity dissolve — NO downward slide, so it never looks like it
+   slips under the footer. Footer proximity opacity is driven from JS. */
 .dock[data-state="hidden"] {
   opacity: 0;
   pointer-events: none;
-  transform: translateX(-50%) translateY(28px);
+  transform: translateX(-50%);
 }
 
 /* --- Капсула (closed / expand state) --- */
@@ -3981,7 +3983,7 @@ body.info-page {
 }
 .footer__info-card-title {
   font-family: 'Onest', sans-serif;
-  font-weight: 800;
+  font-weight: 500;
   font-size: 40px;
   line-height: 1;
   color: #fff;
@@ -5276,7 +5278,7 @@ body.case-page .case-component__desc {
   .footer__info-card-title {
     font-size: 40px;
     line-height: 1;
-    font-weight: 800;
+    font-weight: 500;
   }
 
   /* Per Screenshot 3 the mobile arrow is a horizontal pill (not a square)
@@ -5409,7 +5411,7 @@ body.case-page .case-component__desc {
 .step__num,
 .case-component__name,
 .footer__info-card-title {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .footer {
@@ -5672,7 +5674,7 @@ body.case-page .case-component__desc {
   }
 
   .footer__info-card-title {
-    font-weight: 700;
+    font-weight: 500;
   }
 
   .footer__info-card-arrow {

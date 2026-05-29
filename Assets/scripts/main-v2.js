@@ -184,7 +184,7 @@
           items: ['Обо мне', 'Услуги', 'Кейсы'],
           media: 'Медиа',
           navigation: 'Навигация',
-          slogan: 'Делаем красиво. Некрасиво — не делаем',
+          slogan: 'Делаем красиво Некрасиво — не делаем',
           magnet: 'К услугам',
           behancePrompt: 'Понравилась работа? поставь лайк на Behance',
           behanceLabel: 'Поставить лайк на Behance',
@@ -297,7 +297,7 @@
           items: ['About me', 'Services', 'Cases'],
           media: 'Media',
           navigation: 'Navigation',
-          slogan: 'We make it beautiful. Ugly — not our thing',
+          slogan: 'We make it beautiful Ugly — not our thing',
           magnet: 'To services',
           behancePrompt: 'Liked the work? leave a like on Behance',
           behanceLabel: 'Leave a like on Behance',
@@ -1030,6 +1030,28 @@
   //    Homepage-only "Подробнее" plaque for hero and portfolio cards.
   // ============================================================
   initCaseCursor();
+  initPortfolioCaseNav();
+
+  // Portfolio case cards are real <a href> links, but inside the v3 stacked
+  // scroll (transformed + pinned layers) iOS Safari often refuses to navigate
+  // on tap — especially on the small arrow/button. Mirror the hero cards'
+  // proven approach: a JS click handler that forces navigation. The whole
+  // card becomes tappable, which also fixes the "arrow doesn't open the case
+  // on iPhone" report.
+  function initPortfolioCaseNav() {
+    $$('.portfolio-case').forEach(card => {
+      const link = card.querySelector('a[href]');
+      const href = link && link.getAttribute('href');
+      if (!href) return;
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', (e) => {
+        // Respect modifier / middle clicks (open in new tab, etc.).
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+        e.preventDefault();
+        window.location.href = href;
+      });
+    });
+  }
 
   function initCaseCursor() {
     const cursor = $('#case-cursor');
@@ -1759,23 +1781,40 @@
     function scrollState() {
       const vh = window.innerHeight;
       const servRect = services?.getBoundingClientRect();
-      const footRect = footer?.getBoundingClientRect();
-
-      // Footer уже вошёл в нижнюю часть экрана → скрываем dock
-      const hideAt = document.body.classList.contains('info-page') ? 1.12 : 0.85;
-      if (footRect && footRect.top < vh * hideAt) {
-        return 'hidden';
-      }
-      // Services уже в основном пройден → появляется кнопка возврата к услугам
+      // Footer proximity is handled by footerDockOpacity() as a smooth
+      // dissolve — NOT a state. Here we only pick the compact 'rest' pill vs
+      // the 'expand' pill (with the "К услугам" magnet).
       if (servRect && servRect.bottom < vh * 0.55) {
         return 'expand';
       }
       return 'rest';
     }
 
+    // The dock must DISSOLVE as it approaches the footer (never slide under
+    // it). Per spec: start fading 20px before the dock's bottom edge reaches
+    // the footer's top edge, fully gone 10px before. Returns 1..0.
+    function footerDockOpacity() {
+      if (!footer) return 1;
+      const gap = footer.getBoundingClientRect().top - dock.getBoundingClientRect().bottom;
+      if (gap >= 20) return 1;
+      if (gap <= 10) return 0;
+      return (gap - 10) / 10;
+    }
+
+    function applyFooterFade() {
+      const op = footerDockOpacity();
+      dock.style.opacity = String(op);
+      dock.style.pointerEvents = op < 0.05 ? 'none' : '';
+    }
+
     function reactToScroll() {
-      if (dock.dataset.state === 'open') return;
+      if (dock.dataset.state === 'open') {
+        dock.style.opacity = '';
+        dock.style.pointerEvents = '';
+        return;
+      }
       setState(scrollState());
+      applyFooterFade();
     }
     if (lenis) lenis.on('scroll', reactToScroll);
     else window.addEventListener('scroll', reactToScroll, { passive: true });
