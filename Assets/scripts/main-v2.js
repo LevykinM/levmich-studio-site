@@ -1900,10 +1900,9 @@
     setBehanceTarget();
     window.addEventListener('resize', setBehanceTarget, { passive: true });
 
-    if (reduceMotion) {
-      dock.dataset.behance = 'ready';
-      return;
-    }
+    // The Behance reveal now plays on every device. iPhones report
+    // prefers-reduced-motion and were snapping the button straight to 'ready'
+    // (no message, no animation) — the studio wants the gentle reveal there too.
 
     let fired = false;
     const timers = [];
@@ -1917,18 +1916,21 @@
       fired = true;
       setBehanceTarget();
       dock.dataset.behance = 'tip';
+      // Timings are spaced so each CSS transition (~0.8–0.95s) fully settles
+      // before the next state fires — no more mid-transition cut-offs, so the
+      // motion reads smooth/gentle instead of stepped, especially the landing.
       timers.push(window.setTimeout(() => {
         dock.dataset.behance = 'textless';
-      }, 1480));
+      }, 1900));
       timers.push(window.setTimeout(() => {
         dock.dataset.behance = 'pill';
-      }, 1660));
+      }, 2300));
       timers.push(window.setTimeout(() => {
         dock.dataset.behance = 'drop';
-      }, 2350));
+      }, 3300));
       timers.push(window.setTimeout(() => {
         dock.dataset.behance = 'ready';
-      }, 3300));
+      }, 4350));
       window.removeEventListener('scroll', check);
       if (lenis) lenis.off?.('scroll', check);
     };
