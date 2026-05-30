@@ -3339,7 +3339,7 @@ body.case--wedding { --case-accent: #888888; }
 .case-layout__stack {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 56px;
 }
 
 /* Баннер 1400×700: соотношение сторон + кадрирование.
@@ -3430,7 +3430,7 @@ body.case--wedding { --case-accent: #888888; }
 .case-components__grid {
   display: grid;
   grid-template-columns: 377fr 377fr 443fr;
-  gap: 20px;
+  gap: 28px;
 }
 
 /* Карточка компонента (377×170 / 443×170 в Figma).
