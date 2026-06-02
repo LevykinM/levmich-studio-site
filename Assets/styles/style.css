@@ -3016,7 +3016,7 @@ body[data-lang="en"] .footer__meta-disclaimer {
     max-width: 100%;
     margin: 0 0 40px;
     padding: 0;
-    gap: 14px;
+    gap: 10px;
     overflow: visible;
     border-radius: 0;
     background: transparent;
@@ -3044,8 +3044,8 @@ body[data-lang="en"] .footer__meta-disclaimer {
     gap: 10px;
   }
   .portfolio-case__copy {
-    /* Per request: tight 14px stack — title hugs its pills underneath. */
-    gap: 14px;
+    /* Tight 10px stack — title hugs its pills underneath. */
+    gap: 10px;
   }
   .portfolio-case__title {
     font-size: 30px;
