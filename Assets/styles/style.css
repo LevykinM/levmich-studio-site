@@ -1625,7 +1625,7 @@ body[data-lang="en"] .footer__meta-disclaimer {
   left: 50%;
   bottom: 24px;
   transform: translateX(-50%);
-  z-index: 50;
+  z-index: 1000; /* dock/menu must sit on the very top layer (above .case-cursor z-120) */
   display: flex;
   align-items: center;
   gap: 12px;
@@ -2203,7 +2203,7 @@ body[data-lang="en"] .footer__meta-disclaimer {
   -webkit-backdrop-filter: blur(24px) saturate(92%) brightness(.78);
   opacity: 0;
   pointer-events: none;
-  z-index: 40;
+  z-index: 990; /* just under the dock (1000), above all page content */
   transition: opacity .48s var(--ease-soft), backdrop-filter .48s var(--ease-soft);
 }
 .menu-overlay.is-on { opacity: 1; pointer-events: auto; }
@@ -2973,7 +2973,7 @@ body[data-lang="en"] .footer__meta-disclaimer {
   /* PORTFOLIO ------------------------------------------------- */
   .portfolio {
     min-height: auto;
-    padding: var(--section-gap) 10px;
+    padding: var(--section-gap) 10px 0;
     justify-content: flex-start;
     align-items: center;
     overflow: visible;
@@ -2999,7 +2999,7 @@ body[data-lang="en"] .footer__meta-disclaimer {
     gap: 0;
     width: 100%;
     min-height: 0;
-    padding-bottom: 140px;
+    padding-bottom: 0;
   }
   .portfolio__column,
   .portfolio__column:has(.portfolio-case:is(:hover, :focus-within)) {
@@ -3014,9 +3014,9 @@ body[data-lang="en"] .footer__meta-disclaimer {
     height: calc(592px * var(--portrait-scale));
     min-height: calc(592px * var(--portrait-scale));
     max-width: 100%;
-    margin: 0 0 100px;
+    margin: 0 0 40px;
     padding: 0;
-    gap: 10px;
+    gap: 4px;
     overflow: visible;
     border-radius: 0;
     background: transparent;
@@ -5364,9 +5364,11 @@ body.case-page .case-component__desc {
     font-size: 14px;
   }
 
-  .portfolio-case[data-case="wedding"],
   .services .service:nth-child(3) {
     margin-bottom: 80px;
+  }
+  .portfolio-case[data-case="wedding"] {
+    margin-bottom: 0;
   }
 }
 
