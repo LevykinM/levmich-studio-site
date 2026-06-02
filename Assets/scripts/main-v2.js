@@ -297,7 +297,7 @@
           items: ['About me', 'Services', 'Cases'],
           media: 'Media',
           navigation: 'Navigation',
-          slogan: 'We make it beautiful Ugly — not our thing',
+          slogan: 'We make it beautiful<br/>Ugly — not our thing',
           magnet: 'To services',
           behancePrompt: 'Liked the work? leave a like on Behance',
           behanceLabel: 'Leave a like on Behance',
@@ -672,7 +672,7 @@
 
       setText('.dock__menu-title', d.nav.title);
       setLeadingTexts('.dock__menu-list a', d.nav.items);
-      setText('.dock__menu-slogan', d.nav.slogan);
+      setHtml('.dock__menu-slogan', d.nav.slogan);
       setText('.dock__magnet span', d.nav.magnet);
       setText('.dock__behance-text', d.nav.behancePrompt);
       $('.dock__behance-button')?.setAttribute('aria-label', d.nav.behanceLabel);
