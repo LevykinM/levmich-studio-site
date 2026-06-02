@@ -1883,14 +1883,15 @@ body[data-lang="en"] .footer__meta-disclaimer {
   opacity: 0;
   pointer-events: none;
   transform: translateY(calc(-1 * var(--behance-drop-y, 71px))) scale(.64);
-  filter: blur(7px);
+  /* No blur in the drop-in animation — the in-between frames showed the
+     "Bē ♡" mark as a smeared, unreadable blob. opacity + scale + translateY
+     read as a smooth drop on their own. */
   transition:
     width .8s cubic-bezier(.16, 1, .3, 1),
     margin-left .8s cubic-bezier(.16, 1, .3, 1),
     padding .8s cubic-bezier(.16, 1, .3, 1),
     opacity .5s var(--ease-soft),
     transform .95s cubic-bezier(.16, 1, .3, 1),
-    filter .6s var(--ease-soft),
     background .25s var(--ease-soft);
 }
 .dock__behance-brand,
@@ -1995,7 +1996,6 @@ body[data-lang="en"] .footer__meta-disclaimer {
   width: 105px;
   margin-left: 0;
   padding: 0 18px;
-  filter: blur(0);
 }
 .dock[data-behance="drop"] .dock__behance-button {
   opacity: 1;
