@@ -1999,25 +1999,26 @@
     }
 
     function initMobileMode() {
-      if (!window.gsap || !window.ScrollTrigger) return;
-      var gsap = window.gsap;
-      var ST   = window.ScrollTrigger;
+      /* Cases now use the SAME simple CSS stacking as the Services section:
+         a sticky title with full-screen cards scrolling past it. No JS stacked
+         scene, no per-scroll reveal/blur, no absolute-pinned title — the base
+         portrait CSS (which mirrors .services) handles it. Per request: case
+         cards must animate exactly like service cards — "просто листающиеся
+         карточки без фиксированного по скроллу заголовка". */
       activeScenes = [];
+      body.classList.remove('v3-stacked-cases', 'v3-desktop');
 
-      /* Add the stacked class only for the Cases mobile scene. */
-      body.classList.add('v3-stacked-cases');
-      body.classList.remove('v3-desktop');
-
-      /* Strip reveal/is-in from cards we control — main-v2 reveal
-         system would otherwise leave them at opacity 0. */
+      /* Clear any inline state left over from a desktop->mobile switch so the
+         base CSS takes over cleanly. Cards keep the visible state main-v2's
+         reveal system already gave them (they are excluded from the fade). */
       document.querySelectorAll(managedCardsSelector + ', ' + managedHeadsSelector).forEach(function(c) {
-        c.classList.remove('reveal', 'is-in');
-        gsap.killTweensOf(c);
+        if (window.gsap) window.gsap.killTweensOf(c);
         c.style.transform = '';
         c.style.opacity = '';
+        c.style.filter = '';
+        c.style.willChange = '';
+        c.classList.remove('v3-card-active');
       });
-
-      initStackedCases(gsap, ST);
     }
 
     function destroyMobileMode() {
