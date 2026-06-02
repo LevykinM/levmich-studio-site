@@ -1563,9 +1563,12 @@ body[data-lang="en"] .footer__meta-disclaimer {
 
 .footer__copyright {
   position: absolute;
-  left: 50%;
+  left: 0;
+  right: 0;
   bottom: 0;
-  transform: translateX(-50%);
+  width: fit-content;
+  margin-inline: auto;
+  transform: none;
   min-height: 30px;
   display: inline-flex;
   align-items: center;
