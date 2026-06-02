@@ -2982,15 +2982,15 @@ body[data-lang="en"] .footer__meta-disclaimer {
     width: var(--mobile-content);
     gap: 20px;
   }
+  /* Cases heading must NOT pin on scroll — it scrolls away exactly like the
+     Услуги head (.services--redesigned .services__head is static on mobile).
+     Per request: "просто листающиеся карточки без фиксированного по скроллу
+     заголовка". */
   .portfolio__title {
-    position: sticky;
-    top: 40px;
-    z-index: 20;
+    position: static;
     font-size: 60px;
     line-height: 1;
     margin: 0;
-    will-change: transform;
-    transition: opacity .32s var(--ease-soft);
   }
   .portfolio__grid {
     display: flex;
