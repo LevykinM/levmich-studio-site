@@ -35,7 +35,6 @@
       '.footer__nav-item',
       '.footer__info-card',
       '.footer__socials a',
-      '.services__info',
       '.service__cta',
       '.info-side__list',
       '.info-complete',
