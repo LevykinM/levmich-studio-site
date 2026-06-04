@@ -732,13 +732,7 @@
       background: rgba(255, 107, 0, 0.10);
       opacity: 1;
       filter: none;
-      /* Держим обрезающий контейнер на собственном композитном слое,
-         иначе transform у дочернего .services__notice-badge ломает
-         clip по border-radius и наружу вылезают острые «грани» углов. */
-      transform: translateZ(0);
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-      overflow: hidden;
+      transform: none;
       pointer-events: auto;
       box-sizing: border-box;
     }
@@ -758,12 +752,15 @@
       line-height: 1;
       text-decoration: none;
       cursor: pointer;
-      /* Стабилизируем скруглённые углы при transform на hover. */
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
+      position: relative;
+      top: 0;
+      /* Подъём на hover делаем через top, а НЕ через transform:
+         transform промотирует badge в отдельный GPU-слой, на котором
+         Blink/WebKit рендерит border-radius квадратными углами —
+         наружу торчат острые «грани». top слой не создаёт. */
       transition:
         background .22s var(--ease-soft),
-        transform .28s cubic-bezier(.22, 1, .36, 1);
+        top .28s cubic-bezier(.22, 1, .36, 1);
     }
 
     body[data-page-version="v3"] .services.services--redesigned .services__notice-badge:hover,
@@ -771,7 +768,7 @@
       background: #ffffff !important;
       color: #0a0a0a !important;
       outline: none;
-      transform: translate3d(0, -1px, 0);
+      top: -1px;
     }
 
     body[data-page-version="v3"] .services.services--redesigned .services__notice-arrow {
