@@ -732,7 +732,13 @@
       background: rgba(255, 107, 0, 0.10);
       opacity: 1;
       filter: none;
-      transform: none;
+      /* Держим обрезающий контейнер на собственном композитном слое,
+         иначе transform у дочернего .services__notice-badge ломает
+         clip по border-radius и наружу вылезают острые «грани» углов. */
+      transform: translateZ(0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      overflow: hidden;
       pointer-events: auto;
       box-sizing: border-box;
     }
@@ -752,6 +758,9 @@
       line-height: 1;
       text-decoration: none;
       cursor: pointer;
+      /* Стабилизируем скруглённые углы при transform на hover. */
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
       transition:
         background .22s var(--ease-soft),
         transform .28s cubic-bezier(.22, 1, .36, 1);
