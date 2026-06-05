@@ -2057,6 +2057,10 @@ body[data-lang="en"] .footer__meta-disclaimer {
     inset 0 1px 0 rgba(255,255,255,.42),
     0 10px 30px rgba(255,255,255,.14);
 }
+.dock__behance-button.case-like--dock.is-loading {
+  opacity: 1;
+  pointer-events: none;
+}
 .dock__behance-button.case-like--dock .dock__behance-brand,
 .dock__behance-button.case-like--dock .dock__behance-heart {
   opacity: 1;

@@ -280,34 +280,48 @@
 
         const liked = readLiked();
         const wasLiked = liked.has(slug);
+        const nextLiked = !wasLiked;
+        const previousLiked = new Set(liked);
+        const previousCount = countsBySlug.get(slug) || 0;
+        const optimisticCount = Math.max(0, previousCount + (nextLiked ? 1 : -1));
         const visitorHash = visitorId();
 
         control.classList.add('is-loading');
+        if (nextLiked) {
+          liked.add(slug);
+        } else {
+          liked.delete(slug);
+        }
+        countsBySlug.set(slug, optimisticCount);
+        writeLiked(liked);
+        writeCachedCounts();
+        bounceControl(control);
+        updateSlug(slug);
+
         try {
           const row = await toggleCaseLike(slug, visitorHash, wasLiked);
-          if (row?.likes_count !== undefined) {
-            countsBySlug.set(slug, Number(row.likes_count) || 0);
+          const serverCount = Number(row?.likes_count);
+          if (Number.isFinite(serverCount)) {
+            countsBySlug.set(slug, Math.max(0, serverCount));
           }
           if (row?.did_like === true) {
             liked.add(slug);
           } else if (row?.did_like === false) {
             liked.delete(slug);
-          } else if (wasLiked) {
-            liked.delete(slug);
-            countsBySlug.set(slug, Math.max(0, (countsBySlug.get(slug) || 0) - 1));
           } else {
-            if (row?.likes_count === undefined) {
-              countsBySlug.set(slug, (countsBySlug.get(slug) || 0) + 1);
-            }
-            liked.add(slug);
+            if (nextLiked) liked.add(slug);
+            else liked.delete(slug);
           }
           writeLiked(liked);
           writeCachedCounts();
-          bounceControl(control);
           updateSlug(slug);
         } catch (error) {
           const l = currentLabels();
           console.warn(error);
+          writeLiked(previousLiked);
+          countsBySlug.set(slug, previousCount);
+          writeCachedCounts();
+          updateSlug(slug);
           control.classList.add('is-error');
           control.setAttribute('aria-label', l.unavailable);
           window.setTimeout(() => control.classList.remove('is-error'), 1600);
