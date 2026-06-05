@@ -107,6 +107,8 @@
     };
     const controlsBySlug = new Map();
     const countsBySlug = new Map(config.slugs.map(slug => [slug, 0]));
+    const likeQueuesBySlug = new Map();
+    const latestActionBySlug = new Map(config.slugs.map(slug => [slug, 0]));
 
     const currentLabels = () => labels[document.body.dataset.lang === 'en' ? 'en' : 'ru'];
 
@@ -264,6 +266,94 @@
       }
     }
 
+    function applyLikedState(slug, liked, count) {
+      countsBySlug.set(slug, Math.max(0, count));
+      writeLiked(liked);
+      writeCachedCounts();
+      updateSlug(slug);
+    }
+
+    function setSlugLoading(slug, isLoading) {
+      (controlsBySlug.get(slug) || []).forEach(control => {
+        if (control.dataset.caseLikeReadonly !== 'true') {
+          control.classList.toggle('is-loading', isLoading);
+        }
+      });
+    }
+
+    function likeQueue(slug) {
+      if (!likeQueuesBySlug.has(slug)) {
+        likeQueuesBySlug.set(slug, { actions: [], syncing: false });
+      }
+      return likeQueuesBySlug.get(slug);
+    }
+
+    function reconcileLikeAction(action, row) {
+      if (action.id !== latestActionBySlug.get(action.slug)) return;
+
+      const liked = readLiked();
+      const serverCount = Number(row?.likes_count);
+      const nextCount = Number.isFinite(serverCount)
+        ? serverCount
+        : countsBySlug.get(action.slug) || 0;
+
+      if (row?.did_like === true) {
+        liked.add(action.slug);
+      } else if (row?.did_like === false) {
+        liked.delete(action.slug);
+      } else if (action.nextLiked) {
+        liked.add(action.slug);
+      } else {
+        liked.delete(action.slug);
+      }
+
+      applyLikedState(action.slug, liked, nextCount);
+    }
+
+    function showLikeError(action, error) {
+      console.warn(error);
+      if (action.id !== latestActionBySlug.get(action.slug)) return;
+
+      const l = currentLabels();
+      applyLikedState(action.slug, action.previousLiked, action.previousCount);
+      (controlsBySlug.get(action.slug) || []).forEach(control => {
+        if (control.dataset.caseLikeReadonly === 'true') return;
+        control.classList.add('is-error');
+        control.setAttribute('aria-label', l.unavailable);
+        window.setTimeout(() => control.classList.remove('is-error'), 1600);
+      });
+    }
+
+    async function drainLikeQueue(slug) {
+      const queue = likeQueue(slug);
+      if (queue.syncing) return;
+
+      queue.syncing = true;
+      setSlugLoading(slug, true);
+      try {
+        while (queue.actions.length) {
+          const action = queue.actions.shift();
+          try {
+            const row = await toggleCaseLike(slug, action.visitorHash, action.wasLiked);
+            reconcileLikeAction(action, row);
+          } catch (error) {
+            queue.actions.length = 0;
+            showLikeError(action, error);
+          }
+        }
+      } finally {
+        queue.syncing = false;
+        if (!queue.actions.length) setSlugLoading(slug, false);
+        else drainLikeQueue(slug);
+      }
+    }
+
+    function enqueueLikeAction(action) {
+      const queue = likeQueue(action.slug);
+      queue.actions.push(action);
+      drainLikeQueue(action.slug);
+    }
+
     function registerControl(control, slug, options = {}) {
       if (!control || !config.slugs.includes(slug)) return;
       control.dataset.caseLike = slug;
@@ -276,7 +366,6 @@
       control.addEventListener('click', async event => {
         event.preventDefault();
         event.stopPropagation();
-        if (control.classList.contains('is-loading')) return;
 
         const liked = readLiked();
         const wasLiked = liked.has(slug);
@@ -285,49 +374,25 @@
         const previousCount = countsBySlug.get(slug) || 0;
         const optimisticCount = Math.max(0, previousCount + (nextLiked ? 1 : -1));
         const visitorHash = visitorId();
+        const actionId = (latestActionBySlug.get(slug) || 0) + 1;
+        latestActionBySlug.set(slug, actionId);
 
-        control.classList.add('is-loading');
         if (nextLiked) {
           liked.add(slug);
         } else {
           liked.delete(slug);
         }
-        countsBySlug.set(slug, optimisticCount);
-        writeLiked(liked);
-        writeCachedCounts();
+        applyLikedState(slug, liked, optimisticCount);
         bounceControl(control);
-        updateSlug(slug);
-
-        try {
-          const row = await toggleCaseLike(slug, visitorHash, wasLiked);
-          const serverCount = Number(row?.likes_count);
-          if (Number.isFinite(serverCount)) {
-            countsBySlug.set(slug, Math.max(0, serverCount));
-          }
-          if (row?.did_like === true) {
-            liked.add(slug);
-          } else if (row?.did_like === false) {
-            liked.delete(slug);
-          } else {
-            if (nextLiked) liked.add(slug);
-            else liked.delete(slug);
-          }
-          writeLiked(liked);
-          writeCachedCounts();
-          updateSlug(slug);
-        } catch (error) {
-          const l = currentLabels();
-          console.warn(error);
-          writeLiked(previousLiked);
-          countsBySlug.set(slug, previousCount);
-          writeCachedCounts();
-          updateSlug(slug);
-          control.classList.add('is-error');
-          control.setAttribute('aria-label', l.unavailable);
-          window.setTimeout(() => control.classList.remove('is-error'), 1600);
-        } finally {
-          control.classList.remove('is-loading');
-        }
+        enqueueLikeAction({
+          id: actionId,
+          slug,
+          wasLiked,
+          nextLiked,
+          visitorHash,
+          previousLiked,
+          previousCount,
+        });
       });
     }
 

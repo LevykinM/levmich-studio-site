@@ -2059,7 +2059,7 @@ body[data-lang="en"] .footer__meta-disclaimer {
 }
 .dock__behance-button.case-like--dock.is-loading {
   opacity: 1;
-  pointer-events: none;
+  pointer-events: auto;
 }
 .dock__behance-button.case-like--dock .dock__behance-brand,
 .dock__behance-button.case-like--dock .dock__behance-heart {
