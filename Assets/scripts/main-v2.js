@@ -15,6 +15,7 @@
   initLanguageSwitch();
   initTypographyPolish();
   initServicesNotice();
+  initCaseLikes();
   initEdgeReflection();
 
   function initEdgeReflection() {
@@ -71,6 +72,244 @@
         el.classList.remove('is-edge-hot');
       }, { passive: true });
     });
+  }
+
+  function initCaseLikes() {
+    const config = {
+      url: 'https://gacdatugndetlxndhvmw.supabase.co',
+      key: 'sb_publishable_nhxed07wBJ_QvIQnnlrMZA_K2fvsgjB',
+      slugs: ['three', 'wedding', 'front'],
+      toggleRpc: 'toggle_case_like',
+      likeRpc: 'like_case',
+      visitorKey: 'levmich-case-like-visitor:v1',
+      likedKey: 'levmich-case-liked:v1',
+    };
+    const labels = {
+      ru: {
+        like: 'Поставить лайк кейсу',
+        liked: 'Убрать лайк с кейса',
+        count: 'лайков',
+        unavailable: 'Лайки временно недоступны',
+      },
+      en: {
+        like: 'Like this case',
+        liked: 'Remove like from this case',
+        count: 'likes',
+        unavailable: 'Likes are temporarily unavailable',
+      },
+    };
+    const pageSlugs = {
+      caseThree: 'three',
+      caseWedding: 'wedding',
+      caseFront: 'front',
+    };
+    const controlsBySlug = new Map();
+    const countsBySlug = new Map(config.slugs.map(slug => [slug, 0]));
+
+    const currentLabels = () => labels[document.body.dataset.lang === 'en' ? 'en' : 'ru'];
+
+    function readLiked() {
+      try {
+        const value = JSON.parse(localStorage.getItem(config.likedKey) || '[]');
+        return Array.isArray(value) ? new Set(value) : new Set();
+      } catch (_) {
+        return new Set();
+      }
+    }
+
+    function writeLiked(set) {
+      try {
+        localStorage.setItem(config.likedKey, JSON.stringify(Array.from(set)));
+      } catch (_) {}
+    }
+
+    function visitorId() {
+      try {
+        const existing = localStorage.getItem(config.visitorKey);
+        if (existing) return existing;
+        const next = window.crypto?.randomUUID
+          ? window.crypto.randomUUID()
+          : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+        localStorage.setItem(config.visitorKey, next);
+        return next;
+      } catch (_) {
+        return `session-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+      }
+    }
+
+    function pageCaseSlug() {
+      const fromDataset = pageSlugs[document.body.dataset.caseId];
+      if (fromDataset) return fromDataset;
+      if (document.body.classList.contains('case--three')) return 'three';
+      if (document.body.classList.contains('case--wedding')) return 'wedding';
+      if (document.body.classList.contains('case--front')) return 'front';
+      return '';
+    }
+
+    function controlParts(control) {
+      return {
+        count: control.querySelector('.case-like__count'),
+        heart: control.querySelector('.case-like__heart'),
+      };
+    }
+
+    function updateControl(control, slug) {
+      const l = currentLabels();
+      const interactive = control.dataset.caseLikeReadonly !== 'true';
+      const liked = interactive && readLiked().has(slug);
+      const count = countsBySlug.get(slug) || 0;
+      const parts = controlParts(control);
+      control.classList.toggle('is-liked', liked);
+      if (interactive) {
+        control.setAttribute('aria-pressed', liked ? 'true' : 'false');
+        control.setAttribute('aria-label', liked ? `${l.liked}: ${count}` : `${l.like}: ${count}`);
+      } else {
+        control.removeAttribute('aria-pressed');
+        control.setAttribute('aria-label', `${count} ${l.count}`);
+      }
+      if (parts.count) parts.count.textContent = String(count);
+    }
+
+    function updateSlug(slug) {
+      (controlsBySlug.get(slug) || []).forEach(control => updateControl(control, slug));
+    }
+
+    function bounceControl(control) {
+      control.classList.add('is-liked-bounce');
+      window.setTimeout(() => control.classList.remove('is-liked-bounce'), 460);
+    }
+
+    async function callCaseLikeRpc(rpcName, slug, visitorHash) {
+      const response = await fetch(`${config.url}/rest/v1/rpc/${rpcName}`, {
+        method: 'POST',
+        headers: {
+          apikey: config.key,
+          Authorization: `Bearer ${config.key}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          p_case_slug: slug,
+          p_visitor_hash: visitorHash,
+        }),
+      });
+      const responseText = await response.text();
+      const result = responseText ? JSON.parse(responseText) : null;
+      if (!response.ok) throw new Error(`Supabase ${rpcName} failed: ${response.status} ${responseText}`);
+      return Array.isArray(result) ? result[0] : result;
+    }
+
+    async function toggleCaseLike(slug, visitorHash, wasLiked) {
+      try {
+        return await callCaseLikeRpc(config.toggleRpc, slug, visitorHash);
+      } catch (error) {
+        if (wasLiked) throw error;
+        return callCaseLikeRpc(config.likeRpc, slug, visitorHash);
+      }
+    }
+
+    function registerControl(control, slug, options = {}) {
+      if (!control || !config.slugs.includes(slug)) return;
+      control.dataset.caseLike = slug;
+      if (options.readonly) control.dataset.caseLikeReadonly = 'true';
+      if (!controlsBySlug.has(slug)) controlsBySlug.set(slug, []);
+      controlsBySlug.get(slug).push(control);
+      updateControl(control, slug);
+      if (options.readonly) return;
+
+      control.addEventListener('click', async event => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (control.classList.contains('is-loading')) return;
+
+        const liked = readLiked();
+        const wasLiked = liked.has(slug);
+        const visitorHash = visitorId();
+
+        control.classList.add('is-loading');
+        try {
+          const row = await toggleCaseLike(slug, visitorHash, wasLiked);
+          if (row?.likes_count !== undefined) {
+            countsBySlug.set(slug, Number(row.likes_count) || 0);
+          }
+          if (row?.did_like === true) {
+            liked.add(slug);
+          } else if (row?.did_like === false) {
+            liked.delete(slug);
+          } else if (wasLiked) {
+            liked.delete(slug);
+            countsBySlug.set(slug, Math.max(0, (countsBySlug.get(slug) || 0) - 1));
+          } else {
+            if (row?.likes_count === undefined) {
+              countsBySlug.set(slug, (countsBySlug.get(slug) || 0) + 1);
+            }
+            liked.add(slug);
+          }
+          writeLiked(liked);
+          bounceControl(control);
+          updateSlug(slug);
+        } catch (error) {
+          const l = currentLabels();
+          console.warn(error);
+          control.classList.add('is-error');
+          control.setAttribute('aria-label', l.unavailable);
+          window.setTimeout(() => control.classList.remove('is-error'), 1600);
+        } finally {
+          control.classList.remove('is-loading');
+        }
+      });
+    }
+
+    function createPortfolioButtons() {
+      $$('.portfolio-case[data-case]').forEach(card => {
+        const slug = card.dataset.case;
+        const copy = $('.portfolio-case__copy', card);
+        const tags = $('.portfolio-case__tags', card);
+        if (!copy || copy.querySelector('.case-like')) return;
+        const counter = document.createElement('span');
+        counter.className = 'case-like case-like--portfolio';
+        counter.setAttribute('role', 'status');
+        counter.innerHTML = [
+          '<span class="case-like__count">0</span>',
+          '<span class="case-like__heart" aria-hidden="true"></span>',
+        ].join('');
+        (tags || copy).append(counter);
+        registerControl(counter, slug, { readonly: true });
+      });
+    }
+
+    function connectCasePageButton() {
+      const slug = pageCaseSlug();
+      if (!slug) return;
+      const button = $('.dock__behance-button.case-like--dock, .dock__behance-button[data-case-like-current]');
+      if (!button) return;
+      registerControl(button, slug);
+    }
+
+    async function loadCounts() {
+      if (!controlsBySlug.size) return;
+      try {
+        const response = await fetch(`${config.url}/rest/v1/case_likes?select=case_slug,likes_count`, {
+          headers: {
+            apikey: config.key,
+            Authorization: `Bearer ${config.key}`,
+          },
+        });
+        if (!response.ok) throw new Error(`Supabase counts failed: ${response.status}`);
+        const rows = await response.json();
+        rows.forEach(row => {
+          if (config.slugs.includes(row.case_slug)) {
+            countsBySlug.set(row.case_slug, Number(row.likes_count) || 0);
+          }
+        });
+        config.slugs.forEach(updateSlug);
+      } catch (error) {
+        console.warn(error);
+      }
+    }
+
+    createPortfolioButtons();
+    connectCasePageButton();
+    loadCounts();
   }
 
   function initTypographyPolish() {
@@ -185,8 +424,8 @@
           navigation: 'Навигация',
           slogan: 'Делаем красиво Некрасиво — не делаем',
           magnet: 'К услугам',
-          behancePrompt: 'Понравилась работа? поставь лайк на Behance',
-          behanceLabel: 'Поставить лайк на Behance',
+          behancePrompt: 'Понравилась работа? поставь лайк кейсу',
+          behanceLabel: 'Поставить лайк кейсу',
         },
         footer: {
           title: 'Не нашли ответ?',
@@ -298,8 +537,8 @@
           navigation: 'Navigation',
           slogan: 'We make it beautiful<br/>Ugly — not our thing',
           magnet: 'To services',
-          behancePrompt: 'Liked the work? leave a like on Behance',
-          behanceLabel: 'Leave a like on Behance',
+          behancePrompt: 'Liked the work? leave a like for this case',
+          behanceLabel: 'Like this case',
         },
         footer: {
           title: 'Did not find the answer?',
@@ -1875,6 +2114,9 @@
     const button = $('.dock__behance-button', dock);
     const langButton = $('.dock__lang-btn', dock);
     if (!dock || !pill || !menuButton || !backButton || !button || !langButton) return;
+    if (button.classList.contains('case-like--dock') || button.hasAttribute('data-case-like-current')) {
+      return;
+    }
 
     const setBehanceTarget = () => {
       const pillStyle = window.getComputedStyle(pill);

@@ -1294,7 +1294,7 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
 }
 .portfolio-case__tags {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 5px;
   flex-wrap: wrap;
   width: 100%;
@@ -1326,6 +1326,93 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
 }
 .portfolio-case__button {
   display: none;
+}
+
+.case-like {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  font-family: 'Onest', sans-serif;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    background .22s var(--ease-soft),
+    color .22s var(--ease-soft),
+    opacity .22s var(--ease-soft),
+    transform .32s cubic-bezier(.16, 1, .3, 1);
+}
+.case-like--portfolio {
+  width: fit-content;
+  min-width: 0;
+  height: 37px;
+  margin-top: 0;
+  padding: 8px 12px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #ff078f;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: default;
+  pointer-events: none;
+  user-select: none;
+}
+.case-like--portfolio:hover,
+.case-like--portfolio:focus-visible {
+  background: #ff078f;
+  color: #fff;
+  outline: none;
+  transform: none;
+}
+.case-like__heart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  width: 22px;
+  height: 18px;
+  flex: 0 0 22px;
+  background: currentColor;
+  font-size: 0;
+  line-height: 1;
+  -webkit-mask: url('../SVG_files/case-like-heart.svg') center / contain no-repeat;
+  mask: url('../SVG_files/case-like-heart.svg') center / contain no-repeat;
+}
+.case-like__count {
+  min-width: 0;
+  font-variant-numeric: tabular-nums;
+  text-align: left;
+}
+.case-like--portfolio .case-like__heart {
+  width: 22px;
+  height: 18px;
+  flex: 0 0 22px;
+  color: #fff;
+}
+.case-like.is-liked {
+  background: var(--accent);
+  color: #0a0a0a;
+}
+.case-like.is-liked .case-like__heart {
+  color: #0a0a0a;
+}
+.case-like.is-loading {
+  opacity: .58;
+  pointer-events: none;
+}
+.case-like.is-error {
+  background: rgba(255,255,255,.18);
+}
+.case-like.is-liked-bounce {
+  animation: case-like-bounce .36s cubic-bezier(.16, 1, .3, 1);
+}
+@keyframes case-like-bounce {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.08); }
+  100% { transform: scale(1); }
 }
 
 /* ============================================================
@@ -1915,6 +2002,129 @@ body[data-lang="en"] .footer__meta-disclaimer {
 .dock__behance-heart {
   font-size: 27px;
   font-weight: 800;
+}
+.dock--case .dock__behance-tip {
+  display: none;
+}
+.dock__behance-button.case-like--dock {
+  width: auto;
+  min-width: 93px;
+  height: 42px;
+  margin-left: 0;
+  padding: 0 20px;
+  gap: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: #ff078f;
+  color: #fff;
+  cursor: pointer;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+  font-family: 'Onest', sans-serif;
+  font-weight: 500;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.22);
+  transition:
+    background .25s var(--ease-soft),
+    color .25s var(--ease-soft),
+    transform .28s cubic-bezier(.16, 1, .3, 1),
+    box-shadow .28s var(--ease-soft);
+}
+.dock__behance-button.case-like--dock:hover,
+.dock__behance-button.case-like--dock:focus-visible {
+  background: #ff078f;
+  color: #fff;
+  outline: none;
+  transform: translateY(0) scale(1.035);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.28),
+    0 10px 30px rgba(255, 0, 135, .22);
+}
+.dock__behance-button.case-like--dock.is-liked {
+  background: #fff;
+  color: #ff078f;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.36),
+    0 10px 30px rgba(255,255,255,.10);
+}
+.dock__behance-button.case-like--dock.is-liked:hover,
+.dock__behance-button.case-like--dock.is-liked:focus-visible {
+  background: #fff;
+  color: #ff078f;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.42),
+    0 10px 30px rgba(255,255,255,.14);
+}
+.dock__behance-button.case-like--dock .dock__behance-brand,
+.dock__behance-button.case-like--dock .dock__behance-heart {
+  opacity: 1;
+  transform: translateY(0);
+}
+.dock__behance-button.case-like--dock .dock__behance-brand {
+  min-width: 0;
+  font-family: 'Onest', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: currentColor;
+}
+.dock__behance-button.case-like--dock .dock__behance-heart {
+  color: currentColor;
+  width: 22px;
+  height: 18px;
+  flex: 0 0 22px;
+  transform-origin: 50% 70%;
+  will-change: transform;
+}
+.dock__behance-button.case-like--dock:hover .dock__behance-heart,
+.dock__behance-button.case-like--dock:focus-visible .dock__behance-heart,
+.dock__behance-button.case-like--dock.is-liked-bounce .dock__behance-heart {
+  animation: dock-like-heart-hop 1.05s cubic-bezier(.22, 1, .36, 1) both;
+}
+@keyframes dock-like-heart-hop {
+  0% { transform: translateY(0) scale(1); }
+  18% { transform: translateY(-6px) scale(1.06); }
+  32% { transform: translateY(0) scale(1); }
+  52% { transform: translateY(-5px) scale(1.04); }
+  68% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(0) scale(1); }
+}
+@media (max-width: 420px) {
+  .dock--case .dock__pill {
+    gap: clamp(5px, 1.8vw, 8px);
+    padding: 8px;
+    height: 56px;
+  }
+  .dock--case .dock__menu-btn {
+    width: clamp(74px, 25vw, 95px);
+    height: 40px;
+  }
+  .dock--case .dock__back {
+    width: clamp(58px, 18vw, 76px);
+    height: 40px;
+  }
+  .dock--case .dock__lang-btn {
+    min-width: 52px;
+    height: 40px;
+    padding: 0 14px;
+    font-size: 18px;
+  }
+  .dock__behance-button.case-like--dock {
+    min-width: clamp(82px, 24vw, 93px);
+    height: 40px;
+    padding: 0 clamp(12px, 3.4vw, 18px);
+    gap: clamp(6px, 1.8vw, 10px);
+  }
+  .dock__behance-button.case-like--dock .dock__behance-brand {
+    font-size: 20px;
+  }
+  .dock__behance-button.case-like--dock .dock__behance-heart {
+    width: 22px;
+    height: 18px;
+    flex-basis: 22px;
+  }
 }
 .dock[data-behance="tip"] .dock__behance-tip {
   opacity: 1;
