@@ -78,11 +78,13 @@
     const config = {
       url: 'https://gacdatugndetlxndhvmw.supabase.co',
       key: 'sb_publishable_nhxed07wBJ_QvIQnnlrMZA_K2fvsgjB',
+      proxyUrl: 'https://levmich-case-likes.michailinlevyk.workers.dev',
       slugs: ['three', 'wedding', 'front'],
       toggleRpc: 'toggle_case_like',
       likeRpc: 'like_case',
       visitorKey: 'levmich-case-like-visitor:v1',
       likedKey: 'levmich-case-liked:v1',
+      countsCacheKey: 'levmich-case-like-counts:v1',
     };
     const labels = {
       ru: {
@@ -120,6 +122,21 @@
     function writeLiked(set) {
       try {
         localStorage.setItem(config.likedKey, JSON.stringify(Array.from(set)));
+      } catch (_) {}
+    }
+
+    function readCachedCounts() {
+      try {
+        const value = JSON.parse(localStorage.getItem(config.countsCacheKey) || '{}');
+        return value && typeof value === 'object' ? value : {};
+      } catch (_) {
+        return {};
+      }
+    }
+
+    function writeCachedCounts() {
+      try {
+        localStorage.setItem(config.countsCacheKey, JSON.stringify(Object.fromEntries(countsBySlug)));
       } catch (_) {}
     }
 
@@ -179,6 +196,42 @@
       window.setTimeout(() => control.classList.remove('is-liked-bounce'), 460);
     }
 
+    function proxyPath(path) {
+      return `${config.proxyUrl.replace(/\/$/, '')}${path}`;
+    }
+
+    function normalizeRows(payload) {
+      if (Array.isArray(payload)) return payload;
+      if (Array.isArray(payload?.rows)) return payload.rows;
+      if (Array.isArray(payload?.items)) return payload.items;
+      return [];
+    }
+
+    async function fetchJsonWithTimeout(url, options = {}, timeout = 4500) {
+      const controller = new AbortController();
+      const timer = window.setTimeout(() => controller.abort(), timeout);
+      try {
+        const response = await fetch(url, { ...options, signal: controller.signal });
+        const responseText = await response.text();
+        const result = responseText ? JSON.parse(responseText) : null;
+        if (!response.ok) throw new Error(`Request failed: ${response.status} ${responseText}`);
+        return result;
+      } finally {
+        window.clearTimeout(timer);
+      }
+    }
+
+    async function callProxyLike(slug, visitorHash) {
+      return fetchJsonWithTimeout(proxyPath('/case-likes'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          case_slug: slug,
+          visitor_hash: visitorHash,
+        }),
+      }, 5000);
+    }
+
     async function callCaseLikeRpc(rpcName, slug, visitorHash) {
       const response = await fetch(`${config.url}/rest/v1/rpc/${rpcName}`, {
         method: 'POST',
@@ -199,6 +252,10 @@
     }
 
     async function toggleCaseLike(slug, visitorHash, wasLiked) {
+      try {
+        return await callProxyLike(slug, visitorHash);
+      } catch (_) {
+      }
       try {
         return await callCaseLikeRpc(config.toggleRpc, slug, visitorHash);
       } catch (error) {
@@ -245,6 +302,7 @@
             liked.add(slug);
           }
           writeLiked(liked);
+          writeCachedCounts();
           bounceControl(control);
           updateSlug(slug);
         } catch (error) {
@@ -287,23 +345,42 @@
 
     async function loadCounts() {
       if (!controlsBySlug.size) return;
+      const cachedCounts = readCachedCounts();
+      config.slugs.forEach(slug => {
+        const value = Number(cachedCounts[slug]);
+        if (Number.isFinite(value)) countsBySlug.set(slug, Math.max(0, value));
+      });
+      config.slugs.forEach(updateSlug);
+
       try {
-        const response = await fetch(`${config.url}/rest/v1/case_likes?select=case_slug,likes_count`, {
-          headers: {
-            apikey: config.key,
-            Authorization: `Bearer ${config.key}`,
-          },
-        });
-        if (!response.ok) throw new Error(`Supabase counts failed: ${response.status}`);
-        const rows = await response.json();
-        rows.forEach(row => {
+        const payload = await fetchJsonWithTimeout(proxyPath('/case-likes'), {}, 4500);
+        normalizeRows(payload).forEach(row => {
           if (config.slugs.includes(row.case_slug)) {
             countsBySlug.set(row.case_slug, Number(row.likes_count) || 0);
           }
         });
+        writeCachedCounts();
         config.slugs.forEach(updateSlug);
-      } catch (error) {
-        console.warn(error);
+      } catch (_) {
+        try {
+          const response = await fetch(`${config.url}/rest/v1/case_likes?select=case_slug,likes_count`, {
+            headers: {
+              apikey: config.key,
+              Authorization: `Bearer ${config.key}`,
+            },
+          });
+          if (!response.ok) throw new Error(`Supabase counts failed: ${response.status}`);
+          const rows = await response.json();
+          rows.forEach(row => {
+            if (config.slugs.includes(row.case_slug)) {
+              countsBySlug.set(row.case_slug, Number(row.likes_count) || 0);
+            }
+          });
+          writeCachedCounts();
+          config.slugs.forEach(updateSlug);
+        } catch (fallbackError) {
+          console.warn(fallbackError);
+        }
       }
     }
 
