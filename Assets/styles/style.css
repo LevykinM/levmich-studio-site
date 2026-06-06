@@ -397,7 +397,9 @@ body.error-page {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: calc(100% + 20px);
   min-height: 30px;
+  margin-left: -10px;
   padding: 0 10px 0 12px;
   border-radius: 999px;
   background: rgba(255,255,255,.22);
@@ -522,6 +524,8 @@ body.error-page {
 
   .not-found__menu-link {
     min-height: 44px;
+    width: calc(100% + 20px);
+    margin-left: -10px;
     padding: 0 10px;
     font-size: 18px;
   }
