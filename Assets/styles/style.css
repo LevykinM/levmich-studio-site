@@ -182,7 +182,10 @@ p { margin: 0; }
 
 @media (orientation: portrait), (max-width: 768px) {
   .site-loader__inner {
-    min-height: 100svh;
+    --loader-logo-w: clamp(340px, 58svh, 470px);
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
     padding:
       calc(env(safe-area-inset-top, 0px) + 28px)
       20px
@@ -194,9 +197,9 @@ p { margin: 0; }
     font-size: 12px;
   }
   .site-loader__logo {
-    top: calc(env(safe-area-inset-top, 0px) + clamp(322px, 50svh, 448px));
-    left: clamp(28px, 7vw, 46px);
-    width: clamp(360px, 66svh, 520px);
+    top: calc(env(safe-area-inset-top, 0px) + var(--loader-logo-w) + clamp(38px, 5svh, 58px));
+    left: clamp(22px, 6vw, 38px);
+    width: var(--loader-logo-w);
     transform: rotate(-90deg);
     transform-origin: left top;
   }
