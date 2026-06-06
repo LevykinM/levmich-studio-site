@@ -78,7 +78,10 @@
     const config = {
       url: 'https://gacdatugndetlxndhvmw.supabase.co',
       key: 'sb_publishable_nhxed07wBJ_QvIQnnlrMZA_K2fvsgjB',
-      proxyUrl: 'https://levmich-case-likes.michailinlevyk.workers.dev',
+      proxyUrls: [
+        'https://functions.yandexcloud.net/d4eig0m88v1fmtmml06q',
+        'https://levmich-case-likes.michailinlevyk.workers.dev/case-likes',
+      ],
       slugs: ['three', 'wedding', 'front'],
       toggleRpc: 'toggle_case_like',
       likeRpc: 'like_case',
@@ -198,8 +201,8 @@
       window.setTimeout(() => control.classList.remove('is-liked-bounce'), 460);
     }
 
-    function proxyPath(path) {
-      return `${config.proxyUrl.replace(/\/$/, '')}${path}`;
+    function proxyUrls() {
+      return config.proxyUrls.map(url => url.replace(/\/$/, ''));
     }
 
     function normalizeRows(payload) {
@@ -224,14 +227,34 @@
     }
 
     async function callProxyLike(slug, visitorHash) {
-      return fetchJsonWithTimeout(proxyPath('/case-likes'), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          case_slug: slug,
-          visitor_hash: visitorHash,
-        }),
-      }, 5000);
+      let lastError;
+      for (const url of proxyUrls()) {
+        try {
+          return await fetchJsonWithTimeout(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              case_slug: slug,
+              visitor_hash: visitorHash,
+            }),
+          }, 5000);
+        } catch (error) {
+          lastError = error;
+        }
+      }
+      throw lastError || new Error('Case likes proxy failed');
+    }
+
+    async function callProxyCounts() {
+      let lastError;
+      for (const url of proxyUrls()) {
+        try {
+          return await fetchJsonWithTimeout(url, {}, 4500);
+        } catch (error) {
+          lastError = error;
+        }
+      }
+      throw lastError || new Error('Case likes counts proxy failed');
     }
 
     async function callCaseLikeRpc(rpcName, slug, visitorHash) {
@@ -432,7 +455,7 @@
       config.slugs.forEach(updateSlug);
 
       try {
-        const payload = await fetchJsonWithTimeout(proxyPath('/case-likes'), {}, 4500);
+        const payload = await callProxyCounts();
         normalizeRows(payload).forEach(row => {
           if (config.slugs.includes(row.case_slug)) {
             countsBySlug.set(row.case_slug, Number(row.likes_count) || 0);
