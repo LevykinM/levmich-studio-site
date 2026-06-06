@@ -10,13 +10,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Host+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="Assets/styles/style.css?v=123" />
+  <link rel="stylesheet" href="Assets/styles/style.css?v=124" />
 </head>
 <body class="error-page">
   <main class="not-found" aria-labelledby="not-found-title">
-    <h1 class="not-found__code" id="not-found-title">404</h1>
-    <img class="not-found__logo" src="Assets/SVG_files/Levmich_Studio_Logo_01.svg" alt="Levmich Studio" />
-    <p class="not-found__message">Похоже, такой страницы<br />не существует, увы.</p>
+    <h1 class="not-found__sr" id="not-found-title">404 — страница не найдена</h1>
+
+    <div class="not-found__top">
+      <p class="not-found__message">Похоже, такой страницы<br />не существует, увы.</p>
+      <img class="not-found__logo" src="Assets/SVG_files/Levmich_Studio_Logo_01.svg" alt="Levmich Studio" />
+    </div>
+
+    <picture class="not-found__code-art" aria-hidden="true">
+      <source media="(orientation: portrait), (max-width: 768px)" srcset="public/figma-assets/404-mobile-vector.svg" />
+      <img src="public/figma-assets/404-desktop-vector.svg" alt="" />
+    </picture>
 
     <a class="not-found__return" href="index.html#hero" aria-label="Вернуться на главную страницу">
       <span>Вернуться<br />на главную<br />страницу</span>
