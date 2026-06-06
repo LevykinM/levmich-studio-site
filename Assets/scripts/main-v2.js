@@ -634,7 +634,7 @@
     const copy = {
       ru: {
         meta: {
-          title: 'Levmich Studio — дизайн-студия Михаила Левыкина',
+          title: 'Levmich Studio — дизайн сайтов, брендинг и интерфейсы',
           description: 'Студия дизайна Михаила Левыкина: сайты, брендинг, дизайн приложений.',
         },
         hero: {
@@ -706,6 +706,7 @@
         },
         caseThree: {
           title: 'Три семёрки',
+          pageTitle: 'Три семёрки — брендинг грузоперевозок | Levmich Studio',
           sections: [
             ['Описание', 'Компания «Три семёрки» — региональный перевозчик, предоставляющий услуги доставки товаров, вывоза мусора и аренды строительной техники. На старте у клиента не было ни фирменного стиля, ни единой визуальной коммуникации. Требовалось создать запоминаемый бренд, который работал бы и в диджитал, и в офлайн-среде — на бортах транспорта, билбордах и рекламных материалах.'],
             ['Решение', 'Логотип основан на трёх стилизованных семёрках — отсылке к названию компании. Динамичные диагональные срезы символизируют скорость и движение. Оранжевый цвет придаёт энергии и надёжности, хорошо смотрится на любом фоне. Для наружной рекламы создан дружелюбный курьер-персонаж, который сближает бренд с клиентом. Дизайн борта грузовика использует контраст чёрного и оранжевого для максимальной заметности на дороге.'],
@@ -722,6 +723,7 @@
         },
         caseFront: {
           title: 'Front',
+          pageTitle: 'Front — брендинг и сайт | Levmich Studio',
           sections: [
             ['Описание', 'Front — патентное бюро, которое помогает стартапам и молодым компаниям зарегистрировать торговую марку до выхода на рынок. Слоган уже был — «Protect your brand before launch», — но не было визуальной идентичности, которая бы внушала доверие. Нужен был бренд, который выглядит уверенно, современно и при этом не отпугивает молодых основателей строгостью классического юридического стиля.'],
             ['Решение', 'Логотип построен на символе — круг с внутренней каплей-щитом. Это двойная метафора: защита (shield) и торговая марка (trademark™). Фирменный малиново-розовый цвет выделяет бренд среди традиционно строгих юридических компаний и апеллирует к молодым основателям бизнеса. Минималистичный шрифт работает в любой среде — от презентаций до наружной рекламы.'],
@@ -738,6 +740,7 @@
         },
         caseWedding: {
           title: 'Оксана и Костя',
+          pageTitle: 'Оксана и Костя — свадебный сайт | Levmich Studio',
           sections: [
             ['Описание', 'Паре нужен был сайт вместо бумажного приглашения, который расскажет их историю, сообщит дату и место, объяснит дресс-код и соберёт подтверждения. При этом сайт должен был отражать их спокойную и искреннюю эстетику без лишнего декора.'],
             ['Решение', 'В основе — строгая редакционная типографика и чёрно-белые фотографии пары. Никаких украшений и флористики в интерфейсе: весь «воздух» создаётся крупными шрифтами, ритмом блоков и самими снимками. Цветная фотография на обложке — единственный яркий акцент. Сайт решает все практические задачи гостя за один визит: узнать дату и место, построить маршрут, добавить событие в календарь, посмотреть дресс-код с референсами на Pinterest — и подтвердить присутствие прямо на странице.'],
@@ -747,7 +750,7 @@
       },
       en: {
         meta: {
-          title: 'Levmich Studio — design studio by Mikhail Levykin',
+          title: 'Levmich Studio — websites, branding and interfaces',
           description: 'Design studio by Mikhail Levykin: websites, branding and app interfaces.',
         },
         hero: {
@@ -819,6 +822,7 @@
         },
         caseThree: {
           title: 'Three Sevens',
+          pageTitle: 'Three Sevens — freight branding | Levmich Studio',
           sections: [
             ['Brief', 'Three Sevens is a regional carrier offering goods delivery, waste removal and construction equipment rental. At the start, the client had no visual identity and no consistent communication. We needed to build a memorable brand that worked both in digital and offline environments — on truck sides, billboards and ad campaigns.'],
             ['Solution', 'The logo is based on three stylized sevens — a reference to the company name. Dynamic diagonal cuts symbolize speed and motion. Orange adds energy and reliability and reads well on any background. For outdoor campaigns we created a friendly courier character that brings the brand closer to the customer. The truck wrap uses black-and-orange contrast for maximum visibility on the road.'],
@@ -835,6 +839,7 @@
         },
         caseFront: {
           title: 'Front',
+          pageTitle: 'Front — branding and website | Levmich Studio',
           sections: [
             ['Brief', 'Front is a patent bureau that helps startups and young companies register a trademark before going to market. The slogan was there — “Protect your brand before launch” — but there was no visual identity that felt trustworthy. We needed a brand that looks confident and modern, without scaring young founders away with classic legal-firm strictness.'],
             ['Solution', 'The logo is built on a symbol — a circle with an inner droplet-shield. It is a double metaphor: protection (shield) and trademark (™). The magenta-pink stands the brand out among traditionally strict legal companies and appeals to young business founders. The minimal typeface works in any environment — from decks to outdoor.'],
@@ -851,6 +856,7 @@
         },
         caseWedding: {
           title: 'Oksana and Kostya',
+          pageTitle: 'Oksana and Kostya — wedding website | Levmich Studio',
           sections: [
             ['Brief', 'The couple needed a website instead of a paper invitation that would tell their story, share the date and venue, explain the dress code and collect RSVPs. The site had to reflect their calm and honest aesthetic without unnecessary decor.'],
             ['Solution', 'The foundation is strict editorial typography and black-and-white photos of the couple. No ornaments or floral patterns in the interface — all the “air” is created by large type, block rhythm and the photos themselves. The single color photo on the cover is the only bright accent. The site solves all practical tasks of a guest in one visit: find the date and venue, build a route, add the event to the calendar, see the dress code with Pinterest references — and confirm attendance right on the page.'],
@@ -888,7 +894,7 @@
     };
 
     const infoPageEn = {
-      title: 'Info — Levmich Studio',
+      title: 'Documents and agreements — Levmich Studio',
       description: 'Offer agreement, privacy policy and user agreement of Levmich Studio.',
       completeTitle: 'Thank you for reading the information!',
       completeText: 'Now you can return to services and choose exactly what you need.',
@@ -1116,7 +1122,9 @@
 
       document.documentElement.lang = lang;
       document.body.dataset.lang = lang;
-      document.title = d.meta.title;
+      document.title = document.body.classList.contains('info-page')
+        ? (lang === 'ru' ? 'Документы и соглашения — Levmich Studio' : 'Documents and agreements — Levmich Studio')
+        : d.meta.title;
       $('meta[name="description"]')?.setAttribute('content', d.meta.description);
 
       setHtml('.hero__slogan', d.hero.slogan);
@@ -1229,7 +1237,7 @@
         }
         $$('.case-layout img').forEach((img, i) => img.setAttribute('alt', `${caseData.title} image ${i + 1}`));
         // Title тэга страницы под кейс
-        document.title = caseData.title + ' — ' + (lang === 'ru' ? 'кейс Levmich Studio' : 'Levmich Studio case');
+        document.title = caseData.pageTitle || `${caseData.title} | Levmich Studio`;
       }
     }
 
