@@ -1544,8 +1544,10 @@
       if (isMobile) {
         const bigY = Math.round(mV + 227);
         const maxBigByWidth = vw >= 700 ? 620 : 340;
-        const maxBigByHeight = Math.max(290, (vh - bigY - 40) * (340 / 500));
-        const bigW = Math.min(maxBigByWidth, maxBigByHeight, Math.max(290, vw - 62));
+        // Mobile browser chrome changes viewport height while scrolling.
+        // Keep Hero card geometry width-driven so cards start at the final
+        // expanded size and do not jump when the address bar collapses.
+        const bigW = Math.min(maxBigByWidth, Math.max(290, vw - 62));
         const bigH = Math.round(bigW * (500 / 340));
         const smallW = Math.round(bigW * (180 / 340));
         const smallH = Math.round(smallW * (250 / 180));
@@ -1731,7 +1733,17 @@
     }
 
     // ---- Resize: пересчитываем слоты и позиции ------------------
+    let lastHeroWidth = window.innerWidth;
+    let lastHeroMobile = IS_MOBILE;
     window.addEventListener('resize', () => {
+      const nextWidth = window.innerWidth;
+      const nextMobile = isPortrait();
+      const widthChanged = Math.abs(nextWidth - lastHeroWidth) > 2;
+      const modeChanged = nextMobile !== lastHeroMobile;
+      if (nextMobile && !widthChanged && !modeChanged) return;
+
+      lastHeroWidth = nextWidth;
+      lastHeroMobile = nextMobile;
       const computed = computeSlots();
       SLOTS = computed.slots;
       heroH = computed.heroH;
