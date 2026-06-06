@@ -181,62 +181,64 @@ p { margin: 0; }
 }
 
 @media (orientation: portrait), (max-width: 768px) {
+  .site-loader {
+    overflow: hidden;
+  }
   .site-loader__inner {
-    --loader-logo-w: clamp(340px, 58svh, 470px);
+    --loader-logo-w: clamp(430px, 68svh, 585px);
     height: 100%;
     min-height: 0;
     overflow: hidden;
+    border: 4px solid #2a2a2a;
     padding:
       calc(env(safe-area-inset-top, 0px) + 28px)
       20px
       calc(env(safe-area-inset-bottom, 0px) + 28px);
   }
   .site-loader__caption {
-    top: calc(env(safe-area-inset-top, 0px) + 12px);
-    left: 20px;
-    font-size: 12px;
+    display: none;
   }
   .site-loader__logo {
-    top: calc(env(safe-area-inset-top, 0px) + var(--loader-logo-w) + clamp(38px, 5svh, 58px));
-    left: clamp(22px, 6vw, 38px);
+    top: calc(env(safe-area-inset-top, 0px) + var(--loader-logo-w) + clamp(24px, 3svh, 30px));
+    left: clamp(26px, 7vw, 34px);
     width: var(--loader-logo-w);
     transform: rotate(-90deg);
     transform-origin: left top;
   }
   .site-loader__progress {
-    top: calc(env(safe-area-inset-top, 0px) + 40px);
-    right: clamp(14px, 4vw, 28px);
+    top: calc(env(safe-area-inset-top, 0px) + 20px);
+    right: clamp(18px, 5vw, 24px);
     bottom: auto;
     left: auto;
-    width: clamp(46px, 12vw, 56px);
+    width: clamp(64px, 20vw, 88px);
     max-width: none;
     display: flex;
     flex-direction: column-reverse;
-    gap: clamp(8px, 1.7svh, 12px);
+    gap: clamp(13px, 2svh, 17px);
   }
   .site-loader__progress span {
     width: 100%;
-    height: clamp(28px, 5.4svh, 36px);
-    border-radius: 10px;
+    height: clamp(40px, 5.9svh, 50px);
+    border-radius: clamp(14px, 4vw, 18px);
   }
   .site-loader__progress span.is-filled {
     transform: translateX(-1px) scale(1.015);
   }
   .site-loader__copy {
-    left: clamp(70px, 17vw, 108px);
+    left: clamp(96px, 30vw, 132px);
     right: auto;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 126px);
-    width: 154px;
-    font-size: 12px;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(130px, 17svh, 154px));
+    width: 230px;
+    font-size: clamp(18px, 4.8vw, 21px);
     line-height: 1.18;
     text-align: left;
   }
   .site-loader__percent {
-    left: clamp(36px, 9vw, 72px);
+    left: clamp(54px, 17vw, 76px);
     right: auto;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 36px);
-    font-size: clamp(72px, 19vw, 96px);
-    line-height: .9;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(18px, 3svh, 28px));
+    font-size: clamp(104px, 30vw, 132px);
+    line-height: .86;
   }
 }
 

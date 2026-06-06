@@ -28,6 +28,7 @@
     const startedAt = performance.now();
     const minDuration = reduceMotion ? 250 : 1150;
     const maxDuration = 4200;
+    const holdAtHalf = reduceMotion ? 0 : 650;
     let target = 50;
     let shown = 50;
     let raf = 0;
@@ -43,6 +44,7 @@
     };
 
     const updateTargetFromImages = () => {
+      if (performance.now() - startedAt < holdAtHalf) return;
       const images = Array.from(document.images || []);
       const loaded = images.filter(img => img.complete).length;
       const imagePart = images.length ? (loaded / images.length) * 52 : 34;
@@ -89,6 +91,7 @@
 
     raf = requestAnimationFrame(tick);
     const softPump = window.setInterval(() => {
+      if (performance.now() - startedAt < holdAtHalf) return;
       target = Math.min(92, target + 7);
       if (closed || !document.body.contains(loader)) window.clearInterval(softPump);
     }, 260);
