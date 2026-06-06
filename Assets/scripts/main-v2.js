@@ -12,11 +12,94 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isPortrait = () => window.innerWidth < window.innerHeight;
 
+  initSiteLoader();
   initLanguageSwitch();
   initTypographyPolish();
   initServicesNotice();
   initCaseLikes();
   initEdgeReflection();
+
+  function initSiteLoader() {
+    const loader = document.getElementById('site-loader');
+    if (!loader) return;
+
+    const percentEl = document.getElementById('site-loader-percent');
+    const segments = $$('.site-loader__progress span', loader);
+    const startedAt = performance.now();
+    const minDuration = reduceMotion ? 250 : 1150;
+    const maxDuration = 4200;
+    let target = 50;
+    let shown = 50;
+    let raf = 0;
+    let closed = false;
+
+    const render = (value) => {
+      const rounded = Math.max(0, Math.min(100, Math.round(value)));
+      if (percentEl) percentEl.textContent = String(rounded);
+      const filled = Math.ceil((rounded / 100) * segments.length);
+      segments.forEach((segment, index) => {
+        segment.classList.toggle('is-filled', index < filled);
+      });
+    };
+
+    const updateTargetFromImages = () => {
+      const images = Array.from(document.images || []);
+      const loaded = images.filter(img => img.complete).length;
+      const imagePart = images.length ? (loaded / images.length) * 52 : 34;
+      const readyPart = document.readyState === 'complete'
+        ? 44
+        : document.readyState === 'interactive'
+          ? 34
+          : 18;
+      target = Math.max(target, Math.min(96, imagePart + readyPart));
+    };
+
+    const finish = () => {
+      if (closed) return;
+      target = 100;
+      const elapsed = performance.now() - startedAt;
+      const delay = Math.max(0, minDuration - elapsed);
+      window.setTimeout(() => {
+        closed = true;
+        target = 100;
+      }, delay);
+    };
+
+    const tick = () => {
+      updateTargetFromImages();
+      const speed = closed ? 0.34 : 0.12;
+      shown += (target - shown) * speed;
+      if (closed && shown > 99.2) shown = 100;
+      render(shown);
+
+      if (shown >= 100) {
+        loader.classList.add('is-hidden');
+        window.setTimeout(() => loader.remove(), reduceMotion ? 0 : 780);
+        return;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+
+    if (reduceMotion) {
+      render(100);
+      loader.classList.add('is-hidden');
+      window.setTimeout(() => loader.remove(), 60);
+      return;
+    }
+
+    raf = requestAnimationFrame(tick);
+    const softPump = window.setInterval(() => {
+      target = Math.min(92, target + 7);
+      if (closed || !document.body.contains(loader)) window.clearInterval(softPump);
+    }, 260);
+
+    if (document.readyState === 'complete') finish();
+    else window.addEventListener('load', finish, { once: true });
+    window.setTimeout(finish, maxDuration);
+    window.addEventListener('pagehide', () => {
+      if (raf) cancelAnimationFrame(raf);
+    }, { once: true });
+  }
 
   function initEdgeReflection() {
     if (reduceMotion || window.matchMedia('(pointer: coarse)').matches) return;
