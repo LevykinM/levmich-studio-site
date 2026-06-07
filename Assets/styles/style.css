@@ -411,13 +411,21 @@ body.error-page {
   font-size: 16px;
   font-weight: 500;
   line-height: normal;
-  transition: background-color .24s var(--ease-soft), color .24s var(--ease-soft);
+  transform-origin: center;
+  will-change: transform;
+  transition:
+    background .28s var(--ease-soft),
+    box-shadow .28s var(--ease-soft),
+    color .28s var(--ease-soft),
+    transform .34s cubic-bezier(.2, .8, .2, 1);
 }
 
 .not-found__menu-link:hover,
 .not-found__menu-link:focus-visible {
-  background: #fff;
-  color: #050505;
+  background: rgba(255,255,255,.28);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.22);
+  color: #fff;
+  transform: translateY(-1px) scale(1.012);
   outline: none;
 }
 
@@ -426,11 +434,13 @@ body.error-page {
   height: 24px;
   object-fit: contain;
   filter: brightness(0) invert(1);
+  transition: filter .28s var(--ease-soft), transform .34s cubic-bezier(.2, .8, .2, 1);
 }
 
 .not-found__menu-link:hover img,
 .not-found__menu-link:focus-visible img {
-  filter: none;
+  filter: brightness(0) invert(1);
+  transform: scale(1.04);
 }
 
 @media (orientation: portrait), (max-width: 768px) {
