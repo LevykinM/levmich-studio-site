@@ -301,7 +301,10 @@
       // Once all three docs are read, the mobile pill becomes the
       // "К услугам / To services" CTA and routes to the Services section.
       if (button === mobileStatus && docMeta.every(meta => read[meta.id])) {
-        window.location.href = 'index.html#services';
+        try {
+          sessionStorage.setItem('levmich-scroll-target', 'services');
+        } catch (_) {}
+        window.location.href = new URL('main/', document.baseURI).href;
         return;
       }
       scrollToDoc(nextDocId());
@@ -320,7 +323,7 @@
       event.preventDefault();
       read = {};
       activeId = docMeta[0].id;
-      window.history.replaceState(null, '', 'info.html#info-top');
+      window.history.replaceState(null, '', '/info/');
       animateScrollTo(0, 0);
       requestUpdate();
     });

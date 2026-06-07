@@ -26,7 +26,7 @@
       <img src="public/figma-assets/404-desktop-vector.svg" alt="" />
     </picture>
 
-    <a class="not-found__return" href="index.html#hero" aria-label="Вернуться на главную страницу">
+    <a class="not-found__return" href="main/" aria-label="Вернуться на главную страницу">
       <span>Вернуться<br />на главную<br />страницу</span>
       <svg viewBox="0 0 18 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M15 3L3 17L15 31" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -36,19 +36,19 @@
     <nav class="not-found__menu" aria-label="Навигация по сайту">
       <ul class="not-found__menu-list">
         <li>
-          <a class="not-found__menu-link" href="index.html#about">
+          <a class="not-found__menu-link" href="main/" data-scroll-target="about">
             <span>Обо мне</span>
             <img src="Assets/SVG_files/mini_me.svg" alt="" />
           </a>
         </li>
         <li>
-          <a class="not-found__menu-link" href="index.html#services">
+          <a class="not-found__menu-link" href="main/" data-scroll-target="services">
             <span>Услуги</span>
             <img src="Assets/SVG_files/Consulation.svg" alt="" />
           </a>
         </li>
         <li>
-          <a class="not-found__menu-link" href="index.html#portfolio">
+          <a class="not-found__menu-link" href="main/" data-scroll-target="portfolio">
             <span>Кейсы</span>
             <img src="Assets/SVG_files/Case.svg" alt="" />
           </a>
@@ -56,5 +56,14 @@
       </ul>
     </nav>
   </main>
+  <script>
+    document.addEventListener('click', function(event) {
+      var link = event.target.closest('a[data-scroll-target]');
+      if (!link) return;
+      try {
+        sessionStorage.setItem('levmich-scroll-target', link.dataset.scrollTarget || 'hero');
+      } catch (_) {}
+    });
+  </script>
 </body>
 </html>

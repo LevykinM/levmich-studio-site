@@ -1344,6 +1344,95 @@
     }
   }
 
+  initCleanRouting();
+
+  function initCleanRouting() {
+    const sectionKey = 'levmich-scroll-target';
+    const cleanPaths = {
+      main: '/main/',
+      info: '/info/',
+      caseFront: '/cases/front/',
+      caseThree: '/cases/three/',
+      caseWedding: '/cases/wedding/',
+    };
+
+    const pageCleanPath = () => {
+      if (document.body.dataset.pageVersion === 'v3') return cleanPaths.main;
+      if (document.body.classList.contains('info-page')) return cleanPaths.info;
+      const caseId = document.body.dataset.caseId;
+      return cleanPaths[caseId] || '';
+    };
+
+    const withCurrentSearch = (path) => `${path}${window.location.search || ''}`;
+    const isMainPage = () => document.body.dataset.pageVersion === 'v3';
+
+    const cleanCurrentUrl = () => {
+      const cleanPath = pageCleanPath();
+      if (!cleanPath || window.location.pathname === cleanPath) return;
+      window.history.replaceState(null, '', withCurrentSearch(cleanPath));
+    };
+
+    const scrollToHomeSection = (section, instant = false) => {
+      if (!isMainPage()) return false;
+      const id = section === 'hero' || !section ? 'hero' : section;
+      const target = document.getElementById(id);
+      if (!target) return false;
+      cleanCurrentUrl();
+
+      if (id === 'hero') {
+        if (lenis && !instant) lenis.scrollTo(0, { duration: 1.1 });
+        else window.scrollTo({ top: 0, behavior: instant || reduceMotion ? 'auto' : 'smooth' });
+        return true;
+      }
+
+      if (lenis && !instant) lenis.scrollTo(target, { offset: -20, duration: 1.2 });
+      else target.scrollIntoView({ behavior: instant || reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      return true;
+    };
+
+    const consumePendingSection = () => {
+      if (!isMainPage()) {
+        cleanCurrentUrl();
+        return;
+      }
+
+      let section = '';
+      try {
+        section = sessionStorage.getItem(sectionKey) || '';
+        sessionStorage.removeItem(sectionKey);
+      } catch (_) {
+        section = '';
+      }
+      if (!section && window.location.hash) section = window.location.hash.slice(1);
+      cleanCurrentUrl();
+      if (!section || section === 'hero') return;
+      window.setTimeout(() => scrollToHomeSection(section), reduceMotion ? 0 : 120);
+    };
+
+    document.addEventListener('click', (event) => {
+      const link = event.target.closest('a[data-scroll-target]');
+      if (!link) return;
+      const section = link.dataset.scrollTarget || 'hero';
+
+      if (isMainPage()) {
+        event.preventDefault();
+        scrollToHomeSection(section);
+        return;
+      }
+
+      try {
+        sessionStorage.setItem(sectionKey, section);
+      } catch (_) {}
+    });
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', consumePendingSection, { once: true });
+    } else {
+      consumePendingSection();
+    }
+    window.addEventListener('load', consumePendingSection, { once: true });
+  }
+
   // ============================================================
   // 2. REVEAL ON SCROLL
   //    Лёгкое появление без blur и без class-toggle в момент старта:
@@ -1554,7 +1643,7 @@
   function initPortfolioCaseNav() {
     $$('.portfolio-case').forEach(card => {
       const link = card.querySelector('a[href]');
-      const href = link && link.getAttribute('href');
+      const href = link && link.href;
       if (!href) return;
       card.style.cursor = 'pointer';
       card.addEventListener('click', (e) => {
@@ -2006,7 +2095,7 @@
       card.addEventListener('mouseleave', () => { isPaused = false; start(); });
       card.addEventListener('click', (e) => {
         const href = card.dataset.href;
-        if (href) window.location.href = href;
+        if (href) window.location.href = new URL(href, document.baseURI).href;
       });
     });
 
@@ -2376,6 +2465,14 @@
           else target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
         // Если меню было открыто — закроем
+        if (dock.dataset.state === 'open') {
+          setState(scrollState());
+        }
+      });
+    });
+
+    $$('a[data-scroll-target]', dock).forEach(a => {
+      a.addEventListener('click', () => {
         if (dock.dataset.state === 'open') {
           setState(scrollState());
         }
