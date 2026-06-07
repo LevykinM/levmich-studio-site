@@ -31,11 +31,13 @@
     const holdAtHalf = reduceMotion ? 0 : 650;
     let target = 50;
     let shown = 50;
+    let renderedProgress = 50;
     let raf = 0;
     let closed = false;
 
     const render = (value) => {
-      const rounded = Math.max(0, Math.min(100, Math.round(value)));
+      const rounded = Math.max(renderedProgress, Math.max(0, Math.min(100, Math.round(value))));
+      renderedProgress = rounded;
       if (percentEl) percentEl.textContent = String(rounded);
       const filled = Math.ceil((rounded / 100) * segments.length);
       segments.forEach((segment, index) => {
@@ -92,7 +94,7 @@
     raf = requestAnimationFrame(tick);
     const softPump = window.setInterval(() => {
       if (performance.now() - startedAt < holdAtHalf) return;
-      target = Math.min(92, target + 7);
+      target = Math.max(target, Math.min(92, target + 7));
       if (closed || !document.body.contains(loader)) window.clearInterval(softPump);
     }, 260);
 
