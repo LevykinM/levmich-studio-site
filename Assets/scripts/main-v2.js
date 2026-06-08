@@ -11,6 +11,32 @@
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isPortrait = () => window.innerWidth < window.innerHeight;
+  const langCodes = new Set(['ru', 'en']);
+
+  const pathSegments = (path = window.location.pathname) => path.split('/').filter(Boolean);
+  const routeLangFromPath = (path = window.location.pathname) => {
+    const first = pathSegments(path)[0];
+    return langCodes.has(first) ? first : '';
+  };
+  const stripLangFromPath = (path = window.location.pathname) => {
+    const parts = pathSegments(path);
+    if (langCodes.has(parts[0])) parts.shift();
+    return `/${parts.join('/')}`.replace(/\/$/, '') || '/';
+  };
+  const currentRouteLang = () => {
+    const bodyLang = document.body?.dataset?.lang;
+    return bodyLang === 'en' || bodyLang === 'ru' ? bodyLang : (routeLangFromPath() || 'ru');
+  };
+  const langRoute = (route, lang = currentRouteLang()) => {
+    const cleanRoute = `/${String(route || '').replace(/^\/+|\/+$/g, '')}`.replace(/\/$/, '') || '/main';
+    return `/${lang}${cleanRoute}`;
+  };
+  const searchWithoutLang = () => {
+    const params = new URLSearchParams(window.location.search);
+    params.delete('lang');
+    const value = params.toString();
+    return value ? `?${value}` : '';
+  };
 
   initSiteLoader();
   initLanguageSwitch();
@@ -622,6 +648,7 @@
   function initLanguageSwitch() {
     const storageKey = 'levmich-lang';
     const url = new URL(window.location.href);
+    const pathLang = routeLangFromPath();
     const queryLang = url.searchParams.get('lang');
     let savedLang = null;
     try {
@@ -629,9 +656,60 @@
     } catch (_) {
       savedLang = null;
     }
-    let lang = queryLang === 'en' || queryLang === 'ru'
+    let lang = pathLang === 'en' || pathLang === 'ru'
+      ? pathLang
+      : queryLang === 'en' || queryLang === 'ru'
       ? queryLang
       : (savedLang === 'en' || savedLang === 'ru' ? savedLang : 'ru');
+    try {
+      localStorage.setItem(storageKey, lang);
+    } catch (_) {}
+
+    const routeMap = new Map([
+      ['/main', '/main'],
+      ['/info', '/info'],
+      ['/cases/front', '/cases/front'],
+      ['/cases/three', '/cases/three'],
+      ['/cases/wedding', '/cases/wedding'],
+    ]);
+
+    const pageRoute = () => {
+      if (document.body.dataset.pageVersion === 'v3') return '/main';
+      if (document.body.classList.contains('info-page')) return '/info';
+      const caseId = document.body.dataset.caseId;
+      if (caseId === 'caseFront') return '/cases/front';
+      if (caseId === 'caseThree') return '/cases/three';
+      if (caseId === 'caseWedding') return '/cases/wedding';
+      const current = stripLangFromPath();
+      return routeMap.get(current) || current || '/main';
+    };
+
+    const localizeRouteValue = (value, nextLang = lang) => {
+      if (!value || /^(?:https?:|mailto:|tel:|#)/i.test(value)) return value;
+      let parsed;
+      try {
+        parsed = new URL(value, window.location.origin);
+      } catch (_) {
+        return value;
+      }
+      if (parsed.origin !== window.location.origin) return value;
+      const route = routeMap.get(stripLangFromPath(parsed.pathname));
+      if (!route) return value;
+      parsed.pathname = langRoute(route, nextLang);
+      parsed.searchParams.delete('lang');
+      return `${parsed.pathname}${parsed.search}${parsed.hash}`;
+    };
+
+    const localizeInternalRoutes = (nextLang = lang) => {
+      $$('a[href]').forEach(link => {
+        const localized = localizeRouteValue(link.getAttribute('href'), nextLang);
+        if (localized) link.setAttribute('href', localized);
+      });
+      $$('[data-href]').forEach(el => {
+        const localized = localizeRouteValue(el.getAttribute('data-href'), nextLang);
+        if (localized) el.setAttribute('data-href', localized);
+      });
+    };
 
     const copy = {
       ru: {
@@ -1121,9 +1199,13 @@
     function applyLanguage(nextLang) {
       lang = nextLang;
       const d = copy[lang];
+      try {
+        localStorage.setItem(storageKey, lang);
+      } catch (_) {}
 
       document.documentElement.lang = lang;
       document.body.dataset.lang = lang;
+      localizeInternalRoutes(lang);
       document.title = document.body.classList.contains('info-page')
         ? (lang === 'ru' ? 'Документы и соглашения — Levmich Studio' : 'Documents and agreements — Levmich Studio')
         : d.meta.title;
@@ -1250,9 +1332,7 @@
       try {
         localStorage.setItem(storageKey, nextLang);
       } catch (_) {}
-      const nextUrl = new URL(window.location.href);
-      nextUrl.searchParams.set('lang', nextLang);
-      window.location.assign(nextUrl.toString());
+      window.location.assign(`${langRoute(pageRoute(), nextLang)}${searchWithoutLang()}${window.location.hash || ''}`);
     });
   }
 
@@ -1349,26 +1429,35 @@
   function initCleanRouting() {
     const sectionKey = 'levmich-scroll-target';
     const cleanPaths = {
-      main: '/main/',
-      info: '/info/',
-      caseFront: '/cases/front/',
-      caseThree: '/cases/three/',
-      caseWedding: '/cases/wedding/',
+      main: '/main',
+      info: '/info',
+      caseFront: '/cases/front',
+      caseThree: '/cases/three',
+      caseWedding: '/cases/wedding',
     };
 
     const pageCleanPath = () => {
-      if (document.body.dataset.pageVersion === 'v3') return cleanPaths.main;
-      if (document.body.classList.contains('info-page')) return cleanPaths.info;
+      if (document.body.dataset.pageVersion === 'v3') return langRoute(cleanPaths.main);
+      if (document.body.classList.contains('info-page')) return langRoute(cleanPaths.info);
       const caseId = document.body.dataset.caseId;
-      return cleanPaths[caseId] || '';
+      return cleanPaths[caseId] ? langRoute(cleanPaths[caseId]) : '';
     };
 
-    const withCurrentSearch = (path) => `${path}${window.location.search || ''}`;
+    const withCurrentSearch = (path) => `${path}${searchWithoutLang()}`;
     const isMainPage = () => document.body.dataset.pageVersion === 'v3';
 
     const cleanCurrentUrl = () => {
       const cleanPath = pageCleanPath();
-      if (!cleanPath || window.location.pathname === cleanPath) return;
+      if (!cleanPath && !window.location.search.includes('lang=')) return;
+      const rawPath = window.location.pathname;
+      const normalizedPath = rawPath.replace(/\/$/, '') || '/';
+      if (
+        cleanPath &&
+        normalizedPath === cleanPath &&
+        rawPath === cleanPath &&
+        routeLangFromPath() === currentRouteLang() &&
+        !window.location.search.includes('lang=')
+      ) return;
       window.history.replaceState(null, '', withCurrentSearch(cleanPath));
     };
 

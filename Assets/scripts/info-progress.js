@@ -6,6 +6,19 @@
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const shouldStartAtTop = !window.location.hash || window.location.hash === '#info-top';
+  const pathLang = () => {
+    const first = window.location.pathname.split('/').filter(Boolean)[0];
+    return first === 'en' || first === 'ru' ? first : '';
+  };
+  const routeLang = () => {
+    const bodyLang = document.body.getAttribute('data-lang');
+    if (bodyLang === 'en' || bodyLang === 'ru') return bodyLang;
+    const prefixedLang = pathLang();
+    if (prefixedLang) return prefixedLang;
+    const queryLang = new URLSearchParams(window.location.search).get('lang');
+    return queryLang === 'en' ? 'en' : 'ru';
+  };
+  const langRoute = route => `/${routeLang()}${route}`;
   if ('scrollRestoration' in window.history) {
     window.history.scrollRestoration = 'manual';
   }
@@ -304,7 +317,7 @@
         try {
           sessionStorage.setItem('levmich-scroll-target', 'services');
         } catch (_) {}
-        window.location.href = new URL('main/', document.baseURI).href;
+        window.location.href = langRoute('/main');
         return;
       }
       scrollToDoc(nextDocId());
@@ -323,7 +336,7 @@
       event.preventDefault();
       read = {};
       activeId = docMeta[0].id;
-      window.history.replaceState(null, '', '/info/');
+      window.history.replaceState(null, '', langRoute('/info'));
       animateScrollTo(0, 0);
       requestUpdate();
     });

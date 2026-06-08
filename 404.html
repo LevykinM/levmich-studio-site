@@ -26,7 +26,7 @@
       <img src="/public/figma-assets/404-desktop-vector.svg" alt="" />
     </picture>
 
-    <a class="not-found__return" href="/main/" aria-label="Вернуться на главную страницу">
+    <a class="not-found__return" href="/ru/main" aria-label="Вернуться на главную страницу">
       <span>Вернуться<br />на главную<br />страницу</span>
       <svg viewBox="0 0 18 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M15 3L3 17L15 31" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -36,19 +36,19 @@
     <nav class="not-found__menu" aria-label="Навигация по сайту">
       <ul class="not-found__menu-list">
         <li>
-          <a class="not-found__menu-link" href="/main/" data-scroll-target="about">
+          <a class="not-found__menu-link" href="/ru/main" data-scroll-target="about">
             <span>Обо мне</span>
             <img src="/Assets/SVG_files/mini_me.svg" alt="" />
           </a>
         </li>
         <li>
-          <a class="not-found__menu-link" href="/main/" data-scroll-target="services">
+          <a class="not-found__menu-link" href="/ru/main" data-scroll-target="services">
             <span>Услуги</span>
             <img src="/Assets/SVG_files/Consulation.svg" alt="" />
           </a>
         </li>
         <li>
-          <a class="not-found__menu-link" href="/main/" data-scroll-target="portfolio">
+          <a class="not-found__menu-link" href="/ru/main" data-scroll-target="portfolio">
             <span>Кейсы</span>
             <img src="/Assets/SVG_files/Case.svg" alt="" />
           </a>
@@ -57,6 +57,30 @@
     </nav>
   </main>
   <script>
+    (function() {
+      var firstSegment = window.location.pathname.split('/').filter(Boolean)[0];
+      var lang = firstSegment === 'en' ? 'en' : 'ru';
+      document.querySelectorAll('a[href^="/ru/main"]').forEach(function(link) {
+        link.setAttribute('href', '/' + lang + '/main');
+      });
+      if (lang === 'en') {
+        document.documentElement.lang = 'en';
+        document.title = '404 — page not found | Levmich Studio';
+        var title = document.getElementById('not-found-title');
+        var message = document.querySelector('.not-found__message');
+        var returnLink = document.querySelector('.not-found__return');
+        var returnText = returnLink && returnLink.querySelector('span');
+        var menuLabels = document.querySelectorAll('.not-found__menu-link span');
+        if (title) title.textContent = '404 — page not found';
+        if (message) message.innerHTML = 'Looks like this page<br />does not exist, alas.';
+        if (returnLink) returnLink.setAttribute('aria-label', 'Back to main page');
+        if (returnText) returnText.innerHTML = 'Back<br />to main<br />page';
+        ['About me', 'Services', 'Cases'].forEach(function(label, index) {
+          if (menuLabels[index]) menuLabels[index].textContent = label;
+        });
+      }
+    })();
+
     document.addEventListener('click', function(event) {
       var link = event.target.closest('a[data-scroll-target]');
       if (!link) return;
