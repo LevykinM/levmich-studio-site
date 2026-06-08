@@ -66,8 +66,11 @@
       renderedProgress = rounded;
       if (percentEl) percentEl.textContent = String(rounded);
       const filled = Math.ceil((rounded / 100) * segments.length);
+      const activeIndex = Math.max(0, filled - 1);
       segments.forEach((segment, index) => {
-        segment.classList.toggle('is-filled', index < filled);
+        const isFilled = index < filled;
+        segment.classList.toggle('is-filled', isFilled);
+        segment.classList.toggle('is-active', isFilled && index === activeIndex);
       });
     };
 
