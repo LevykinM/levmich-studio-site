@@ -146,7 +146,7 @@ p { margin: 0; }
   bottom: 4.33svh;
   z-index: 2;
   display: grid;
-  grid-template-columns: repeat(9, 5.41vw);
+  grid-template-columns: repeat(10, 4.78vw);
   align-items: end;
   gap: .9vw;
   width: auto;
@@ -236,12 +236,12 @@ p { margin: 0; }
     max-width: none;
     display: flex;
     flex-direction: column-reverse;
-    gap: clamp(8px, 1.1svh, 10px);
+    gap: clamp(7px, .9svh, 9px);
     transform: translateX(-50%);
   }
   .site-loader__progress span {
     width: 100%;
-    height: clamp(29px, 3.75svh, 34px);
+    height: clamp(25px, 3.28svh, 30px);
     border-radius: 20px;
   }
   .site-loader__progress span.is-filled {
