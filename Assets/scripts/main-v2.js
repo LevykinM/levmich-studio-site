@@ -798,9 +798,9 @@
           components: {
             title: 'Было разработано',
             items: [
-              ['Логотип', 'Знак из трёх семёрок, основной и инверсный варианты, гайды по охранному полю и допустимым фонам.'],
-              ['Носители', 'Брендированные грузовики, спецодежда, документы, билборды и точки контакта в городской среде.'],
-              ['Персонаж', '3D-курьер для рекламы, который очеловечивает бренд и используется на наружке, в соцсетях и презентациях.'],
+              ['Логотип', 'Знак, фирменные цвета и правила их правильного использования'],
+              ['Персонаж', 'Привлекательный герой, которого можно использовать в соцсетях'],
+              ['Носители', 'Предметы, отражающие его ценности и которые передают уникальность и дух компании'],
             ],
           },
         },
@@ -815,9 +815,9 @@
           components: {
             title: 'Было разработано',
             items: [
-              ['Логотип', 'Знак, шрифтовая часть, основная и инверсная версии, иконка приложения. Гайды по охранному полю.'],
-              ['Дизайн сайта', 'Посадочная страница с оффером, описанием услуг, кейсами и понятным путём к консультации.'],
-              ['Носители', 'Шаблоны для соцсетей, презентация для клиента, e-mail подпись и формат корпоративных документов.'],
+              ['Логотип', 'Знак, шрифты и цвета и правила их правильного использования'],
+              ['Дизайн сайта', 'Привлекательный лендинг с ценами, успешными кейсами и удобной формой заявки'],
+              ['Носители', 'Предметы, отражающие его ценности и которые передают уникальность и дух компании'],
             ],
           },
         },
@@ -914,9 +914,9 @@
           components: {
             title: 'What was made',
             items: [
-              ['Logo', 'Three-sevens mark, main and inverse versions, guides for the protective field and acceptable backgrounds.'],
-              ['Carriers', 'Branded trucks, workwear, documents, billboards and urban touchpoints.'],
-              ['Mascot', '3D courier character for advertising — humanizes the brand and is used in outdoor, social media and presentations.'],
+              ['Logo', 'Mark, brand colors and rules for correct use'],
+              ['Character', 'A friendly hero for social posts and campaigns'],
+              ['Media', 'Touchpoints that express the brand values and character'],
             ],
           },
         },
@@ -931,9 +931,9 @@
           components: {
             title: 'What was made',
             items: [
-              ['Logo', 'Mark, wordmark, main and inverse versions, app icon. Guides for the protective field.'],
-              ['Website design', 'Landing page with offer, services, cases and a clear path to a consultation.'],
-              ['Carriers', 'Social media templates, client presentation, e-mail signature and corporate document format.'],
+              ['Logo', 'Mark, type and colors with usage rules'],
+              ['Website design', 'A landing page with pricing, strong cases and a simple lead form'],
+              ['Media', 'Touchpoints that express the brand values and character'],
             ],
           },
         },
