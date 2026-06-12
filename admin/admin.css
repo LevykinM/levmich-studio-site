@@ -246,24 +246,44 @@ body {
 /* ---- Dashboard main layout ---- */
 .dashboard-main {
   flex: 1;
-  display: grid;
-  grid-template-columns: minmax(260px, 380px) 1fr;
-  gap: 28px;
-  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 40px 24px;
+}
+
+/* ---- Center panel ---- */
+.dashboard-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  text-align: center;
+}
+
+/* ---- Mode grid (cards row) ---- */
+.mode-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+  width: 100%;
+  max-width: 780px;
 }
 
 /* ---- Mode card (orange) ---- */
 .mode-card {
   position: relative;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: space-between;
   background: var(--accent);
   color: #fff;
   border: none;
-  border-radius: 28px;
-  padding: 28px;
-  min-height: 560px;
+  border-radius: 26px;
+  padding: 26px 30px;
   cursor: pointer;
   font-family: var(--font-main);
   text-decoration: none;
@@ -272,11 +292,16 @@ body {
   transition: background 0.2s var(--ease), transform 0.2s var(--ease);
 }
 
-.mode-card:hover { background: var(--accent-hot); }
-.mode-card:active { transform: scale(0.995); }
+.mode-card:hover { background: var(--accent-hot); transform: translateY(-2px); }
+.mode-card:active { transform: translateY(0); transition-duration: 0.08s; }
+
+.mode-card--wide {
+  width: 100%;
+  min-height: 130px;
+}
 
 .mode-card__title {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 600;
   line-height: 1.1;
   letter-spacing: -0.02em;
@@ -285,21 +310,10 @@ body {
 }
 
 .mode-card__plus {
-  align-self: flex-end;
-  width: 44px;
-  height: 44px;
+  width: 38px;
+  height: 38px;
   color: #fff;
-}
-
-/* ---- Center panel ---- */
-.dashboard-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-  gap: 28px;
-  text-align: center;
+  flex-shrink: 0;
 }
 
 .dashboard-title {
@@ -509,12 +523,10 @@ body {
   .dashboard-page { padding: 20px; }
   .user-pill { top: 16px; right: 16px; padding: 8px 12px 8px 16px; }
   .user-pill__name { font-size: 14px; }
-  .dashboard-main {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  .mode-card { min-height: 280px; padding: 22px; }
-  .mode-card__title { font-size: 24px; }
+  .dashboard-main { gap: 28px; padding: 32px 16px; }
+  .mode-card { padding: 22px 22px; min-height: 110px; border-radius: 22px; }
+  .mode-card__title { font-size: 20px; }
+  .mode-card__plus { width: 32px; height: 32px; }
   .dashboard-title { font-size: 30px; }
 
   .cases-page { padding: 20px; }

@@ -6,7 +6,7 @@
   <title>Levmich Studio — Admin</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="../favicon.ico" sizes="any" />
-  <link rel="stylesheet" href="admin.css?v=4" />
+  <link rel="stylesheet" href="admin.css?v=5" />
 </head>
 <body class="admin-page dashboard-page" id="dashboard">
 
@@ -25,15 +25,8 @@
 
   <main class="dashboard-main">
 
-    <a class="mode-card" href="cases.html" id="modeAddCase">
-      <h2 class="mode-card__title">Добавить кейс</h2>
-      <svg class="mode-card__plus" viewBox="0 0 44 44" fill="none" aria-hidden="true">
-        <path d="M22 8v28M8 22h28" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
-      </svg>
-    </a>
-
     <div class="dashboard-center">
-      <h1 class="dashboard-title">Наведи на кнопку<br/>и выбери режим</h1>
+      <h1 class="dashboard-title">Наведи на карточку<br/>и выбери режим</h1>
 
       <div class="dashboard-hint" id="modeHint" data-default-text="В режиме «Добавить кейс» ты сможешь настроить любой из текущих кейсов или добавить новый">
         <span class="dashboard-hint__dot"></span>
@@ -41,8 +34,17 @@
       </div>
     </div>
 
+    <div class="mode-grid">
+      <a class="mode-card mode-card--wide" href="cases.html" id="modeAddCase">
+        <h2 class="mode-card__title">Добавить кейс</h2>
+        <svg class="mode-card__plus" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+          <path d="M22 8v28M8 22h28" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+        </svg>
+      </a>
+    </div>
+
   </main>
 
-  <script src="admin.js?v=4"></script>
+  <script src="admin.js?v=5"></script>
 </body>
 </html>
