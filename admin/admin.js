@@ -103,20 +103,27 @@ if (loginForm) {
   }
 }
 
-// ---- Dashboard page ----------------------------------------
+// ---- Logged-in pages (guard + logout) ----------------------
 
-const dashboardEl = document.getElementById('dashboard');
-if (dashboardEl) {
+const authedPage = document.getElementById('dashboard') || document.getElementById('casesPage');
+if (authedPage) {
   if (!sessionValid()) {
     location.replace('index.html');
   }
 
-  document.getElementById('logoutBtn').addEventListener('click', () => {
-    endSession();
-    location.replace('/');
-  });
+  const logoutBtn = document.getElementById('logoutBtn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      endSession();
+      location.replace('/');
+    });
+  }
+}
 
-  // Hint pill — visible only while a mode card is hovered/focused
+// ---- Dashboard hint ----------------------------------------
+
+const dashboardEl = document.getElementById('dashboard');
+if (dashboardEl) {
   const hint = document.getElementById('modeHint');
   const hintText = document.getElementById('hintText');
   const addCase = document.getElementById('modeAddCase');
@@ -125,14 +132,24 @@ if (dashboardEl) {
     if (text) hintText.textContent = text;
     hint.classList.add('is-visible');
   };
-  const hideHint = () => {
-    hint.classList.remove('is-visible');
-  };
+  const hideHint = () => hint.classList.remove('is-visible');
 
   if (addCase) {
     addCase.addEventListener('mouseenter', () => showHint(hint.dataset.defaultText));
     addCase.addEventListener('mouseleave', hideHint);
     addCase.addEventListener('focus', () => showHint(hint.dataset.defaultText));
     addCase.addEventListener('blur', hideHint);
+  }
+}
+
+// ---- Cases page --------------------------------------------
+
+const casesPage = document.getElementById('casesPage');
+if (casesPage) {
+  const addBtn = document.getElementById('addCaseBtn');
+  if (addBtn) {
+    addBtn.addEventListener('click', () => {
+      location.href = 'edit-case.html?id=new';
+    });
   }
 }
