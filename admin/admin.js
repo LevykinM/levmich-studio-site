@@ -10,7 +10,7 @@
 // ============================================================
 
 const ADMIN_COMMAND = '/admin';   // ожидаемая команда (будет своя у каждого сотрудника)
-const ADMIN_HASH    = '';         // <-- SHA-256 хэш пароля
+const ADMIN_HASH    = '01a248803c75b71c5ad0c13f6c9172b00ec1568844eaea36e9849bbabc013cd7';
 
 const SESSION_KEY = 'lm_admin';
 const SESSION_TTL = 8 * 60 * 60 * 1000;  // 8 часов
