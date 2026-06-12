@@ -411,7 +411,7 @@ body {
 
 .cases-header {
   width: 100%;
-  max-width: 1100px;
+  max-width: 1500px;
   margin: 0 auto;
 }
 
@@ -427,9 +427,9 @@ body {
 .cases-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 20px;
   width: 100%;
-  max-width: 1100px;
+  max-width: 1500px;
   margin: 0 auto;
 }
 
@@ -440,7 +440,7 @@ body {
   flex-direction: column;
   border-radius: 26px;
   overflow: hidden;
-  aspect-ratio: 5 / 7;
+  aspect-ratio: 5 / 6;
   text-decoration: none;
   background: var(--bg-card);
   border: none;
