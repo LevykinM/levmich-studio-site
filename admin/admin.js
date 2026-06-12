@@ -105,7 +105,9 @@ if (loginForm) {
 
 // ---- Logged-in pages (guard + logout) ----------------------
 
-const authedPage = document.getElementById('dashboard') || document.getElementById('casesPage');
+const authedPage = document.getElementById('dashboard')
+  || document.getElementById('casesPage')
+  || document.getElementById('editorPage');
 if (authedPage) {
   if (!sessionValid()) {
     location.replace('index.html');
@@ -150,6 +152,44 @@ if (casesPage) {
   if (addBtn) {
     addBtn.addEventListener('click', () => {
       location.href = 'edit-case.html?id=new';
+    });
+  }
+
+  // cases-data.js loads after this script — render once it's ready
+  window.addEventListener('DOMContentLoaded', renderCasesGrid);
+
+  function renderCasesGrid() {
+    if (!window.LMCases) return;
+    const grid = document.getElementById('casesGrid');
+    const add = document.getElementById('addCaseBtn');
+    // remove any previously injected cards
+    grid.querySelectorAll('.case-card--item').forEach((n) => n.remove());
+
+    window.LMCases.getCases().forEach((c) => {
+      const a = document.createElement('a');
+      a.className = 'case-card case-card--item';
+      a.href = 'edit-case.html?id=' + encodeURIComponent(c.id);
+
+      if (c.cover) {
+        const img = document.createElement('img');
+        img.className = 'case-card__img';
+        img.src = window.LMCases.assetUrl(c.cover, true);
+        img.alt = '';
+        a.appendChild(img);
+      } else {
+        a.classList.add('case-card--placeholder');
+        const t = document.createElement('span');
+        t.className = 'case-card__placeholder-title';
+        t.textContent = c.title || 'Без названия';
+        a.appendChild(t);
+      }
+
+      const edit = document.createElement('span');
+      edit.className = 'case-card__edit';
+      edit.textContent = 'Редактировать';
+      a.appendChild(edit);
+
+      grid.appendChild(a);
     });
   }
 }
