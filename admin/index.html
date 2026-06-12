@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Levmich Studio — Admin</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="stylesheet" href="admin.css?v=2" />
+</head>
+<body class="admin-page">
+
+  <main class="login-wrap">
+    <section class="login-card">
+
+      <div class="login-card__left">
+
+        <div class="login-brand">
+          <h1 class="login-wordmark">
+            <span class="login-wordmark__row">Levmich</span>
+            <span class="login-wordmark__row">
+              Studio
+              <svg class="login-wordmark__avatar" viewBox="0 0 19.4 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M8.246 0.022C9.48-0.077 10.717 0.161 11.828 0.711c2 0.977 3.737 3.011 4.472 5.111 3.518 0.354 4.214 4.678 1.316 6.396 0.019 0.349 0.034 0.699 0.045 1.048 0.061 1.925-0.076 3.68-0.987 5.402-1.129 2.132-3.042 3.282-5.407 3.331-5.078-0.066-7.563-5.18-8.656-9.503C0.566 11.827-0.43 10.326 0.176 8.092 0.457 7.056 1.192 6.522 2.069 6.011 2.525 2.452 4.749 0.356 8.246 0.022Z" fill="currentColor"/>
+              </svg>
+            </span>
+          </h1>
+          <p class="login-subtitle">Система монитора</p>
+        </div>
+
+        <form class="login-form" id="loginForm" autocomplete="off" novalidate>
+          <input
+            type="text"
+            class="login-input"
+            id="cmdInput"
+            placeholder="/Command"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+          />
+          <input
+            type="password"
+            class="login-input"
+            id="pwdInput"
+            placeholder="Password"
+            autocomplete="current-password"
+          />
+          <button type="submit" class="btn-primary" id="loginBtn">Войти</button>
+          <p class="login-note__error" id="loginError" aria-live="polite"></p>
+        </form>
+
+        <p class="login-note">
+          *Введите команду, которая откроет<br/>
+          вам доступ к платформе монитора.<br/>
+          Сотруднику выдаётся индивидуальная команда.
+        </p>
+
+      </div>
+
+      <div class="login-card__right">
+        <img src="login-cover.png" alt="" />
+      </div>
+
+    </section>
+  </main>
+
+  <script src="admin.js?v=2"></script>
+</body>
+</html>
