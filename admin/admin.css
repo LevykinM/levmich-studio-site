@@ -96,8 +96,8 @@ img {
   display: flex;
   flex-direction: column;
   width: 334px;
-  min-height: 508px;
-  padding: 28px 29px 26px;
+  height: 508px;
+  padding: 29px 29px 27px;
   border: 1px solid var(--admin-line);
   border-radius: var(--admin-radius-lg);
   background:
@@ -112,13 +112,17 @@ img {
 .admin-login__brand {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-bottom: 36px;
+  gap: 12px;
+  margin-bottom: 33px;
 }
 
 .admin-logo {
   width: 266px;
   height: auto;
+}
+
+.admin-login .admin-logo {
+  width: 226px;
 }
 
 .admin-login__subtitle {
