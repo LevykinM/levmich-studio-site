@@ -6,42 +6,36 @@
   <title>Админ-панель | Levmich Studio</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" type="image/x-icon" href="../favicon.ico" />
-  <link rel="stylesheet" href="admin.css?v=2" />
+  <link rel="stylesheet" href="admin.css?v=5" />
 </head>
 <body class="admin-page">
   <main class="admin-shell" aria-label="Админ-панель Levmich Studio">
     <section class="admin-login" data-admin-login-view aria-label="Вход в систему монитора">
       <div class="admin-login__card">
-        <div class="admin-login__content">
-          <div class="admin-login__brand">
-            <img class="admin-logo" src="../Assets/SVG_files/Levmich_Studio_Logo_01.svg" alt="Levmich Studio" />
-            <p class="admin-login__subtitle">Система монитора</p>
-          </div>
-
-          <form class="admin-login__form" data-admin-form autocomplete="off" novalidate>
-            <label class="admin-field">
-              <span class="admin-field__label">Команда</span>
-              <input class="admin-field__input" data-admin-command type="text" inputmode="text" placeholder="/Command" autocomplete="off" />
-            </label>
-            <label class="admin-field">
-              <span class="admin-field__label">Пароль</span>
-              <input class="admin-field__input" data-admin-password type="password" placeholder="Password" autocomplete="current-password" />
-            </label>
-            <button class="admin-login__submit" type="submit">Войти</button>
-            <p class="admin-login__error" data-admin-error aria-live="polite"></p>
-          </form>
-
-          <p class="admin-login__status" data-admin-api-status>Подключение API проверяется...</p>
-          <p class="admin-login__note">*Введите команду, которая откроет вам доступ к платформе монитора. Сотруднику выдаётся индивидуальная команда.</p>
+        <div class="admin-login__brand">
+          <img class="admin-logo" src="../Assets/SVG_files/Levmich_Studio_Logo_01.svg" alt="Levmich Studio" />
+          <p class="admin-login__subtitle">Система монитора</p>
         </div>
 
-        <div class="admin-login__visual" aria-hidden="true">
-          <img src="../public/figma-assets/admin-login-visual.png" alt="" />
-        </div>
+        <form class="admin-login__form" data-admin-form autocomplete="off" novalidate>
+          <label class="admin-field">
+            <span class="admin-field__label">Команда</span>
+            <input class="admin-field__input" data-admin-command type="text" inputmode="text" placeholder="/Command" autocomplete="off" />
+          </label>
+          <label class="admin-field">
+            <span class="admin-field__label">Пароль</span>
+            <input class="admin-field__input" data-admin-password type="password" placeholder="Password" autocomplete="current-password" />
+          </label>
+          <button class="admin-login__submit" type="submit">Войти</button>
+          <p class="admin-login__error" data-admin-error aria-live="polite"></p>
+        </form>
+
+        <p class="admin-login__status" data-admin-api-status>Подключение API проверяется...</p>
+        <p class="admin-login__note">*Введите команду, которая откроет вам доступ к платформе монитора. Сотруднику выдаётся индивидуальная команда.</p>
       </div>
     </section>
 
-    <section class="admin-mode" data-admin-panel hidden aria-label="Выбор режима админ-панели">
+    <section class="admin-mode" data-admin-panel hidden aria-label="Админ-панель">
       <button class="admin-profile" type="button" data-admin-logout aria-label="Выйти из админки">
         <span class="admin-profile__text">
           <strong data-admin-name>Михаил</strong>
@@ -50,10 +44,25 @@
         <img class="admin-profile__icon" src="../public/figma-assets/admin-logout-icon.svg" alt="" aria-hidden="true" />
       </button>
 
-      <div class="admin-mode__board">
+      <section class="admin-view admin-view--choice" data-admin-view="choice" aria-label="Выбор режима">
+        <div class="admin-choice__copy">
+          <h1>Наведи на кнопку<br />и выбери режим</h1>
+          <div class="admin-choice__hint">
+            <span aria-hidden="true"></span>
+            <p>В режиме «Добавить кейс» ты сможешь настроить любой из текущих кейсов или добавить новый</p>
+          </div>
+        </div>
+
+        <button class="admin-add-card admin-add-card--choice" type="button" data-admin-start-add>
+          <span>Добавить кейс</span>
+          <img src="../public/figma-assets/admin-add-case-icon.svg" alt="" aria-hidden="true" />
+        </button>
+      </section>
+
+      <section class="admin-view admin-view--add" data-admin-view="add" hidden aria-label="Режим добавления кейса">
         <aside class="admin-mode__sidebar" aria-label="Создание кейса">
           <h1>Выбери кейс<br />и редактируй</h1>
-          <button class="admin-add-card" type="button" data-admin-add-case>
+          <button class="admin-add-card admin-add-card--side" type="button" data-admin-add-case>
             <span>Добавить кейс</span>
             <img src="../public/figma-assets/admin-add-case-icon.svg" alt="" aria-hidden="true" />
           </button>
@@ -62,69 +71,57 @@
         <div class="admin-cases" aria-label="Список кейсов">
           <div class="admin-cases__track" data-admin-cases></div>
         </div>
-      </div>
+      </section>
 
-      <section class="admin-editor" data-admin-editor hidden aria-label="Создание кейса">
-        <div class="admin-editor__panel">
-          <div class="admin-editor__head">
-            <div>
-              <p class="admin-editor__eyebrow">Новый кейс</p>
-              <h2>Добавь кейс на сайт</h2>
-            </div>
-            <button class="admin-editor__close" type="button" data-admin-editor-close aria-label="Закрыть редактор">×</button>
+      <section class="admin-view admin-view--new" data-admin-view="new" hidden aria-label="Создание нового кейса">
+        <button class="admin-back" type="button" data-admin-back-to-add aria-label="Вернуться назад">
+          <span aria-hidden="true">‹</span>
+        </button>
+
+        <form class="admin-new" data-admin-case-form autocomplete="off">
+          <h1>Новый кейс</h1>
+
+          <div class="admin-new__card">
+            <label class="admin-new__group admin-new__group--title">
+              <span>Введи название кейса</span>
+              <input name="titleRu" type="text" placeholder="Название" required />
+            </label>
+
+            <label class="admin-new__group admin-new__group--cover">
+              <span>Обложка кейса</span>
+              <input name="cover" type="file" accept="image/png,image/jpeg,image/webp" required />
+              <span class="admin-cover-drop" data-admin-cover-preview>
+                <span class="admin-cover-drop__icon" aria-hidden="true"></span>
+                <span class="admin-cover-drop__text">Драгндропни или вставь с компа</span>
+              </span>
+            </label>
+
+            <fieldset class="admin-new__group admin-new__group--category">
+              <legend>Выбери категорию кейса</legend>
+              <input name="kind" type="hidden" value="branding" />
+              <div class="admin-category-row" data-admin-kind-buttons>
+                <button class="admin-category admin-category--branding is-active" type="button" data-kind="branding">
+                  Брендинг <img src="../Assets/SVG_files/mage_stars-c.svg" alt="" />
+                </button>
+                <button class="admin-category admin-category--site" type="button" data-kind="site">
+                  Сайт <img src="../Assets/SVG_files/dashicons_admin-site-alt3.svg" alt="" />
+                </button>
+                <button class="admin-category admin-category--app" type="button" data-kind="app">
+                  Приложение <span aria-hidden="true">▯</span>
+                </button>
+              </div>
+            </fieldset>
+
+            <input name="slug" type="hidden" />
+            <input name="titleEn" type="hidden" />
+            <input name="summaryRu" type="hidden" />
+            <input name="summaryEn" type="hidden" />
+            <input name="accent" type="hidden" value="#ff6b00" />
+
+            <button class="admin-new__submit" type="submit">Продолжить</button>
+            <p class="admin-new__status" data-admin-publish-status aria-live="polite"></p>
           </div>
-
-          <form class="admin-editor__form" data-admin-case-form>
-            <div class="admin-editor__grid">
-              <label class="admin-field admin-field--editor">
-                <span>Slug</span>
-                <input name="slug" type="text" placeholder="new-project" pattern="[a-z0-9-]+" required />
-              </label>
-              <label class="admin-field admin-field--editor">
-                <span>Тип</span>
-                <select name="kind">
-                  <option value="branding">Брендинг</option>
-                  <option value="site">Сайт</option>
-                  <option value="branding-site">Брендинг + сайт</option>
-                  <option value="app">Приложение</option>
-                </select>
-              </label>
-              <label class="admin-field admin-field--editor">
-                <span>Название RU</span>
-                <input name="titleRu" type="text" placeholder="Новый проект" required />
-              </label>
-              <label class="admin-field admin-field--editor">
-                <span>Название EN</span>
-                <input name="titleEn" type="text" placeholder="New project" required />
-              </label>
-              <label class="admin-field admin-field--editor admin-field--wide">
-                <span>Описание RU</span>
-                <textarea name="summaryRu" rows="3" placeholder="Короткое описание кейса для страницы"></textarea>
-              </label>
-              <label class="admin-field admin-field--editor admin-field--wide">
-                <span>Описание EN</span>
-                <textarea name="summaryEn" rows="3" placeholder="Short case description"></textarea>
-              </label>
-              <label class="admin-field admin-field--editor">
-                <span>Акцент</span>
-                <input name="accent" type="color" value="#ff6b00" />
-              </label>
-              <label class="admin-field admin-field--editor">
-                <span>Обложка</span>
-                <input name="cover" type="file" accept="image/png,image/jpeg,image/webp" required />
-              </label>
-            </div>
-
-            <div class="admin-editor__preview" data-admin-cover-preview>
-              <span>Обложка появится здесь</span>
-            </div>
-
-            <div class="admin-editor__actions">
-              <p data-admin-publish-status>После публикации функция создаст JSON, страницы кейса и файл обложки в GitHub.</p>
-              <button class="admin-editor__submit" type="submit">Опубликовать кейс</button>
-            </div>
-          </form>
-        </div>
+        </form>
       </section>
     </section>
 
@@ -143,6 +140,6 @@
   </main>
 
   <script src="config.js?v=1" defer></script>
-  <script src="admin.js?v=3" defer></script>
+  <script src="admin.js?v=5" defer></script>
 </body>
 </html>

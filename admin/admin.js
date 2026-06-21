@@ -40,6 +40,21 @@
     },
   ];
 
+  const KIND_META = {
+    branding: {
+      accent: '#ff6b00',
+      label: 'Брендинг',
+    },
+    site: {
+      accent: '#b7ff4a',
+      label: 'Сайт',
+    },
+    app: {
+      accent: '#ffd600',
+      label: 'Приложение',
+    },
+  };
+
   const icons = {
     trash: `
       <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
@@ -57,6 +72,7 @@
 
   const loginView = document.querySelector('[data-admin-login-view]');
   const panelView = document.querySelector('[data-admin-panel]');
+  const views = [...document.querySelectorAll('[data-admin-view]')];
   const form = document.querySelector('[data-admin-form]');
   const commandInput = document.querySelector('[data-admin-command]');
   const passwordInput = document.querySelector('[data-admin-password]');
@@ -65,12 +81,13 @@
   const logoutButton = document.querySelector('[data-admin-logout]');
   const nameEl = document.querySelector('[data-admin-name]');
   const casesEl = document.querySelector('[data-admin-cases]');
+  const startAddButton = document.querySelector('[data-admin-start-add]');
   const addCaseButton = document.querySelector('[data-admin-add-case]');
-  const editor = document.querySelector('[data-admin-editor]');
-  const editorClose = document.querySelector('[data-admin-editor-close]');
+  const backToAddButton = document.querySelector('[data-admin-back-to-add]');
   const caseForm = document.querySelector('[data-admin-case-form]');
   const publishStatus = document.querySelector('[data-admin-publish-status]');
   const coverPreview = document.querySelector('[data-admin-cover-preview]');
+  const kindButtons = document.querySelector('[data-admin-kind-buttons]');
 
   const state = {
     token: sessionStorage.getItem(AUTH_KEY) || '',
@@ -127,6 +144,12 @@
     publishStatus.classList.toggle('is-success', mode === 'success');
   };
 
+  const showView = (name) => {
+    views.forEach((view) => {
+      view.hidden = view.dataset.adminView !== name;
+    });
+  };
+
   const updateApiStatus = () => {
     if (!apiStatusEl) return;
     if (API_URL) {
@@ -163,15 +186,24 @@
     return data;
   };
 
+  const caseImagePath = (source) => {
+    const value = String(source || '').trim();
+    if (!value) return '../Assets/Main_page/Property 1=Photo 1.webp';
+    if (/^(https?:|data:|\/|\.{1,2}\/)/i.test(value)) return value;
+    return `../${value}`;
+  };
+
   const normalizeCase = (item) => {
     const slug = String(item.slug || item.id || '').trim();
     const title = item.titleRu || item.title || slug;
+    const kind = item.kindLabelRu || KIND_META[item.kind]?.label || item.kind || 'Кейс';
+
     return {
       id: slug,
       slug,
       title,
-      kind: item.kindLabelRu || item.kind || 'Кейс',
-      image: item.cover || item.image || '../Assets/Main_page/Property 1=Photo 1.webp',
+      kind,
+      image: caseImagePath(item.cover || item.image),
       editUrl: `../cases/${slug}/`,
       sourceFiles: [`cases/${slug}/index.html`, `ru/cases/${slug}/index.html`, `en/cases/${slug}/index.html`],
       readonly: Boolean(item.readonly),
@@ -252,12 +284,45 @@
     casesEl.append(fragment);
   };
 
+  const resetCoverPreview = () => {
+    state.coverDataUrl = '';
+    if (!coverPreview) return;
+    coverPreview.classList.remove('has-image');
+    coverPreview.querySelector('img')?.remove();
+  };
+
+  const selectKind = (kind) => {
+    const nextKind = KIND_META[kind] ? kind : 'branding';
+    if (caseForm?.kind) caseForm.kind.value = nextKind;
+    if (caseForm?.accent) caseForm.accent.value = KIND_META[nextKind].accent;
+
+    kindButtons?.querySelectorAll('[data-kind]').forEach((button) => {
+      button.classList.toggle('is-active', button.dataset.kind === nextKind);
+    });
+  };
+
+  const resetNewCaseForm = () => {
+    if (!caseForm) return;
+    caseForm.reset();
+    if (caseForm.kind) caseForm.kind.value = 'branding';
+    if (caseForm.accent) caseForm.accent.value = KIND_META.branding.accent;
+    selectKind('branding');
+    resetCoverPreview();
+    setPublishStatus(
+      API_URL
+        ? ''
+        : 'Сначала укажите URL serverless API в admin/config.js.',
+      API_URL ? '' : 'error',
+    );
+  };
+
   const showPanel = async () => {
     const config = await localConfigPromise;
     if (nameEl) nameEl.textContent = config.name || DEFAULT_NAME;
     await refreshCases();
     if (loginView) loginView.hidden = true;
     if (panelView) panelView.hidden = false;
+    showView('choice');
     setError('');
   };
 
@@ -266,34 +331,21 @@
     if (loginView) loginView.hidden = false;
   };
 
-  const openEditor = () => {
-    if (!editor || !caseForm) return;
-    caseForm.reset();
-    state.coverDataUrl = '';
-    coverPreview?.classList.remove('has-image');
-    const oldImage = coverPreview?.querySelector('img');
-    oldImage?.remove();
-    setPublishStatus(
-      API_URL
-        ? 'Заполните поля и загрузите обложку. После публикации GitHub Pages обновится через пару минут.'
-        : 'Сначала укажите URL serverless API в admin/config.js.',
-      API_URL ? '' : 'error',
-    );
-    editor.hidden = false;
+  const translitMap = {
+    а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'e', ж: 'zh', з: 'z',
+    и: 'i', й: 'y', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r',
+    с: 's', т: 't', у: 'u', ф: 'f', х: 'h', ц: 'ts', ч: 'ch', ш: 'sh',
+    щ: 'sch', ы: 'y', э: 'e', ю: 'yu', я: 'ya', ь: '', ъ: '',
   };
 
-  const closeEditor = () => {
-    if (editor) editor.hidden = true;
-  };
-
-  const slugify = (value) => value
+  const slugify = (value) => String(value || '')
     .toLowerCase()
     .trim()
-    .replace(/ё/g, 'e')
-    .replace(/[^a-z0-9а-я-]+/g, '-')
-    .replace(/[а-я]/g, '')
+    .replace(/[а-яё]/g, letter => translitMap[letter] || '')
+    .replace(/[^a-z0-9-]+/g, '-')
     .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '');
+    .replace(/^-|-$/g, '')
+    .slice(0, 60);
 
   const fileToDataUrl = (file) => new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -362,20 +414,28 @@
     window.location.href = '../main/';
   });
 
-  addCaseButton?.addEventListener('click', openEditor);
-  editorClose?.addEventListener('click', closeEditor);
-
-  editor?.addEventListener('click', (event) => {
-    if (event.target === editor) closeEditor();
+  startAddButton?.addEventListener('click', () => {
+    showView('add');
   });
 
-  caseForm?.slug?.addEventListener('input', (event) => {
-    event.target.value = slugify(event.target.value);
+  addCaseButton?.addEventListener('click', () => {
+    resetNewCaseForm();
+    showView('new');
   });
 
-  caseForm?.titleEn?.addEventListener('input', () => {
-    if (!caseForm?.slug || caseForm.slug.value) return;
-    caseForm.slug.value = slugify(caseForm.titleEn.value);
+  backToAddButton?.addEventListener('click', () => {
+    showView('add');
+  });
+
+  kindButtons?.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-kind]');
+    if (!button) return;
+    selectKind(button.dataset.kind);
+  });
+
+  caseForm?.titleRu?.addEventListener('input', () => {
+    if (!caseForm?.slug) return;
+    caseForm.slug.value = slugify(caseForm.titleRu.value);
   });
 
   caseForm?.cover?.addEventListener('change', async (event) => {
@@ -397,22 +457,28 @@
       return;
     }
 
-    const submit = caseForm.querySelector('.admin-editor__submit');
+    const submit = caseForm.querySelector('.admin-new__submit');
     submit.disabled = true;
     setPublishStatus('Публикую кейс в репозиторий...', '');
 
     try {
+      const titleRu = caseForm.titleRu.value.trim();
+      const slug = slugify(caseForm.slug.value || titleRu);
+      const kind = caseForm.kind.value || 'branding';
+
       const payload = {
-        slug: caseForm.slug.value.trim(),
-        kind: caseForm.kind.value,
-        titleRu: caseForm.titleRu.value.trim(),
-        titleEn: caseForm.titleEn.value.trim(),
-        summaryRu: caseForm.summaryRu.value.trim(),
-        summaryEn: caseForm.summaryEn.value.trim(),
-        accent: caseForm.accent.value,
+        slug,
+        kind,
+        titleRu,
+        titleEn: caseForm.titleEn.value.trim() || titleRu,
+        summaryRu: caseForm.summaryRu.value.trim() || titleRu,
+        summaryEn: caseForm.summaryEn.value.trim() || titleRu,
+        accent: caseForm.accent.value || KIND_META[kind]?.accent || KIND_META.branding.accent,
         coverDataUrl: state.coverDataUrl,
       };
 
+      if (!payload.slug) throw new Error('Введите название кейса латиницей или кириллицей.');
+      if (!payload.titleRu) throw new Error('Введите название кейса.');
       if (!payload.coverDataUrl) throw new Error('Загрузите обложку кейса.');
 
       const result = await apiFetch('/cases', {
@@ -422,7 +488,7 @@
 
       setPublishStatus(`Готово. Коммит: ${result.commitSha || 'создан'}. GitHub Pages обновится через пару минут.`, 'success');
       await refreshCases();
-      setTimeout(closeEditor, 900);
+      setTimeout(() => showView('add'), 900);
     } catch (error) {
       setPublishStatus(error.message || 'Не удалось опубликовать кейс.', 'error');
     } finally {
