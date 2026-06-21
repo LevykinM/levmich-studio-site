@@ -26,6 +26,7 @@
   gsap.registerPlugin(ScrollTrigger);
 
   const EASE = 'power2.out';
+  const BOUNCE_EASE = 'back.out(1.45)';
 
   gsap.set('.case-anim, .case-anim--banner, .case-anim--title', {
     force3D: true,
@@ -91,6 +92,29 @@
   gsap.utils.toArray('.case-components').forEach((block) => {
     const heading = block.querySelector('.case-components__title');
     const cards   = block.querySelectorAll('.case-component');
+    const isCompact = window.matchMedia('(max-width: 768px)').matches;
+    const cardOrigins = isCompact
+      ? [
+          { x: -14, y: 46, rotate: -1.8 },
+          { x: 14, y: -34, rotate: 1.4 },
+          { x: -10, y: 40, rotate: -1.2 },
+        ]
+      : [
+          { x: -18, y: 54, rotate: -2.2 },
+          { x: 0, y: -64, rotate: 1.2 },
+          { x: 18, y: 54, rotate: 2.2 },
+        ];
+
+    if (cards.length) {
+      gsap.set(cards, {
+        opacity: 0,
+        x: (i) => cardOrigins[i % cardOrigins.length].x,
+        y: (i) => cardOrigins[i % cardOrigins.length].y,
+        rotate: (i) => cardOrigins[i % cardOrigins.length].rotate,
+        scale: 0.92,
+        transformOrigin: '50% 50%',
+      });
+    }
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -107,9 +131,13 @@
     if (cards.length) {
       tl.to(cards, {
         opacity: 1,
+        x: 0,
         y: 0,
-        duration: 0.68,
-        stagger: 0.08,
+        rotate: 0,
+        scale: 1,
+        duration: 0.86,
+        ease: BOUNCE_EASE,
+        stagger: 0.07,
         onComplete: () => settle(cards),
       }, '-=0.55');
     }

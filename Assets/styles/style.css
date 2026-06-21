@@ -1807,6 +1807,20 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
 .portfolio-tag--branding { background: #ffa6f6; color: #c800b4; }
 .portfolio-tag--site     { background: #c5ff58; color: #517d00; }
 .portfolio-tag--app      { background: #ffd900; color: #615200; }
+.portfolio-case--generated {
+  order: 10;
+}
+.portfolio-case--generated .portfolio-case__arrow span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  font-size: 42px;
+  font-weight: 500;
+  line-height: 1;
+}
 .portfolio-case__arrow {
   display: none;
 }

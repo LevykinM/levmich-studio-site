@@ -10,5 +10,8 @@ Thumbs.db
 # Claude local config
 .claude/
 
+# Local admin secrets
+admin/.env
+
 # Backup
 _backup_before_final_claude/

@@ -3,52 +3,146 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Levmich Studio — Admin</title>
+  <title>Админ-панель | Levmich Studio</title>
   <meta name="robots" content="noindex, nofollow" />
-  <link rel="icon" href="../favicon.ico" sizes="any" />
-  <link rel="stylesheet" href="admin.css?v=5" />
+  <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+  <link rel="stylesheet" href="admin.css?v=2" />
 </head>
 <body class="admin-page">
+  <main class="admin-shell" aria-label="Админ-панель Levmich Studio">
+    <section class="admin-login" data-admin-login-view aria-label="Вход в систему монитора">
+      <div class="admin-login__card">
+        <div class="admin-login__content">
+          <div class="admin-login__brand">
+            <img class="admin-logo" src="../Assets/SVG_files/Levmich_Studio_Logo_01.svg" alt="Levmich Studio" />
+            <p class="admin-login__subtitle">Система монитора</p>
+          </div>
 
-  <main class="login-wrap">
-    <section class="login-card">
+          <form class="admin-login__form" data-admin-form autocomplete="off" novalidate>
+            <label class="admin-field">
+              <span class="admin-field__label">Команда</span>
+              <input class="admin-field__input" data-admin-command type="text" inputmode="text" placeholder="/Command" autocomplete="off" />
+            </label>
+            <label class="admin-field">
+              <span class="admin-field__label">Пароль</span>
+              <input class="admin-field__input" data-admin-password type="password" placeholder="Password" autocomplete="current-password" />
+            </label>
+            <button class="admin-login__submit" type="submit">Войти</button>
+            <p class="admin-login__error" data-admin-error aria-live="polite"></p>
+          </form>
 
-      <div class="login-brand">
-        <img class="login-logo" src="../Assets/SVG_files/Levmich_Studio_Logo_01.svg" alt="Levmich Studio" />
-        <p class="login-subtitle">Система монитора</p>
+          <p class="admin-login__status" data-admin-api-status>Подключение API проверяется...</p>
+          <p class="admin-login__note">*Введите команду, которая откроет вам доступ к платформе монитора. Сотруднику выдаётся индивидуальная команда.</p>
+        </div>
+
+        <div class="admin-login__visual" aria-hidden="true">
+          <img src="../public/figma-assets/admin-login-visual.png" alt="" />
+        </div>
+      </div>
+    </section>
+
+    <section class="admin-mode" data-admin-panel hidden aria-label="Выбор режима админ-панели">
+      <button class="admin-profile" type="button" data-admin-logout aria-label="Выйти из админки">
+        <span class="admin-profile__text">
+          <strong data-admin-name>Михаил</strong>
+          <small>/admin</small>
+        </span>
+        <img class="admin-profile__icon" src="../public/figma-assets/admin-logout-icon.svg" alt="" aria-hidden="true" />
+      </button>
+
+      <div class="admin-mode__board">
+        <aside class="admin-mode__sidebar" aria-label="Создание кейса">
+          <h1>Выбери кейс<br />и редактируй</h1>
+          <button class="admin-add-card" type="button" data-admin-add-case>
+            <span>Добавить кейс</span>
+            <img src="../public/figma-assets/admin-add-case-icon.svg" alt="" aria-hidden="true" />
+          </button>
+        </aside>
+
+        <div class="admin-cases" aria-label="Список кейсов">
+          <div class="admin-cases__track" data-admin-cases></div>
+        </div>
       </div>
 
-      <form class="login-form" id="loginForm" autocomplete="off" novalidate>
-        <input
-          type="text"
-          class="login-input"
-          id="cmdInput"
-          placeholder="/Command"
-          autocomplete="off"
-          autocorrect="off"
-          autocapitalize="off"
-          spellcheck="false"
-        />
-        <input
-          type="password"
-          class="login-input"
-          id="pwdInput"
-          placeholder="Password"
-          autocomplete="current-password"
-        />
-        <button type="submit" class="btn-primary" id="loginBtn">Войти</button>
-        <p class="login-note__error" id="loginError" aria-live="polite"></p>
-      </form>
+      <section class="admin-editor" data-admin-editor hidden aria-label="Создание кейса">
+        <div class="admin-editor__panel">
+          <div class="admin-editor__head">
+            <div>
+              <p class="admin-editor__eyebrow">Новый кейс</p>
+              <h2>Добавь кейс на сайт</h2>
+            </div>
+            <button class="admin-editor__close" type="button" data-admin-editor-close aria-label="Закрыть редактор">×</button>
+          </div>
 
-      <p class="login-note">
-        *Введите команду, которая откроет<br/>
-        вам доступ к платформе монитора.<br/>
-        Сотруднику выдаётся индивидуальная команда.
-      </p>
+          <form class="admin-editor__form" data-admin-case-form>
+            <div class="admin-editor__grid">
+              <label class="admin-field admin-field--editor">
+                <span>Slug</span>
+                <input name="slug" type="text" placeholder="new-project" pattern="[a-z0-9-]+" required />
+              </label>
+              <label class="admin-field admin-field--editor">
+                <span>Тип</span>
+                <select name="kind">
+                  <option value="branding">Брендинг</option>
+                  <option value="site">Сайт</option>
+                  <option value="branding-site">Брендинг + сайт</option>
+                  <option value="app">Приложение</option>
+                </select>
+              </label>
+              <label class="admin-field admin-field--editor">
+                <span>Название RU</span>
+                <input name="titleRu" type="text" placeholder="Новый проект" required />
+              </label>
+              <label class="admin-field admin-field--editor">
+                <span>Название EN</span>
+                <input name="titleEn" type="text" placeholder="New project" required />
+              </label>
+              <label class="admin-field admin-field--editor admin-field--wide">
+                <span>Описание RU</span>
+                <textarea name="summaryRu" rows="3" placeholder="Короткое описание кейса для страницы"></textarea>
+              </label>
+              <label class="admin-field admin-field--editor admin-field--wide">
+                <span>Описание EN</span>
+                <textarea name="summaryEn" rows="3" placeholder="Short case description"></textarea>
+              </label>
+              <label class="admin-field admin-field--editor">
+                <span>Акцент</span>
+                <input name="accent" type="color" value="#ff6b00" />
+              </label>
+              <label class="admin-field admin-field--editor">
+                <span>Обложка</span>
+                <input name="cover" type="file" accept="image/png,image/jpeg,image/webp" required />
+              </label>
+            </div>
 
+            <div class="admin-editor__preview" data-admin-cover-preview>
+              <span>Обложка появится здесь</span>
+            </div>
+
+            <div class="admin-editor__actions">
+              <p data-admin-publish-status>После публикации функция создаст JSON, страницы кейса и файл обложки в GitHub.</p>
+              <button class="admin-editor__submit" type="submit">Опубликовать кейс</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </section>
+
+    <section class="admin-mobile-guard" aria-label="Админ-панель доступна только с десктопа">
+      <div class="admin-mobile-guard__inner">
+        <div class="admin-mobile-guard__brand">
+          <img class="admin-logo" src="../Assets/SVG_files/Levmich_Studio_Logo_01.svg" alt="Levmich Studio" />
+          <p>Система монитора</p>
+        </div>
+        <div class="admin-mobile-guard__bottom">
+          <p>Чтобы воспользоваться системой монитора перейдите на десктоп</p>
+          <a class="admin-mobile-guard__button" href="../main/">На главную</a>
+        </div>
+      </div>
     </section>
   </main>
 
-  <script src="admin.js?v=5"></script>
+  <script src="config.js?v=1" defer></script>
+  <script src="admin.js?v=3" defer></script>
 </body>
 </html>
