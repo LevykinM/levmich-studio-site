@@ -6,7 +6,7 @@
   <title>Админ-панель | Levmich Studio</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" type="image/x-icon" href="../favicon.ico" />
-  <link rel="stylesheet" href="admin.css?v=10" />
+  <link rel="stylesheet" href="admin.css?v=11" />
 </head>
 <body class="admin-page">
   <main class="admin-shell" aria-label="Админ-панель Levmich Studio">
@@ -75,11 +75,13 @@
 
       <section class="admin-view admin-view--new" data-admin-view="new" hidden aria-label="Создание нового кейса">
         <button class="admin-back" type="button" data-admin-back-to-add aria-label="Вернуться назад">
-          <span aria-hidden="true">‹</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M15 5 8 12l7 7" />
+          </svg>
         </button>
 
         <form class="admin-new" data-admin-case-form autocomplete="off">
-          <h1>Новый кейс</h1>
+          <h1 data-admin-form-title>Новый кейс</h1>
 
           <div class="admin-new__card">
             <label class="admin-new__group admin-new__group--title">
@@ -87,26 +89,36 @@
               <input name="titleRu" type="text" placeholder="Название" required />
             </label>
 
+            <label class="admin-new__group admin-new__group--summary">
+              <span>Короткое описание</span>
+              <textarea name="summaryRu" placeholder="О чём этот кейс"></textarea>
+            </label>
+
             <label class="admin-new__group admin-new__group--cover">
               <span>Обложка кейса</span>
-              <input name="cover" type="file" accept="image/png,image/jpeg,image/webp" required />
+              <input name="cover" type="file" accept="image/png,image/jpeg,image/webp" />
               <span class="admin-cover-drop" data-admin-cover-preview>
-                <span class="admin-cover-drop__icon" aria-hidden="true"></span>
+                <svg class="admin-cover-drop__icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+                  <path d="M16 21V7m0 0-5.2 5.2M16 7l5.2 5.2" />
+                  <path d="M7 20v2.8A2.2 2.2 0 0 0 9.2 25h13.6A2.2 2.2 0 0 0 25 22.8V20" />
+                </svg>
                 <span class="admin-cover-drop__text">Драгндропни или вставь с компа</span>
               </span>
+              <small class="admin-cover-note" data-admin-cover-note></small>
             </label>
 
             <fieldset class="admin-new__group admin-new__group--category">
-              <legend>Выбери категорию кейса</legend>
+              <legend>Выбери категории кейса</legend>
               <input name="kind" type="hidden" value="branding" />
+              <input name="kinds" type="hidden" value="branding" />
               <div class="admin-category-row" data-admin-kind-buttons>
-                <button class="admin-category admin-category--branding is-active" type="button" data-kind="branding">
+                <button class="admin-category admin-category--branding is-active" type="button" data-kind="branding" aria-pressed="true">
                   Брендинг <img src="../Assets/SVG_files/mage_stars-c.svg" alt="" />
                 </button>
-                <button class="admin-category admin-category--site" type="button" data-kind="site">
+                <button class="admin-category admin-category--site" type="button" data-kind="site" aria-pressed="false">
                   Сайт <img src="../Assets/SVG_files/dashicons_admin-site-alt3.svg" alt="" />
                 </button>
-                <button class="admin-category admin-category--app" type="button" data-kind="app">
+                <button class="admin-category admin-category--app" type="button" data-kind="app" aria-pressed="false">
                   Приложение <span aria-hidden="true">▯</span>
                 </button>
               </div>
@@ -114,11 +126,10 @@
 
             <input name="slug" type="hidden" />
             <input name="titleEn" type="hidden" />
-            <input name="summaryRu" type="hidden" />
             <input name="summaryEn" type="hidden" />
             <input name="accent" type="hidden" value="#ff6b00" />
 
-            <button class="admin-new__submit" type="submit">Продолжить</button>
+            <button class="admin-new__submit" type="submit" data-admin-submit-label>Опубликовать</button>
             <p class="admin-new__status" data-admin-publish-status aria-live="polite"></p>
           </div>
         </form>
@@ -140,6 +151,6 @@
   </main>
 
   <script src="config.js?v=1" defer></script>
-  <script src="admin.js?v=6" defer></script>
+  <script src="admin.js?v=7" defer></script>
 </body>
 </html>

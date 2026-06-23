@@ -12,9 +12,15 @@
       id: 'front',
       slug: 'front',
       title: 'Front',
-      kind: 'Брендинг и сайт',
+      titleRu: 'Front',
+      titleEn: 'Front',
+      summaryRu: 'Логотип и сайт для крупного патентного бюро.',
+      summaryEn: 'Branding and website for a patent bureau.',
+      kind: 'branding',
+      kinds: ['branding', 'site'],
+      kindLabel: 'Брендинг и сайт',
       image: '../public/figma-assets/admin-case-front.png',
-      editUrl: '../cases/front/',
+      editUrl: './edit-case.html?id=front',
       sourceFiles: ['cases/front/index.html', 'ru/cases/front/index.html', 'en/cases/front/index.html'],
       readonly: true,
     },
@@ -22,9 +28,15 @@
       id: 'three',
       slug: 'three',
       title: 'Три семёрки',
-      kind: 'Грузоперевозки',
+      titleRu: 'Три семёрки',
+      titleEn: 'Tri semerki',
+      summaryRu: 'Брендинг для регионального грузоперевозчика.',
+      summaryEn: 'Branding for a regional freight company.',
+      kind: 'branding',
+      kinds: ['branding'],
+      kindLabel: 'Грузоперевозки',
       image: '../public/figma-assets/admin-case-three.png',
-      editUrl: '../cases/three/',
+      editUrl: './edit-case.html?id=three',
       sourceFiles: ['cases/three/index.html', 'ru/cases/three/index.html', 'en/cases/three/index.html'],
       readonly: true,
     },
@@ -32,9 +44,15 @@
       id: 'wedding',
       slug: 'wedding',
       title: 'Оксана и Костя',
-      kind: 'Свадебный сайт',
+      titleRu: 'Оксана и Костя',
+      titleEn: 'Oksana and Kostya',
+      summaryRu: 'Сайт-приглашение, который взял на себя логистику свадьбы.',
+      summaryEn: 'A wedding invitation website with all event logistics.',
+      kind: 'site',
+      kinds: ['site'],
+      kindLabel: 'Свадебный сайт',
       image: '../public/figma-assets/admin-case-wedding.png',
-      editUrl: '../cases/wedding/',
+      editUrl: './edit-case.html?id=wedding',
       sourceFiles: ['cases/wedding/index.html', 'ru/cases/wedding/index.html', 'en/cases/wedding/index.html'],
       readonly: true,
     },
@@ -54,6 +72,8 @@
       label: 'Приложение',
     },
   };
+
+  const SYSTEM_CASE_NOTICE = 'Системный кейс откроется в конструкторе. Публикация этих страниц пока защищена от случайной перезаписи.';
 
   const icons = {
     trash: `
@@ -87,12 +107,18 @@
   const caseForm = document.querySelector('[data-admin-case-form]');
   const publishStatus = document.querySelector('[data-admin-publish-status]');
   const coverPreview = document.querySelector('[data-admin-cover-preview]');
+  const coverNote = document.querySelector('[data-admin-cover-note]');
+  const formTitle = document.querySelector('[data-admin-form-title]');
+  const submitLabel = document.querySelector('[data-admin-submit-label]');
   const kindButtons = document.querySelector('[data-admin-kind-buttons]');
 
   const state = {
     token: sessionStorage.getItem(AUTH_KEY) || '',
     cases: [...BASE_CASES],
     coverDataUrl: '',
+    existingCover: '',
+    selectedKinds: new Set(['branding']),
+    editingSlug: '',
   };
 
   const parseEnv = (text) => {
@@ -196,13 +222,27 @@
   const normalizeCase = (item) => {
     const slug = String(item.slug || item.id || '').trim();
     const title = item.titleRu || item.title || slug;
-    const kind = item.kindLabelRu || KIND_META[item.kind]?.label || item.kind || 'Кейс';
+    const kinds = Array.isArray(item.kinds) && item.kinds.length
+      ? item.kinds.filter((key) => KIND_META[key])
+      : [item.kind || 'site'].filter((key) => KIND_META[key]);
+    const safeKinds = kinds.length ? kinds : ['site'];
+    const kind = item.kindLabelRu
+      || safeKinds.map((key) => KIND_META[key]?.label).filter(Boolean).join(' · ')
+      || item.kind
+      || 'Кейс';
 
     return {
       id: slug,
       slug,
       title,
+      titleRu: item.titleRu || title,
+      titleEn: item.titleEn || title,
+      summaryRu: item.summaryRu || title,
+      summaryEn: item.summaryEn || item.summaryRu || title,
       kind,
+      kinds: safeKinds,
+      cover: item.cover || item.image || '',
+      accent: item.accent || KIND_META[safeKinds[0]]?.accent || KIND_META.site.accent,
       image: caseImagePath(item.cover || item.image),
       editUrl: `../cases/${slug}/`,
       sourceFiles: [`cases/${slug}/index.html`, `ru/cases/${slug}/index.html`, `en/cases/${slug}/index.html`],
@@ -213,6 +253,11 @@
 
   const loadGeneratedCases = async () => {
     try {
+      if (API_URL && state.token) {
+        const data = await apiFetch('/cases', { method: 'GET' });
+        return Array.isArray(data.cases) ? data.cases.map(normalizeCase) : [];
+      }
+
       const response = await fetch('../data/cases.generated.json', { cache: 'no-store' });
       if (!response.ok) return [];
       const data = await response.json();
@@ -253,11 +298,24 @@
       title.className = 'admin-case-card__title';
       title.textContent = item.title;
 
-      const path = document.createElement('p');
-      path.className = 'admin-case-card__path';
-      path.textContent = item.sourceFiles[0];
+      const tags = document.createElement('div');
+      tags.className = 'admin-case-card__tags';
+      const itemKinds = Array.isArray(item.kinds) && item.kinds.length ? item.kinds : [item.kind].filter((key) => KIND_META[key]);
+      if (itemKinds.length) {
+        itemKinds.forEach((kind) => {
+          const tag = document.createElement('span');
+          tag.className = `admin-case-card__tag admin-case-card__tag--${kind}`;
+          tag.textContent = KIND_META[kind]?.label || kind;
+          tags.append(tag);
+        });
+      } else {
+        const tag = document.createElement('span');
+        tag.className = 'admin-case-card__tag';
+        tag.textContent = item.kind || 'Кейс';
+        tags.append(tag);
+      }
 
-      meta.append(title, path);
+      meta.append(title, tags);
 
       const actions = document.createElement('div');
       actions.className = 'admin-case-card__actions';
@@ -270,13 +328,14 @@
       deleteButton.setAttribute('aria-label', `Удалить кейс ${item.title}`);
       deleteButton.innerHTML = icons.trash;
 
-      const editLink = document.createElement('a');
-      editLink.className = 'admin-case-action admin-case-action--edit';
-      editLink.href = item.editUrl;
-      editLink.setAttribute('aria-label', `Открыть кейс ${item.title}`);
-      editLink.innerHTML = `<span>Редактировать</span>${icons.edit}`;
+      const editButton = document.createElement('button');
+      editButton.className = 'admin-case-action admin-case-action--edit';
+      editButton.type = 'button';
+      editButton.dataset.adminEditCase = item.slug;
+      editButton.setAttribute('aria-label', `Редактировать кейс ${item.title}`);
+      editButton.innerHTML = `<span>Редактировать</span>${icons.edit}`;
 
-      actions.append(deleteButton, editLink);
+      actions.append(deleteButton, editButton);
       card.append(image, meta, actions);
       fragment.append(card);
     });
@@ -286,28 +345,86 @@
 
   const resetCoverPreview = () => {
     state.coverDataUrl = '';
+    state.existingCover = '';
     if (!coverPreview) return;
     coverPreview.classList.remove('has-image');
+    coverPreview.classList.remove('is-over');
     coverPreview.querySelector('img')?.remove();
+    if (coverNote) coverNote.textContent = '';
   };
 
-  const selectKind = (kind) => {
-    const nextKind = KIND_META[kind] ? kind : 'branding';
-    if (caseForm?.kind) caseForm.kind.value = nextKind;
-    if (caseForm?.accent) caseForm.accent.value = KIND_META[nextKind].accent;
+  const syncKinds = () => {
+    if (!state.selectedKinds.size) state.selectedKinds.add('branding');
+    const kinds = [...state.selectedKinds].filter((kind) => KIND_META[kind]);
+    const primary = kinds[0] || 'branding';
+
+    if (caseForm?.kind) caseForm.kind.value = primary;
+    if (caseForm?.kinds) caseForm.kinds.value = kinds.join(',');
+    if (caseForm?.accent) caseForm.accent.value = KIND_META[primary].accent;
 
     kindButtons?.querySelectorAll('[data-kind]').forEach((button) => {
-      button.classList.toggle('is-active', button.dataset.kind === nextKind);
+      const active = state.selectedKinds.has(button.dataset.kind);
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
   };
 
-  const resetNewCaseForm = () => {
+  const setSelectedKinds = (kinds) => {
+    state.selectedKinds = new Set((Array.isArray(kinds) ? kinds : [kinds]).filter((kind) => KIND_META[kind]));
+    syncKinds();
+  };
+
+  const toggleKind = (kind) => {
+    if (!KIND_META[kind]) return;
+    if (state.selectedKinds.has(kind)) {
+      if (state.selectedKinds.size === 1) {
+        const button = kindButtons?.querySelector(`[data-kind="${kind}"]`);
+        button?.animate(
+          [
+            { transform: 'translateY(-1px) scale(1)' },
+            { transform: 'translateY(-1px) scale(.94)' },
+            { transform: 'translateY(-1px) scale(1)' },
+          ],
+          { duration: 220, easing: 'cubic-bezier(.22,.61,.36,1)' },
+        );
+        return;
+      }
+      state.selectedKinds.delete(kind);
+    } else {
+      state.selectedKinds.add(kind);
+    }
+    syncKinds();
+  };
+
+  const resetCaseForm = (mode = 'new', item = null) => {
     if (!caseForm) return;
     caseForm.reset();
-    if (caseForm.kind) caseForm.kind.value = 'branding';
-    if (caseForm.accent) caseForm.accent.value = KIND_META.branding.accent;
-    selectKind('branding');
+    state.editingSlug = mode === 'edit' && item ? item.slug : '';
     resetCoverPreview();
+    setSelectedKinds(item?.kinds?.length ? item.kinds : ['branding']);
+
+    if (formTitle) formTitle.textContent = mode === 'edit' ? 'Редактировать кейс' : 'Новый кейс';
+    if (submitLabel) submitLabel.textContent = mode === 'edit' ? 'Сохранить изменения' : 'Опубликовать';
+
+    if (item) {
+      caseForm.titleRu.value = item.titleRu || item.title || '';
+      if (caseForm.slug) caseForm.slug.value = item.slug || '';
+      if (caseForm.titleEn) caseForm.titleEn.value = item.titleEn || item.titleRu || item.title || '';
+      if (caseForm.summaryRu) caseForm.summaryRu.value = item.summaryRu || item.summary || '';
+      if (caseForm.summaryEn) caseForm.summaryEn.value = item.summaryEn || item.summaryRu || item.summary || '';
+      if (caseForm.accent) caseForm.accent.value = item.accent || KIND_META[[...state.selectedKinds][0] || 'branding'].accent;
+
+      state.existingCover = item.cover || '';
+      if (state.existingCover && coverPreview) {
+        coverPreview.classList.add('has-image');
+        const img = document.createElement('img');
+        img.src = caseImagePath(state.existingCover);
+        img.alt = `Текущая обложка кейса ${item.title}`;
+        coverPreview.append(img);
+        if (coverNote) coverNote.textContent = 'Можно оставить текущую обложку или загрузить новую.';
+      }
+    }
+
     setPublishStatus(
       API_URL
         ? ''
@@ -353,6 +470,39 @@
     reader.onerror = () => reject(reader.error || new Error('Не удалось прочитать файл.'));
     reader.readAsDataURL(file);
   });
+
+  const applyCoverFile = async (file) => {
+    if (!file || !coverPreview) return;
+    if (!/^image\/(png|jpe?g|webp)$/i.test(file.type)) {
+      setPublishStatus('Обложка должна быть PNG, JPG или WEBP.', 'error');
+      return;
+    }
+
+    state.coverDataUrl = await fileToDataUrl(file);
+    coverPreview.classList.add('has-image');
+    coverPreview.classList.remove('is-over');
+    coverPreview.querySelector('img')?.remove();
+    const img = document.createElement('img');
+    img.src = state.coverDataUrl;
+    img.alt = 'Предпросмотр обложки';
+    coverPreview.append(img);
+    if (coverNote) coverNote.textContent = file.name ? `Выбрана новая обложка: ${file.name}` : 'Выбрана новая обложка.';
+    setPublishStatus('', '');
+  };
+
+  const openCaseEditor = (slug) => {
+    const item = state.cases.find((entry) => entry.slug === slug);
+    if (!item) return;
+
+    if (item.readonly) {
+      setPublishStatus(SYSTEM_CASE_NOTICE, '');
+      window.location.href = item.editUrl || `./edit-case.html?id=${encodeURIComponent(slug)}`;
+      return;
+    }
+
+    resetCaseForm('edit', item);
+    showView('new');
+  };
 
   updateApiStatus();
 
@@ -419,7 +569,7 @@
   });
 
   addCaseButton?.addEventListener('click', () => {
-    resetNewCaseForm();
+    resetCaseForm('new');
     showView('new');
   });
 
@@ -430,7 +580,7 @@
   kindButtons?.addEventListener('click', (event) => {
     const button = event.target.closest('[data-kind]');
     if (!button) return;
-    selectKind(button.dataset.kind);
+    toggleKind(button.dataset.kind);
   });
 
   caseForm?.titleRu?.addEventListener('input', () => {
@@ -440,14 +590,28 @@
 
   caseForm?.cover?.addEventListener('change', async (event) => {
     const file = event.target.files?.[0];
-    if (!file || !coverPreview) return;
-    state.coverDataUrl = await fileToDataUrl(file);
-    coverPreview.classList.add('has-image');
-    coverPreview.querySelector('img')?.remove();
-    const img = document.createElement('img');
-    img.src = state.coverDataUrl;
-    img.alt = 'Предпросмотр обложки';
-    coverPreview.append(img);
+    await applyCoverFile(file);
+  });
+
+  coverPreview?.addEventListener('dragover', (event) => {
+    event.preventDefault();
+    coverPreview.classList.add('is-over');
+  });
+
+  coverPreview?.addEventListener('dragleave', () => {
+    coverPreview.classList.remove('is-over');
+  });
+
+  coverPreview?.addEventListener('drop', async (event) => {
+    event.preventDefault();
+    await applyCoverFile(event.dataTransfer?.files?.[0]);
+  });
+
+  coverPreview?.addEventListener('paste', async (event) => {
+    const item = [...(event.clipboardData?.items || [])].find((entry) => entry.type.startsWith('image/'));
+    if (!item) return;
+    event.preventDefault();
+    await applyCoverFile(item.getAsFile());
   });
 
   caseForm?.addEventListener('submit', async (event) => {
@@ -459,27 +623,33 @@
 
     const submit = caseForm.querySelector('.admin-new__submit');
     submit.disabled = true;
-    setPublishStatus('Публикую кейс в репозиторий...', '');
+    setPublishStatus(state.editingSlug ? 'Обновляю кейс в репозитории...' : 'Публикую кейс в репозиторий...', '');
 
     try {
       const titleRu = caseForm.titleRu.value.trim();
-      const slug = slugify(caseForm.slug.value || titleRu);
-      const kind = caseForm.kind.value || 'branding';
+      const slug = state.editingSlug || slugify(caseForm.slug.value || titleRu);
+      const kinds = [...state.selectedKinds].filter((kind) => KIND_META[kind]);
+      const kind = kinds[0] || 'branding';
+      const summaryRu = caseForm.summaryRu?.value.trim() || titleRu;
+      const summaryEn = caseForm.summaryEn?.value.trim() || summaryRu;
 
       const payload = {
         slug,
         kind,
+        kinds,
         titleRu,
         titleEn: caseForm.titleEn.value.trim() || titleRu,
-        summaryRu: caseForm.summaryRu.value.trim() || titleRu,
-        summaryEn: caseForm.summaryEn.value.trim() || titleRu,
+        summaryRu,
+        summaryEn,
         accent: caseForm.accent.value || KIND_META[kind]?.accent || KIND_META.branding.accent,
         coverDataUrl: state.coverDataUrl,
+        existingCover: state.existingCover,
       };
 
       if (!payload.slug) throw new Error('Введите название кейса латиницей или кириллицей.');
       if (!payload.titleRu) throw new Error('Введите название кейса.');
-      if (!payload.coverDataUrl) throw new Error('Загрузите обложку кейса.');
+      if (!payload.kinds.length) throw new Error('Выберите хотя бы одну категорию.');
+      if (!payload.coverDataUrl && !payload.existingCover) throw new Error('Загрузите обложку кейса.');
 
       const result = await apiFetch('/cases', {
         method: 'POST',
@@ -497,6 +667,13 @@
   });
 
   casesEl?.addEventListener('click', async (event) => {
+    const editButton = event.target.closest('[data-admin-edit-case]');
+    if (editButton) {
+      event.preventDefault();
+      openCaseEditor(editButton.dataset.adminEditCase);
+      return;
+    }
+
     const deleteButton = event.target.closest('[data-admin-delete-case]');
     if (!deleteButton) return;
     event.preventDefault();

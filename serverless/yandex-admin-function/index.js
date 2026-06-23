@@ -169,6 +169,20 @@ const kindLabel = (kind, lang) => {
   return labels[kind]?.[lang] || labels.site[lang];
 };
 
+const normalizeKinds = (payload) => {
+  const allowed = new Set(['branding', 'site', 'app']);
+  const source = Array.isArray(payload.kinds)
+    ? payload.kinds
+    : String(payload.kinds || payload.kind || 'site').split(',');
+  const kinds = source.map((kind) => String(kind || '').trim()).filter((kind) => allowed.has(kind));
+  return kinds.length ? [...new Set(kinds)] : ['site'];
+};
+
+const kindLabels = (item, lang) => {
+  const kinds = Array.isArray(item.kinds) && item.kinds.length ? item.kinds : [item.kind || 'site'];
+  return kinds.map((kind) => kindLabel(kind, lang)).join(' · ');
+};
+
 const escapeHtml = (value) => String(value || '')
   .replace(/&/g, '&amp;')
   .replace(/</g, '&lt;')
@@ -207,7 +221,7 @@ const generateCaseHtml = (item, lang) => {
   <main class="case">
     <section class="hero">
       <div class="copy">
-        <p class="eyebrow">${escapeHtml(caseText)} · ${escapeHtml(kindLabel(item.kind, htmlLang))}</p>
+        <p class="eyebrow">${escapeHtml(caseText)} · ${escapeHtml(kindLabels(item, htmlLang))}</p>
         <h1 class="title">${escapeHtml(title)}</h1>
         <p class="summary">${escapeHtml(summary)}</p>
       </div>
@@ -228,21 +242,29 @@ const publishCase = async (payload) => {
   const titleEn = String(payload.titleEn || '').trim();
   if (!titleRu || !titleEn) throw new Error('Both RU and EN titles are required.');
 
-  const image = parseDataUrl(payload.coverDataUrl);
-  const coverPath = `Assets/uploads/cases/${slug}/cover.${image.ext}`;
+  const manifest = await readManifest();
+  const previous = manifest.data.cases.find(entry => entry.slug === slug);
+  const image = payload.coverDataUrl ? parseDataUrl(payload.coverDataUrl) : null;
+  const coverPath = image
+    ? `Assets/uploads/cases/${slug}/cover.${image.ext}`
+    : previous?.cover;
+  if (!coverPath) throw new Error('Cover is required.');
+
+  const kinds = normalizeKinds(payload);
+  const primaryKind = kinds[0] || 'site';
   const item = {
     slug,
-    kind: payload.kind || 'site',
+    kind: primaryKind,
+    kinds,
     titleRu,
     titleEn,
     summaryRu: String(payload.summaryRu || '').trim() || titleRu,
     summaryEn: String(payload.summaryEn || '').trim() || titleEn,
-    accent: /^#[0-9a-f]{6}$/i.test(payload.accent || '') ? payload.accent : '#ff6b00',
+    accent: /^#[0-9a-f]{6}$/i.test(payload.accent || '') ? payload.accent : previous?.accent || '#ff6b00',
     cover: coverPath,
     updatedAt: new Date().toISOString(),
   };
 
-  const manifest = await readManifest();
   const cases = manifest.data.cases.filter(entry => entry.slug !== slug);
   cases.push(item);
   cases.sort((a, b) => String(a.slug).localeCompare(String(b.slug)));
@@ -253,7 +275,7 @@ const publishCase = async (payload) => {
   };
 
   const message = `Publish case ${slug}`;
-  await putContent(coverPath, image.buffer, message, (await getContent(coverPath))?.sha);
+  if (image) await putContent(coverPath, image.buffer, message, (await getContent(coverPath))?.sha);
   const manifestCommit = await putContent(MANIFEST_PATH, `${JSON.stringify(nextManifest, null, 2)}\n`, message, manifest.sha);
   await putContent(`cases/${slug}/index.html`, generateCaseHtml(item, 'root'), message, (await getContent(`cases/${slug}/index.html`))?.sha);
   await putContent(`ru/cases/${slug}/index.html`, generateCaseHtml(item, 'ru'), message, (await getContent(`ru/cases/${slug}/index.html`))?.sha);
