@@ -9,6 +9,7 @@
   const params = new URLSearchParams(location.search);
   const rawId = params.get('id') || 'new';
   const CASES_HOME = './?view=cases';
+  const ICON_DIR = '../public/figma-assets/admin-system-icons';
 
   const state = {
     case: null,
@@ -123,19 +124,19 @@
   function blockControls(i) {
     const ctr = document.createElement('div');
     ctr.className = 'block-ctrl';
-    const up = ctrlBtn('▲', 'Вверх', () => moveBlock(i, -1));
-    const down = ctrlBtn('▼', 'Вниз', () => moveBlock(i, 1));
-    const del = ctrlBtn('✕', 'Удалить', () => { removeBlock(i); });
+    const up = ctrlBtn('previous-step.png', 'Вверх', () => moveBlock(i, -1), 'block-ctrl__btn--up');
+    const down = ctrlBtn('previous-step.png', 'Вниз', () => moveBlock(i, 1), 'block-ctrl__btn--down');
+    const del = ctrlBtn('delete.png', 'Удалить', () => { removeBlock(i); }, 'block-ctrl__btn--delete');
     if (i === 0) up.disabled = true;
     if (i === state.case.blocks.length - 1) down.disabled = true;
     ctr.append(up, down, del);
     return ctr;
   }
-  function ctrlBtn(txt, label, fn) {
+  function ctrlBtn(icon, label, fn, mod) {
     const b = document.createElement('button');
     b.type = 'button';
-    b.className = 'block-ctrl__btn';
-    b.textContent = txt;
+    b.className = `block-ctrl__btn ${mod || ''}`.trim();
+    b.innerHTML = `<img src="${ICON_DIR}/${icon}" alt="" aria-hidden="true" />`;
     b.setAttribute('aria-label', label);
     b.addEventListener('click', (e) => { e.stopPropagation(); fn(); });
     return b;
@@ -170,10 +171,10 @@
   }
 
   function blockIcon(type) {
-    if (type === 'text') return '<span class="block__t">T</span>';
-    if (type === 'image') return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none"><rect x="3" y="4" width="18" height="16" rx="2.5" stroke="currentColor" stroke-width="1.8"/><circle cx="8.5" cy="9.5" r="1.6" fill="currentColor"/><path d="m4 17 5-4 4 3 3-2 4 3" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>';
-    if (type === 'video') return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none"><rect x="3" y="6" width="13" height="12" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M16 10.5 21 8v8l-5-2.5v-3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>';
-    return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M12 3c1 2.5 2.2 3.7 4.7 4.7C14.2 8.7 13 9.9 12 12.4 11 9.9 9.8 8.7 7.3 7.7 9.8 6.7 11 5.5 12 3Z" fill="currentColor"/></svg>';
+    if (type === 'text') return `<img src="${ICON_DIR}/text.png" alt="" aria-hidden="true" />`;
+    if (type === 'image') return `<img src="${ICON_DIR}/photo.png" alt="" aria-hidden="true" />`;
+    if (type === 'video') return `<img src="${ICON_DIR}/video.png" alt="" aria-hidden="true" />`;
+    return `<img src="${ICON_DIR}/punkts.png" alt="" aria-hidden="true" />`;
   }
 
   // ---- TEXT block -------------------------------------------------

@@ -74,20 +74,11 @@
   };
 
   const SYSTEM_CASE_NOTICE = 'Это базовый статический кейс. Старый конструктор сохранял его только в браузере и не публиковал на сайт. Сейчас из админки можно создавать и редактировать кейсы, опубликованные через API.';
+  const ICON_DIR = '../public/figma-assets/admin-system-icons';
 
   const icons = {
-    trash: `
-      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-        <path d="M12.2 4.9h7.6l1.2 2.9h5.4v3H5.6v-3H11l1.2-2.9Z" fill="currentColor"/>
-        <path d="M8.4 12.7h15.2l-1.1 14.4H9.5L8.4 12.7Zm4.3 2.8.5 8.8h2.5l-.3-8.8h-2.7Zm6 0-.3 8.8h2.5l.5-8.8h-2.7Z" fill="currentColor"/>
-      </svg>
-    `,
-    edit: `
-      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-        <path d="M6.8 22.7v2.5h2.5l13.5-13.5-2.5-2.5L6.8 22.7Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
-        <path d="m20.4 9.1 2.4-2.4a2 2 0 0 1 2.8 0l.7.7a2 2 0 0 1 0 2.8l-2.4 2.4" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    `,
+    trash: `<img class="admin-action-icon" src="${ICON_DIR}/delete.png" alt="" aria-hidden="true" />`,
+    edit: `<img class="admin-action-icon" src="${ICON_DIR}/correct.png" alt="" aria-hidden="true" />`,
   };
 
   const loginView = document.querySelector('[data-admin-login-view]');

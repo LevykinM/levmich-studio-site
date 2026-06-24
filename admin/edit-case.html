@@ -6,7 +6,7 @@
   <title>Levmich Studio — Admin · Конструктор</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="../favicon.ico" sizes="any" />
-  <link rel="stylesheet" href="admin.css?v=13" />
+  <link rel="stylesheet" href="admin.css?v=14" />
 </head>
 <body class="admin-page editor-page" id="editorPage">
 
@@ -35,7 +35,7 @@
           <input type="file" id="setupCoverInput" accept="image/*" hidden />
           <img class="dropzone__preview" id="setupCoverPreview" alt="" hidden />
           <span class="dropzone__hint" id="setupDropHint">
-            <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 16V4m0 0L7 9m5-5 5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17v2a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            <img src="../public/figma-assets/admin-system-icons/photo.png" alt="" aria-hidden="true" />
             Драгндропни или вставь с компа
           </span>
         </label>
@@ -61,14 +61,14 @@
 
     <!-- top bar -->
     <button class="round-btn editor-back" id="editorBack" type="button" aria-label="Назад">
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 4 6 9l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <img src="../public/figma-assets/admin-system-icons/previous-step.png" alt="" aria-hidden="true" />
     </button>
 
     <div class="editor-head" id="editorHead">
       <h1 class="editor-title" id="editorTitle">Название кейса</h1>
       <div class="editor-meta">
         <button class="round-btn round-btn--sm" id="editMetaBtn" type="button" aria-label="Изменить название и категории">
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M10.5 2.5l2 2-7 7-2.5.5.5-2.5 7-7Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          <img src="../public/figma-assets/admin-system-icons/correct.png" alt="" aria-hidden="true" />
         </button>
         <div class="editor-tags" id="editorTags"></div>
       </div>
@@ -84,24 +84,26 @@
     <!-- bottom dock -->
     <div class="editor-dock">
       <div class="editor-dock__group">
-        <button class="dock-btn dock-btn--text"   data-add="text"   type="button" aria-label="Текстовый блок"><span class="dock-ic">T</span></button>
+        <button class="dock-btn dock-btn--text"   data-add="text"   type="button" aria-label="Текстовый блок">
+          <img src="../public/figma-assets/admin-system-icons/text.png" alt="" aria-hidden="true" />
+        </button>
         <button class="dock-btn dock-btn--image"  data-add="image"  type="button" aria-label="Блок изображений">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><rect x="3" y="4" width="18" height="16" rx="2.5" stroke="currentColor" stroke-width="1.8"/><circle cx="8.5" cy="9.5" r="1.6" fill="currentColor"/><path d="m4 17 5-4 4 3 3-2 4 3" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          <img src="../public/figma-assets/admin-system-icons/photo.png" alt="" aria-hidden="true" />
         </button>
         <button class="dock-btn dock-btn--video"  data-add="video"  type="button" aria-label="Видео-блок">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><rect x="3" y="6" width="13" height="12" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M16 10.5 21 8v8l-5-2.5v-3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          <img src="../public/figma-assets/admin-system-icons/video.png" alt="" aria-hidden="true" />
         </button>
         <button class="dock-btn dock-btn--result" data-add="result" type="button" aria-label="Блок «Было разработано»">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M12 3c1 2.5 2.2 3.7 4.7 4.7C14.2 8.7 13 9.9 12 12.4 11 9.9 9.8 8.7 7.3 7.7 9.8 6.7 11 5.5 12 3Z" fill="currentColor"/><path d="M7 14c.6 1.5 1.3 2.2 2.8 2.8C8.3 17.4 7.6 18.1 7 19.6 6.4 18.1 5.7 17.4 4.2 16.8 5.7 16.2 6.4 15.5 7 14Z" fill="currentColor"/></svg>
+          <img src="../public/figma-assets/admin-system-icons/punkts.png" alt="" aria-hidden="true" />
         </button>
       </div>
 
       <button class="dock-btn dock-btn--trash" id="deleteSelected" type="button" aria-label="Удалить выбранный блок">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-.7 12a1 1 0 0 1-1 1H7.7a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <img src="../public/figma-assets/admin-system-icons/delete.png" alt="" aria-hidden="true" />
       </button>
 
       <button class="dock-btn dock-btn--save" id="saveCase" type="button" aria-label="Сохранить кейс">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M5 3h11l3 3v15H5V3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 3v6h7V3M8 21v-6h8v6" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+        <img src="../public/figma-assets/admin-system-icons/save.png" alt="" aria-hidden="true" />
       </button>
     </div>
   </section>
@@ -121,7 +123,10 @@
         <label class="dropzone dropzone--sm" id="metaDrop">
           <input type="file" id="metaCoverInput" accept="image/*" hidden />
           <img class="dropzone__preview" id="metaCoverPreview" alt="" hidden />
-          <span class="dropzone__hint" id="metaDropHint">Драгндропни или вставь</span>
+          <span class="dropzone__hint" id="metaDropHint">
+            <img src="../public/figma-assets/admin-system-icons/photo.png" alt="" aria-hidden="true" />
+            Драгндропни или вставь
+          </span>
         </label>
       </div>
       <div class="setup-field">
@@ -142,8 +147,8 @@
   <!-- toast -->
   <div class="toast" id="toast" hidden></div>
 
-  <script src="admin.js?v=10"></script>
+  <script src="admin.js?v=11"></script>
   <script src="cases-data.js?v=8"></script>
-  <script src="edit-case.js?v=10"></script>
+  <script src="edit-case.js?v=11"></script>
 </body>
 </html>
