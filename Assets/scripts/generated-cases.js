@@ -37,11 +37,28 @@
     return span;
   };
 
+  const assetUrl = (source) => {
+    const value = String(source || '').trim();
+    if (!value || /^(data:|https?:|\/)/i.test(value)) return value;
+    return `/${value.replace(/^\.?\//, '')}`;
+  };
+
+  const caseTags = (item) => {
+    const kinds = Array.isArray(item.kinds) && item.kinds.length ? item.kinds : [item.kind || 'site'];
+    const seen = new Set();
+    return kinds.flatMap((kind) => KIND_TAGS[kind] || KIND_TAGS.site).filter((tag) => {
+      const key = tag.className;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  };
+
   const createCard = (item, lang) => {
     const slug = item.slug;
     const title = lang === 'en' ? (item.titleEn || item.titleRu || slug) : (item.titleRu || item.titleEn || slug);
     const href = caseUrl(slug, lang);
-    const tags = KIND_TAGS[item.kind] || KIND_TAGS.site;
+    const tags = caseTags(item);
 
     const card = document.createElement('article');
     card.className = 'portfolio-case reveal portfolio-case--generated';
@@ -54,7 +71,7 @@
 
     const img = document.createElement('img');
     img.className = 'portfolio-case__img';
-    img.src = item.cover;
+    img.src = assetUrl(item.cover);
     img.alt = title;
     img.loading = 'lazy';
     img.decoding = 'async';
@@ -96,7 +113,7 @@
     if (!grid) return;
 
     try {
-      const response = await fetch('data/cases.generated.json', { cache: 'no-store' });
+      const response = await fetch('/data/cases.generated.json', { cache: 'no-store' });
       if (!response.ok) return;
       const data = await response.json();
       if (!Array.isArray(data.cases) || !data.cases.length) return;

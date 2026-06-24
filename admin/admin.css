@@ -1313,7 +1313,7 @@ body.admin-page.editor-page {
 .blocks-empty[hidden] { display: none; }
 .block {
   position: relative;
-  padding: 22px 22px 22px 66px;
+  padding: 18px 22px 22px;
   border: 1px solid var(--admin-line);
   border-radius: 28px;
   background: rgba(255, 255, 255, .03);
@@ -1322,10 +1322,14 @@ body.admin-page.editor-page {
 }
 .block:hover { border-color: rgba(255, 255, 255, .32); }
 .block.is-selected { border-color: var(--admin-orange); background: rgba(255, 107, 0, .06); }
+.block__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
 .block__badge {
-  position: absolute;
-  top: 22px;
-  left: 20px;
   display: grid;
   place-items: center;
   width: 32px;
@@ -1335,7 +1339,11 @@ body.admin-page.editor-page {
   color: #fff;
 }
 .block__t { font-size: 17px; font-weight: 700; }
-.block-ctrl { position: absolute; top: 18px; right: 18px; display: flex; gap: 6px; }
+.block-ctrl {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 6px;
+}
 .block-ctrl__btn {
   width: 30px;
   height: 30px;

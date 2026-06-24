@@ -73,7 +73,7 @@
     },
   };
 
-  const SYSTEM_CASE_NOTICE = 'Системный кейс откроется в конструкторе. Публикация этих страниц пока защищена от случайной перезаписи.';
+  const SYSTEM_CASE_NOTICE = 'Это базовый статический кейс. Старый конструктор сохранял его только в браузере и не публиковал на сайт. Сейчас из админки можно создавать и редактировать кейсы, опубликованные через API.';
 
   const icons = {
     trash: `
@@ -400,6 +400,9 @@
     if (!caseForm) return;
     caseForm.reset();
     state.editingSlug = mode === 'edit' && item ? item.slug : '';
+    caseForm.dataset.adminLocked = '';
+    const submit = caseForm.querySelector('.admin-new__submit');
+    if (submit) submit.disabled = false;
     resetCoverPreview();
     setSelectedKinds(item?.kinds?.length ? item.kinds : ['branding']);
 
@@ -439,7 +442,8 @@
     await refreshCases();
     if (loginView) loginView.hidden = true;
     if (panelView) panelView.hidden = false;
-    showView('choice');
+    const requestedView = new URLSearchParams(window.location.search).get('view');
+    showView(requestedView === 'cases' ? 'add' : 'choice');
     setError('');
   };
 
@@ -495,8 +499,13 @@
     if (!item) return;
 
     if (item.readonly) {
-      setPublishStatus(SYSTEM_CASE_NOTICE, '');
-      window.location.href = item.editUrl || `./edit-case.html?id=${encodeURIComponent(slug)}`;
+      resetCaseForm('edit', item);
+      caseForm.dataset.adminLocked = '1';
+      const submit = caseForm.querySelector('.admin-new__submit');
+      if (submit) submit.disabled = true;
+      if (submitLabel) submitLabel.textContent = 'Публикация защищена';
+      showView('new');
+      setPublishStatus(SYSTEM_CASE_NOTICE, 'error');
       return;
     }
 
@@ -618,6 +627,10 @@
     event.preventDefault();
     if (!API_URL) {
       setPublishStatus('API endpoint не настроен в admin/config.js. Без него сайт на GitHub Pages не сможет публиковать кейсы.', 'error');
+      return;
+    }
+    if (caseForm.dataset.adminLocked === '1') {
+      setPublishStatus(SYSTEM_CASE_NOTICE, 'error');
       return;
     }
 

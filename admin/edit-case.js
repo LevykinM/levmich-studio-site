@@ -8,6 +8,7 @@
 
   const params = new URLSearchParams(location.search);
   const rawId = params.get('id') || 'new';
+  const CASES_HOME = './?view=cases';
 
   const state = {
     case: null,
@@ -29,7 +30,7 @@
     initSetup();
   } else {
     const c = C.getCase(rawId);
-    if (!c) { location.replace('cases.html'); return; }
+    if (!c) { location.replace(CASES_HOME); return; }
     state.case = C.clone(c);
     cornerLabel.textContent = 'Редактирование кейса';
     openEditor();
@@ -74,7 +75,7 @@
     renderBlocks();
 
     $('editorBack').addEventListener('click', () => {
-      location.href = 'cases.html';
+      location.href = CASES_HOME;
     });
 
     // dock add buttons
@@ -146,13 +147,15 @@
     if (state.selected === i) card.classList.add('is-selected');
     card.addEventListener('click', () => selectBlock(i));
 
-    // icon badge
+    const toolbar = document.createElement('div');
+    toolbar.className = 'block__toolbar';
+
     const badge = document.createElement('span');
     badge.className = 'block__badge';
     badge.innerHTML = blockIcon(block.type);
-    card.appendChild(badge);
 
-    card.appendChild(blockControls(i));
+    toolbar.append(badge, blockControls(i));
+    card.appendChild(toolbar);
 
     const body = document.createElement('div');
     body.className = 'block__body';
@@ -422,8 +425,8 @@
     if (!state.case.title) { toast('У кейса нет названия'); return; }
     try {
       C.saveCase(state.case);
-      toast('Кейс сохранён ✓');
-      setTimeout(() => location.href = 'cases.html', 700);
+      toast('Черновик сохранён локально. На сайт он не опубликован.');
+      setTimeout(() => location.href = CASES_HOME, 1100);
     } catch (err) {
       if (err && err.name === 'QuotaExceededError') {
         toast('Не хватило места в черновике. Уменьши число/размер изображений.');
