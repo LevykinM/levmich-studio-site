@@ -426,6 +426,36 @@ img {
   display: none;
 }
 
+.admin-cases__notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin: 0 2px 18px 0;
+  padding: 16px 20px;
+  border: 1px solid rgba(255, 255, 255, .13);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, .08), transparent 42%),
+    rgba(0, 0, 0, .22);
+  color: rgba(255, 255, 255, .64);
+  backdrop-filter: blur(14px);
+}
+
+.admin-cases__notice strong {
+  color: #fff;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.admin-cases__notice span {
+  min-width: min(100%, 460px);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
 .admin-cases__track {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
@@ -494,6 +524,28 @@ img {
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
+}
+
+.admin-case-card__state {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 11px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.admin-case-card__state--system {
+  background: rgba(255, 255, 255, .17);
+  color: rgba(255, 255, 255, .86);
+}
+
+.admin-case-card__state--live {
+  background: rgba(255, 107, 0, .96);
+  color: #000;
 }
 
 .admin-case-card__tag {
@@ -571,6 +623,8 @@ img {
 
 .admin-case-action--delete:disabled {
   cursor: default;
+  opacity: .48;
+  filter: grayscale(.4);
 }
 
 .admin-case-action--edit {
@@ -608,6 +662,10 @@ img {
 
 .admin-case-action--edit:hover {
   background: var(--admin-orange);
+}
+
+.admin-case-card.is-system .admin-case-action--edit:hover {
+  background: rgba(255, 255, 255, .88);
 }
 
 .admin-view--new {
@@ -729,6 +787,20 @@ img {
   transition: border-color .22s var(--admin-ease), background .22s var(--admin-ease), box-shadow .22s var(--admin-ease);
 }
 
+.admin-new__group--slug {
+  margin-top: 16px;
+}
+
+.admin-new__hint {
+  display: block;
+  margin: 8px 0 0;
+  color: rgba(255, 255, 255, .44);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+}
+
 .admin-new__group input[type='text']::placeholder {
   color: var(--admin-placeholder);
 }
@@ -768,6 +840,94 @@ img {
 
 .admin-new__group--summary {
   margin-top: 24px;
+}
+
+.admin-new__advanced {
+  width: 100%;
+  margin-top: 18px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 24px;
+  background: rgba(0, 0, 0, .1);
+  overflow: hidden;
+}
+
+.admin-new__advanced summary {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18px;
+  color: rgba(255, 255, 255, .82);
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 600;
+  list-style: none;
+}
+
+.admin-new__advanced summary::-webkit-details-marker {
+  display: none;
+}
+
+.admin-new__advanced[open] {
+  padding-bottom: 18px;
+}
+
+.admin-new__advanced-field {
+  display: block;
+  width: calc(100% - 36px);
+  margin: 0 auto 14px;
+}
+
+.admin-new__advanced-field:last-child {
+  margin-bottom: 0;
+}
+
+.admin-new__advanced-field span {
+  display: block;
+  margin: 0 0 8px;
+  color: rgba(255, 255, 255, .62);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  text-align: left;
+}
+
+.admin-new__advanced-field input,
+.admin-new__advanced-field textarea {
+  width: 100%;
+  border: 1px solid var(--admin-line);
+  outline: none;
+  background: rgba(0, 0, 0, .14);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  transition: border-color .22s var(--admin-ease), background .22s var(--admin-ease), box-shadow .22s var(--admin-ease);
+}
+
+.admin-new__advanced-field input {
+  height: 44px;
+  padding: 0 15px;
+  border-radius: 80px;
+}
+
+.admin-new__advanced-field textarea {
+  min-height: 78px;
+  padding: 13px 15px;
+  resize: vertical;
+  border-radius: 21px;
+  line-height: 1.25;
+}
+
+.admin-new__advanced-field input::placeholder,
+.admin-new__advanced-field textarea::placeholder {
+  color: var(--admin-placeholder);
+}
+
+.admin-new__advanced-field input:focus,
+.admin-new__advanced-field textarea:focus {
+  border-color: rgba(255, 107, 0, .8);
+  background: rgba(0, 0, 0, .22);
+  box-shadow: 0 0 0 3px rgba(255, 107, 0, .12);
 }
 
 .admin-new__group--cover {
@@ -904,6 +1064,61 @@ img {
 
 .admin-category--app {
   background: #ffd600;
+}
+
+.admin-system-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  margin-top: 26px;
+}
+
+.admin-system-actions[hidden] {
+  display: none;
+}
+
+.admin-system-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 18px;
+  background: #fff;
+  color: #000;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  transition: background .22s var(--admin-ease), transform .22s var(--admin-ease);
+}
+
+.admin-system-action:hover {
+  background: var(--admin-orange);
+  transform: translateY(-1px);
+}
+
+.admin-system-action--draft {
+  background: rgba(255, 255, 255, .1);
+  color: #fff;
+}
+
+.admin-new.is-locked .admin-new__card {
+  border-color: rgba(255, 107, 0, .36);
+}
+
+.admin-new.is-locked input,
+.admin-new.is-locked textarea,
+.admin-new.is-locked .admin-cover-drop,
+.admin-new.is-locked .admin-category {
+  cursor: default;
+  opacity: .72;
+}
+
+.admin-new.is-locked .admin-new__submit:disabled {
+  cursor: default;
 }
 
 .admin-new__submit {
@@ -1129,6 +1344,38 @@ body.admin-page.editor-page {
   font-size: 15px;
   font-weight: 500;
   pointer-events: none;
+}
+
+.draft-banner {
+  position: fixed;
+  top: 70px;
+  left: 104px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: min(360px, calc(100vw - 150px));
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 107, 0, .32);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255, 107, 0, .12), transparent 58%),
+    rgba(0, 0, 0, .36);
+  color: rgba(255, 255, 255, .68);
+  backdrop-filter: blur(16px);
+}
+
+.draft-banner strong {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.draft-banner span {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.25;
 }
 
 /* ---- shared buttons ---- */

@@ -111,6 +111,9 @@
   const formTitle = document.querySelector('[data-admin-form-title]');
   const submitLabel = document.querySelector('[data-admin-submit-label]');
   const kindButtons = document.querySelector('[data-admin-kind-buttons]');
+  const systemActions = document.querySelector('[data-admin-system-actions]');
+  const systemOpenCase = document.querySelector('[data-admin-open-case]');
+  const systemOpenDraft = document.querySelector('[data-admin-open-draft]');
 
   const state = {
     token: sessionStorage.getItem(AUTH_KEY) || '',
@@ -119,6 +122,7 @@
     existingCover: '',
     selectedKinds: new Set(['branding']),
     editingSlug: '',
+    slugTouched: false,
   };
 
   const parseEnv = (text) => {
@@ -244,11 +248,27 @@
       cover: item.cover || item.image || '',
       accent: item.accent || KIND_META[safeKinds[0]]?.accent || KIND_META.site.accent,
       image: caseImagePath(item.cover || item.image),
-      editUrl: `../cases/${slug}/`,
+      publicUrl: `../cases/${slug}/`,
       sourceFiles: [`cases/${slug}/index.html`, `ru/cases/${slug}/index.html`, `en/cases/${slug}/index.html`],
       readonly: Boolean(item.readonly),
       generated: true,
     };
+  };
+
+  const publicCaseUrl = (item) => item?.publicUrl || `../cases/${item?.slug || ''}/`;
+
+  const draftCaseUrl = (item) => item?.editUrl || `./edit-case.html?id=${encodeURIComponent(item?.slug || 'new')}`;
+
+  const setCaseFormLocked = (locked) => {
+    if (!caseForm) return;
+    caseForm.classList.toggle('is-locked', locked);
+    caseForm.dataset.adminLocked = locked ? '1' : '';
+    caseForm.querySelectorAll('input, textarea, .admin-category').forEach((control) => {
+      control.disabled = locked;
+    });
+    if (submitLabel) submitLabel.textContent = locked ? 'Публикация защищена' : submitLabel.textContent;
+    const submit = caseForm.querySelector('.admin-new__submit');
+    if (submit) submit.disabled = locked;
   };
 
   const loadGeneratedCases = async () => {
@@ -281,6 +301,8 @@
     state.cases.forEach((item, index) => {
       const card = document.createElement('article');
       card.className = 'admin-case-card';
+      card.classList.toggle('is-system', item.readonly);
+      card.classList.toggle('is-generated', !item.readonly);
       card.style.setProperty('--admin-case-delay', `${index * 65}ms`);
       card.dataset.adminCase = item.slug;
 
@@ -297,6 +319,12 @@
       const title = document.createElement('h2');
       title.className = 'admin-case-card__title';
       title.textContent = item.title;
+
+      const stateTag = document.createElement('span');
+      stateTag.className = item.readonly
+        ? 'admin-case-card__state admin-case-card__state--system'
+        : 'admin-case-card__state admin-case-card__state--live';
+      stateTag.textContent = item.readonly ? 'Системный' : 'Опубликован';
 
       const tags = document.createElement('div');
       tags.className = 'admin-case-card__tags';
@@ -315,7 +343,7 @@
         tags.append(tag);
       }
 
-      meta.append(title, tags);
+      meta.append(title, stateTag, tags);
 
       const actions = document.createElement('div');
       actions.className = 'admin-case-card__actions';
@@ -326,14 +354,15 @@
       deleteButton.dataset.adminDeleteCase = item.slug;
       deleteButton.disabled = item.readonly || !API_URL;
       deleteButton.setAttribute('aria-label', `Удалить кейс ${item.title}`);
+      deleteButton.title = item.readonly ? 'Системный кейс нельзя удалить из админки' : 'Удалить кейс';
       deleteButton.innerHTML = icons.trash;
 
       const editButton = document.createElement('button');
       editButton.className = 'admin-case-action admin-case-action--edit';
       editButton.type = 'button';
       editButton.dataset.adminEditCase = item.slug;
-      editButton.setAttribute('aria-label', `Редактировать кейс ${item.title}`);
-      editButton.innerHTML = `<span>Редактировать</span>${icons.edit}`;
+      editButton.setAttribute('aria-label', item.readonly ? `Открыть системный кейс ${item.title}` : `Редактировать кейс ${item.title}`);
+      editButton.innerHTML = `<span>${item.readonly ? 'Открыть' : 'Редактировать'}</span>${icons.edit}`;
 
       actions.append(deleteButton, editButton);
       card.append(image, meta, actions);
@@ -400,18 +429,24 @@
     if (!caseForm) return;
     caseForm.reset();
     state.editingSlug = mode === 'edit' && item ? item.slug : '';
-    caseForm.dataset.adminLocked = '';
-    const submit = caseForm.querySelector('.admin-new__submit');
-    if (submit) submit.disabled = false;
+    state.slugTouched = false;
+    setCaseFormLocked(false);
     resetCoverPreview();
     setSelectedKinds(item?.kinds?.length ? item.kinds : ['branding']);
+    if (systemActions) systemActions.hidden = true;
 
     if (formTitle) formTitle.textContent = mode === 'edit' ? 'Редактировать кейс' : 'Новый кейс';
     if (submitLabel) submitLabel.textContent = mode === 'edit' ? 'Сохранить изменения' : 'Опубликовать';
+    const submit = caseForm.querySelector('.admin-new__submit');
+    if (submit) submit.disabled = false;
+    if (caseForm.slug) {
+      caseForm.slug.readOnly = mode === 'edit';
+      caseForm.slug.disabled = false;
+      caseForm.slug.value = item?.slug || '';
+    }
 
     if (item) {
       caseForm.titleRu.value = item.titleRu || item.title || '';
-      if (caseForm.slug) caseForm.slug.value = item.slug || '';
       if (caseForm.titleEn) caseForm.titleEn.value = item.titleEn || item.titleRu || item.title || '';
       if (caseForm.summaryRu) caseForm.summaryRu.value = item.summaryRu || item.summary || '';
       if (caseForm.summaryEn) caseForm.summaryEn.value = item.summaryEn || item.summaryRu || item.summary || '';
@@ -500,10 +535,12 @@
 
     if (item.readonly) {
       resetCaseForm('edit', item);
-      caseForm.dataset.adminLocked = '1';
-      const submit = caseForm.querySelector('.admin-new__submit');
-      if (submit) submit.disabled = true;
+      setCaseFormLocked(true);
+      if (formTitle) formTitle.textContent = 'Системный кейс';
       if (submitLabel) submitLabel.textContent = 'Публикация защищена';
+      if (systemActions) systemActions.hidden = false;
+      if (systemOpenCase) systemOpenCase.href = publicCaseUrl(item);
+      if (systemOpenDraft) systemOpenDraft.href = draftCaseUrl(item);
       showView('new');
       setPublishStatus(SYSTEM_CASE_NOTICE, 'error');
       return;
@@ -594,7 +631,13 @@
 
   caseForm?.titleRu?.addEventListener('input', () => {
     if (!caseForm?.slug) return;
+    if (state.editingSlug || state.slugTouched) return;
     caseForm.slug.value = slugify(caseForm.titleRu.value);
+  });
+
+  caseForm?.slug?.addEventListener('input', () => {
+    state.slugTouched = true;
+    caseForm.slug.value = slugify(caseForm.slug.value);
   });
 
   caseForm?.cover?.addEventListener('change', async (event) => {

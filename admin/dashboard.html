@@ -3,48 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Levmich Studio — Admin</title>
+  <title>Админ-панель | Levmich Studio</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="../favicon.ico" sizes="any" />
-  <link rel="stylesheet" href="admin.css?v=12" />
+  <meta http-equiv="refresh" content="0; url=./" />
+  <script>
+    window.location.replace('./');
+  </script>
 </head>
-<body class="admin-page dashboard-page" id="dashboard">
-
-  <div class="user-pill">
-    <div class="user-pill__info">
-      <span class="user-pill__name">Михаил</span>
-      <span class="user-pill__role">/admin</span>
-    </div>
-    <button class="user-pill__logout" id="logoutBtn" type="button" aria-label="Выйти">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <path d="M6 2.5H3.5A1.5 1.5 0 0 0 2 4v8A1.5 1.5 0 0 0 3.5 13.5H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        <path d="M10 11l3-3-3-3M13 8H6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-  </div>
-
-  <main class="dashboard-main">
-
-    <div class="dashboard-center">
-      <h1 class="dashboard-title">Наведи на карточку<br/>и выбери режим</h1>
-
-      <div class="dashboard-hint" id="modeHint" data-default-text="В режиме «Добавить кейс» ты сможешь настроить любой из текущих кейсов или добавить новый">
-        <span class="dashboard-hint__dot"></span>
-        <p class="dashboard-hint__text" id="hintText">В режиме «Добавить кейс» ты сможешь настроить любой из текущих кейсов или добавить новый</p>
-      </div>
-    </div>
-
-    <div class="mode-grid">
-      <a class="mode-card" href="cases.html" id="modeAddCase">
-        <h2 class="mode-card__title">Добавить кейс</h2>
-        <svg class="mode-card__plus" viewBox="0 0 44 44" fill="none" aria-hidden="true">
-          <path d="M22 8v28M8 22h28" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
-        </svg>
-      </a>
-    </div>
-
-  </main>
-
-  <script src="admin.js?v=7"></script>
+<body>
+  <p><a href="./">Открыть рабочую админ-панель</a></p>
 </body>
 </html>

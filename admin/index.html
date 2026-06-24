@@ -6,7 +6,7 @@
   <title>Админ-панель | Levmich Studio</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" type="image/x-icon" href="../favicon.ico" />
-  <link rel="stylesheet" href="admin.css?v=12" />
+  <link rel="stylesheet" href="admin.css?v=13" />
 </head>
 <body class="admin-page">
   <main class="admin-shell" aria-label="Админ-панель Levmich Studio">
@@ -69,6 +69,10 @@
         </aside>
 
         <div class="admin-cases" aria-label="Список кейсов">
+          <div class="admin-cases__notice" data-admin-cases-note>
+            <strong>Новые кейсы публикуются на сайт</strong>
+            <span>Системные кейсы защищены: их можно открыть, посмотреть и использовать как черновик, но нельзя случайно перезаписать.</span>
+          </div>
           <div class="admin-cases__track" data-admin-cases></div>
         </div>
       </section>
@@ -89,10 +93,28 @@
               <input name="titleRu" type="text" placeholder="Название" required />
             </label>
 
+            <label class="admin-new__group admin-new__group--slug">
+              <span>Адрес страницы</span>
+              <input name="slug" type="text" placeholder="case-name" autocomplete="off" />
+              <small class="admin-new__hint">Адрес создаётся автоматически, но его можно поправить до публикации.</small>
+            </label>
+
             <label class="admin-new__group admin-new__group--summary">
               <span>Короткое описание</span>
               <textarea name="summaryRu" placeholder="О чём этот кейс"></textarea>
             </label>
+
+            <details class="admin-new__advanced">
+              <summary>Английская версия</summary>
+              <label class="admin-new__advanced-field">
+                <span>Название EN</span>
+                <input name="titleEn" type="text" placeholder="Case title" />
+              </label>
+              <label class="admin-new__advanced-field">
+                <span>Описание EN</span>
+                <textarea name="summaryEn" placeholder="Short case description"></textarea>
+              </label>
+            </details>
 
             <label class="admin-new__group admin-new__group--cover">
               <span>Обложка кейса</span>
@@ -124,10 +146,12 @@
               </div>
             </fieldset>
 
-            <input name="slug" type="hidden" />
-            <input name="titleEn" type="hidden" />
-            <input name="summaryEn" type="hidden" />
             <input name="accent" type="hidden" value="#ff6b00" />
+
+            <div class="admin-system-actions" data-admin-system-actions hidden>
+              <a class="admin-system-action" data-admin-open-case href="../main/">Открыть на сайте</a>
+              <a class="admin-system-action admin-system-action--draft" data-admin-open-draft href="./edit-case.html">Открыть черновик</a>
+            </div>
 
             <button class="admin-new__submit" type="submit" data-admin-submit-label>Опубликовать</button>
             <p class="admin-new__status" data-admin-publish-status aria-live="polite"></p>
@@ -151,6 +175,6 @@
   </main>
 
   <script src="config.js?v=1" defer></script>
-  <script src="admin.js?v=9" defer></script>
+  <script src="admin.js?v=10" defer></script>
 </body>
 </html>
