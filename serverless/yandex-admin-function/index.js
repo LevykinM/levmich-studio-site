@@ -3,7 +3,9 @@
 const crypto = require('node:crypto');
 
 const MANIFEST_PATH = 'data/cases.generated.json';
-const RESERVED_SLUGS = new Set(['front', 'three', 'wedding', 'main', 'admin', 'info']);
+const CORE_CASE_SLUGS = new Set(['front', 'three', 'wedding']);
+const RESERVED_SLUGS = new Set(['main', 'admin', 'info']);
+const DELETE_PROTECTED_SLUGS = new Set([...CORE_CASE_SLUGS, ...RESERVED_SLUGS]);
 
 const env = (name, fallback = '') => process.env[name] || fallback;
 
@@ -178,6 +180,15 @@ const normalizeKinds = (payload) => {
   return kinds.length ? [...new Set(kinds)] : ['site'];
 };
 
+const normalizeExistingCover = (value) => {
+  const cover = String(value || '').trim().replace(/^\/+/, '');
+  if (!cover) return '';
+  if (cover.includes('..')) return '';
+  if (!/^Assets\//.test(cover)) return '';
+  if (!/\.(png|jpe?g|webp)$/i.test(cover)) return '';
+  return cover;
+};
+
 const kindLabels = (item, lang) => {
   const kinds = Array.isArray(item.kinds) && item.kinds.length ? item.kinds : [item.kind || 'site'];
   return kinds.map((kind) => kindLabel(kind, lang)).join(' · ');
@@ -245,9 +256,10 @@ const publishCase = async (payload) => {
   const manifest = await readManifest();
   const previous = manifest.data.cases.find(entry => entry.slug === slug);
   const image = payload.coverDataUrl ? parseDataUrl(payload.coverDataUrl) : null;
+  const existingCover = normalizeExistingCover(payload.existingCover);
   const coverPath = image
     ? `Assets/uploads/cases/${slug}/cover.${image.ext}`
-    : previous?.cover;
+    : previous?.cover || existingCover;
   if (!coverPath) throw new Error('Cover is required.');
 
   const kinds = normalizeKinds(payload);
@@ -286,7 +298,7 @@ const publishCase = async (payload) => {
 
 const removeCase = async (slugRaw) => {
   const slug = slugify(slugRaw);
-  if (!slug || RESERVED_SLUGS.has(slug)) throw new Error('This case cannot be deleted from admin.');
+  if (!slug || DELETE_PROTECTED_SLUGS.has(slug)) throw new Error('This case cannot be deleted from admin.');
 
   const manifest = await readManifest();
   const item = manifest.data.cases.find(entry => entry.slug === slug);

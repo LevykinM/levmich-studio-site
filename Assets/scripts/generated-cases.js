@@ -108,6 +108,44 @@
     return card;
   };
 
+  const updateCard = (card, item, lang) => {
+    const slug = item.slug;
+    const title = lang === 'en' ? (item.titleEn || item.titleRu || slug) : (item.titleRu || item.titleEn || slug);
+    const href = caseUrl(slug, lang);
+    const tags = caseTags(item);
+
+    card.classList.add('portfolio-case--generated-override');
+
+    const media = card.querySelector('.portfolio-case__media');
+    const img = card.querySelector('.portfolio-case__img');
+    const heading = card.querySelector('.portfolio-case__title');
+    const tagWrap = card.querySelector('.portfolio-case__tags');
+    const arrow = card.querySelector('.portfolio-case__arrow');
+    const button = card.querySelector('.portfolio-case__button');
+
+    if (media) {
+      media.href = href;
+      media.setAttribute('aria-label', `${lang === 'en' ? 'Open case' : 'Открыть кейс'} ${title}`);
+    }
+    if (img) {
+      img.src = assetUrl(item.cover);
+      img.alt = title;
+    }
+    if (heading) heading.textContent = title;
+    if (tagWrap) {
+      tagWrap.replaceChildren();
+      tags.forEach(tag => tagWrap.append(createTag(tag, lang)));
+    }
+    if (arrow) {
+      arrow.href = href;
+      arrow.setAttribute('aria-label', lang === 'en' ? 'Open case' : 'Открыть кейс');
+    }
+    if (button) {
+      button.href = href;
+      button.textContent = lang === 'en' ? 'More' : 'Подробнее';
+    }
+  };
+
   const loadCases = async () => {
     const grid = document.querySelector('.portfolio__grid');
     if (!grid) return;
@@ -119,11 +157,18 @@
       if (!Array.isArray(data.cases) || !data.cases.length) return;
 
       const lang = getLang();
-      const existing = new Set([...grid.querySelectorAll('.portfolio-case[data-case]')].map(card => card.dataset.case));
+      const existing = new Map([...grid.querySelectorAll('.portfolio-case[data-case]')].map(card => [card.dataset.case, card]));
       const fragment = document.createDocumentFragment();
       data.cases
-        .filter(item => item?.slug && item?.cover && !existing.has(item.slug))
-        .forEach(item => fragment.append(createCard(item, lang)));
+        .filter(item => item?.slug && item?.cover)
+        .forEach((item) => {
+          const card = existing.get(item.slug);
+          if (card) {
+            updateCard(card, item, lang);
+            return;
+          }
+          fragment.append(createCard(item, lang));
+        });
       grid.append(fragment);
     } catch {
       // Extra cases are optional; the static base site must keep working without them.

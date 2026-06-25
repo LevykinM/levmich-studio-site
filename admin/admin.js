@@ -19,10 +19,11 @@
       kind: 'branding',
       kinds: ['branding', 'site'],
       kindLabel: 'Брендинг и сайт',
+      cover: 'Assets/Main_page/Property 1=Photo 1.webp',
       image: '../public/figma-assets/admin-case-front.png',
       editUrl: './edit-case.html?id=front',
       sourceFiles: ['cases/front/index.html', 'ru/cases/front/index.html', 'en/cases/front/index.html'],
-      readonly: true,
+      protected: true,
     },
     {
       id: 'three',
@@ -35,10 +36,11 @@
       kind: 'branding',
       kinds: ['branding'],
       kindLabel: 'Грузоперевозки',
+      cover: 'Assets/Main_page/Property 1=Photo 3.webp',
       image: '../public/figma-assets/admin-case-three.png',
       editUrl: './edit-case.html?id=three',
       sourceFiles: ['cases/three/index.html', 'ru/cases/three/index.html', 'en/cases/three/index.html'],
-      readonly: true,
+      protected: true,
     },
     {
       id: 'wedding',
@@ -51,12 +53,15 @@
       kind: 'site',
       kinds: ['site'],
       kindLabel: 'Свадебный сайт',
+      cover: 'Assets/Main_page/Property 1=Photo 2.webp',
       image: '../public/figma-assets/admin-case-wedding.png',
       editUrl: './edit-case.html?id=wedding',
       sourceFiles: ['cases/wedding/index.html', 'ru/cases/wedding/index.html', 'en/cases/wedding/index.html'],
-      readonly: true,
+      protected: true,
     },
   ];
+
+  const BASE_CASE_SLUGS = new Set(BASE_CASES.map((item) => item.slug));
 
   const KIND_META = {
     branding: {
@@ -242,6 +247,7 @@
       publicUrl: `../cases/${slug}/`,
       sourceFiles: [`cases/${slug}/index.html`, `ru/cases/${slug}/index.html`, `en/cases/${slug}/index.html`],
       readonly: Boolean(item.readonly),
+      protected: BASE_CASE_SLUGS.has(slug) || Boolean(item.protected),
       generated: true,
     };
   };
@@ -280,7 +286,15 @@
 
   const refreshCases = async () => {
     const generated = await loadGeneratedCases();
-    state.cases = [...BASE_CASES, ...generated.filter(item => !BASE_CASES.some(base => base.slug === item.slug))];
+    const generatedBySlug = new Map(generated.map((item) => [item.slug, item]));
+    const baseCases = BASE_CASES.map((base) => {
+      const override = generatedBySlug.get(base.slug);
+      return override ? { ...override, protected: true } : base;
+    });
+    state.cases = [
+      ...baseCases,
+      ...generated.filter(item => !BASE_CASE_SLUGS.has(item.slug)),
+    ];
     renderCases();
   };
 
@@ -294,6 +308,7 @@
       card.className = 'admin-case-card';
       card.classList.toggle('is-system', item.readonly);
       card.classList.toggle('is-generated', !item.readonly);
+      card.classList.toggle('is-protected', Boolean(item.protected));
       card.style.setProperty('--admin-case-delay', `${index * 65}ms`);
       card.dataset.adminCase = item.slug;
 
@@ -315,7 +330,7 @@
       stateTag.className = item.readonly
         ? 'admin-case-card__state admin-case-card__state--system'
         : 'admin-case-card__state admin-case-card__state--live';
-      stateTag.textContent = item.readonly ? 'Системный' : 'Опубликован';
+      stateTag.textContent = item.readonly ? 'Системный' : item.protected ? 'Базовый' : 'Опубликован';
 
       const tags = document.createElement('div');
       tags.className = 'admin-case-card__tags';
@@ -343,17 +358,17 @@
       deleteButton.className = 'admin-case-action admin-case-action--delete';
       deleteButton.type = 'button';
       deleteButton.dataset.adminDeleteCase = item.slug;
-      deleteButton.disabled = item.readonly || !API_URL;
+      deleteButton.disabled = item.readonly || item.protected || !API_URL;
       deleteButton.setAttribute('aria-label', `Удалить кейс ${item.title}`);
-      deleteButton.title = item.readonly ? 'Системный кейс нельзя удалить из админки' : 'Удалить кейс';
+      deleteButton.title = item.readonly || item.protected ? 'Базовый кейс можно перезаписать, но нельзя удалить из админки' : 'Удалить кейс';
       deleteButton.innerHTML = icons.trash;
 
       const editButton = document.createElement('button');
       editButton.className = 'admin-case-action admin-case-action--edit';
       editButton.type = 'button';
       editButton.dataset.adminEditCase = item.slug;
-      editButton.setAttribute('aria-label', item.readonly ? `Открыть системный кейс ${item.title}` : `Редактировать кейс ${item.title}`);
-      editButton.innerHTML = `<span>${item.readonly ? 'Открыть' : 'Редактировать'}</span>${icons.edit}`;
+      editButton.setAttribute('aria-label', item.readonly ? `Открыть настройки системного кейса ${item.title}` : `Редактировать кейс ${item.title}`);
+      editButton.innerHTML = `<span>Редактировать</span>${icons.edit}`;
 
       actions.append(deleteButton, editButton);
       card.append(image, meta, actions);
@@ -427,7 +442,7 @@
     if (systemActions) systemActions.hidden = true;
 
     if (formTitle) formTitle.textContent = mode === 'edit' ? 'Редактировать кейс' : 'Новый кейс';
-    if (submitLabel) submitLabel.textContent = mode === 'edit' ? 'Сохранить изменения' : 'Опубликовать';
+    if (submitLabel) submitLabel.textContent = mode === 'edit' ? 'Перезаписать кейс' : 'Опубликовать';
     const submit = caseForm.querySelector('.admin-new__submit');
     if (submit) submit.disabled = false;
     if (caseForm.slug) {
@@ -670,7 +685,7 @@
 
     const submit = caseForm.querySelector('.admin-new__submit');
     submit.disabled = true;
-    setPublishStatus(state.editingSlug ? 'Обновляю кейс в репозитории...' : 'Публикую кейс в репозиторий...', '');
+    setPublishStatus(state.editingSlug ? 'Перезаписываю опубликованный кейс...' : 'Публикую кейс в репозиторий...', '');
 
     try {
       const titleRu = caseForm.titleRu.value.trim();
@@ -703,7 +718,7 @@
         body: JSON.stringify(payload),
       });
 
-      setPublishStatus(`Готово. Коммит: ${result.commitSha || 'создан'}. GitHub Pages обновится через пару минут.`, 'success');
+      setPublishStatus(`${state.editingSlug ? 'Кейс перезаписан' : 'Кейс опубликован'}. Коммит: ${result.commitSha || 'создан'}. GitHub Pages обновится через пару минут.`, 'success');
       await refreshCases();
       setTimeout(() => showView('add'), 900);
     } catch (error) {
@@ -727,7 +742,7 @@
 
     const slug = deleteButton.dataset.adminDeleteCase;
     const item = state.cases.find(entry => entry.slug === slug);
-    if (!item || item.readonly) {
+    if (!item || item.readonly || item.protected) {
       deleteButton.animate(
         [
           { transform: 'scale(1)' },
