@@ -4078,7 +4078,8 @@ body.case--wedding { --case-accent: #888888; }
   /* Стартовое состояние для анимации (JS сбросит при появлении) */
   will-change: opacity, transform;
 }
-.case-banner img {
+.case-banner img,
+.case-banner video {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -4090,6 +4091,9 @@ body.case--wedding { --case-accent: #888888; }
   object-position: center center;
   display: block;
   will-change: transform;
+}
+.case-banner video {
+  background: #050505;
 }
 /* Вариант "пара изображений в одну строку" */
 .case-banner-pair {
@@ -4259,7 +4263,8 @@ body.case--wedding { --case-accent: #888888; }
     opacity: 1 !important;
     transform: none !important;
   }
-  .case-banner img {
+  .case-banner img,
+  .case-banner video {
     transform: none !important;
   }
 }
