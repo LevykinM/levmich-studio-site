@@ -267,7 +267,7 @@ p { margin: 0; }
     width: min(317px, calc(100vw - 48px));
     font-size: clamp(120px, 34vw, 150px);
     line-height: .67;
-    text-align: left;
+    text-align: center;
     transform: translateX(-50%);
   }
 }
