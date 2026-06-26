@@ -4067,7 +4067,7 @@ body.case-page {
   background: var(--bg);
   color: #fff;
   min-height: 100vh;
-  font-family: var(--font-main);
+  font-family: 'Onest', sans-serif;
   /* Цветовой акцент кейса (рамки плашек "Было разработано" + точки).
      Для каждого кейса перебивается ниже соответствующим классом. */
   --case-accent: var(--accent);
@@ -4206,7 +4206,7 @@ body.case--chess   { --case-accent: #7400FF; }
 .case-app-screen__title {
   margin: 0 0 10px;
   font-family: 'Onest', sans-serif;
-  font-weight: 800;
+  font-weight: 500;
   font-size: 50px;
   line-height: 1;
   letter-spacing: 0;
