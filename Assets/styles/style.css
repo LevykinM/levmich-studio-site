@@ -1722,9 +1722,10 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   width: 500px;
   z-index: 2;
 }
-.portfolio-case[data-case="three"] { order: 1; }
-.portfolio-case[data-case="front"] { order: 2; }
-.portfolio-case[data-case="wedding"] { order: 3; }
+.portfolio-case[data-case="limo"] { order: 1; }
+.portfolio-case[data-case="three"] { order: 2; }
+.portfolio-case[data-case="front"] { order: 3; }
+.portfolio-case[data-case="wedding"] { order: 4; }
 .portfolio-case__media {
   position: relative;
   display: block;
@@ -3745,9 +3746,10 @@ body[data-lang="en"] .footer__meta-disclaimer {
     will-change: opacity, filter, translate;
     transition: none;
   }
-  .portfolio-case[data-case="three"] { order: 1; z-index: 1; }
-  .portfolio-case[data-case="front"] { order: 2; z-index: 2; }
-  .portfolio-case[data-case="wedding"] { order: 3; z-index: 3; margin-bottom: 120px; }
+  .portfolio-case[data-case="limo"] { order: 1; z-index: 1; }
+  .portfolio-case[data-case="three"] { order: 2; z-index: 2; }
+  .portfolio-case[data-case="front"] { order: 3; z-index: 3; }
+  .portfolio-case[data-case="wedding"] { order: 4; z-index: 4; margin-bottom: 120px; }
   .portfolio-case__media,
   .portfolio-case:is(:hover, :focus-within) .portfolio-case__media {
     width: 100%;
@@ -4041,6 +4043,7 @@ body.case-page {
 body.case--three   { --case-accent: #FB8601; }
 body.case--front   { --case-accent: #FF0750; }
 body.case--wedding { --case-accent: #888888; }
+body.case--limo    { --case-accent: #FBB603; }
 
 /* Внешний контейнер контента (padding 40 top / 20 H, как у Figma Frame 226) */
 .case-layout {

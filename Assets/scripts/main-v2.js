@@ -264,7 +264,7 @@
         'https://functions.yandexcloud.net/d4eig0m88v1fmtmml06q',
         'https://levmich-case-likes.michailinlevyk.workers.dev/case-likes',
       ],
-      slugs: ['three', 'wedding', 'front'],
+      slugs: ['limo', 'three', 'wedding', 'front'],
       toggleRpc: 'toggle_case_like',
       likeRpc: 'like_case',
       visitorKey: 'levmich-case-like-visitor:v1',
@@ -286,6 +286,7 @@
       },
     };
     const pageSlugs = {
+      caseLimo: 'limo',
       caseThree: 'three',
       caseWedding: 'wedding',
       caseFront: 'front',
@@ -344,6 +345,7 @@
     function pageCaseSlug() {
       const fromDataset = pageSlugs[document.body.dataset.caseId];
       if (fromDataset) return fromDataset;
+      if (document.body.classList.contains('case--limo')) return 'limo';
       if (document.body.classList.contains('case--three')) return 'three';
       if (document.body.classList.contains('case--wedding')) return 'wedding';
       if (document.body.classList.contains('case--front')) return 'front';
@@ -736,6 +738,7 @@
     const routeMap = new Map([
       ['/main', '/main'],
       ['/info', '/info'],
+      ['/cases/limo', '/cases/limo'],
       ['/cases/front', '/cases/front'],
       ['/cases/three', '/cases/three'],
       ['/cases/wedding', '/cases/wedding'],
@@ -745,6 +748,7 @@
       if (document.body.dataset.pageVersion === 'v3') return '/main';
       if (document.body.classList.contains('info-page')) return '/info';
       const caseId = document.body.dataset.caseId;
+      if (caseId === 'caseLimo') return '/cases/limo';
       if (caseId === 'caseFront') return '/cases/front';
       if (caseId === 'caseThree') return '/cases/three';
       if (caseId === 'caseWedding') return '/cases/wedding';
@@ -787,8 +791,9 @@
         },
         hero: {
           slogan: 'Делаем красиво<br/>Некрасиво&nbsp;— не&nbsp;делаем',
-          titles: ['Новый проект', 'Три семёрки', 'Оксана и Костя'],
+          titles: ['Лимо', 'Новый проект', 'Три семёрки', 'Оксана и Костя'],
           descs: [
+            'Сайт и визуальная система для спешелти-кофейни в Екатеринбурге',
             'Наша студия задизайнила логотип и сайт для крупного патентного бюро Front',
             'Бренд для регионального грузоперевозчика, который запомнят на дороге',
             'Сайт-приглашение, который взял на себя всю логистику свадьбы',
@@ -826,8 +831,8 @@
         },
         portfolio: {
           title: 'Кейсы',
-          names: ['Три Семёрки', 'Свадебный сайт', 'Front'],
-          tags: ['Брендинг', 'Сайт', 'Брендинг', 'Сайт'],
+          names: ['Лимо', 'Три Семёрки', 'Свадебный сайт', 'Front'],
+          tags: ['Брендинг', 'Сайт', 'Брендинг', 'Сайт', 'Брендинг', 'Сайт'],
           cursor: 'Подробнее',
         },
         nav: {
@@ -851,6 +856,15 @@
           label: 'Переключить язык на английский',
           current: 'Ru',
           target: 'En',
+        },
+        caseLimo: {
+          title: 'Лимо',
+          pageTitle: 'LIMO — сайт кофейни | Levmich Studio',
+          sections: [
+            ['Описание', 'LIMO — спешелти-кофейня в Екатеринбурге с четырьмя точками в районах, где раньше не было ни одного места, куда хотелось бы зайти за кофе. У бренда уже был сформированный характер — сухой, самоироничный, не похожий на корпоративный язык сетевых кофеен. Не хватало сайта, который бы продолжал этот характер, и визуальной системы для фотоконтента, которая собирала бы четыре точки в одну узнаваемую историю.'],
+            ['Решение', 'Сайт построен вокруг одной сквозной идеи — «кофе и лимонады в районе, где раньше пить было нечего». Эта фраза проходит от hero-блока до карточек точек и закрывает главный вопрос посетителя за первые три секунды: что это и для кого. Цветовая система собрана из трёх констант — насыщенный жёлтый #FBB603, тёплый off-white #FFFDF2 и чёрный, — и работает одинаково на сайте, в меню и в фотоконтенте. Для съёмок описан фирменный визуальный приём: прямая вспышка, плёночная эстетика 35мм, цветокор в духе Kodak Portra и вертикальный кадр 3:4. Этот приём становится визуальным маркером бренда — снимки LIMO считываются с одного скролла, до того как зритель прочитает подпись.'],
+            ['Результат', 'LIMO получил сайт, который читается как продолжение заведения, а не как отдельный маркетинговый слой. Визуальная система устойчива к масштабированию: при открытии новой точки или добавлении позиции в меню не нужно собирать новую съёмку — все элементы работают по описанным правилам. Бренд узнаётся в ленте по одному кадру.'],
+          ],
         },
         caseThree: {
           title: 'Три семёрки',
@@ -903,8 +917,9 @@
         },
         hero: {
           slogan: 'We make it beautiful<br/>Ugly&nbsp;— not&nbsp;our&nbsp;thing',
-          titles: ['New project', 'Three Sevens', 'Oksana and Konstantin'],
+          titles: ['LIMO', 'New project', 'Three Sevens', 'Oksana and Konstantin'],
           descs: [
+            'A website and visual system for a specialty coffee shop in Yekaterinburg',
             'We designed the logo and website for Front, a major patent bureau',
             'A brand for a regional freight company that people remember on the road',
             'A wedding website that took care of the whole event logistics',
@@ -942,8 +957,8 @@
         },
         portfolio: {
           title: 'Cases',
-          names: ['Three Sevens', 'Wedding website', 'Front'],
-          tags: ['Branding', 'Website', 'Branding', 'Website'],
+          names: ['LIMO', 'Three Sevens', 'Wedding website', 'Front'],
+          tags: ['Branding', 'Website', 'Branding', 'Website', 'Branding', 'Website'],
           cursor: 'Details',
         },
         nav: {
@@ -967,6 +982,15 @@
           label: 'Switch language to Russian',
           current: 'En',
           target: 'Ru',
+        },
+        caseLimo: {
+          title: 'LIMO',
+          pageTitle: 'LIMO — coffee shop website | Levmich Studio',
+          sections: [
+            ['Brief', 'LIMO is a specialty coffee shop in Yekaterinburg with four locations in neighborhoods that previously had no place you actually wanted to stop for coffee. The brand already had a defined character — dry, self-ironic and unlike the corporate language of coffee chains. It needed a website that continued that voice, plus a visual system for photo content that would bring all four locations into one recognizable story.'],
+            ['Solution', 'The website is built around one through-line: “coffee and lemonades in a neighborhood where there used to be nothing to drink.” It runs from the hero block to the location cards and answers the visitor’s main question in the first three seconds: what this is and who it is for. The color system is built from three constants — rich yellow #FBB603, warm off-white #FFFDF2 and black — and works across the website, menu and photo content. For shoots, we defined a signature visual method: direct flash, 35mm film aesthetics, Kodak Portra-like color and vertical 3:4 framing. This becomes the brand’s visual marker: LIMO shots are recognizable in one scroll before the caption is read.'],
+            ['Result', 'LIMO got a website that reads as a continuation of the place, not as a separate marketing layer. The visual system scales well: when a new location opens or a menu item is added, there is no need to reinvent the shoot — all elements work by the defined rules. The brand is recognized in the feed from a single frame.'],
+          ],
         },
         caseThree: {
           title: 'Three Sevens',
@@ -1499,6 +1523,7 @@
     const cleanPaths = {
       main: '/main',
       info: '/info',
+      caseLimo: '/cases/limo',
       caseFront: '/cases/front',
       caseThree: '/cases/three',
       caseWedding: '/cases/wedding',
@@ -1984,7 +2009,7 @@
       }
       return a;
     };
-    let order = shuffle([0, 1, 2]);
+    let order = shuffle(cards.map((_, index) => index));
     let timer = null;
     let isPaused = false;
     let isAnimating = false;
@@ -1995,6 +2020,18 @@
       const s = SLOTS[slotIdx];
       gsap.set(card, { left: s.x, top: s.y, width: s.w, height: s.h, x: 0, opacity: 1 });
       card.classList.toggle('is-big', slotIdx === 0);
+    };
+    const setHiddenSlot = (card) => {
+      const s = SLOTS[2];
+      gsap.set(card, {
+        left: s.x + s.w + SLOT_GAP,
+        top: s.y,
+        width: s.w,
+        height: s.h,
+        x: 0,
+        opacity: 0,
+      });
+      card.classList.remove('is-big');
     };
 
     // ---- Mobile hint pill --------------------------------------
@@ -2037,7 +2074,10 @@
 
     // ---- Стартовое состояние ------------------------------------
     // Карточки расставлены в соответствии с РАНДОМНЫМ order: слот 0 = big.
-    order.forEach((cardIdx, slotIdx) => setSlot(cards[cardIdx], slotIdx));
+    order.forEach((cardIdx, slotIdx) => {
+      if (slotIdx < 3) setSlot(cards[cardIdx], slotIdx);
+      else setHiddenSlot(cards[cardIdx]);
+    });
     // Pill starts hidden just above its slot; it's shown once the first big
     // card has landed (intro onComplete below).
     if (heroPill && window.gsap) {
@@ -2094,7 +2134,10 @@
       HERO_SCALE = computed.scale;
       applyLayout();
       if (!isAnimating) {
-        order.forEach((cardIdx, slotIdx) => setSlot(cards[cardIdx], slotIdx));
+        order.forEach((cardIdx, slotIdx) => {
+          if (slotIdx < 3) setSlot(cards[cardIdx], slotIdx);
+          else setHiddenSlot(cards[cardIdx]);
+        });
       }
     }, { passive: true });
 
@@ -2107,6 +2150,9 @@
       const centerCard = cards[order[0]];
       const rightCard  = cards[order[1]];
       const leftCard   = cards[order[2]];
+      const hiddenQueue = order.slice(3);
+      const enteringIdx = hiddenQueue.length ? hiddenQueue[0] : order[2];
+      const enteringCard = cards[enteringIdx];
 
       // Dissolve the hint pill first (quick, up & out) so it is gone before
       // the big card visibly shrinks — exactly the requested order.
@@ -2147,7 +2193,11 @@
         ease: 'power3.inOut'
       }, 0.18);
 
-      tl.set(leftCard, {
+      if (enteringCard !== leftCard) {
+        tl.set(leftCard, { opacity: 0 }, 0.42);
+      }
+
+      tl.set(enteringCard, {
         left: S[1].x + S[1].w + SLOT_GAP,
         top: S[1].y,
         width: S[1].w,
@@ -2155,14 +2205,15 @@
         opacity: 0,
       }, 0.42);
 
-      tl.to(leftCard, {
+      tl.to(enteringCard, {
         left: S[1].x,
         opacity: 1,
         duration: 0.5,
         ease: 'power3.out'
       }, 0.48);
 
-      order = [order[1], order[2], order[0]];
+      const nextHidden = hiddenQueue.length ? hiddenQueue.slice(1).concat(order[2]) : [];
+      order = [order[1], enteringIdx, order[0]].concat(nextHidden);
     };
 
     const rotate = () => {
@@ -2178,6 +2229,9 @@
       const bigCard  = cards[order[0]];
       const smallTop = cards[order[1]];        // → станет big
       const smallBot = cards[order[2]];        // → станет small-top
+      const hiddenQueue = order.slice(3);
+      const enteringIdx = hiddenQueue.length ? hiddenQueue[0] : order[0];
+      const enteringCard = cards[enteringIdx]; // → станет small-bot
 
       // 1. Скрываем info текущей big — длительность согласована с уходом
       //    карточки (x:-700 + opacity:0 over 0.55s), чтобы плашка ехала
@@ -2187,6 +2241,16 @@
       // 2. Big улетает влево. На правом краю появится уже после фазы A,
       //    когда SmallBot успеет занять старый слот SmallTop без наслоения.
       const SLOT_DELTA = S[2].x - S[1].x;  // smallW + gap
+      if (enteringCard !== bigCard) {
+        gsap.set(enteringCard, {
+          x: 0,
+          left: S[2].x + SLOT_DELTA,
+          top: S[2].y,
+          width: S[2].w,
+          height: S[2].h,
+          opacity: 0,
+        });
+      }
       gsap.to(bigCard, {
         x: -700, opacity: 0, duration: 0.55, ease: 'power2.in',
         onComplete() {
@@ -2228,15 +2292,16 @@
       });
       tl.to(smallTop, { left: phaseAX, duration: 0.72, ease: 'power2.inOut', onUpdate: updateFollower }, 0);
       tl.set(smallBot, { left: S[1].x, top: S[1].y, width: S[1].w, height: S[1].h }, 0.72);
-      tl.to(bigCard, { left: S[2].x, opacity: 1, duration: 0.75, ease: 'power3.inOut' }, 0.72);
+      tl.to(enteringCard, { left: S[2].x, opacity: 1, duration: 0.75, ease: 'power3.inOut' }, 0.72);
       tl.to(smallTop, { left: S[0].x, top: S[0].y, width: S[0].w, height: S[0].h,
                         duration: 0.62, ease: 'power3.out' }, 0.78);
 
       // Разблокируем следующую анимацию после того как Big встал (t ≈ 1.45s)
       gsap.delayedCall(1.65, () => { isAnimating = false; });
 
-      // Сдвигаем order: [a,b,c] → [b,c,a]
-      order = [order[1], order[2], order[0]];
+      // Сдвигаем очередь: видны три карточки, остальные ждут следующего цикла.
+      const nextHidden = hiddenQueue.length ? hiddenQueue.slice(1).concat(order[0]) : [];
+      order = [order[1], order[2], enteringIdx].concat(nextHidden);
     };
 
     const start = () => {
@@ -2294,7 +2359,7 @@
       {
         section: document.querySelector('#portfolio'),
         head: document.querySelector('.portfolio__title'),
-        panels: ['three', 'front', 'wedding']
+        panels: ['limo', 'three', 'front', 'wedding']
           .map(name => document.querySelector(`.portfolio-case[data-case="${name}"]`))
           .filter(Boolean),
         next: document.querySelector('#footer'),

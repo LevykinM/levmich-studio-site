@@ -1,6 +1,6 @@
 const SUPABASE_URL = 'https://gacdatugndetlxndhvmw.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_nhxed07wBJ_QvIQnnlrMZA_K2fvsgjB';
-const ALLOWED_SLUGS = new Set(['three', 'wedding', 'front']);
+const ALLOWED_SLUGS = new Set(['limo', 'three', 'wedding', 'front']);
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
