@@ -4102,7 +4102,7 @@ body.case--limo    { --case-accent: #FBB603; }
   will-change: transform;
 }
 .case-banner video {
-  background: #050505;
+  background: var(--bg);
 }
 .case-logo-strip {
   position: relative;
@@ -4111,7 +4111,7 @@ body.case--limo    { --case-accent: #FBB603; }
   aspect-ratio: 1400 / 293;
   overflow: hidden;
   border-radius: 0;
-  background: #050505;
+  background: var(--bg);
   box-sizing: border-box;
 }
 .case-logo-strip img {
