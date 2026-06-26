@@ -285,7 +285,7 @@
         'https://functions.yandexcloud.net/d4eig0m88v1fmtmml06q',
         'https://levmich-case-likes.michailinlevyk.workers.dev/case-likes',
       ],
-      slugs: ['limo', 'three', 'wedding', 'front'],
+      slugs: ['limo', 'chess', 'three', 'wedding', 'front'],
       toggleRpc: 'toggle_case_like',
       likeRpc: 'like_case',
       visitorKey: 'levmich-case-like-visitor:v1',
@@ -308,6 +308,7 @@
     };
     const pageSlugs = {
       caseLimo: 'limo',
+      caseChess: 'chess',
       caseThree: 'three',
       caseWedding: 'wedding',
       caseFront: 'front',
@@ -367,6 +368,7 @@
       const fromDataset = pageSlugs[document.body.dataset.caseId];
       if (fromDataset) return fromDataset;
       if (document.body.classList.contains('case--limo')) return 'limo';
+      if (document.body.classList.contains('case--chess')) return 'chess';
       if (document.body.classList.contains('case--three')) return 'three';
       if (document.body.classList.contains('case--wedding')) return 'wedding';
       if (document.body.classList.contains('case--front')) return 'front';
@@ -760,6 +762,7 @@
       ['/main', '/main'],
       ['/info', '/info'],
       ['/cases/limo', '/cases/limo'],
+      ['/cases/chess', '/cases/chess'],
       ['/cases/front', '/cases/front'],
       ['/cases/three', '/cases/three'],
       ['/cases/wedding', '/cases/wedding'],
@@ -770,6 +773,7 @@
       if (document.body.classList.contains('info-page')) return '/info';
       const caseId = document.body.dataset.caseId;
       if (caseId === 'caseLimo') return '/cases/limo';
+      if (caseId === 'caseChess') return '/cases/chess';
       if (caseId === 'caseFront') return '/cases/front';
       if (caseId === 'caseThree') return '/cases/three';
       if (caseId === 'caseWedding') return '/cases/wedding';
@@ -852,8 +856,8 @@
         },
         portfolio: {
           title: 'Кейсы',
-          names: ['Лимо', 'Три Семёрки', 'Свадебный сайт', 'Front'],
-          tags: ['Брендинг', 'Сайт', 'Брендинг', 'Сайт', 'Брендинг', 'Сайт'],
+          names: ['Лимо', 'Chess Sphere', 'Три Семёрки', 'Свадебный сайт', 'Front'],
+          tags: ['Брендинг', 'Сайт', 'Брендинг', 'Приложение', 'Брендинг', 'Сайт', 'Брендинг', 'Сайт'],
           cursor: 'Подробнее',
         },
         nav: {
@@ -885,6 +889,20 @@
             ['Описание', 'LIMO — спешелти-кофейня в Екатеринбурге с четырьмя точками в районах, где раньше не было ни одного места, куда хотелось бы зайти за кофе. У бренда уже был сформированный характер — сухой, самоироничный, не похожий на корпоративный язык сетевых кофеен. Не хватало сайта, который бы продолжал этот характер, и визуальной системы для фотоконтента, которая собирала бы четыре точки в одну узнаваемую историю.'],
             ['Решение', 'Сайт построен вокруг одной сквозной идеи — «кофе и лимонады в районе, где раньше пить было нечего». Эта фраза проходит от hero-блока до карточек точек и закрывает главный вопрос посетителя за первые три секунды: что это и для кого. Цветовая система собрана из трёх констант — насыщенный жёлтый #FBB603, тёплый off-white #FFFDF2 и чёрный, — и работает одинаково на сайте, в меню и в фотоконтенте. Для съёмок описан фирменный визуальный приём: прямая вспышка, плёночная эстетика 35мм, цветокор в духе Kodak Portra и вертикальный кадр 3:4. Этот приём становится визуальным маркером бренда — снимки LIMO считываются с одного скролла, до того как зритель прочитает подпись.'],
             ['Результат', 'LIMO получил сайт, который читается как продолжение заведения, а не как отдельный маркетинговый слой. Визуальная система устойчива к масштабированию: при открытии новой точки или добавлении позиции в меню не нужно собирать новую съёмку — все элементы работают по описанным правилам. Бренд узнаётся в ленте по одному кадру.'],
+          ],
+        },
+        caseChess: {
+          title: 'Chess Sphere',
+          pageTitle: 'Chess Sphere — брендинг и приложение | Levmich Studio',
+          sections: [
+            ['Описание', 'Chess Sphere — онлайн-школа, которая учит играть в шахматы с нуля. Категория традиционно ассоциируется с чем-то серьёзным, академичным и недружелюбным к новичкам — особенно к детям и подросткам. Нужно было сделать продукт, в который хочется возвращаться: не урок, а привычка.\n\nЗадача — собрать единую систему: визуальную идентичность, маскота и мобильное приложение, в котором обучение, практика и игра живут в одном флоу.'],
+            ['Решение', 'В основу айдентики лёг маскот — стилизованный конь с дружелюбным характером. Он снимает с шахмат образ закрытого клуба и задаёт тон всему продукту: умно, но без снобизма.\n\nПалитра построена на насыщенном сиреневом — нетипичный для категории цвет, который сразу отстраивает Chess Sphere от классических чёрно-белых конкурентов. Плотный гротеск в логотипе и интерфейсе добавляет уверенности и современности.'],
+            ['Результат', 'Цельная система — от логотипа до последнего экрана приложения. Продукт, который выглядит как современный edu-tech, а не как очередной учебник по шахматам. Айдентика и интерфейс работают как одно целое и масштабируются на любые форматы — от пуш-уведомлений до промо-материалов.'],
+          ],
+          appScreens: [
+            ['Главный экран', 'Стартовая точка пользователя внутри приложения. Экран решает три задачи одновременно: мотивирует, ориентирует и ведёт к действию.'],
+            ['Учебник', 'Структурированный путь от новичка к игроку. Экран показывает прогресс по главам, не перегружая — пользователь видит что пройдено, что в процессе и что ещё закрыто.'],
+            ['Играть', 'Выбор соперника, тайминг, старт — и сразу в партию. Два экрана, ноль лишних шагов: настройка и игровое поле живут в одном флоу.'],
           ],
         },
         caseThree: {
@@ -978,8 +996,8 @@
         },
         portfolio: {
           title: 'Cases',
-          names: ['LIMO', 'Three Sevens', 'Wedding website', 'Front'],
-          tags: ['Branding', 'Website', 'Branding', 'Website', 'Branding', 'Website'],
+          names: ['LIMO', 'Chess Sphere', 'Three Sevens', 'Wedding website', 'Front'],
+          tags: ['Branding', 'Website', 'Branding', 'App', 'Branding', 'Website', 'Branding', 'Website'],
           cursor: 'Details',
         },
         nav: {
@@ -1011,6 +1029,20 @@
             ['Brief', 'LIMO is a specialty coffee shop in Yekaterinburg with four locations in neighborhoods that previously had no place you actually wanted to stop for coffee. The brand already had a defined character — dry, self-ironic and unlike the corporate language of coffee chains. It needed a website that continued that voice, plus a visual system for photo content that would bring all four locations into one recognizable story.'],
             ['Solution', 'The website is built around one through-line: “coffee and lemonades in a neighborhood where there used to be nothing to drink.” It runs from the hero block to the location cards and answers the visitor’s main question in the first three seconds: what this is and who it is for. The color system is built from three constants — rich yellow #FBB603, warm off-white #FFFDF2 and black — and works across the website, menu and photo content. For shoots, we defined a signature visual method: direct flash, 35mm film aesthetics, Kodak Portra-like color and vertical 3:4 framing. This becomes the brand’s visual marker: LIMO shots are recognizable in one scroll before the caption is read.'],
             ['Result', 'LIMO got a website that reads as a continuation of the place, not as a separate marketing layer. The visual system scales well: when a new location opens or a menu item is added, there is no need to reinvent the shoot — all elements work by the defined rules. The brand is recognized in the feed from a single frame.'],
+          ],
+        },
+        caseChess: {
+          title: 'Chess Sphere',
+          pageTitle: 'Chess Sphere — branding and app | Levmich Studio',
+          sections: [
+            ['Brief', 'Chess Sphere is an online school that teaches chess from scratch. The category is usually associated with something serious, academic and unfriendly to beginners — especially children and teenagers. The goal was to create a product people want to return to: not a lesson, but a habit.\n\nThe task was to build one complete system: visual identity, mascot and mobile app, where learning, practice and play live inside one flow.'],
+            ['Solution', 'The identity is built around a mascot — a stylized knight with a friendly character. It removes the closed-club feeling from chess and sets the tone for the whole product: smart, but without snobbery.\n\nThe palette uses saturated violet, an unusual color for the category that immediately separates Chess Sphere from classic black-and-white competitors. A dense grotesque typeface in the logo and interface adds confidence and a modern feel.'],
+            ['Result', 'A complete system — from the logo to the last app screen. The product looks like a modern ed-tech experience, not another chess textbook. The identity and interface work as one system and scale to any format, from push notifications to promo materials.'],
+          ],
+          appScreens: [
+            ['Home screen', 'The user’s starting point inside the app. The screen solves three tasks at once: motivates, orients and leads to action.'],
+            ['Learning path', 'A structured path from beginner to player. The screen shows chapter progress without overload: what is done, what is in progress and what is still locked.'],
+            ['Play', 'Choose an opponent, set the timing, start — and jump straight into a game. Two screens, no extra steps: setup and board live inside one flow.'],
           ],
         },
         caseThree: {
@@ -1419,7 +1451,9 @@
           const titleEl = sec.querySelector('.case-section__title');
           const textEl  = sec.querySelector('.case-section__text');
           if (titleEl && pair[0] !== undefined) titleEl.textContent = pair[0];
-          if (textEl  && pair[1] !== undefined) textEl.textContent  = pair[1];
+          if (textEl  && pair[1] !== undefined) {
+            textEl.innerHTML = escapeHtml(pair[1]).replace(/\n/g, '<br>');
+          }
         });
         if (caseData.components) {
           setText('.case-components__title', caseData.components.title);
@@ -1430,6 +1464,16 @@
             const descEl = comp.querySelector('.case-component__desc');
             if (nameEl && pair[0] !== undefined) nameEl.textContent = pair[0];
             if (descEl && pair[1] !== undefined) descEl.textContent = pair[1];
+          });
+        }
+        if (caseData.appScreens) {
+          $$('.case-app-screen').forEach((screen, i) => {
+            const pair = caseData.appScreens[i];
+            if (!pair) return;
+            const titleEl = screen.querySelector('.case-app-screen__title');
+            const textEl = screen.querySelector('.case-app-screen__text');
+            if (titleEl && pair[0] !== undefined) titleEl.textContent = pair[0];
+            if (textEl && pair[1] !== undefined) textEl.textContent = pair[1];
           });
         }
         $$('.case-layout img').forEach((img, i) => img.setAttribute('alt', `${caseData.title} image ${i + 1}`));
@@ -1545,6 +1589,7 @@
       main: '/main',
       info: '/info',
       caseLimo: '/cases/limo',
+      caseChess: '/cases/chess',
       caseFront: '/cases/front',
       caseThree: '/cases/three',
       caseWedding: '/cases/wedding',

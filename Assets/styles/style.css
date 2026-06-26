@@ -1723,9 +1723,10 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   z-index: 2;
 }
 .portfolio-case[data-case="limo"] { order: 1; }
-.portfolio-case[data-case="three"] { order: 2; }
-.portfolio-case[data-case="front"] { order: 3; }
-.portfolio-case[data-case="wedding"] { order: 4; }
+.portfolio-case[data-case="chess"] { order: 2; }
+.portfolio-case[data-case="three"] { order: 3; }
+.portfolio-case[data-case="front"] { order: 4; }
+.portfolio-case[data-case="wedding"] { order: 5; }
 .portfolio-case__media {
   position: relative;
   display: block;
@@ -3747,9 +3748,10 @@ body[data-lang="en"] .footer__meta-disclaimer {
     transition: none;
   }
   .portfolio-case[data-case="limo"] { order: 1; z-index: 1; }
-  .portfolio-case[data-case="three"] { order: 2; z-index: 2; }
-  .portfolio-case[data-case="front"] { order: 3; z-index: 3; }
-  .portfolio-case[data-case="wedding"] { order: 4; z-index: 4; margin-bottom: 120px; }
+  .portfolio-case[data-case="chess"] { order: 2; z-index: 2; }
+  .portfolio-case[data-case="three"] { order: 3; z-index: 3; }
+  .portfolio-case[data-case="front"] { order: 4; z-index: 4; }
+  .portfolio-case[data-case="wedding"] { order: 5; z-index: 5; margin-bottom: 120px; }
   .portfolio-case__media,
   .portfolio-case:is(:hover, :focus-within) .portfolio-case__media {
     width: 100%;
@@ -4044,6 +4046,7 @@ body.case--three   { --case-accent: #FB8601; }
 body.case--front   { --case-accent: #FF0750; }
 body.case--wedding { --case-accent: #888888; }
 body.case--limo    { --case-accent: #FBB603; }
+body.case--chess   { --case-accent: #7400FF; }
 
 /* Внешний контейнер контента (padding 40 top / 20 H, как у Figma Frame 226) */
 .case-layout {
@@ -4107,6 +4110,9 @@ body.case--limo    { --case-accent: #FBB603; }
 .case-banner--front-hero {
   aspect-ratio: 1728 / 943;
 }
+.case-banner--chess-result {
+  aspect-ratio: 1672 / 941;
+}
 .case-logo-strip {
   position: relative;
   width: 100%;
@@ -4135,6 +4141,55 @@ body.case--limo    { --case-accent: #FBB603; }
 }
 .case-banner-pair .case-banner {
   aspect-ratio: 690 / 700;
+}
+
+.case-app-screen {
+  width: min(920px, 100%);
+  margin: 0 auto;
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  box-sizing: border-box;
+}
+.case-app-screen__media {
+  flex: 0 0 auto;
+  margin: 0;
+}
+.case-app-screen__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.case-app-screen__media--single {
+  width: clamp(178px, 16vw, 240px);
+}
+.case-app-screen__media--duo {
+  width: clamp(330px, 32vw, 500px);
+}
+.case-app-screen__copy {
+  flex: 0 1 390px;
+  max-width: 390px;
+  text-align: left;
+}
+.case-app-screen__title {
+  margin: 0 0 10px;
+  font-family: 'Onest', sans-serif;
+  font-weight: 800;
+  font-size: clamp(32px, 3vw, 44px);
+  line-height: 1;
+  letter-spacing: 0;
+  color: #fff;
+}
+.case-app-screen__text {
+  margin: 0;
+  font-family: 'Onest', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: #fff;
 }
 
 /* Текстовый раздел — 951 wide centered (как Frame 217/216 в Figma) */
@@ -4309,6 +4364,12 @@ body.case--limo    { --case-accent: #FBB603; }
   .case-section__title,
   .case-components__title { font-size: clamp(32px, 6vw, 50px); }
   .case-components__grid { grid-template-columns: 1fr; }
+  .case-app-screen {
+    gap: 40px;
+  }
+  .case-app-screen__copy {
+    max-width: 340px;
+  }
 }
 
 /* Mobile (Figma frames 40:2168 / 40:2170 / 40:2265 — все на ширине 402).
@@ -4326,6 +4387,9 @@ body.case--limo    { --case-accent: #FBB603; }
     line-height: 100px; /* высота блока 100 в Figma */
     margin: 0;
   }
+  .case--chess .case-layout__title {
+    font-size: clamp(38px, 11vw, 50px);
+  }
 
   /* Баннеры: hero и финальные = 382×500 (~3:4 portrait).
      Видео и парные баннеры на мобиле остаются landscape. */
@@ -4338,6 +4402,12 @@ body.case--limo    { --case-accent: #FBB603; }
   }
   .case-banner--front-hero {
     aspect-ratio: 1728 / 943;
+  }
+  .case-banner--chess-hero {
+    aspect-ratio: 2 / 1;
+  }
+  .case-banner--chess-result {
+    aspect-ratio: 1672 / 941;
   }
   .case-banner--case-video,
   .case-banner--front-video,
@@ -4367,6 +4437,55 @@ body.case--limo    { --case-accent: #FBB603; }
   }
   .case-section__title { font-size: 30px; line-height: normal; }
   .case-section__text  { font-size: 14px; line-height: normal; }
+
+  .case-app-screen {
+    width: 100%;
+    flex-direction: row;
+    gap: clamp(20px, 7vw, 42px);
+    padding: 0;
+  }
+  .case-app-screen__copy {
+    flex: 0 1 clamp(132px, 38vw, 180px);
+    max-width: clamp(132px, 38vw, 180px);
+    text-align: left;
+  }
+  .case-app-screen__media--single {
+    width: clamp(132px, 36vw, 174px);
+  }
+  .case-app-screen__media--duo {
+    width: clamp(178px, 50vw, 240px);
+  }
+  .case-app-screen__title {
+    margin-bottom: 6px;
+    font-size: clamp(22px, 6vw, 30px);
+    line-height: 1;
+  }
+  .case-app-screen__text {
+    font-size: clamp(10px, 3.1vw, 14px);
+    line-height: 1.14;
+  }
+
+  @media (max-width: 380px) {
+    .case-app-screen {
+      gap: 16px;
+    }
+    .case-app-screen__copy {
+      flex-basis: 116px;
+      max-width: 116px;
+    }
+    .case-app-screen__media--single {
+      width: 126px;
+    }
+    .case-app-screen__media--duo {
+      width: 164px;
+    }
+    .case-app-screen__title {
+      font-size: 21px;
+    }
+    .case-app-screen__text {
+      font-size: 10px;
+    }
+  }
 
   /* Блок "Было разработано" — компоненты идут вертикальным стеком */
   .case-components {
