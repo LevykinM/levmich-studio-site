@@ -39,6 +39,7 @@
   };
 
   initSiteLoader();
+  initCaseVideos();
   initLanguageSwitch();
   initTypographyPolish();
   initServicesNotice();
@@ -133,6 +134,70 @@
     window.addEventListener('pagehide', () => {
       if (raf) cancelAnimationFrame(raf);
     }, { once: true });
+  }
+
+  function initCaseVideos() {
+    const videos = $$('video[data-case-video]');
+    if (!videos.length) return;
+
+    const playVideo = (video) => {
+      if (!video || !document.body.contains(video)) return;
+      video.muted = true;
+      video.defaultMuted = true;
+      video.autoplay = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.setAttribute('muted', '');
+      video.setAttribute('playsinline', '');
+      video.setAttribute('webkit-playsinline', '');
+
+      const promise = video.play();
+      if (promise && typeof promise.catch === 'function') {
+        promise.catch(() => {});
+      }
+    };
+
+    const armVideo = (video) => {
+      video.muted = true;
+      video.defaultMuted = true;
+      video.autoplay = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.preload = 'auto';
+      video.setAttribute('muted', '');
+      video.setAttribute('playsinline', '');
+      video.setAttribute('webkit-playsinline', '');
+      video.setAttribute('preload', 'auto');
+      video.load();
+
+      const play = () => playVideo(video);
+      video.addEventListener('loadedmetadata', play, { once: true });
+      video.addEventListener('canplay', play, { once: true });
+      video.addEventListener('playing', () => video.classList.add('is-playing'), { once: true });
+      window.setTimeout(play, 120);
+      window.setTimeout(play, 700);
+      window.setTimeout(play, 1600);
+    };
+
+    videos.forEach(armVideo);
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) playVideo(entry.target);
+        });
+      }, { rootMargin: '420px 0px', threshold: 0.01 });
+      videos.forEach(video => observer.observe(video));
+    }
+
+    const retryAll = () => videos.forEach(playVideo);
+    window.addEventListener('load', retryAll, { once: true });
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) retryAll();
+    });
+    ['touchstart', 'pointerdown', 'click'].forEach(eventName => {
+      document.addEventListener(eventName, retryAll, { passive: true });
+    });
   }
 
   function initEdgeReflection() {

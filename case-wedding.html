@@ -10,7 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Host+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="Assets/styles/style.css?v=138" />
+  <link rel="preload" href="Assets/Case_Wedding_site/wedding-video.mp4" as="video" type="video/mp4" />
+  <link rel="stylesheet" href="Assets/styles/style.css?v=139" />
 </head>
 <body class="case-page case--wedding" data-case-id="caseWedding">
   <div class="site-loader" id="site-loader" role="status" aria-live="polite" aria-label="Сайт загружается">
@@ -66,8 +67,8 @@
       </section>
 
       <!-- 3. Видео-презентация сайта -->
-      <figure class="case-banner case-anim case-anim--banner">
-        <video autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture poster="Assets/Case_Wedding_site/Photo 1.webp" aria-label="Свадебный сайт «Оксана и Костя» — видео-презентация">
+      <figure class="case-banner case-banner--case-video case-banner--wedding-video case-anim case-anim--banner">
+        <video data-case-video autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture poster="Assets/Case_Wedding_site/Photo 1.webp" aria-label="Свадебный сайт «Оксана и Костя» — видео-презентация">
           <source src="Assets/Case_Wedding_site/wedding-video.mp4" type="video/mp4" />
         </video>
       </figure>
@@ -189,7 +190,7 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-  <script src="Assets/scripts/main-v2.js?v=88" defer></script>
+  <script src="Assets/scripts/main-v2.js?v=89" defer></script>
   <script src="Assets/scripts/case-animations.js?v=5" defer></script>
 
 </body>

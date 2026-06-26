@@ -4298,14 +4298,16 @@ body.case--wedding { --case-accent: #888888; }
   }
 
   /* Баннеры: hero и финальные = 382×500 (~3:4 portrait).
-     Пара ниже принудительно становится landscape 382×195. */
+     Видео и парные баннеры на мобиле остаются landscape. */
   .case-banner {
     aspect-ratio: 382 / 500;
     border-radius: 24px;
   }
-  .case-banner--front-video {
+  .case-banner--case-video,
+  .case-banner--front-video,
+  .case-banner--wedding-video {
     width: 100%;
-    aspect-ratio: 382 / 195;
+    aspect-ratio: 2 / 1;
     margin-inline: 0;
   }
   /* Модификатор для коротких standalone-баннеров (Tri Semerki 3-й баннер) */
