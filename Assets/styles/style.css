@@ -4104,6 +4104,9 @@ body.case--limo    { --case-accent: #FBB603; }
 .case-banner video {
   background: var(--bg);
 }
+.case-banner--front-hero {
+  aspect-ratio: 1728 / 943;
+}
 .case-logo-strip {
   position: relative;
   width: 100%;
@@ -4332,6 +4335,9 @@ body.case--limo    { --case-accent: #FBB603; }
   }
   .case-logo-strip {
     border-radius: 0;
+  }
+  .case-banner--front-hero {
+    aspect-ratio: 1728 / 943;
   }
   .case-banner--case-video,
   .case-banner--front-video,
