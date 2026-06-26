@@ -1690,6 +1690,8 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   --portfolio-card: clamp(300px, calc((100vw - 160px) / 3), 400px);
   --portfolio-gap: clamp(28px, calc(var(--portfolio-card) * .125), 50px);
   --portfolio-card-hover: min(500px, calc(var(--portfolio-card) * 1.24), calc(100vw - 20px - (var(--portfolio-card) * 2) - (var(--portfolio-gap) * 2)));
+  --portfolio-meta-space: clamp(82px, calc(var(--portfolio-card) * .22), 96px);
+  --portfolio-card-reserve: calc((var(--portfolio-card-hover) * 1.3325) + var(--portfolio-meta-space));
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
@@ -1709,6 +1711,7 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
 .portfolio-case {
   position: relative;
   width: var(--portfolio-card);
+  min-height: var(--portfolio-card-reserve);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -3323,7 +3326,7 @@ body[data-lang="en"] .footer__meta-disclaimer {
    ВАЖНО: должно идти ДО блока @media (orientation: portrait) ниже,
    чтобы на телефоне в portrait выигрывало значение 16px (32px gap),
    а не 22px из этой группы. */
-@media (max-width: 1100px) and (orientation: landscape) {
+@media (max-width: 1320px) and (orientation: landscape) {
   :root {
     --section-gap: 30px; /* gap между блоками = 60px */
   }
@@ -4201,7 +4204,7 @@ body.case--chess   { --case-accent: #7400FF; }
   margin: 0 0 10px;
   font-family: 'Onest', sans-serif;
   font-weight: 800;
-  font-size: clamp(32px, 3vw, 44px);
+  font-size: 50px;
   line-height: 1;
   letter-spacing: 0;
   color: #fff;
@@ -4486,8 +4489,8 @@ body.case--chess   { --case-accent: #7400FF; }
   }
   .case-app-screen__title {
     margin-bottom: 6px;
-    font-size: clamp(22px, 6vw, 30px);
-    line-height: 1;
+    font-size: 30px;
+    line-height: normal;
   }
   .case-app-screen__text {
     font-size: clamp(10px, 3.1vw, 14px);
@@ -4507,9 +4510,6 @@ body.case--chess   { --case-accent: #7400FF; }
     }
     .case-app-screen__media--duo {
       width: 164px;
-    }
-    .case-app-screen__title {
-      font-size: 21px;
     }
     .case-app-screen__text {
       font-size: 10px;
