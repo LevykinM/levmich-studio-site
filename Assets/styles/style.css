@@ -1687,11 +1687,13 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   margin: 0;
 }
 .portfolio__grid {
+  --portfolio-card: clamp(300px, calc((100vw - 160px) / 3), 400px);
+  --portfolio-gap: clamp(28px, calc(var(--portfolio-card) * .125), 50px);
   display: grid;
-  grid-template-columns: repeat(6, calc((400px - 50px) / 2));
+  grid-template-columns: repeat(6, calc((var(--portfolio-card) - var(--portfolio-gap)) * .5));
   align-items: flex-start;
   justify-content: center;
-  column-gap: 50px;
+  column-gap: var(--portfolio-gap);
   row-gap: 80px;
   width: auto;
   max-width: 100%;
@@ -1705,7 +1707,7 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
 }
 .portfolio-case {
   position: relative;
-  width: 400px;
+  width: var(--portfolio-card);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -1716,12 +1718,12 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   filter: blur(0);
   transform-origin: center top;
   transition:
-    width .62s cubic-bezier(.2, .8, .2, 1),
     filter .4s linear,
-    opacity .4s linear;
+    opacity .4s linear,
+    transform .45s cubic-bezier(.2, .8, .2, 1);
 }
 .portfolio-case:is(:hover, :focus-within) {
-  width: 500px;
+  width: var(--portfolio-card);
   z-index: 2;
 }
 .portfolio-case[data-case="three"] { order: 1; grid-column: 1 / span 2; grid-row: 1; }
@@ -1733,19 +1735,18 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   position: relative;
   display: block;
   width: 100%;
-  height: 533px;
+  height: calc(var(--portfolio-card) * 1.3325);
   overflow: hidden;
   border: 1px solid rgba(255,255,255,.2);
   border-radius: 40px;
   background: #121212;
   text-decoration: none;
   transition:
-    height .62s cubic-bezier(.2, .8, .2, 1),
     border-radius .62s cubic-bezier(.2, .8, .2, 1),
     border-color .35s var(--ease-soft);
 }
 .portfolio-case:is(:hover, :focus-within) .portfolio-case__media {
-  height: 644px;
+  height: calc(var(--portfolio-card) * 1.3325);
   border-radius: 40px;
   border-color: transparent;
 }
@@ -1782,7 +1783,7 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   width: 100%;
   color: #fff;
   font-family: 'Onest', sans-serif;
-  font-size: 32px;
+  font-size: clamp(26px, calc(var(--portfolio-card) * .08), 32px);
   font-weight: 800;
   line-height: normal;
   letter-spacing: 0;
@@ -3201,31 +3202,33 @@ body[data-lang="en"] .footer__meta-disclaimer {
     gap: calc(40px * var(--portfolio-scale));
   }
   .portfolio__grid {
-    grid-template-columns: repeat(6, calc(((400px * var(--portfolio-scale)) - (50px * var(--portfolio-scale))) / 2));
-    column-gap: calc(50px * var(--portfolio-scale));
+    --portfolio-card: clamp(300px, calc(400px * var(--portfolio-scale)), 400px);
+    --portfolio-gap: clamp(28px, calc(50px * var(--portfolio-scale)), 50px);
+    grid-template-columns: repeat(6, calc((var(--portfolio-card) - var(--portfolio-gap)) * .5));
+    column-gap: var(--portfolio-gap);
     row-gap: calc(80px * var(--portfolio-scale));
     min-height: 0;
   }
   .portfolio-case {
-    width: calc(400px * var(--portfolio-scale));
+    width: var(--portfolio-card);
     gap: calc(10px * var(--portfolio-scale));
   }
   .portfolio-case:is(:hover, :focus-within) {
-    width: calc(500px * var(--portfolio-scale));
+    width: var(--portfolio-card);
   }
   .portfolio-case__media {
-    height: calc(533px * var(--portfolio-scale));
+    height: calc(var(--portfolio-card) * 1.3325);
     border-radius: calc(40px * var(--portfolio-scale));
   }
   .portfolio-case:is(:hover, :focus-within) .portfolio-case__media {
-    height: calc(644px * var(--portfolio-scale));
+    height: calc(var(--portfolio-card) * 1.3325);
     border-radius: calc(40px * var(--portfolio-scale));
   }
   .portfolio-case__meta {
     gap: calc(10px * var(--portfolio-scale));
   }
   .portfolio-case__title {
-    font-size: calc(32px * var(--portfolio-scale));
+    font-size: clamp(26px, calc(var(--portfolio-card) * .08), calc(32px * var(--portfolio-scale)));
   }
   .portfolio-case__tags {
     gap: calc(5px * var(--portfolio-scale));
@@ -3320,6 +3323,17 @@ body[data-lang="en"] .footer__meta-disclaimer {
   :root {
     --section-gap: 30px; /* gap между блоками = 60px */
   }
+
+  .portfolio__grid {
+    --portfolio-card: clamp(300px, calc((100vw - 112px) / 2), 400px);
+    --portfolio-gap: clamp(28px, calc(var(--portfolio-card) * .125), 50px);
+    grid-template-columns: repeat(4, calc((var(--portfolio-card) - var(--portfolio-gap)) * .5));
+  }
+  .portfolio-case[data-case="three"] { grid-column: 1 / span 2; grid-row: 1; }
+  .portfolio-case[data-case="front"] { grid-column: 3 / span 2; grid-row: 1; }
+  .portfolio-case[data-case="wedding"] { grid-column: 1 / span 2; grid-row: 2; }
+  .portfolio-case[data-case="limo"] { grid-column: 3 / span 2; grid-row: 2; }
+  .portfolio-case[data-case="chess"] { grid-column: 2 / span 2; grid-row: 3; }
 }
 
 /* ============================================================
@@ -4344,6 +4358,11 @@ body.case--chess   { --case-accent: #7400FF; }
 .case-anim--title {
   opacity: 0;
   transform: translate3d(0, 30px, 0);
+}
+.case-app-screen.case-anim {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
 }
 
 /* Если нет анимаций (no-js или reduced motion) — отменяем стартовое состояние */
