@@ -4121,6 +4121,9 @@ body.case--limo    { --case-accent: #FBB603; }
   object-position: center center;
   display: block;
 }
+.case-logo-strip--front {
+  aspect-ratio: 1400 / 379;
+}
 /* Вариант "пара изображений в одну строку" */
 .case-banner-pair {
   display: grid;
