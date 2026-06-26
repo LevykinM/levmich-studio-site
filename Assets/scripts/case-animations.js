@@ -54,7 +54,7 @@
   }
 
   // ----- 2. БАННЕРЫ: появление при входе в viewport -----
-  gsap.utils.toArray('.case-banner').forEach((banner) => {
+  gsap.utils.toArray('.case-banner, .case-logo-strip').forEach((banner) => {
     gsap.to(banner, {
       opacity: 1,
       y: 0,

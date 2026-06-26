@@ -157,40 +157,61 @@
       }
     };
 
-    const armVideo = (video) => {
+    const prepareVideo = (video) => {
+      video.querySelectorAll('source[src]').forEach(source => {
+        source.dataset.caseSrc = source.src;
+      });
+      if (video.poster) video.dataset.casePoster = video.poster;
       video.muted = true;
       video.defaultMuted = true;
       video.autoplay = true;
       video.loop = true;
       video.playsInline = true;
-      video.preload = 'auto';
+      video.preload = 'metadata';
       video.setAttribute('muted', '');
       video.setAttribute('playsinline', '');
       video.setAttribute('webkit-playsinline', '');
+      video.setAttribute('preload', 'metadata');
+      video.addEventListener('playing', () => video.classList.add('is-playing'), { once: true });
+    };
+
+    const armVideo = (video) => {
+      if (video.dataset.caseVideoReady === 'true') return;
+      video.dataset.caseVideoReady = 'true';
+      video.querySelectorAll('source[data-case-src]').forEach(source => {
+        source.src = source.dataset.caseSrc;
+      });
+      if (video.dataset.casePoster) video.poster = video.dataset.casePoster;
+      video.preload = 'auto';
       video.setAttribute('preload', 'auto');
       video.load();
 
       const play = () => playVideo(video);
       video.addEventListener('loadedmetadata', play, { once: true });
       video.addEventListener('canplay', play, { once: true });
-      video.addEventListener('playing', () => video.classList.add('is-playing'), { once: true });
       window.setTimeout(play, 120);
       window.setTimeout(play, 700);
       window.setTimeout(play, 1600);
     };
 
-    videos.forEach(armVideo);
+    videos.forEach(prepareVideo);
 
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-          if (entry.isIntersecting) playVideo(entry.target);
+          if (!entry.isIntersecting) return;
+          armVideo(entry.target);
+          observer.unobserve(entry.target);
         });
-      }, { rootMargin: '420px 0px', threshold: 0.01 });
+      }, { rootMargin: '900px 0px', threshold: 0.01 });
       videos.forEach(video => observer.observe(video));
+    } else {
+      videos.forEach(armVideo);
     }
 
-    const retryAll = () => videos.forEach(playVideo);
+    const retryAll = () => videos.forEach(video => {
+      if (video.dataset.caseVideoReady === 'true') playVideo(video);
+    });
     window.addEventListener('load', retryAll, { once: true });
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) retryAll();
