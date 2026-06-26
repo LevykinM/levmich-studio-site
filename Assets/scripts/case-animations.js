@@ -88,7 +88,44 @@
     });
   });
 
-  // ----- 4. БЛОК «Было разработано» — заголовок + 3 карточки stagger -----
+  // ----- 4. ЭКРАНЫ ПРИЛОЖЕНИЯ: общий контейнер + лёгкий stagger внутри -----
+  // Эти блоки тоже получают .case-anim. Если не оживить сам контейнер,
+  // родитель остаётся opacity: 0 и на странице появляется большая пустота.
+  gsap.utils.toArray('.case-app-screen').forEach((screen) => {
+    const inner = screen.querySelectorAll('.case-app-screen__media, .case-app-screen__copy');
+    gsap.to(screen, {
+      opacity: 1,
+      y: 0,
+      duration: 0.7,
+      ease: EASE,
+      onComplete: () => settle(screen),
+      scrollTrigger: {
+        trigger: screen,
+        start: 'top 88%',
+        toggleActions: 'play none none none',
+      },
+    });
+    if (inner.length) {
+      gsap.fromTo(inner, {
+        opacity: 0,
+        y: 18,
+      }, {
+        opacity: 1,
+        y: 0,
+        duration: 0.72,
+        ease: EASE,
+        stagger: 0.08,
+        onComplete: () => settle(inner),
+        scrollTrigger: {
+          trigger: screen,
+          start: 'top 88%',
+          toggleActions: 'play none none none',
+        },
+      });
+    }
+  });
+
+  // ----- 5. БЛОК «Было разработано» — заголовок + 3 карточки stagger -----
   gsap.utils.toArray('.case-components').forEach((block) => {
     const heading = block.querySelector('.case-components__title');
     const cards   = block.querySelectorAll('.case-component');
