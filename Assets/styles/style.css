@@ -254,12 +254,16 @@ p { margin: 0; }
     top: calc(env(safe-area-inset-top, 0px) + clamp(205px, 25.65svh, 213px));
     left: var(--loader-info-x);
     order: 3;
-    width: min(158px, calc(100vw - var(--loader-info-x) - 16px));
+    width: max-content;
+    max-width: calc(100vw - var(--loader-info-x) - 14px);
     height: auto;
     font-size: clamp(16px, 4.35vw, 18px);
-    line-height: 1.3;
+    line-height: 1.22;
     text-align: left;
     transform: none;
+  }
+  .site-loader__copy span {
+    white-space: nowrap;
   }
   .site-loader__percent {
     position: absolute;
