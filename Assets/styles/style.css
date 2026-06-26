@@ -1692,15 +1692,17 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   --portfolio-card-hover: min(500px, calc(var(--portfolio-card) * 1.24), calc(100vw - 20px - (var(--portfolio-card) * 2) - (var(--portfolio-gap) * 2)));
   --portfolio-meta-space: clamp(82px, calc(var(--portfolio-card) * .22), 96px);
   --portfolio-card-reserve: calc((var(--portfolio-card-hover) * 1.3325) + var(--portfolio-meta-space));
+  --portfolio-grid-reserve: calc((var(--portfolio-card-reserve) * 2) + var(--portfolio-gap));
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
+  align-content: flex-start;
   justify-content: center;
   column-gap: var(--portfolio-gap);
-  row-gap: 80px;
+  row-gap: var(--portfolio-gap);
   width: 100%;
   max-width: calc((var(--portfolio-card) * 2) + var(--portfolio-card-hover) + (var(--portfolio-gap) * 2));
-  min-height: 0;
+  min-height: var(--portfolio-grid-reserve);
 }
 .portfolio__column {
   display: contents;
@@ -1711,7 +1713,7 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
 .portfolio-case {
   position: relative;
   width: var(--portfolio-card);
-  min-height: var(--portfolio-card-reserve);
+  min-height: 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -3212,9 +3214,9 @@ body[data-lang="en"] .footer__meta-disclaimer {
     --portfolio-gap: clamp(28px, calc(50px * var(--portfolio-scale)), 50px);
     --portfolio-card-hover: min(500px, calc(var(--portfolio-card) * 1.24), calc(100vw - 20px - (var(--portfolio-card) * 2) - (var(--portfolio-gap) * 2)));
     column-gap: var(--portfolio-gap);
-    row-gap: calc(80px * var(--portfolio-scale));
+    row-gap: var(--portfolio-gap);
     max-width: calc((var(--portfolio-card) * 2) + var(--portfolio-card-hover) + (var(--portfolio-gap) * 2));
-    min-height: 0;
+    min-height: var(--portfolio-grid-reserve);
   }
   .portfolio-case {
     width: var(--portfolio-card);
@@ -3335,6 +3337,7 @@ body[data-lang="en"] .footer__meta-disclaimer {
     --portfolio-card: clamp(300px, calc((100vw - 112px) / 2), 400px);
     --portfolio-gap: clamp(28px, calc(var(--portfolio-card) * .125), 50px);
     --portfolio-card-hover: min(500px, calc(var(--portfolio-card) * 1.24), calc(100vw - 20px - var(--portfolio-card) - var(--portfolio-gap)));
+    --portfolio-grid-reserve: calc((var(--portfolio-card-reserve) * 3) + (var(--portfolio-gap) * 2));
     max-width: calc(var(--portfolio-card) + var(--portfolio-card-hover) + var(--portfolio-gap));
   }
 }
