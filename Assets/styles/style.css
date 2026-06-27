@@ -1673,7 +1673,7 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   background: var(--bg);
   justify-content: flex-start;
   align-items: center;
-  padding: var(--section-gap) 20px;
+  padding: var(--section-gap) 20px clamp(36px, 4vw, 64px);
   min-height: auto;
 }
 .portfolio__inner {
@@ -3204,7 +3204,7 @@ body[data-lang="en"] .footer__meta-disclaimer {
 
   .portfolio {
     padding-top: calc(var(--section-gap) * var(--smart-scale));
-    padding-bottom: calc(var(--section-gap) * var(--smart-scale));
+    padding-bottom: clamp(30px, calc(var(--section-gap) * var(--smart-scale) * .7), 58px);
   }
   .portfolio__inner {
     gap: calc(40px * var(--portfolio-scale));
