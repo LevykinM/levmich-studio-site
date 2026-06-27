@@ -1670,6 +1670,8 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
    PORTFOLIO — динамичная сетка кейсов
    ============================================================ */
 .portfolio {
+  position: relative;
+  z-index: 2;
   background: var(--bg);
   justify-content: flex-start;
   align-items: center;
@@ -1702,7 +1704,9 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   row-gap: var(--portfolio-gap);
   width: 100%;
   max-width: calc((var(--portfolio-card) * 2) + var(--portfolio-card-hover) + (var(--portfolio-gap) * 2));
+  height: var(--portfolio-grid-reserve);
   min-height: var(--portfolio-grid-reserve);
+  overflow: visible;
 }
 .portfolio__column {
   display: contents;
@@ -1942,6 +1946,8 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
    FOOTER
    ============================================================ */
 .footer {
+  position: relative;
+  z-index: 1;
   width: 100%;
   min-height: 598px;
   padding: 60px 20px;
@@ -3749,6 +3755,7 @@ body[data-lang="en"] .footer__meta-disclaimer {
     align-items: stretch;
     gap: 40px;
     width: 100%;
+    height: auto;
     min-height: 0;
     padding-bottom: 80px;
   }
