@@ -1697,6 +1697,7 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   --portfolio-active-scale: calc(1 + var(--portfolio-half-delta-scale));
   --portfolio-rest-scale: calc(1 - var(--portfolio-half-delta-scale));
   --portfolio-rest-delta: calc(var(--portfolio-card) * var(--portfolio-half-delta-scale));
+  --portfolio-active-outset: calc(var(--portfolio-rest-delta) / 2);
   --portfolio-meta-space: clamp(82px, calc(var(--portfolio-card) * .22), 96px);
   --portfolio-card-reserve: calc((var(--portfolio-card) * 1.3325) + var(--portfolio-meta-space));
   --portfolio-grid-reserve: calc((var(--portfolio-card-reserve) * 2) + var(--portfolio-gap) + clamp(48px, 4vw, 64px));
@@ -1755,6 +1756,26 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
 .portfolio-case[data-case="wedding"] { order: 3; --portfolio-rest-shift: calc(0px - var(--portfolio-rest-delta) - var(--portfolio-rest-delta)); }
 .portfolio-case[data-case="limo"] { order: 4; --portfolio-rest-shift: 0px; }
 .portfolio-case[data-case="chess"] { order: 5; --portfolio-rest-shift: calc(0px - var(--portfolio-rest-delta)); }
+.portfolio__grid:has(.portfolio-case[data-case="three"]:is(:hover, :focus-within)) .portfolio-case[data-case="front"] {
+  --portfolio-rest-shift: var(--portfolio-active-outset);
+}
+.portfolio__grid:has(.portfolio-case[data-case="three"]:is(:hover, :focus-within)) .portfolio-case[data-case="wedding"] {
+  --portfolio-rest-shift: calc(0px - var(--portfolio-active-outset));
+}
+.portfolio__grid:has(.portfolio-case[data-case="front"]:is(:hover, :focus-within)) .portfolio-case[data-case="three"],
+.portfolio__grid:has(.portfolio-case[data-case="front"]:is(:hover, :focus-within)) .portfolio-case[data-case="wedding"] {
+  --portfolio-rest-shift: var(--portfolio-active-outset);
+}
+.portfolio__grid:has(.portfolio-case[data-case="wedding"]:is(:hover, :focus-within)) .portfolio-case[data-case="three"] {
+  --portfolio-rest-shift: calc(var(--portfolio-rest-delta) + var(--portfolio-active-outset));
+}
+.portfolio__grid:has(.portfolio-case[data-case="wedding"]:is(:hover, :focus-within)) .portfolio-case[data-case="front"] {
+  --portfolio-rest-shift: var(--portfolio-active-outset);
+}
+.portfolio__grid:has(.portfolio-case[data-case="limo"]:is(:hover, :focus-within)) .portfolio-case[data-case="chess"],
+.portfolio__grid:has(.portfolio-case[data-case="chess"]:is(:hover, :focus-within)) .portfolio-case[data-case="limo"] {
+  --portfolio-rest-shift: var(--portfolio-active-outset);
+}
 .portfolio-case[data-case="three"],
 .portfolio-case[data-case="front"],
 .portfolio-case[data-case="wedding"] {
@@ -1766,6 +1787,11 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
 }
 .portfolio__grid:has(.portfolio-case:is(:hover, :focus-within)) .portfolio-case:not(:is(:hover, :focus-within)) {
   transform-origin: left top;
+}
+.portfolio__grid:has(.portfolio-case:is(:hover, :focus-within)) .portfolio-case[data-case="three"]:is(:hover, :focus-within),
+.portfolio__grid:has(.portfolio-case:is(:hover, :focus-within)) .portfolio-case[data-case="front"]:is(:hover, :focus-within),
+.portfolio__grid:has(.portfolio-case:is(:hover, :focus-within)) .portfolio-case[data-case="wedding"]:is(:hover, :focus-within) {
+  transform-origin: center top;
 }
 .portfolio__grid:has(.portfolio-case:is(:hover, :focus-within)) .portfolio-case[data-case="limo"]:is(:hover, :focus-within),
 .portfolio__grid:has(.portfolio-case:is(:hover, :focus-within)) .portfolio-case[data-case="chess"]:is(:hover, :focus-within) {
