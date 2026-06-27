@@ -1694,7 +1694,7 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   --portfolio-card-hover: min(500px, calc(var(--portfolio-card) * 1.24), calc(100vw - 20px - (var(--portfolio-card) * 2) - (var(--portfolio-gap) * 2)));
   --portfolio-hover-scale: 1.24;
   --portfolio-half-delta-scale: .12;
-  --portfolio-active-scale: calc(var(--portfolio-hover-scale) + var(--portfolio-half-delta-scale));
+  --portfolio-active-scale: calc(1 + var(--portfolio-half-delta-scale));
   --portfolio-rest-scale: calc(1 - var(--portfolio-half-delta-scale));
   --portfolio-meta-space: clamp(82px, calc(var(--portfolio-card) * .22), 96px);
   --portfolio-card-reserve: calc((var(--portfolio-card) * 1.3325) + var(--portfolio-meta-space));
