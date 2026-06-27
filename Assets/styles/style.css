@@ -1700,6 +1700,7 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   --portfolio-active-outset: calc(var(--portfolio-rest-delta) / 2);
   --portfolio-meta-space: clamp(82px, calc(var(--portfolio-card) * .22), 96px);
   --portfolio-card-reserve: calc((var(--portfolio-card) * 1.3325) + var(--portfolio-meta-space));
+  --portfolio-active-y-outset: calc(var(--portfolio-card-reserve) * var(--portfolio-half-delta-scale));
   --portfolio-grid-reserve: calc((var(--portfolio-card-reserve) * 2) + var(--portfolio-gap) + clamp(48px, 4vw, 64px));
   display: flex;
   flex-wrap: wrap;
@@ -1745,7 +1746,7 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
 }
 .portfolio__grid:has(.portfolio-case:is(:hover, :focus-within)) .portfolio-case {
   transform-origin: left top;
-  transform: translate3d(var(--portfolio-rest-shift, 0px), 0, 0) scale(var(--portfolio-rest-scale));
+  transform: translate3d(var(--portfolio-rest-shift, 0px), var(--portfolio-rest-y-shift, 0px), 0) scale(var(--portfolio-rest-scale));
 }
 .portfolio__grid:has(.portfolio-case:is(:hover, :focus-within)) .portfolio-case:is(:hover, :focus-within) {
   transform: scale(var(--portfolio-active-scale));
@@ -1775,6 +1776,14 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
 .portfolio__grid:has(.portfolio-case[data-case="limo"]:is(:hover, :focus-within)) .portfolio-case[data-case="chess"],
 .portfolio__grid:has(.portfolio-case[data-case="chess"]:is(:hover, :focus-within)) .portfolio-case[data-case="limo"] {
   --portfolio-rest-shift: var(--portfolio-active-outset);
+}
+.portfolio__grid:has(.portfolio-case[data-case="three"]:is(:hover, :focus-within)) .portfolio-case[data-case="limo"],
+.portfolio__grid:has(.portfolio-case[data-case="three"]:is(:hover, :focus-within)) .portfolio-case[data-case="chess"],
+.portfolio__grid:has(.portfolio-case[data-case="front"]:is(:hover, :focus-within)) .portfolio-case[data-case="limo"],
+.portfolio__grid:has(.portfolio-case[data-case="front"]:is(:hover, :focus-within)) .portfolio-case[data-case="chess"],
+.portfolio__grid:has(.portfolio-case[data-case="wedding"]:is(:hover, :focus-within)) .portfolio-case[data-case="limo"],
+.portfolio__grid:has(.portfolio-case[data-case="wedding"]:is(:hover, :focus-within)) .portfolio-case[data-case="chess"] {
+  --portfolio-rest-y-shift: var(--portfolio-active-y-outset);
 }
 .portfolio-case[data-case="three"],
 .portfolio-case[data-case="front"],
