@@ -1756,11 +1756,11 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
 .portfolio-case[data-case="three"],
 .portfolio-case[data-case="front"],
 .portfolio-case[data-case="wedding"] {
-  transform-origin: center bottom;
+  transform-origin: center top;
 }
 .portfolio-case[data-case="limo"],
 .portfolio-case[data-case="chess"] {
-  transform-origin: center top;
+  transform-origin: center bottom;
 }
 .portfolio-case__media {
   position: relative;
