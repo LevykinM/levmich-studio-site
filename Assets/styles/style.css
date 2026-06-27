@@ -1692,6 +1692,10 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   --portfolio-card: clamp(300px, calc((100vw - 160px) / 3), 400px);
   --portfolio-gap: clamp(28px, calc(var(--portfolio-card) * .125), 50px);
   --portfolio-card-hover: min(500px, calc(var(--portfolio-card) * 1.24), calc(100vw - 20px - (var(--portfolio-card) * 2) - (var(--portfolio-gap) * 2)));
+  --portfolio-hover-scale: 1.24;
+  --portfolio-half-delta-scale: .12;
+  --portfolio-active-scale: calc(var(--portfolio-hover-scale) + var(--portfolio-half-delta-scale));
+  --portfolio-rest-scale: calc(1 - var(--portfolio-half-delta-scale));
   --portfolio-meta-space: clamp(82px, calc(var(--portfolio-card) * .22), 96px);
   --portfolio-card-reserve: calc((var(--portfolio-card) * 1.3325) + var(--portfolio-meta-space));
   --portfolio-grid-reserve: calc((var(--portfolio-card-reserve) * 2) + var(--portfolio-gap) + clamp(48px, 4vw, 64px));
@@ -1734,8 +1738,15 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
     transform .62s cubic-bezier(.2, .8, .2, 1);
 }
 .portfolio-case:is(:hover, :focus-within) {
-  transform: scale(1.24);
+  transform: scale(var(--portfolio-active-scale));
   z-index: 2;
+}
+.portfolio__grid:has(.portfolio-case:is(:hover, :focus-within)) .portfolio-case {
+  transform: scale(var(--portfolio-rest-scale));
+}
+.portfolio__grid:has(.portfolio-case:is(:hover, :focus-within)) .portfolio-case:is(:hover, :focus-within) {
+  transform: scale(var(--portfolio-active-scale));
+  z-index: 3;
 }
 .portfolio-case[data-case="three"] { order: 1; }
 .portfolio-case[data-case="front"] { order: 2; }
@@ -3238,7 +3249,7 @@ body[data-lang="en"] .footer__meta-disclaimer {
     gap: calc(10px * var(--portfolio-scale));
   }
   .portfolio-case:is(:hover, :focus-within) {
-    transform: scale(1.24);
+    transform: scale(var(--portfolio-active-scale));
   }
   .portfolio-case__media {
     height: auto;
@@ -3774,7 +3785,9 @@ body[data-lang="en"] .footer__meta-disclaimer {
   }
   .portfolio-case,
   .portfolio-case[data-case],
-  .portfolio-case:is(:hover, :focus-within) {
+  .portfolio-case:is(:hover, :focus-within),
+  .portfolio__grid:has(.portfolio-case:is(:hover, :focus-within)) .portfolio-case,
+  .portfolio__grid:has(.portfolio-case:is(:hover, :focus-within)) .portfolio-case:is(:hover, :focus-within) {
     position: relative;
     top: auto;
     width: 100%;
