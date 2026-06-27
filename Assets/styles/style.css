@@ -1727,14 +1727,14 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   margin: 0;
   filter: blur(0);
   transform-origin: center top;
+  will-change: transform;
   transition:
-    width .62s cubic-bezier(.2, .8, .2, 1),
     filter .4s linear,
     opacity .4s linear,
-    transform .45s cubic-bezier(.2, .8, .2, 1);
+    transform .62s cubic-bezier(.2, .8, .2, 1);
 }
 .portfolio-case:is(:hover, :focus-within) {
-  width: var(--portfolio-card-hover);
+  transform: scale(1.24);
   z-index: 2;
 }
 .portfolio-case[data-case="three"] { order: 1; }
@@ -1742,6 +1742,15 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
 .portfolio-case[data-case="wedding"] { order: 3; }
 .portfolio-case[data-case="limo"] { order: 4; }
 .portfolio-case[data-case="chess"] { order: 5; }
+.portfolio-case[data-case="three"],
+.portfolio-case[data-case="front"],
+.portfolio-case[data-case="wedding"] {
+  transform-origin: center bottom;
+}
+.portfolio-case[data-case="limo"],
+.portfolio-case[data-case="chess"] {
+  transform-origin: center top;
+}
 .portfolio-case__media {
   position: relative;
   display: block;
@@ -3229,7 +3238,7 @@ body[data-lang="en"] .footer__meta-disclaimer {
     gap: calc(10px * var(--portfolio-scale));
   }
   .portfolio-case:is(:hover, :focus-within) {
-    width: var(--portfolio-card-hover);
+    transform: scale(1.24);
   }
   .portfolio-case__media {
     height: auto;
