@@ -1691,8 +1691,8 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   --portfolio-gap: clamp(28px, calc(var(--portfolio-card) * .125), 50px);
   --portfolio-card-hover: min(500px, calc(var(--portfolio-card) * 1.24), calc(100vw - 20px - (var(--portfolio-card) * 2) - (var(--portfolio-gap) * 2)));
   --portfolio-meta-space: clamp(82px, calc(var(--portfolio-card) * .22), 96px);
-  --portfolio-card-reserve: calc((var(--portfolio-card-hover) * 1.3325) + var(--portfolio-meta-space));
-  --portfolio-grid-reserve: calc((var(--portfolio-card-reserve) * 2) + var(--portfolio-gap));
+  --portfolio-card-reserve: calc((var(--portfolio-card) * 1.3325) + var(--portfolio-meta-space));
+  --portfolio-grid-reserve: calc((var(--portfolio-card-reserve) * 2) + var(--portfolio-gap) + clamp(48px, 4vw, 64px));
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
