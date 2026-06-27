@@ -1698,10 +1698,15 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   --portfolio-rest-scale: calc(1 - var(--portfolio-half-delta-scale));
   --portfolio-rest-delta: calc(var(--portfolio-card) * var(--portfolio-half-delta-scale));
   --portfolio-active-outset: calc(var(--portfolio-rest-delta) / 2);
+  --portfolio-gap-delta: calc(var(--portfolio-gap) * var(--portfolio-half-delta-scale));
+  --portfolio-half-gap-delta: calc(var(--portfolio-gap-delta) / 2);
   --portfolio-meta-space: clamp(82px, calc(var(--portfolio-card) * .22), 96px);
   --portfolio-card-reserve: calc((var(--portfolio-card) * 1.3325) + var(--portfolio-meta-space));
   --portfolio-active-y-outset: calc(var(--portfolio-card-reserve) * var(--portfolio-half-delta-scale));
+  --portfolio-edge-clearance: calc(var(--portfolio-active-y-outset) / 2);
   --portfolio-grid-reserve: calc((var(--portfolio-card-reserve) * 2) + var(--portfolio-gap) + clamp(48px, 4vw, 64px));
+  --portfolio-origin-x: calc((var(--portfolio-card) * 1.5) + var(--portfolio-gap));
+  --portfolio-origin-y: calc(var(--portfolio-card-reserve) + (var(--portfolio-gap) / 2));
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
@@ -1709,10 +1714,12 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   justify-content: center;
   column-gap: var(--portfolio-gap);
   row-gap: var(--portfolio-gap);
+  box-sizing: border-box;
+  padding-block: var(--portfolio-edge-clearance);
   width: 100%;
   max-width: calc((var(--portfolio-card) * 2) + var(--portfolio-card-hover) + (var(--portfolio-gap) * 2));
-  height: var(--portfolio-grid-reserve);
-  min-height: var(--portfolio-grid-reserve);
+  height: calc(var(--portfolio-grid-reserve) + (var(--portfolio-edge-clearance) * 2));
+  min-height: calc(var(--portfolio-grid-reserve) + (var(--portfolio-edge-clearance) * 2));
   overflow: visible;
 }
 .portfolio__column {
@@ -1745,75 +1752,135 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   z-index: 2;
 }
 .portfolio__grid:has(.portfolio-case:is(:hover, :focus-within)) .portfolio-case {
-  transform-origin: left top;
-  transform: translate3d(var(--portfolio-rest-shift, 0px), var(--portfolio-rest-y-shift, 0px), 0) scale(var(--portfolio-rest-scale));
+  transform: translate3d(var(--portfolio-shift-x, 0px), var(--portfolio-shift-y, 0px), 0) scale(var(--portfolio-rest-scale));
 }
 .portfolio__grid:has(.portfolio-case:is(:hover, :focus-within)) .portfolio-case:is(:hover, :focus-within) {
-  transform: scale(var(--portfolio-active-scale));
+  transform: translate3d(var(--portfolio-shift-x, 0px), var(--portfolio-shift-y, 0px), 0) scale(var(--portfolio-active-scale));
   z-index: 3;
 }
-.portfolio-case[data-case="three"] { order: 1; --portfolio-rest-shift: 0px; }
-.portfolio-case[data-case="front"] { order: 2; --portfolio-rest-shift: calc(0px - var(--portfolio-rest-delta)); }
-.portfolio-case[data-case="wedding"] { order: 3; --portfolio-rest-shift: calc(0px - var(--portfolio-rest-delta) - var(--portfolio-rest-delta)); }
-.portfolio-case[data-case="limo"] { order: 4; --portfolio-rest-shift: 0px; }
-.portfolio-case[data-case="chess"] { order: 5; --portfolio-rest-shift: calc(0px - var(--portfolio-rest-delta)); }
+.portfolio-case[data-case="three"] {
+  order: 1;
+  transform-origin: var(--portfolio-origin-x) var(--portfolio-origin-y);
+}
+.portfolio-case[data-case="front"] {
+  order: 2;
+  transform-origin: calc(var(--portfolio-origin-x) - var(--portfolio-card) - var(--portfolio-gap)) var(--portfolio-origin-y);
+}
+.portfolio-case[data-case="wedding"] {
+  order: 3;
+  transform-origin: calc(var(--portfolio-origin-x) - (var(--portfolio-card) * 2) - (var(--portfolio-gap) * 2)) var(--portfolio-origin-y);
+}
+.portfolio-case[data-case="limo"] {
+  order: 4;
+  transform-origin: calc(var(--portfolio-origin-x) - ((var(--portfolio-card) + var(--portfolio-gap)) / 2)) calc(var(--portfolio-origin-y) - var(--portfolio-card-reserve) - var(--portfolio-gap));
+}
+.portfolio-case[data-case="chess"] {
+  order: 5;
+  transform-origin: calc(var(--portfolio-origin-x) - ((var(--portfolio-card) + var(--portfolio-gap)) / 2) - var(--portfolio-card) - var(--portfolio-gap)) calc(var(--portfolio-origin-y) - var(--portfolio-card-reserve) - var(--portfolio-gap));
+}
 .portfolio__grid:has(.portfolio-case[data-case="three"]:is(:hover, :focus-within)) .portfolio-case[data-case="front"] {
-  --portfolio-rest-shift: var(--portfolio-active-outset);
+  --portfolio-shift-x: var(--portfolio-rest-delta);
+  --portfolio-shift-y: calc(0px - var(--portfolio-half-gap-delta));
 }
 .portfolio__grid:has(.portfolio-case[data-case="three"]:is(:hover, :focus-within)) .portfolio-case[data-case="wedding"] {
-  --portfolio-rest-shift: calc(0px - var(--portfolio-active-outset));
+  --portfolio-shift-x: calc(var(--portfolio-rest-delta) + var(--portfolio-gap-delta));
+  --portfolio-shift-y: calc(0px - var(--portfolio-half-gap-delta));
 }
-.portfolio__grid:has(.portfolio-case[data-case="front"]:is(:hover, :focus-within)) .portfolio-case[data-case="three"],
+.portfolio__grid:has(.portfolio-case[data-case="three"]:is(:hover, :focus-within)) .portfolio-case[data-case="three"] {
+  --portfolio-shift-x: calc((var(--portfolio-rest-delta) * 2) + var(--portfolio-gap-delta));
+  --portfolio-shift-y: var(--portfolio-half-gap-delta);
+}
+.portfolio__grid:has(.portfolio-case[data-case="three"]:is(:hover, :focus-within)) .portfolio-case[data-case="limo"] {
+  --portfolio-shift-x: calc(0px - var(--portfolio-half-gap-delta));
+  --portfolio-shift-y: var(--portfolio-half-gap-delta);
+}
+.portfolio__grid:has(.portfolio-case[data-case="three"]:is(:hover, :focus-within)) .portfolio-case[data-case="chess"] {
+  --portfolio-shift-x: var(--portfolio-half-gap-delta);
+  --portfolio-shift-y: var(--portfolio-half-gap-delta);
+}
+.portfolio__grid:has(.portfolio-case[data-case="front"]:is(:hover, :focus-within)) .portfolio-case[data-case="three"] {
+  --portfolio-shift-x: calc(0px - var(--portfolio-rest-delta) - var(--portfolio-gap-delta));
+  --portfolio-shift-y: calc(0px - var(--portfolio-half-gap-delta));
+}
+.portfolio__grid:has(.portfolio-case[data-case="front"]:is(:hover, :focus-within)) .portfolio-case[data-case="front"] {
+  --portfolio-shift-x: 0px;
+  --portfolio-shift-y: var(--portfolio-half-gap-delta);
+}
 .portfolio__grid:has(.portfolio-case[data-case="front"]:is(:hover, :focus-within)) .portfolio-case[data-case="wedding"] {
-  --portfolio-rest-shift: var(--portfolio-active-outset);
+  --portfolio-shift-x: calc(var(--portfolio-rest-delta) + var(--portfolio-gap-delta));
+  --portfolio-shift-y: calc(0px - var(--portfolio-half-gap-delta));
+}
+.portfolio__grid:has(.portfolio-case[data-case="front"]:is(:hover, :focus-within)) .portfolio-case[data-case="limo"] {
+  --portfolio-shift-x: calc(0px - var(--portfolio-half-gap-delta));
+  --portfolio-shift-y: var(--portfolio-half-gap-delta);
+}
+.portfolio__grid:has(.portfolio-case[data-case="front"]:is(:hover, :focus-within)) .portfolio-case[data-case="chess"] {
+  --portfolio-shift-x: var(--portfolio-half-gap-delta);
+  --portfolio-shift-y: var(--portfolio-half-gap-delta);
 }
 .portfolio__grid:has(.portfolio-case[data-case="wedding"]:is(:hover, :focus-within)) .portfolio-case[data-case="three"] {
-  --portfolio-rest-shift: calc(var(--portfolio-rest-delta) + var(--portfolio-active-outset));
+  --portfolio-shift-x: calc(0px - var(--portfolio-rest-delta) - var(--portfolio-gap-delta));
+  --portfolio-shift-y: calc(0px - var(--portfolio-half-gap-delta));
 }
 .portfolio__grid:has(.portfolio-case[data-case="wedding"]:is(:hover, :focus-within)) .portfolio-case[data-case="front"] {
-  --portfolio-rest-shift: var(--portfolio-active-outset);
+  --portfolio-shift-x: calc(0px - var(--portfolio-rest-delta));
+  --portfolio-shift-y: calc(0px - var(--portfolio-half-gap-delta));
 }
-.portfolio__grid:has(.portfolio-case[data-case="limo"]:is(:hover, :focus-within)) .portfolio-case[data-case="chess"],
-.portfolio__grid:has(.portfolio-case[data-case="chess"]:is(:hover, :focus-within)) .portfolio-case[data-case="limo"] {
-  --portfolio-rest-shift: var(--portfolio-active-outset);
-  --portfolio-rest-y-shift: calc(0px - var(--portfolio-active-y-outset));
+.portfolio__grid:has(.portfolio-case[data-case="wedding"]:is(:hover, :focus-within)) .portfolio-case[data-case="wedding"] {
+  --portfolio-shift-x: calc(0px - (var(--portfolio-rest-delta) * 2) - var(--portfolio-gap-delta));
+  --portfolio-shift-y: var(--portfolio-half-gap-delta);
 }
-.portfolio__grid:has(.portfolio-case[data-case="three"]:is(:hover, :focus-within)) .portfolio-case[data-case="limo"],
-.portfolio__grid:has(.portfolio-case[data-case="three"]:is(:hover, :focus-within)) .portfolio-case[data-case="chess"],
-.portfolio__grid:has(.portfolio-case[data-case="front"]:is(:hover, :focus-within)) .portfolio-case[data-case="limo"],
-.portfolio__grid:has(.portfolio-case[data-case="front"]:is(:hover, :focus-within)) .portfolio-case[data-case="chess"],
-.portfolio__grid:has(.portfolio-case[data-case="wedding"]:is(:hover, :focus-within)) .portfolio-case[data-case="limo"],
+.portfolio__grid:has(.portfolio-case[data-case="wedding"]:is(:hover, :focus-within)) .portfolio-case[data-case="limo"] {
+  --portfolio-shift-x: calc(0px - var(--portfolio-half-gap-delta));
+  --portfolio-shift-y: var(--portfolio-half-gap-delta);
+}
 .portfolio__grid:has(.portfolio-case[data-case="wedding"]:is(:hover, :focus-within)) .portfolio-case[data-case="chess"] {
-  --portfolio-rest-y-shift: var(--portfolio-active-y-outset);
+  --portfolio-shift-x: var(--portfolio-half-gap-delta);
+  --portfolio-shift-y: var(--portfolio-half-gap-delta);
 }
-.portfolio__grid:has(.portfolio-case[data-case="three"]:is(:hover, :focus-within)) .portfolio-case[data-case="front"],
-.portfolio__grid:has(.portfolio-case[data-case="three"]:is(:hover, :focus-within)) .portfolio-case[data-case="wedding"],
-.portfolio__grid:has(.portfolio-case[data-case="front"]:is(:hover, :focus-within)) .portfolio-case[data-case="three"],
-.portfolio__grid:has(.portfolio-case[data-case="front"]:is(:hover, :focus-within)) .portfolio-case[data-case="wedding"],
-.portfolio__grid:has(.portfolio-case[data-case="wedding"]:is(:hover, :focus-within)) .portfolio-case[data-case="three"],
-.portfolio__grid:has(.portfolio-case[data-case="wedding"]:is(:hover, :focus-within)) .portfolio-case[data-case="front"] {
-  --portfolio-rest-y-shift: calc(var(--portfolio-active-y-outset) + var(--portfolio-active-y-outset));
+.portfolio__grid:has(.portfolio-case[data-case="limo"]:is(:hover, :focus-within)) .portfolio-case[data-case="three"] {
+  --portfolio-shift-x: calc(0px - var(--portfolio-gap-delta));
+  --portfolio-shift-y: calc(0px - var(--portfolio-half-gap-delta));
 }
-.portfolio-case[data-case="three"],
-.portfolio-case[data-case="front"],
-.portfolio-case[data-case="wedding"] {
-  transform-origin: center top;
+.portfolio__grid:has(.portfolio-case[data-case="limo"]:is(:hover, :focus-within)) .portfolio-case[data-case="front"] {
+  --portfolio-shift-x: 0px;
+  --portfolio-shift-y: calc(0px - var(--portfolio-half-gap-delta));
 }
-.portfolio-case[data-case="limo"],
-.portfolio-case[data-case="chess"] {
-  transform-origin: center bottom;
+.portfolio__grid:has(.portfolio-case[data-case="limo"]:is(:hover, :focus-within)) .portfolio-case[data-case="wedding"] {
+  --portfolio-shift-x: var(--portfolio-gap-delta);
+  --portfolio-shift-y: calc(0px - var(--portfolio-half-gap-delta));
 }
-.portfolio__grid:has(.portfolio-case:is(:hover, :focus-within)) .portfolio-case:not(:is(:hover, :focus-within)) {
-  transform-origin: left top;
+.portfolio__grid:has(.portfolio-case[data-case="limo"]:is(:hover, :focus-within)) .portfolio-case[data-case="limo"],
+.portfolio__grid:has(.portfolio-case[data-case="limo"]:is(:hover, :focus-within)) .portfolio-case[data-case="chess"] {
+  --portfolio-shift-x: calc(var(--portfolio-rest-delta) + var(--portfolio-half-gap-delta));
 }
-.portfolio__grid:has(.portfolio-case:is(:hover, :focus-within)) .portfolio-case[data-case="three"]:is(:hover, :focus-within),
-.portfolio__grid:has(.portfolio-case:is(:hover, :focus-within)) .portfolio-case[data-case="front"]:is(:hover, :focus-within),
-.portfolio__grid:has(.portfolio-case:is(:hover, :focus-within)) .portfolio-case[data-case="wedding"]:is(:hover, :focus-within) {
-  transform-origin: center top;
+.portfolio__grid:has(.portfolio-case[data-case="limo"]:is(:hover, :focus-within)) .portfolio-case[data-case="limo"] {
+  --portfolio-shift-y: calc(0px - var(--portfolio-half-gap-delta));
 }
-.portfolio__grid:has(.portfolio-case:is(:hover, :focus-within)) .portfolio-case[data-case="limo"]:is(:hover, :focus-within),
-.portfolio__grid:has(.portfolio-case:is(:hover, :focus-within)) .portfolio-case[data-case="chess"]:is(:hover, :focus-within) {
-  transform-origin: center bottom;
+.portfolio__grid:has(.portfolio-case[data-case="limo"]:is(:hover, :focus-within)) .portfolio-case[data-case="chess"] {
+  --portfolio-shift-y: var(--portfolio-half-gap-delta);
+}
+.portfolio__grid:has(.portfolio-case[data-case="chess"]:is(:hover, :focus-within)) .portfolio-case[data-case="three"] {
+  --portfolio-shift-x: calc(0px - var(--portfolio-gap-delta));
+  --portfolio-shift-y: calc(0px - var(--portfolio-half-gap-delta));
+}
+.portfolio__grid:has(.portfolio-case[data-case="chess"]:is(:hover, :focus-within)) .portfolio-case[data-case="front"] {
+  --portfolio-shift-x: 0px;
+  --portfolio-shift-y: calc(0px - var(--portfolio-half-gap-delta));
+}
+.portfolio__grid:has(.portfolio-case[data-case="chess"]:is(:hover, :focus-within)) .portfolio-case[data-case="wedding"] {
+  --portfolio-shift-x: var(--portfolio-gap-delta);
+  --portfolio-shift-y: calc(0px - var(--portfolio-half-gap-delta));
+}
+.portfolio__grid:has(.portfolio-case[data-case="chess"]:is(:hover, :focus-within)) .portfolio-case[data-case="limo"],
+.portfolio__grid:has(.portfolio-case[data-case="chess"]:is(:hover, :focus-within)) .portfolio-case[data-case="chess"] {
+  --portfolio-shift-x: calc(0px - var(--portfolio-rest-delta) - var(--portfolio-half-gap-delta));
+}
+.portfolio__grid:has(.portfolio-case[data-case="chess"]:is(:hover, :focus-within)) .portfolio-case[data-case="limo"] {
+  --portfolio-shift-y: var(--portfolio-half-gap-delta);
+}
+.portfolio__grid:has(.portfolio-case[data-case="chess"]:is(:hover, :focus-within)) .portfolio-case[data-case="chess"] {
+  --portfolio-shift-y: calc(0px - var(--portfolio-half-gap-delta));
 }
 .portfolio-case__media {
   position: relative;
