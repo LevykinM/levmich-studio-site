@@ -1776,6 +1776,7 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
 .portfolio__grid:has(.portfolio-case[data-case="limo"]:is(:hover, :focus-within)) .portfolio-case[data-case="chess"],
 .portfolio__grid:has(.portfolio-case[data-case="chess"]:is(:hover, :focus-within)) .portfolio-case[data-case="limo"] {
   --portfolio-rest-shift: var(--portfolio-active-outset);
+  --portfolio-rest-y-shift: calc(0px - var(--portfolio-active-y-outset));
 }
 .portfolio__grid:has(.portfolio-case[data-case="three"]:is(:hover, :focus-within)) .portfolio-case[data-case="limo"],
 .portfolio__grid:has(.portfolio-case[data-case="three"]:is(:hover, :focus-within)) .portfolio-case[data-case="chess"],
@@ -1784,6 +1785,14 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
 .portfolio__grid:has(.portfolio-case[data-case="wedding"]:is(:hover, :focus-within)) .portfolio-case[data-case="limo"],
 .portfolio__grid:has(.portfolio-case[data-case="wedding"]:is(:hover, :focus-within)) .portfolio-case[data-case="chess"] {
   --portfolio-rest-y-shift: var(--portfolio-active-y-outset);
+}
+.portfolio__grid:has(.portfolio-case[data-case="three"]:is(:hover, :focus-within)) .portfolio-case[data-case="front"],
+.portfolio__grid:has(.portfolio-case[data-case="three"]:is(:hover, :focus-within)) .portfolio-case[data-case="wedding"],
+.portfolio__grid:has(.portfolio-case[data-case="front"]:is(:hover, :focus-within)) .portfolio-case[data-case="three"],
+.portfolio__grid:has(.portfolio-case[data-case="front"]:is(:hover, :focus-within)) .portfolio-case[data-case="wedding"],
+.portfolio__grid:has(.portfolio-case[data-case="wedding"]:is(:hover, :focus-within)) .portfolio-case[data-case="three"],
+.portfolio__grid:has(.portfolio-case[data-case="wedding"]:is(:hover, :focus-within)) .portfolio-case[data-case="front"] {
+  --portfolio-rest-y-shift: calc(var(--portfolio-active-y-outset) + var(--portfolio-active-y-outset));
 }
 .portfolio-case[data-case="three"],
 .portfolio-case[data-case="front"],
