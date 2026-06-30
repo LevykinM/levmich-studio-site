@@ -2302,15 +2302,17 @@
       // 1. Скрываем info текущей big до сжатия карточки.
       hideInfo(bigCard, 0.34);
 
-      // 2. Big не улетает вправо в большом размере: сначала аккуратно
-      //    схлопывается до small-пропорций, и только после этого уходит
-      //    вправо за границу сцены. Так Hero ощущается как длинная лента
-      //    кейсов, а не как три фиксированных карточки.
+      // 2. Desktop-лента идёт справа налево. Поэтому big сначала
+      //    сдувается до small-пропорций, уходит в левый соседний слот,
+      //    затем растворяется ещё левее. После ухода карточка ставится в
+      //    правый hidden-буфер и позже возвращается как будто прошла круг.
       const SLOT_DELTA = S[2].x - S[1].x;  // smallW + gap
       const offRightX = S[2].x + SLOT_DELTA;
+      const leftGhostX = S[0].x - (S[1].w + SLOT_GAP);
+      const offLeftX = leftGhostX - SLOT_DELTA;
       const compressedBig = {
-        left: S[0].x + (S[0].w - S[1].w) / 2,
-        top: S[0].y + S[0].h - S[1].h,
+        left: leftGhostX,
+        top: S[1].y,
         width: S[1].w,
         height: S[1].h,
       };
@@ -2351,8 +2353,8 @@
         }
       });
       tl.set(bigCard, { zIndex: 4 }, 0);
-      tl.to(bigCard, { ...compressedBig, duration: 0.44, ease: 'power3.inOut' }, 0);
-      tl.to(bigCard, { left: offRightX, opacity: 0, duration: 0.58, ease: 'power3.in' }, 0.44);
+      tl.to(bigCard, { ...compressedBig, duration: 0.58, ease: 'power3.inOut' }, 0);
+      tl.to(bigCard, { left: offLeftX, opacity: 0, duration: 0.46, ease: 'power3.in' }, 0.54);
       tl.set(bigCard, {
         x: 0,
         left: offRightX,
