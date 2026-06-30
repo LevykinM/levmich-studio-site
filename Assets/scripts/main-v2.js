@@ -2371,7 +2371,13 @@
       tl.set(bigCard, { zIndex: 4 }, 0);
       tl.set([smallTwo, rightPeek, enteringCard], { zIndex: 3 }, 0);
 
-      tl.to(exitPeek, { left: offLeftX, opacity: 1, duration: 0.82, ease: 'power3.inOut' }, 0);
+      const travelDuration = 0.46;
+      const growDuration = 0.64;
+      const totalDuration = travelDuration + growDuration;
+      const growthLineX = S[0].x + S[0].w + SLOT_GAP * 0.5;
+      const growthGateX = growthLineX - S[1].w;
+
+      tl.to(exitPeek, { left: offLeftX, opacity: 1, duration: totalDuration, ease: 'power3.inOut' }, 0);
 
       tl.to(bigCard, {
         left: S[4].x,
@@ -2379,7 +2385,16 @@
         width: S[4].w,
         height: S[4].h,
         opacity: 1,
-        duration: 0.82,
+        duration: totalDuration,
+        ease: 'power3.inOut'
+      }, 0);
+      tl.to(smallOne, {
+        left: growthGateX,
+        top: S[1].y,
+        width: S[1].w,
+        height: S[1].h,
+        opacity: 1,
+        duration: travelDuration,
         ease: 'power3.inOut'
       }, 0);
       tl.to(smallOne, {
@@ -2388,16 +2403,16 @@
         width: S[0].w,
         height: S[0].h,
         opacity: 1,
-        duration: 0.82,
-        ease: 'power3.inOut'
-      }, 0);
+        duration: growDuration,
+        ease: 'power3.out'
+      }, travelDuration);
       tl.to(smallTwo, {
         left: S[1].x,
         top: S[1].y,
         width: S[1].w,
         height: S[1].h,
         opacity: 1,
-        duration: 0.82,
+        duration: totalDuration,
         ease: 'power3.inOut'
       }, 0);
       tl.to(rightPeek, {
@@ -2406,7 +2421,7 @@
         width: S[2].w,
         height: S[2].h,
         opacity: 1,
-        duration: 0.82,
+        duration: totalDuration,
         ease: 'power3.inOut'
       }, 0);
       tl.to(enteringCard, {
@@ -2415,7 +2430,7 @@
         width: S[3].w,
         height: S[3].h,
         opacity: 1,
-        duration: 0.82,
+        duration: totalDuration,
         ease: 'power3.inOut'
       }, 0);
 
