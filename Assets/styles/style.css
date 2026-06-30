@@ -788,10 +788,16 @@ body.error-page {
   border-radius: 40px;
   border: 1px solid rgba(255,255,255,.2);
   cursor: pointer;
-  will-change: transform, left, top, width, height;
+  will-change: transform, left, top, width, height, opacity;
   z-index: 1;
 }
 .hero__card.is-big { z-index: 2; }
+.hero__card--dissolve {
+  border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  pointer-events: none;
+}
 
 /* Фоновое фото карточки */
 .hero__card-img {

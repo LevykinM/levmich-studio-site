@@ -2339,6 +2339,7 @@
           zIndex: 2,
         });
       }
+      exitPeek.classList.add('hero__card--dissolve');
 
       gsap.set(enteringCard, {
         x: 0,
@@ -2352,7 +2353,10 @@
       const tl = gsap.timeline({
         onComplete() {
           if (exitPeek !== leftPeek) exitPeek.remove();
-          if (exitPeek === leftPeek && enteringCard !== leftPeek) setHiddenSlot(leftPeek);
+          if (exitPeek === leftPeek && enteringCard !== leftPeek) {
+            exitPeek.classList.remove('hero__card--dissolve');
+            setHiddenSlot(leftPeek);
+          }
           [bigCard, smallOne, smallTwo, rightPeek, enteringCard].forEach(card => {
             if (card) gsap.set(card, { zIndex: '' });
           });
@@ -2379,6 +2383,10 @@
       const bigY = S[0].y;
       const growDeltaW = bigW - smallW;
       const growDeltaH = bigH - smallH;
+      const smooth01 = (value) => {
+        const t = Math.max(0, Math.min(1, value));
+        return t * t * (3 - 2 * t);
+      };
       const motion = { shift: 0, grow: 0 };
       const setBox = (card, left, top, width, height) => {
         card.style.left = left + 'px';
@@ -2387,6 +2395,7 @@
         card.style.height = height + 'px';
         card.style.opacity = '1';
         card.style.borderColor = '';
+        card.style.backgroundColor = '';
       };
       const renderStrip = () => {
         const shift = motion.shift;
@@ -2404,8 +2413,9 @@
         const enteringLeft = rightPeekLeft + smallW + SLOT_GAP;
 
         setBox(exitPeek, oldLeft - SLOT_GAP - smallW, smallY, smallW, smallH);
-        exitPeek.style.opacity = Math.max(0, 0.65 - shift * 3.2);
+        exitPeek.style.opacity = Math.max(0, 1 - smooth01(shift / 0.82));
         exitPeek.style.borderColor = 'rgba(255,255,255,0)';
+        exitPeek.style.backgroundColor = 'transparent';
         setBox(bigCard, oldLeft, oldTop, oldW, oldH);
         setBox(smallOne, newLeft, newTop, newW, newH);
         setBox(smallTwo, smallTwoLeft, smallY, smallW, smallH);
@@ -2416,16 +2426,16 @@
       renderStrip();
       tl.to(motion, {
         shift: 1,
-        duration: 0.28,
-        ease: 'sine.inOut',
+        duration: 0.82,
+        ease: 'power2.inOut',
         onUpdate: renderStrip,
       }, 0);
       tl.to(motion, {
         grow: 1,
-        duration: 0.44,
-        ease: 'sine.inOut',
+        duration: 0.66,
+        ease: 'power2.inOut',
         onUpdate: renderStrip,
-      }, 0.28);
+      }, 0.16);
 
       const nextHidden = hiddenQueue.length ? hiddenQueue.slice(1).concat(order[4]) : [];
       order = [order[1], order[2], order[3], enteringIdx, order[0]].concat(nextHidden);
