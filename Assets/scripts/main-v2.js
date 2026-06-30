@@ -2315,7 +2315,6 @@
       hideInfo(bigCard, 0.28);
 
       const slotStep = S[2].x - S[1].x;
-      const offLeftX = S[4].x - slotStep;
       const offRightX = S[3].x + slotStep;
 
       smallOne.classList.add('is-big');
@@ -2371,22 +2370,43 @@
       tl.set(bigCard, { zIndex: 4 }, 0);
       tl.set([smallTwo, rightPeek, enteringCard], { zIndex: 3 }, 0);
 
-      const travelDuration = 0.46;
-      const growDuration = 0.64;
+      const travelDuration = 0.12;
+      const growDuration = 1.02;
       const totalDuration = travelDuration + growDuration;
       const growthLineX = S[0].x + S[0].w + SLOT_GAP * 0.5;
-      const growthGateX = growthLineX - S[1].w;
+      const growthGateX = growthLineX;
+      const calmEase = 'sine.inOut';
+      const readPx = (card, prop, fallback) => {
+        const value = parseFloat(card.style[prop]);
+        return Number.isFinite(value) ? value : fallback;
+      };
+      const syncChain = () => {
+        const smallOneLeft = readPx(smallOne, 'left', S[1].x);
+        const smallOneWidth = readPx(smallOne, 'width', S[1].w);
+        const bigWidth = readPx(bigCard, 'width', S[0].w);
+        const bigLeft = smallOneLeft - SLOT_GAP - bigWidth;
+        const smallTwoLeft = smallOneLeft + smallOneWidth + SLOT_GAP;
+        const rightPeekLeft = smallTwoLeft + S[1].w + SLOT_GAP;
+        const enteringLeft = rightPeekLeft + S[2].w + SLOT_GAP;
+        const exitWidth = readPx(exitPeek, 'width', S[4].w);
 
-      tl.to(exitPeek, { left: offLeftX, opacity: 1, duration: totalDuration, ease: 'power3.inOut' }, 0);
+        bigCard.style.left = bigLeft + 'px';
+        exitPeek.style.left = (bigLeft - SLOT_GAP - exitWidth) + 'px';
+        smallTwo.style.left = smallTwoLeft + 'px';
+        rightPeek.style.left = rightPeekLeft + 'px';
+        enteringCard.style.left = enteringLeft + 'px';
+      };
+
+      tl.call(syncChain, null, 0);
 
       tl.to(bigCard, {
-        left: S[4].x,
         top: S[4].y,
         width: S[4].w,
         height: S[4].h,
         opacity: 1,
         duration: totalDuration,
-        ease: 'power3.inOut'
+        ease: calmEase,
+        onUpdate: syncChain
       }, 0);
       tl.to(smallOne, {
         left: growthGateX,
@@ -2395,7 +2415,8 @@
         height: S[1].h,
         opacity: 1,
         duration: travelDuration,
-        ease: 'power3.inOut'
+        ease: calmEase,
+        onUpdate: syncChain
       }, 0);
       tl.to(smallOne, {
         left: S[0].x,
@@ -2404,34 +2425,35 @@
         height: S[0].h,
         opacity: 1,
         duration: growDuration,
-        ease: 'power3.out'
+        ease: calmEase,
+        onUpdate: syncChain
       }, travelDuration);
       tl.to(smallTwo, {
-        left: S[1].x,
         top: S[1].y,
         width: S[1].w,
         height: S[1].h,
         opacity: 1,
         duration: totalDuration,
-        ease: 'power3.inOut'
+        ease: calmEase,
+        onUpdate: syncChain
       }, 0);
       tl.to(rightPeek, {
-        left: S[2].x,
         top: S[2].y,
         width: S[2].w,
         height: S[2].h,
         opacity: 1,
         duration: totalDuration,
-        ease: 'power3.inOut'
+        ease: calmEase,
+        onUpdate: syncChain
       }, 0);
       tl.to(enteringCard, {
-        left: S[3].x,
         top: S[3].y,
         width: S[3].w,
         height: S[3].h,
         opacity: 1,
         duration: totalDuration,
-        ease: 'power3.inOut'
+        ease: calmEase,
+        onUpdate: syncChain
       }, 0);
 
       const nextHidden = hiddenQueue.length ? hiddenQueue.slice(1).concat(order[4]) : [];
