@@ -2006,28 +2006,35 @@
       const figmaBigH = 781;
       const figmaSmallW = 386;
       const figmaSmallH = 515;
-      const figmaTotalW = figmaBigW + 2*figmaSmallW + 2*gap;
-      const figmaFrameW = 1400;
+      const peekRatio = 0.42;
+      const figmaPeekW = figmaSmallW * peekRatio;
+      const figmaVisibleW = figmaBigW + 2*figmaSmallW + 2*figmaPeekW + 4*gap;
 
-      const scale = Math.min(1, availW / figmaTotalW, availH / figmaBigH);
+      const scale = Math.min(1, availW / figmaVisibleW, availH / figmaBigH);
       const bigW = figmaBigW * scale;
       const bigH = figmaBigH * scale;
       const smallW = figmaSmallW * scale;
       const smallH = figmaSmallH * scale;
-      const frameW = figmaFrameW * scale;
+      const peekW = figmaPeekW * scale;
+      const frameW = bigW + 2*smallW + 2*peekW + 4*gap;
 
       const startX = Math.max(mH, (vw - frameW) / 2);
-      const bigY   = mV;
+      const leftPeekX = startX - (smallW - peekW);
+      const bigX = leftPeekX + smallW + gap;
+      const bigY = mV;
       const smallY = bigY + bigH - smallH;     // выровнены по нижнему краю big
 
-      const stX = startX + bigW + gap;
+      const stX = bigX + bigW + gap;
       const sbX = stX + smallW + gap;
+      const rightPeekX = sbX + smallW + gap;
 
       return {
         slots: [
-          { x: startX, y: bigY,   w: bigW,   h: bigH   },
-          { x: stX,    y: smallY, w: smallW, h: smallH },
-          { x: sbX,    y: smallY, w: smallW, h: smallH },
+          { x: bigX,       y: bigY,   w: bigW,   h: bigH   },
+          { x: stX,        y: smallY, w: smallW, h: smallH },
+          { x: sbX,        y: smallY, w: smallW, h: smallH },
+          { x: rightPeekX, y: smallY, w: smallW, h: smallH },
+          { x: leftPeekX,  y: smallY, w: smallW, h: smallH },
         ],
         heroH: vh,
         mobile: false,
@@ -2087,8 +2094,10 @@
       gsap.set(card, { left: s.x, top: s.y, width: s.w, height: s.h, x: 0, opacity: 1 });
       card.classList.toggle('is-big', slotIdx === 0);
     };
+    const visibleSlotCount = () => (IS_MOBILE ? 3 : Math.min(5, SLOTS.length));
+    const rightBufferSlot = () => SLOTS[IS_MOBILE ? 1 : Math.min(3, SLOTS.length - 1)] || SLOTS[SLOTS.length - 1];
     const setHiddenSlot = (card) => {
-      const s = SLOTS[2];
+      const s = rightBufferSlot();
       gsap.set(card, {
         left: s.x + s.w + SLOT_GAP,
         top: s.y,
@@ -2141,7 +2150,7 @@
     // ---- Стартовое состояние ------------------------------------
     // Карточки расставлены в соответствии с РАНДОМНЫМ order: слот 0 = big.
     order.forEach((cardIdx, slotIdx) => {
-      if (slotIdx < 3) setSlot(cards[cardIdx], slotIdx);
+      if (slotIdx < visibleSlotCount()) setSlot(cards[cardIdx], slotIdx);
       else setHiddenSlot(cards[cardIdx]);
     });
     // Pill starts hidden just above its slot; it's shown once the first big
@@ -2201,7 +2210,7 @@
       applyLayout();
       if (!isAnimating) {
         order.forEach((cardIdx, slotIdx) => {
-          if (slotIdx < 3) setSlot(cards[cardIdx], slotIdx);
+          if (slotIdx < visibleSlotCount()) setSlot(cards[cardIdx], slotIdx);
           else setHiddenSlot(cards[cardIdx]);
         });
       }
@@ -2291,92 +2300,127 @@
       if (isPaused || isAnimating) return;
       isAnimating = true;
 
-      const S        = SLOTS;                  // snapshot текущих слотов
-      const bigCard  = cards[order[0]];
-      const smallTop = cards[order[1]];        // → станет big
-      const smallBot = cards[order[2]];        // → станет small-top
-      const hiddenQueue = order.slice(3);
-      const enteringIdx = hiddenQueue.length ? hiddenQueue[0] : order[0];
-      const enteringCard = cards[enteringIdx]; // → станет small-bot
+      const S = SLOTS; // snapshot текущих слотов
+      const bigCard = cards[order[0]];
+      const smallOne = cards[order[1]];
+      const smallTwo = cards[order[2]];
+      const rightPeek = cards[order[3]];
+      const leftPeek = cards[order[4]];
+      const hiddenQueue = order.slice(5);
+      const enteringIdx = hiddenQueue.length ? hiddenQueue[0] : order[4];
+      const enteringCard = cards[enteringIdx];
 
-      // 1. Скрываем info текущей big до сжатия карточки.
-      hideInfo(bigCard, 0.34);
+      // Desktop-лента движется справа налево: текущая big сдувается в левый
+      // partial-слот, две малые идут следом, а справа появляется следующий кейс.
+      hideInfo(bigCard, 0.28);
 
-      // 2. Desktop-лента идёт справа налево. Поэтому big сначала
-      //    сдувается до small-пропорций, уходит в левый соседний слот,
-      //    затем растворяется ещё левее. После ухода карточка ставится в
-      //    правый hidden-буфер и позже возвращается как будто прошла круг.
-      const SLOT_DELTA = S[2].x - S[1].x;  // smallW + gap
-      const offRightX = S[2].x + SLOT_DELTA;
-      const leftGhostX = S[0].x - (S[1].w + SLOT_GAP);
-      const offLeftX = leftGhostX - SLOT_DELTA;
-      const compressedBig = {
-        left: leftGhostX,
-        top: S[1].y,
-        width: S[1].w,
-        height: S[1].h,
-      };
+      const slotStep = S[2].x - S[1].x;
+      const offLeftX = S[4].x - slotStep;
+      const offRightX = S[3].x + slotStep;
 
-      if (enteringCard !== bigCard) {
-        gsap.set(enteringCard, {
+      smallOne.classList.add('is-big');
+      bigCard.classList.remove('is-big');
+      smallTwo.classList.remove('is-big');
+      rightPeek.classList.remove('is-big');
+      leftPeek.classList.remove('is-big');
+      enteringCard.classList.remove('is-big');
+
+      let exitPeek = leftPeek;
+      if (enteringCard === leftPeek) {
+        exitPeek = leftPeek.cloneNode(true);
+        exitPeek.classList.add('hero__card--ghost');
+        track.appendChild(exitPeek);
+        gsap.set(exitPeek, {
           x: 0,
-          left: offRightX,
-          top: S[2].y,
-          width: S[2].w,
-          height: S[2].h,
-          opacity: 0,
+          left: S[4].x,
+          top: S[4].y,
+          width: S[4].w,
+          height: S[4].h,
+          opacity: 1,
+          zIndex: 2,
         });
       }
 
-      // 3. SmallTop → Big:
-      //    A: проходит свою ширину + gap, пока SmallBot встаёт ровно в её слот.
-      //    B: только после этого растёт до big. Так карточки не залезают друг на друга.
-      smallTop.classList.add('is-big');
-      // Заранее ставим top для smallBot (он не меняется)
-      gsap.set(smallBot, { top: S[1].y });
-
-      const phaseAX = S[1].x - (S[1].w + SLOT_GAP);
-      const updateFollower = () => {
-        const stL = parseFloat(smallTop.style.left)  || S[1].x;
-        const stW = parseFloat(smallTop.style.width) || S[1].w;
-        smallBot.style.left = (stL + stW + SLOT_GAP) + 'px';
-      };
+      gsap.set(enteringCard, {
+        x: 0,
+        left: offRightX,
+        top: S[3].y,
+        width: S[3].w,
+        height: S[3].h,
+        opacity: 1,
+      });
 
       const tl = gsap.timeline({
         onComplete() {
-          // Финальная посадка SmallBot в свой слот (на случай сабпиксельных ошибок)
-          smallBot.style.left = S[1].x + 'px';
-          smallBot.style.top  = S[1].y + 'px';
-          smallBot.style.width  = S[1].w + 'px';
-          smallBot.style.height = S[1].h + 'px';
-          showInfo(smallTop, 0.05);
+          if (exitPeek !== leftPeek) exitPeek.remove();
+          if (exitPeek === leftPeek && enteringCard !== leftPeek) setHiddenSlot(leftPeek);
+          [bigCard, smallOne, smallTwo, rightPeek, enteringCard].forEach(card => {
+            if (card) gsap.set(card, { zIndex: '' });
+          });
+          setSlot(smallOne, 0);
+          setSlot(smallTwo, 1);
+          setSlot(rightPeek, 2);
+          setSlot(enteringCard, 3);
+          setSlot(bigCard, 4);
+          showInfo(smallOne, 0.05);
+          isAnimating = false;
         }
       });
+
+      tl.set(smallOne, { zIndex: 5 }, 0);
       tl.set(bigCard, { zIndex: 4 }, 0);
-      tl.to(bigCard, { ...compressedBig, duration: 0.58, ease: 'power3.inOut' }, 0);
-      tl.to(bigCard, { left: offLeftX, opacity: 0, duration: 0.46, ease: 'power3.in' }, 0.54);
-      tl.set(bigCard, {
-        x: 0,
-        left: offRightX,
+      tl.set([smallTwo, rightPeek, enteringCard], { zIndex: 3 }, 0);
+
+      tl.to(exitPeek, { left: offLeftX, opacity: 1, duration: 0.82, ease: 'power3.inOut' }, 0);
+
+      tl.to(bigCard, {
+        left: S[4].x,
+        top: S[4].y,
+        width: S[4].w,
+        height: S[4].h,
+        opacity: 1,
+        duration: 0.82,
+        ease: 'power3.inOut'
+      }, 0);
+      tl.to(smallOne, {
+        left: S[0].x,
+        top: S[0].y,
+        width: S[0].w,
+        height: S[0].h,
+        opacity: 1,
+        duration: 0.82,
+        ease: 'power3.inOut'
+      }, 0);
+      tl.to(smallTwo, {
+        left: S[1].x,
+        top: S[1].y,
+        width: S[1].w,
+        height: S[1].h,
+        opacity: 1,
+        duration: 0.82,
+        ease: 'power3.inOut'
+      }, 0);
+      tl.to(rightPeek, {
+        left: S[2].x,
         top: S[2].y,
         width: S[2].w,
         height: S[2].h,
-        opacity: 0,
-        zIndex: '',
-      }, 1.04);
-      tl.call(() => { bigCard.classList.remove('is-big'); }, null, 1.04);
-      tl.to(smallTop, { left: phaseAX, duration: 0.62, ease: 'power2.inOut', onUpdate: updateFollower }, 0.2);
-      tl.set(smallBot, { left: S[1].x, top: S[1].y, width: S[1].w, height: S[1].h }, 0.82);
-      tl.to(enteringCard, { left: S[2].x, opacity: 1, duration: 0.64, ease: 'power3.out' }, 0.78);
-      tl.to(smallTop, { left: S[0].x, top: S[0].y, width: S[0].w, height: S[0].h,
-                        duration: 0.66, ease: 'power3.out' }, 0.84);
+        opacity: 1,
+        duration: 0.82,
+        ease: 'power3.inOut'
+      }, 0);
+      tl.to(enteringCard, {
+        left: S[3].x,
+        top: S[3].y,
+        width: S[3].w,
+        height: S[3].h,
+        opacity: 1,
+        duration: 0.82,
+        ease: 'power3.inOut'
+      }, 0);
 
-      // Разблокируем следующую анимацию после того как Big встал (t ≈ 1.45s)
-      gsap.delayedCall(1.58, () => { isAnimating = false; });
-
-      // Сдвигаем очередь: видны три карточки, остальные ждут следующего цикла.
-      const nextHidden = hiddenQueue.length ? hiddenQueue.slice(1).concat(order[0]) : [];
-      order = [order[1], order[2], enteringIdx].concat(nextHidden);
+      const nextHidden = hiddenQueue.length ? hiddenQueue.slice(1).concat(order[4]) : [];
+      order = [order[1], order[2], order[3], enteringIdx, order[0]].concat(nextHidden);
     };
 
     const start = () => {
