@@ -2315,7 +2315,6 @@
       hideInfo(bigCard, 0.28);
 
       const slotStep = S[2].x - S[1].x;
-      const offLeftX = S[4].x - slotStep;
       const offRightX = S[3].x + slotStep;
 
       smallOne.classList.add('is-big');
@@ -2371,53 +2370,59 @@
       tl.set(bigCard, { zIndex: 4 }, 0);
       tl.set([smallTwo, rightPeek, enteringCard], { zIndex: 3 }, 0);
 
-      tl.to(exitPeek, { left: offLeftX, opacity: 1, duration: 0.82, ease: 'power3.inOut' }, 0);
+      const lineX = S[1].x;
+      const smallW = S[1].w;
+      const smallH = S[1].h;
+      const smallY = S[1].y;
+      const bigW = S[0].w;
+      const bigH = S[0].h;
+      const bigY = S[0].y;
+      const growDeltaW = bigW - smallW;
+      const growDeltaH = bigH - smallH;
+      const motion = { shift: 0, grow: 0 };
+      const setBox = (card, left, top, width, height) => {
+        card.style.left = left + 'px';
+        card.style.top = top + 'px';
+        card.style.width = width + 'px';
+        card.style.height = height + 'px';
+        card.style.opacity = '1';
+      };
+      const renderStrip = () => {
+        const shift = motion.shift;
+        const grow = motion.grow;
+        const newW = smallW + growDeltaW * grow;
+        const newH = smallH + growDeltaH * grow;
+        const newLeft = lineX - (SLOT_GAP + smallW) * shift - growDeltaW * grow;
+        const newTop = smallY + (bigY - smallY) * grow;
+        const oldW = bigW - growDeltaW * shift;
+        const oldH = bigH - growDeltaH * shift;
+        const oldTop = bigY + (smallY - bigY) * shift;
+        const oldLeft = newLeft - SLOT_GAP - oldW;
+        const smallTwoLeft = newLeft + newW + SLOT_GAP;
+        const rightPeekLeft = smallTwoLeft + smallW + SLOT_GAP;
+        const enteringLeft = rightPeekLeft + smallW + SLOT_GAP;
 
-      tl.to(bigCard, {
-        left: S[4].x,
-        top: S[4].y,
-        width: S[4].w,
-        height: S[4].h,
-        opacity: 1,
-        duration: 0.82,
-        ease: 'power3.inOut'
+        setBox(exitPeek, oldLeft - SLOT_GAP - smallW, smallY, smallW, smallH);
+        setBox(bigCard, oldLeft, oldTop, oldW, oldH);
+        setBox(smallOne, newLeft, newTop, newW, newH);
+        setBox(smallTwo, smallTwoLeft, smallY, smallW, smallH);
+        setBox(rightPeek, rightPeekLeft, smallY, smallW, smallH);
+        setBox(enteringCard, enteringLeft, smallY, smallW, smallH);
+      };
+
+      renderStrip();
+      tl.to(motion, {
+        shift: 1,
+        duration: 0.48,
+        ease: 'sine.inOut',
+        onUpdate: renderStrip,
       }, 0);
-      tl.to(smallOne, {
-        left: S[0].x,
-        top: S[0].y,
-        width: S[0].w,
-        height: S[0].h,
-        opacity: 1,
+      tl.to(motion, {
+        grow: 1,
         duration: 0.82,
-        ease: 'power3.inOut'
-      }, 0);
-      tl.to(smallTwo, {
-        left: S[1].x,
-        top: S[1].y,
-        width: S[1].w,
-        height: S[1].h,
-        opacity: 1,
-        duration: 0.82,
-        ease: 'power3.inOut'
-      }, 0);
-      tl.to(rightPeek, {
-        left: S[2].x,
-        top: S[2].y,
-        width: S[2].w,
-        height: S[2].h,
-        opacity: 1,
-        duration: 0.82,
-        ease: 'power3.inOut'
-      }, 0);
-      tl.to(enteringCard, {
-        left: S[3].x,
-        top: S[3].y,
-        width: S[3].w,
-        height: S[3].h,
-        opacity: 1,
-        duration: 0.82,
-        ease: 'power3.inOut'
-      }, 0);
+        ease: 'sine.inOut',
+        onUpdate: renderStrip,
+      }, 0.48);
 
       const nextHidden = hiddenQueue.length ? hiddenQueue.slice(1).concat(order[4]) : [];
       order = [order[1], order[2], order[3], enteringIdx, order[0]].concat(nextHidden);
