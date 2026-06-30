@@ -2087,7 +2087,7 @@
     let isPaused = false;
     let isAnimating = false;
     let heroActive = true;
-    const INTERVAL = 3800;
+    const INTERVAL = 4400;
 
     const setSlot = (card, slotIdx) => {
       const s = SLOTS[slotIdx];
@@ -2428,18 +2428,19 @@
       };
 
       renderStrip();
+      const shiftDuration = 0.78;
       tl.to(motion, {
         shift: 1,
-        duration: 0.96,
+        duration: shiftDuration,
         ease: 'power3.inOut',
         onUpdate: renderStrip,
       }, 0);
       tl.to(motion, {
         grow: 1,
-        duration: 0.78,
+        duration: 0.62,
         ease: 'power3.inOut',
         onUpdate: renderStrip,
-      }, 0.16);
+      }, shiftDuration);
 
       const nextHidden = hiddenQueue.length ? hiddenQueue.slice(1).concat(order[4]) : [];
       order = [order[1], order[2], order[3], enteringIdx, order[0]].concat(nextHidden);
