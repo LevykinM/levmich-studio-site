@@ -2400,6 +2400,7 @@
       const renderStrip = () => {
         const shift = motion.shift;
         const grow = motion.grow;
+        const exitProgress = smooth01(shift);
         const newW = smallW + growDeltaW * grow;
         const newH = smallH + growDeltaH * grow;
         const newLeft = lineX - (SLOT_GAP + smallW) * shift - growDeltaW * grow;
@@ -2411,9 +2412,12 @@
         const smallTwoLeft = newLeft + newW + SLOT_GAP;
         const rightPeekLeft = smallTwoLeft + smallW + SLOT_GAP;
         const enteringLeft = rightPeekLeft + smallW + SLOT_GAP;
+        const exitFlyDistance = smallW + SLOT_GAP + Math.max(80, smallW * 0.55);
+        const exitLeft = S[4].x - exitFlyDistance * exitProgress;
+        const exitFade = 1 - smooth01((shift - 0.68) / 0.32);
 
-        setBox(exitPeek, oldLeft - SLOT_GAP - smallW, smallY, smallW, smallH);
-        exitPeek.style.opacity = Math.max(0, 1 - smooth01(shift / 0.82));
+        setBox(exitPeek, exitLeft, smallY, smallW, smallH);
+        exitPeek.style.opacity = Math.max(0, exitFade);
         exitPeek.style.borderColor = 'rgba(255,255,255,0)';
         exitPeek.style.backgroundColor = 'transparent';
         setBox(bigCard, oldLeft, oldTop, oldW, oldH);
@@ -2426,14 +2430,14 @@
       renderStrip();
       tl.to(motion, {
         shift: 1,
-        duration: 0.82,
-        ease: 'power2.inOut',
+        duration: 0.96,
+        ease: 'power3.inOut',
         onUpdate: renderStrip,
       }, 0);
       tl.to(motion, {
         grow: 1,
-        duration: 0.66,
-        ease: 'power2.inOut',
+        duration: 0.78,
+        ease: 'power3.inOut',
         onUpdate: renderStrip,
       }, 0.16);
 
