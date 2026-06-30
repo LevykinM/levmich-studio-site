@@ -2087,7 +2087,7 @@
     let isPaused = false;
     let isAnimating = false;
     let heroActive = true;
-    const INTERVAL = 5000;
+    const INTERVAL = 3800;
 
     const setSlot = (card, slotIdx) => {
       const s = SLOTS[slotIdx];
@@ -2386,6 +2386,7 @@
         card.style.width = width + 'px';
         card.style.height = height + 'px';
         card.style.opacity = '1';
+        card.style.borderColor = '';
       };
       const renderStrip = () => {
         const shift = motion.shift;
@@ -2403,6 +2404,8 @@
         const enteringLeft = rightPeekLeft + smallW + SLOT_GAP;
 
         setBox(exitPeek, oldLeft - SLOT_GAP - smallW, smallY, smallW, smallH);
+        exitPeek.style.opacity = Math.max(0, 0.65 - shift * 3.2);
+        exitPeek.style.borderColor = 'rgba(255,255,255,0)';
         setBox(bigCard, oldLeft, oldTop, oldW, oldH);
         setBox(smallOne, newLeft, newTop, newW, newH);
         setBox(smallTwo, smallTwoLeft, smallY, smallW, smallH);
@@ -2413,16 +2416,16 @@
       renderStrip();
       tl.to(motion, {
         shift: 1,
-        duration: 0.48,
+        duration: 0.28,
         ease: 'sine.inOut',
         onUpdate: renderStrip,
       }, 0);
       tl.to(motion, {
         grow: 1,
-        duration: 0.82,
+        duration: 0.44,
         ease: 'sine.inOut',
         onUpdate: renderStrip,
-      }, 0.48);
+      }, 0.28);
 
       const nextHidden = hiddenQueue.length ? hiddenQueue.slice(1).concat(order[4]) : [];
       order = [order[1], order[2], order[3], enteringIdx, order[0]].concat(nextHidden);
