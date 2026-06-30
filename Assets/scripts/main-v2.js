@@ -2299,38 +2299,32 @@
       const enteringIdx = hiddenQueue.length ? hiddenQueue[0] : order[0];
       const enteringCard = cards[enteringIdx]; // → станет small-bot
 
-      // 1. Скрываем info текущей big — длительность согласована с уходом
-      //    карточки (x:-700 + opacity:0 over 0.55s), чтобы плашка ехала
-      //    вместе с изображением, а не пропадала на месте.
-      hideInfo(bigCard, 0.5);
+      // 1. Скрываем info текущей big до сжатия карточки.
+      hideInfo(bigCard, 0.34);
 
-      // 2. Big улетает влево. На правом краю появится уже после фазы A,
-      //    когда SmallBot успеет занять старый слот SmallTop без наслоения.
+      // 2. Big не улетает вправо в большом размере: сначала аккуратно
+      //    схлопывается до small-пропорций, и только после этого уходит
+      //    вправо за границу сцены. Так Hero ощущается как длинная лента
+      //    кейсов, а не как три фиксированных карточки.
       const SLOT_DELTA = S[2].x - S[1].x;  // smallW + gap
+      const offRightX = S[2].x + SLOT_DELTA;
+      const compressedBig = {
+        left: S[0].x + (S[0].w - S[1].w) / 2,
+        top: S[0].y + S[0].h - S[1].h,
+        width: S[1].w,
+        height: S[1].h,
+      };
+
       if (enteringCard !== bigCard) {
         gsap.set(enteringCard, {
           x: 0,
-          left: S[2].x + SLOT_DELTA,
+          left: offRightX,
           top: S[2].y,
           width: S[2].w,
           height: S[2].h,
           opacity: 0,
         });
       }
-      gsap.to(bigCard, {
-        x: -700, opacity: 0, duration: 0.55, ease: 'power2.in',
-        onComplete() {
-          gsap.set(bigCard, {
-            x: 0,
-            left:   S[2].x + SLOT_DELTA,  // за правым краем экрана
-            top:    S[2].y,
-            width:  S[2].w,
-            height: S[2].h,
-            opacity: 0,
-          });
-          bigCard.classList.remove('is-big');
-        }
-      });
 
       // 3. SmallTop → Big:
       //    A: проходит свою ширину + gap, пока SmallBot встаёт ровно в её слот.
@@ -2356,14 +2350,27 @@
           showInfo(smallTop, 0.05);
         }
       });
-      tl.to(smallTop, { left: phaseAX, duration: 0.72, ease: 'power2.inOut', onUpdate: updateFollower }, 0);
-      tl.set(smallBot, { left: S[1].x, top: S[1].y, width: S[1].w, height: S[1].h }, 0.72);
-      tl.to(enteringCard, { left: S[2].x, opacity: 1, duration: 0.75, ease: 'power3.inOut' }, 0.72);
+      tl.set(bigCard, { zIndex: 4 }, 0);
+      tl.to(bigCard, { ...compressedBig, duration: 0.44, ease: 'power3.inOut' }, 0);
+      tl.to(bigCard, { left: offRightX, opacity: 0, duration: 0.58, ease: 'power3.in' }, 0.44);
+      tl.set(bigCard, {
+        x: 0,
+        left: offRightX,
+        top: S[2].y,
+        width: S[2].w,
+        height: S[2].h,
+        opacity: 0,
+        zIndex: '',
+      }, 1.04);
+      tl.call(() => { bigCard.classList.remove('is-big'); }, null, 1.04);
+      tl.to(smallTop, { left: phaseAX, duration: 0.62, ease: 'power2.inOut', onUpdate: updateFollower }, 0.2);
+      tl.set(smallBot, { left: S[1].x, top: S[1].y, width: S[1].w, height: S[1].h }, 0.82);
+      tl.to(enteringCard, { left: S[2].x, opacity: 1, duration: 0.64, ease: 'power3.out' }, 0.78);
       tl.to(smallTop, { left: S[0].x, top: S[0].y, width: S[0].w, height: S[0].h,
-                        duration: 0.62, ease: 'power3.out' }, 0.78);
+                        duration: 0.66, ease: 'power3.out' }, 0.84);
 
       // Разблокируем следующую анимацию после того как Big встал (t ≈ 1.45s)
-      gsap.delayedCall(1.65, () => { isAnimating = false; });
+      gsap.delayedCall(1.58, () => { isAnimating = false; });
 
       // Сдвигаем очередь: видны три карточки, остальные ждут следующего цикла.
       const nextHidden = hiddenQueue.length ? hiddenQueue.slice(1).concat(order[0]) : [];
