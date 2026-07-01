@@ -2400,7 +2400,6 @@
       const renderStrip = () => {
         const shift = motion.shift;
         const grow = motion.grow;
-        const exitProgress = smooth01(shift);
         const newW = smallW + growDeltaW * grow;
         const newH = smallH + growDeltaH * grow;
         const newLeft = lineX - (SLOT_GAP + smallW) * shift - growDeltaW * grow;
@@ -2412,9 +2411,9 @@
         const smallTwoLeft = newLeft + newW + SLOT_GAP;
         const rightPeekLeft = smallTwoLeft + smallW + SLOT_GAP;
         const enteringLeft = rightPeekLeft + smallW + SLOT_GAP;
-        const exitFlyDistance = smallW + SLOT_GAP + Math.max(80, smallW * 0.55);
-        const exitLeft = S[4].x - exitFlyDistance * exitProgress;
-        const exitFade = 1 - smooth01((shift - 0.68) / 0.32);
+        const exitLeft = oldLeft - SLOT_GAP - smallW;
+        const timelineProgress = Math.min(1, shift * 0.56 + grow * 0.44);
+        const exitFade = 1 - smooth01((timelineProgress - 0.86) / 0.14);
 
         setBox(exitPeek, exitLeft, smallY, smallW, smallH);
         exitPeek.style.opacity = Math.max(0, exitFade);
