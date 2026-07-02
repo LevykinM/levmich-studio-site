@@ -2087,6 +2087,9 @@
     let isPaused = false;
     let isAnimating = false;
     let heroActive = true;
+    let heroScrollPaused = false;
+    let heroScrollPauseTimer = null;
+    let activeHeroTimeline = null;
     const INTERVAL = 4400;
 
     const setSlot = (card, slotIdx) => {
@@ -2352,6 +2355,7 @@
 
       const tl = gsap.timeline({
         onComplete() {
+          activeHeroTimeline = null;
           if (exitPeek !== leftPeek) exitPeek.remove();
           if (exitPeek === leftPeek && enteringCard !== leftPeek) {
             exitPeek.classList.remove('hero__card--dissolve');
@@ -2369,6 +2373,7 @@
           isAnimating = false;
         }
       });
+      activeHeroTimeline = tl;
 
       tl.set(smallOne, { zIndex: 5 }, 0);
       tl.set(bigCard, { zIndex: 4 }, 0);
@@ -2446,16 +2451,40 @@
     };
 
     const start = () => {
-      if (!heroActive) return;
+      if (!heroActive || heroScrollPaused) return;
       stop();
       timer = setInterval(rotate, INTERVAL);
     };
     const stop  = () => { if (timer) { clearInterval(timer); timer = null; } };
+    const resumeHeroMotion = () => {
+      if (!heroActive || isPaused || heroScrollPaused) return;
+      if (activeHeroTimeline && activeHeroTimeline.paused()) activeHeroTimeline.resume();
+      start();
+    };
+    const pauseHeroForScroll = () => {
+      if (!heroActive) return;
+      heroScrollPaused = true;
+      stop();
+      if (activeHeroTimeline && activeHeroTimeline.isActive()) activeHeroTimeline.pause();
+      if (heroScrollPauseTimer) clearTimeout(heroScrollPauseTimer);
+      heroScrollPauseTimer = setTimeout(() => {
+        heroScrollPauseTimer = null;
+        heroScrollPaused = false;
+        resumeHeroMotion();
+      }, 220);
+    };
 
     // Пока человек рассматривает карточку, не перелистываем ее из-под курсора.
     cards.forEach(card => {
-      card.addEventListener('mouseenter', () => { isPaused = true; stop(); });
-      card.addEventListener('mouseleave', () => { isPaused = false; start(); });
+      card.addEventListener('mouseenter', () => {
+        isPaused = true;
+        stop();
+        if (activeHeroTimeline && activeHeroTimeline.isActive()) activeHeroTimeline.pause();
+      });
+      card.addEventListener('mouseleave', () => {
+        isPaused = false;
+        resumeHeroMotion();
+      });
       card.addEventListener('click', (e) => {
         const href = card.dataset.href;
         if (href) window.location.href = new URL(href, document.baseURI).href;
@@ -2465,14 +2494,16 @@
     if ('IntersectionObserver' in window) {
       heroActive = false;
       const heroObserver = new IntersectionObserver(entries => {
-        heroActive = entries.some(entry => entry.isIntersecting && entry.intersectionRatio > 0.2);
-        if (heroActive && !isPaused) start();
+        heroActive = entries.some(entry => entry.isIntersecting && entry.intersectionRatio >= 0.55);
+        if (heroActive && !isPaused) resumeHeroMotion();
         else stop();
-      }, { threshold: [0, 0.2, 0.5] });
+      }, { threshold: [0, 0.2, 0.55, 0.75, 1] });
       heroObserver.observe(heroEl);
     } else {
       start();
     }
+    if (lenis) lenis.on('scroll', pauseHeroForScroll);
+    else window.addEventListener('scroll', pauseHeroForScroll, { passive: true });
   }
 
   // ============================================================
