@@ -1559,9 +1559,10 @@
   //    значения скролла.
   // ============================================================
   let lenis = null;
-  if (window.Lenis && !reduceMotion) {
+  const canUseSmoothScroll = window.matchMedia('(pointer: fine)').matches;
+  if (window.Lenis && !reduceMotion && canUseSmoothScroll) {
     lenis = new Lenis({
-      duration: 1.15,
+      duration: 0.9,
       easing: t => 1 - Math.pow(1 - t, 3), // ease-out cubic
       smoothWheel: true,
       smoothTouch: false,
@@ -1773,19 +1774,15 @@
     });
 
     if (parallaxItems.length) {
-      let mx = 0, my = 0;
       window.addEventListener('mousemove', (e) => {
         // Нормализуем -1..1 относительно центра экрана
-        mx = (e.clientX / window.innerWidth)  * 2 - 1;
-        my = (e.clientY / window.innerHeight) * 2 - 1;
-      }, { passive: true });
-
-      gsap.ticker.add(() => {
+        const mx = (e.clientX / window.innerWidth)  * 2 - 1;
+        const my = (e.clientY / window.innerHeight) * 2 - 1;
         parallaxItems.forEach(({ toX, toY, power }) => {
           toX(mx * power);
           toY(my * power);
         });
-      });
+      }, { passive: true });
     }
   }
 
@@ -2223,6 +2220,7 @@
     const rotateMobile = () => {
       if (isPaused || isAnimating) return;
       isAnimating = true;
+      track.classList.add('is-animating');
 
       const S = SLOTS;
       const centerCard = cards[order[0]];
@@ -2242,6 +2240,7 @@
       const tl = gsap.timeline({
         onComplete() {
           showInfo(rightCard, 0.05);
+          track.classList.remove('is-animating');
           isAnimating = false;
         }
       });
@@ -2302,6 +2301,7 @@
 
       if (isPaused || isAnimating) return;
       isAnimating = true;
+      track.classList.add('is-animating');
 
       const S = SLOTS; // snapshot текущих слотов
       const bigCard = cards[order[0]];
@@ -2356,6 +2356,7 @@
       const tl = gsap.timeline({
         onComplete() {
           activeHeroTimeline = null;
+          track.classList.remove('is-animating');
           if (exitPeek !== leftPeek) exitPeek.remove();
           if (exitPeek === leftPeek && enteringCard !== leftPeek) {
             exitPeek.classList.remove('hero__card--dissolve');

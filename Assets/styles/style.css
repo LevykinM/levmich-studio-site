@@ -788,8 +788,12 @@ body.error-page {
   border-radius: 40px;
   border: 1px solid rgba(255,255,255,.2);
   cursor: pointer;
-  will-change: transform, left, top, width, height, opacity;
+  contain: layout paint;
+  will-change: auto;
   z-index: 1;
+}
+.hero__track.is-animating .hero__card {
+  will-change: left, top, width, height, opacity;
 }
 .hero__card.is-big { z-index: 2; }
 .hero__card--dissolve {
@@ -7220,8 +7224,8 @@ body.case-page .case-component__desc {
   background: rgba(255, 255, 255, .10) !important;
   border-color: rgba(255, 255, 255, .34) !important;
   box-shadow: 0 18px 52px rgba(0, 0, 0, .24) !important;
-  backdrop-filter: blur(100px) !important;
-  -webkit-backdrop-filter: blur(100px) !important;
+  backdrop-filter: blur(32px) !important;
+  -webkit-backdrop-filter: blur(32px) !important;
 }
 
 .hero__info::before,
@@ -7234,8 +7238,8 @@ body.case-page .case-component__desc {
   background: rgba(255, 255, 255, .10) !important;
   border-color: rgba(255, 255, 255, .52) !important;
   box-shadow: none !important;
-  backdrop-filter: blur(100px) !important;
-  -webkit-backdrop-filter: blur(100px) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
 }
 
 .hero__info-title,
@@ -7252,8 +7256,8 @@ body.case-page .case-component__desc {
   background: rgba(255, 255, 255, .10) !important;
   border-color: rgba(255, 255, 255, .34) !important;
   box-shadow: 0 24px 72px rgba(0, 0, 0, .28) !important;
-  backdrop-filter: blur(100px) !important;
-  -webkit-backdrop-filter: blur(100px) !important;
+  backdrop-filter: blur(32px) !important;
+  -webkit-backdrop-filter: blur(32px) !important;
   filter: none !important;
 }
 
@@ -7261,8 +7265,8 @@ body.case-page .case-component__desc {
   background: rgba(255, 255, 255, .10) !important;
   border-color: rgba(255, 255, 255, .24) !important;
   box-shadow: none !important;
-  backdrop-filter: blur(100px) !important;
-  -webkit-backdrop-filter: blur(100px) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
 }
 
 #dock .dock__menu-list a:hover,
