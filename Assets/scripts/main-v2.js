@@ -1517,6 +1517,7 @@
       root.style.setProperty('--smart-scale', '1');
       root.style.setProperty('--smart-title-scale', '1');
       root.style.setProperty('--portfolio-scale', '1');
+      root.style.setProperty('--desktop-upscale', '1');
       return;
     }
 
@@ -1524,11 +1525,16 @@
     const safeH = Math.max(320, vh - 80);
     const smartScale = Math.min(1, Math.max(0.64, Math.min(safeW / 1400, safeH / 760)));
     const portfolioScale = Math.min(1, Math.max(0.68, Math.min(safeW / 1160, safeH / 720)));
+    // Full HD is the authored desktop canvas. Larger screens keep the exact
+    // same composition and grow uniformly; the shorter viewport side limits
+    // ultrawide displays so the page never stretches sideways.
+    const desktopUpscale = Math.min(2.5, Math.max(1, Math.min(vw / 1920, vh / 1080)));
 
     root.style.setProperty('--smart-scale', smartScale.toFixed(4));
     root.style.setProperty('--smart-title-scale', Math.min(1, Math.max(0.64, smartScale)).toFixed(4));
     root.style.setProperty('--portfolio-scale', portfolioScale.toFixed(4));
     root.style.setProperty('--portrait-scale', '1');
+    root.style.setProperty('--desktop-upscale', desktopUpscale.toFixed(4));
   }
 
   updateSmartLayoutVars();
@@ -1965,14 +1971,10 @@
       const vw = window.innerWidth;
       const vh = window.innerHeight;
       const isMobile = isPortrait();
-      const mH = isMobile ? 10 : 20;
-      const mV = isMobile ? 30 : 40;
-      const gap = isMobile ? 10 : 20;
-      const availW = vw - 2*mH;
-      const availH = vh - 2*mV;
+      const mobileGap = 10;
 
       if (isMobile) {
-        const bigY = Math.round(mV + 227);
+        const bigY = 257;
         const maxBigByWidth = vw >= 700 ? 620 : 340;
         // Mobile browser chrome changes viewport height while scrolling.
         // Keep Hero card geometry width-driven so cards start at the final
@@ -1983,8 +1985,8 @@
         const smallH = Math.round(smallW * (250 / 180));
         const centerX = (vw - bigW) / 2;
         const smallY = bigY + bigH - smallH;
-        const leftX = centerX - smallW - gap;
-        const rightX = centerX + bigW + gap;
+        const leftX = centerX - smallW - mobileGap;
+        const rightX = centerX + bigW + mobileGap;
 
         return {
           slots: [
@@ -1994,7 +1996,7 @@
           ],
           heroH: Math.round(bigY + bigH + 40),
           mobile: true,
-          gap,
+          gap: mobileGap,
           scale: 1,
         };
       }
@@ -2005,9 +2007,18 @@
       const figmaSmallH = 515;
       const peekRatio = 0.42;
       const figmaPeekW = figmaSmallW * peekRatio;
-      const figmaVisibleW = figmaBigW + 2*figmaSmallW + 2*figmaPeekW + 4*gap;
-
-      const scale = Math.min(1, availW / figmaVisibleW, availH / figmaBigH);
+      const baseGap = 20;
+      const desktopUpscale = Math.min(2.5, Math.max(1, Math.min(vw / 1920, vh / 1080)));
+      const scaledMargins = desktopUpscale > 1;
+      const mH = scaledMargins ? 20 * desktopUpscale : 20;
+      const mV = scaledMargins ? 40 * desktopUpscale : 40;
+      const availW = vw - 2*mH;
+      const availH = vh - 2*mV;
+      const figmaVisibleW = figmaBigW + 2*figmaSmallW + 2*figmaPeekW + 4*baseGap;
+      const scale = Math.min(desktopUpscale, availW / figmaVisibleW, availH / figmaBigH);
+      // Preserve the existing laptop geometry. Above Full HD, gaps scale with
+      // the cards so five consecutive slots retain the authored rhythm.
+      const gap = scaledMargins ? baseGap * scale : baseGap;
       const bigW = figmaBigW * scale;
       const bigH = figmaBigH * scale;
       const smallW = figmaSmallW * scale;
