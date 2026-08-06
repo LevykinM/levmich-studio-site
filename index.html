@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Host+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="Assets/styles/style.css?v=170" />
+  <link rel="stylesheet" href="Assets/styles/style.css?v=171" />
   <style>
     body[data-page-version="v3"] {
       /* Desktop: section rhythm is capped at 100px per latest spec. */
@@ -1542,6 +1542,10 @@
           <img class="hero__card-img" src="Assets/Main_page/Property 1=Photo 2.webp" alt="Оксана и Костя" />
         </article>
 
+        <article class="hero__card" data-href="/cases/lyutik/">
+          <img class="hero__card-img" src="Assets/Case_Lyutik/cover.webp" alt="Лютик" />
+        </article>
+
         <!-- Mobile-only hint pill. Lives in the track (same coordinate frame
              as the cards) but is a SINGLE element pinned to the centre-top of
              the big slot: it does not travel with the photos. JS fades it in
@@ -1865,6 +1869,25 @@
               <a class="portfolio-case__button" href="/cases/front/">Подробнее</a>
             </div>
           </article>
+
+          <article class="portfolio-case reveal" data-case="lyutik">
+            <a class="portfolio-case__media" href="/cases/lyutik/" aria-label="Открыть кейс Лютик">
+              <img class="portfolio-case__img" src="Assets/Case_Lyutik/cover.webp" alt="Лютик" />
+            </a>
+            <div class="portfolio-case__meta">
+              <div class="portfolio-case__copy">
+                <h3 class="portfolio-case__title">Лютик</h3>
+                <div class="portfolio-case__tags">
+                  <span class="portfolio-tag portfolio-tag--branding">Брендинг <img src="Assets/SVG_files/mage_stars-c.svg" alt="" /></span>
+                </div>
+              </div>
+              <a class="portfolio-case__arrow" href="/cases/lyutik/" aria-label="Открыть кейс">
+                <img src="Assets/SVG_files/arrow-forward.svg" alt="" />
+                <svg viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a class="portfolio-case__button" href="/cases/lyutik/">Подробнее</a>
+            </div>
+          </article>
         </div>
       </div>
     </section>
@@ -1971,7 +1994,7 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
   <script src="Assets/scripts/generated-cases.js?v=3" defer></script>
-  <script src="Assets/scripts/main-v2.js?v=103" defer></script>
+  <script src="Assets/scripts/main-v2.js?v=104" defer></script>
 
   <script>
   /* ═══════════════════════════════════════════════════

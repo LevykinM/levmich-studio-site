@@ -285,7 +285,7 @@
         'https://functions.yandexcloud.net/d4eig0m88v1fmtmml06q',
         'https://levmich-case-likes.michailinlevyk.workers.dev/case-likes',
       ],
-      slugs: ['limo', 'chess', 'three', 'wedding', 'front'],
+      slugs: ['limo', 'chess', 'three', 'wedding', 'front', 'lyutik'],
       toggleRpc: 'toggle_case_like',
       likeRpc: 'like_case',
       visitorKey: 'levmich-case-like-visitor:v1',
@@ -312,6 +312,7 @@
       caseThree: 'three',
       caseWedding: 'wedding',
       caseFront: 'front',
+      caseLyutik: 'lyutik',
     };
     const controlsBySlug = new Map();
     const countsBySlug = new Map(config.slugs.map(slug => [slug, 0]));
@@ -766,6 +767,7 @@
       ['/cases/front', '/cases/front'],
       ['/cases/three', '/cases/three'],
       ['/cases/wedding', '/cases/wedding'],
+      ['/cases/lyutik', '/cases/lyutik'],
     ]);
 
     const pageRoute = () => {
@@ -777,6 +779,7 @@
       if (caseId === 'caseFront') return '/cases/front';
       if (caseId === 'caseThree') return '/cases/three';
       if (caseId === 'caseWedding') return '/cases/wedding';
+      if (caseId === 'caseLyutik') return '/cases/lyutik';
       const current = stripLangFromPath();
       return routeMap.get(current) || current || '/main';
     };
@@ -816,7 +819,7 @@
         },
         hero: {
           slogan: 'Делаем красиво<br/>Некрасиво&nbsp;— не&nbsp;делаем',
-          titles: ['Лимо', 'Новый проект', 'Три семёрки', 'Оксана и Костя'],
+          titles: ['Лимо', 'Chess Sphere', 'Front', 'Три семёрки', 'Оксана и Костя', 'Лютик'],
           descs: [
             'Сайт и визуальная система для спешелти-кофейни в Екатеринбурге',
             'Наша студия задизайнила логотип и сайт для крупного патентного бюро Front',
@@ -856,8 +859,8 @@
         },
         portfolio: {
           title: 'Кейсы',
-          names: ['Лимо', 'Chess Sphere', 'Три Семёрки', 'Свадебный сайт', 'Front'],
-          tags: ['Брендинг', 'Сайт', 'Брендинг', 'Приложение', 'Брендинг', 'Сайт', 'Брендинг', 'Сайт'],
+          names: ['Лимо', 'Chess Sphere', 'Три Семёрки', 'Свадебный сайт', 'Front', 'Лютик'],
+          tags: ['Брендинг', 'Сайт', 'Брендинг', 'Приложение', 'Брендинг', 'Сайт', 'Брендинг', 'Сайт', 'Брендинг'],
           cursor: 'Подробнее',
         },
         nav: {
@@ -948,6 +951,15 @@
             ['Результат', 'Сайт заменил бумажные открытки, отдельный чат для гостей и переписку «расскажи ещё раз, как доехать». Все приглашённые получили один короткий адрес и нашли там ответы на все вопросы — а пара освободила недели работы перед свадьбой.'],
           ],
         },
+        caseLyutik: {
+          title: 'Лютик',
+          pageTitle: 'Лютик — брендинг юной футболистки | Levmich Studio',
+          sections: [
+            ['Описание', '«Лютик» — бренд юной футболистки Лиды Лютиковой. За детским прозвищем скрывалась большая амбиция: не просто мерч на маркетплейсе, а знак, с которого начнётся история — от первой школьной тетради до собственной футбольной школы.'],
+            ['Решение', 'За основу взят принцип Vans — знак, который не устаревает за счёт простоты формы. Красный угловатый вордмарк, синий «след мяча», работающий и как паттерн. Палитра: красный #D8352A, синий #1C7ED6, кремовый #FEEFDB. Четыре версии знака по двум осям — фон и композиция. Юмор вынесен в отдельный слой плоских 2D-иллюстраций, чтобы логотип отвечал только за узнаваемость. Шрифты — Oswald Bold и Onest.'],
+            ['Результат', 'Масштабируемая система: один знак работает от обложки тетради до футбольной формы без пересборки. Паттерн и иллюстрации дают разнообразие, знак остаётся константой. Всё собрано в брендбук — от первой партии тетрадей до вывески будущей школы.'],
+          ],
+        },
       },
       en: {
         meta: {
@@ -956,7 +968,7 @@
         },
         hero: {
           slogan: 'We make it beautiful<br/>Ugly&nbsp;— not&nbsp;our&nbsp;thing',
-          titles: ['LIMO', 'New project', 'Three Sevens', 'Oksana and Konstantin'],
+          titles: ['LIMO', 'Chess Sphere', 'Front', 'Three Sevens', 'Oksana and Kostya', 'Lyutik'],
           descs: [
             'A website and visual system for a specialty coffee shop in Yekaterinburg',
             'We designed the logo and website for Front, a major patent bureau',
@@ -996,8 +1008,8 @@
         },
         portfolio: {
           title: 'Cases',
-          names: ['LIMO', 'Chess Sphere', 'Three Sevens', 'Wedding website', 'Front'],
-          tags: ['Branding', 'Website', 'Branding', 'App', 'Branding', 'Website', 'Branding', 'Website'],
+          names: ['LIMO', 'Chess Sphere', 'Three Sevens', 'Wedding website', 'Front', 'Lyutik'],
+          tags: ['Branding', 'Website', 'Branding', 'App', 'Branding', 'Website', 'Branding', 'Website', 'Branding'],
           cursor: 'Details',
         },
         nav: {
@@ -1086,6 +1098,15 @@
             ['Brief', 'The couple needed a website instead of a paper invitation that would tell their story, share the date and venue, explain the dress code and collect RSVPs. The site had to reflect their calm and honest aesthetic without unnecessary decor.'],
             ['Solution', 'The foundation is strict editorial typography and black-and-white photos of the couple. No ornaments or floral patterns in the interface — all the “air” is created by large type, block rhythm and the photos themselves. The single color photo on the cover is the only bright accent. The site solves all practical tasks of a guest in one visit: find the date and venue, build a route, add the event to the calendar, see the dress code with Pinterest references — and confirm attendance right on the page.'],
             ['Result', 'The site replaced paper cards, a separate guest chat and endless “remind me again how to get there” messages. All invited guests received one short address and found answers to every question — and the couple freed up weeks of work before the wedding.'],
+          ],
+        },
+        caseLyutik: {
+          title: 'Lyutik',
+          pageTitle: 'Lyutik — young footballer brand identity | Levmich Studio',
+          sections: [
+            ['Brief', 'Lyutik is the personal brand of young footballer Lida Lyutikova. Behind the childhood nickname was a bigger ambition: not simply marketplace merchandise, but a mark that could begin a story — from a first school notebook to her own football academy.'],
+            ['Solution', 'The system follows the same principle as Vans: a simple mark designed not to age. An angular red wordmark is paired with a blue “ball trail” that also works as a pattern. The palette combines red #D8352A, blue #1C7ED6 and cream #FEEFDB. Four logo versions cover two axes — background and composition. Humor lives in a separate layer of flat 2D illustrations, leaving the logo focused on recognition. The typefaces are Oswald Bold and Onest.'],
+            ['Result', 'A scalable system in which one mark works everywhere, from a notebook cover to a football kit, without being rebuilt. Patterns and illustrations provide variety while the mark stays constant. Everything is documented in a brand book — from the first notebook run to the sign of a future football academy.'],
           ],
         },
       },
@@ -1594,6 +1615,7 @@
       caseFront: '/cases/front',
       caseThree: '/cases/three',
       caseWedding: '/cases/wedding',
+      caseLyutik: '/cases/lyutik',
     };
 
     const pageCleanPath = () => {
