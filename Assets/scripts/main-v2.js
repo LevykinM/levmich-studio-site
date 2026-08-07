@@ -2055,7 +2055,12 @@
           { x: rightPeekX, y: smallY, w: smallW, h: smallH },
           { x: leftPeekX,  y: smallY, w: smallW, h: smallH },
         ],
-        heroH: vh,
+        // When width is the limiting axis (narrow window, browser zoom or a
+        // tall monitor), the cards become shorter than the viewport. Keeping
+        // Hero at 100vh then creates a large empty area before About. Let the
+        // section follow its actual content height; height-limited layouts
+        // still resolve to exactly the viewport height.
+        heroH: Math.min(vh, Math.max(480, Math.round(bigY + bigH + mV))),
         mobile: false,
         gap,
         scale,
