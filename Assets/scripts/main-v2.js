@@ -2078,6 +2078,7 @@
     function applyLayout() {
       heroEl.style.height = heroH + 'px';
       heroEl.style.setProperty('--hero-scale', HERO_SCALE);
+      track.style.touchAction = IS_MOBILE ? 'pan-y' : '';
       if (brand) {
         // Brand span = от левого края slot-1 до правого края slot-2
         if (IS_MOBILE) {
@@ -2114,6 +2115,8 @@
     let heroScrollPaused = false;
     let heroScrollPauseTimer = null;
     let activeHeroTimeline = null;
+    let restartAfterManualRotate = false;
+    let suppressHeroClickUntil = 0;
     const INTERVAL = 4400;
 
     const setSlot = (card, slotIdx) => {
@@ -2244,8 +2247,12 @@
     }, { passive: true });
 
     // ---- Один цикл смены ----------------------------------------
-    const rotateMobile = () => {
-      if (isPaused || isAnimating) return;
+    const rotateMobile = (direction = 1, manual = false) => {
+      if (isPaused || isAnimating) return false;
+      if (manual) {
+        stop();
+        restartAfterManualRotate = true;
+      }
       isAnimating = true;
       track.classList.add('is-animating');
 
@@ -2254,70 +2261,130 @@
       const rightCard  = cards[order[1]];
       const leftCard   = cards[order[2]];
       const hiddenQueue = order.slice(3);
-      const enteringIdx = hiddenQueue.length ? hiddenQueue[0] : order[2];
+      const backward = direction < 0;
+      const enteringIdx = hiddenQueue.length
+        ? hiddenQueue[backward ? hiddenQueue.length - 1 : 0]
+        : order[backward ? 1 : 2];
       const enteringCard = cards[enteringIdx];
+      const activeCard = backward ? leftCard : rightCard;
 
       // Dissolve the hint pill first (quick, up & out) so it is gone before
       // the big card visibly shrinks — exactly the requested order.
       hidePill(0.22);
-      rightCard.classList.add('is-big');
+      activeCard.classList.add('is-big');
       centerCard.classList.remove('is-big');
-      leftCard.classList.remove('is-big');
+      (backward ? rightCard : leftCard).classList.remove('is-big');
 
       const tl = gsap.timeline({
         onComplete() {
-          showInfo(rightCard, 0.05);
+          activeHeroTimeline = null;
+          order.forEach((cardIdx, slotIdx) => {
+            if (slotIdx < visibleSlotCount()) setSlot(cards[cardIdx], slotIdx);
+            else setHiddenSlot(cards[cardIdx]);
+          });
+          showInfo(cards[order[0]], 0.05);
           track.classList.remove('is-animating');
           isAnimating = false;
+          if (restartAfterManualRotate) {
+            restartAfterManualRotate = false;
+            resumeHeroMotion();
+          }
         }
       });
+      activeHeroTimeline = tl;
 
-      tl.to(leftCard, {
-        left: S[2].x - S[2].w - SLOT_GAP,
-        opacity: 0,
-        duration: 0.42,
-        ease: 'power2.in'
-      }, 0);
+      if (backward) {
+        tl.to(rightCard, {
+          left: S[1].x + S[1].w + SLOT_GAP,
+          opacity: 0,
+          duration: 0.42,
+          ease: 'power2.in'
+        }, 0);
 
-      tl.to(centerCard, {
-        left: S[2].x,
-        top: S[2].y,
-        width: S[2].w,
-        height: S[2].h,
-        duration: 0.72,
-        ease: 'power3.inOut'
-      }, 0.16);
+        tl.to(centerCard, {
+          left: S[1].x,
+          top: S[1].y,
+          width: S[1].w,
+          height: S[1].h,
+          duration: 0.72,
+          ease: 'power3.inOut'
+        }, 0.16);
 
-      tl.to(rightCard, {
-        left: S[0].x,
-        top: S[0].y,
-        width: S[0].w,
-        height: S[0].h,
-        duration: 0.78,
-        ease: 'power3.inOut'
-      }, 0.18);
+        tl.to(leftCard, {
+          left: S[0].x,
+          top: S[0].y,
+          width: S[0].w,
+          height: S[0].h,
+          duration: 0.78,
+          ease: 'power3.inOut'
+        }, 0.18);
 
-      if (enteringCard !== leftCard) {
-        tl.set(leftCard, { opacity: 0 }, 0.42);
+        tl.set(enteringCard, {
+          left: S[2].x - S[2].w - SLOT_GAP,
+          top: S[2].y,
+          width: S[2].w,
+          height: S[2].h,
+          opacity: 0,
+        }, 0.42);
+
+        tl.to(enteringCard, {
+          left: S[2].x,
+          opacity: 1,
+          duration: 0.5,
+          ease: 'power3.out'
+        }, 0.48);
+
+        const nextHidden = hiddenQueue.length
+          ? [order[1]].concat(hiddenQueue.slice(0, -1))
+          : [];
+        order = [order[2], order[0], enteringIdx].concat(nextHidden);
+      } else {
+        tl.to(leftCard, {
+          left: S[2].x - S[2].w - SLOT_GAP,
+          opacity: 0,
+          duration: 0.42,
+          ease: 'power2.in'
+        }, 0);
+
+        tl.to(centerCard, {
+          left: S[2].x,
+          top: S[2].y,
+          width: S[2].w,
+          height: S[2].h,
+          duration: 0.72,
+          ease: 'power3.inOut'
+        }, 0.16);
+
+        tl.to(rightCard, {
+          left: S[0].x,
+          top: S[0].y,
+          width: S[0].w,
+          height: S[0].h,
+          duration: 0.78,
+          ease: 'power3.inOut'
+        }, 0.18);
+
+        tl.set(enteringCard, {
+          left: S[1].x + S[1].w + SLOT_GAP,
+          top: S[1].y,
+          width: S[1].w,
+          height: S[1].h,
+          opacity: 0,
+        }, 0.42);
+
+        tl.to(enteringCard, {
+          left: S[1].x,
+          opacity: 1,
+          duration: 0.5,
+          ease: 'power3.out'
+        }, 0.48);
+
+        const nextHidden = hiddenQueue.length
+          ? hiddenQueue.slice(1).concat(order[2])
+          : [];
+        order = [order[1], enteringIdx, order[0]].concat(nextHidden);
       }
-
-      tl.set(enteringCard, {
-        left: S[1].x + S[1].w + SLOT_GAP,
-        top: S[1].y,
-        width: S[1].w,
-        height: S[1].h,
-        opacity: 0,
-      }, 0.42);
-
-      tl.to(enteringCard, {
-        left: S[1].x,
-        opacity: 1,
-        duration: 0.5,
-        ease: 'power3.out'
-      }, 0.48);
-
-      const nextHidden = hiddenQueue.length ? hiddenQueue.slice(1).concat(order[2]) : [];
-      order = [order[1], enteringIdx, order[0]].concat(nextHidden);
+      return true;
     };
 
     const rotate = () => {
@@ -2502,18 +2569,73 @@
       }, 220);
     };
 
+    // Mobile swipe: horizontal gestures change the active case while pan-y
+    // keeps the page's native vertical scroll. Auto-rotation restarts with a
+    // fresh interval after every completed manual gesture.
+    let swipeStartX = 0;
+    let swipeStartY = 0;
+    let swipeStartTime = 0;
+    let swipeTracking = false;
+
+    const finishSwipe = (event, cancelled = false) => {
+      if (!swipeTracking) return;
+      swipeTracking = false;
+      if (track.hasPointerCapture?.(event.pointerId)) {
+        track.releasePointerCapture(event.pointerId);
+      }
+      if (cancelled || !IS_MOBILE) {
+        resumeHeroMotion();
+        return;
+      }
+
+      const dx = event.clientX - swipeStartX;
+      const dy = event.clientY - swipeStartY;
+      const absX = Math.abs(dx);
+      const absY = Math.abs(dy);
+      const elapsed = Math.max(1, performance.now() - swipeStartTime);
+      const threshold = Math.min(86, Math.max(44, window.innerWidth * 0.11));
+      const quickSwipe = elapsed <= 360 && absX >= 32;
+      const horizontal = absX > absY * 1.15;
+
+      if (horizontal && (absX >= threshold || quickSwipe)) {
+        suppressHeroClickUntil = performance.now() + 500;
+        if (!rotateMobile(dx < 0 ? 1 : -1, true)) resumeHeroMotion();
+      } else {
+        resumeHeroMotion();
+      }
+    };
+
+    track.addEventListener('pointerdown', event => {
+      if (!IS_MOBILE || !event.isPrimary) return;
+      swipeStartX = event.clientX;
+      swipeStartY = event.clientY;
+      swipeStartTime = performance.now();
+      swipeTracking = true;
+      stop();
+      track.setPointerCapture?.(event.pointerId);
+    }, { passive: true });
+    track.addEventListener('pointerup', event => finishSwipe(event), { passive: true });
+    track.addEventListener('pointercancel', event => finishSwipe(event, true), { passive: true });
+
     // Пока человек рассматривает карточку, не перелистываем ее из-под курсора.
+    const canHoverHero = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     cards.forEach(card => {
       card.addEventListener('mouseenter', () => {
+        if (!canHoverHero || IS_MOBILE) return;
         isPaused = true;
         stop();
         if (activeHeroTimeline && activeHeroTimeline.isActive()) activeHeroTimeline.pause();
       });
       card.addEventListener('mouseleave', () => {
+        if (!canHoverHero || IS_MOBILE) return;
         isPaused = false;
         resumeHeroMotion();
       });
       card.addEventListener('click', (e) => {
+        if (performance.now() < suppressHeroClickUntil) {
+          e.preventDefault();
+          return;
+        }
         const href = card.dataset.href;
         if (href) window.location.href = new URL(href, document.baseURI).href;
       });
