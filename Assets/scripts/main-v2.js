@@ -53,9 +53,11 @@
     const percentEl = document.getElementById('site-loader-percent');
     const segments = $$('.site-loader__progress span', loader);
     const startedAt = performance.now();
-    const minDuration = reduceMotion ? 250 : 1150;
-    const maxDuration = 4200;
-    const holdAtStart = reduceMotion ? 0 : 650;
+    // Заставка — часть оформления, но она не должна быть самым медленным
+    // звеном загрузки: минимум держим коротким, потолок — страховочный.
+    const minDuration = reduceMotion ? 250 : 420;
+    const maxDuration = 2000;
+    const holdAtStart = reduceMotion ? 0 : 180;
     let target = 10;
     let shown = 10;
     let renderedProgress = 10;
@@ -128,8 +130,32 @@
       if (closed || !document.body.contains(loader)) window.clearInterval(softPump);
     }, 260);
 
-    if (document.readyState === 'complete') finish();
-    else window.addEventListener('load', finish, { once: true });
+    // Раньше заставка ждала window.load, то есть загрузки ВСЕХ ресурсов
+    // страницы — включая ролик кейса на десятки мегабайт. Теперь ждём того,
+    // что реально видно в первом экране: разобранный DOM и картинки внутри
+    // вьюпорта. window.load остаётся запасным сигналом.
+    const aboveFoldReady = () => {
+      const viewportBottom = window.innerHeight || 0;
+      return Array.from(document.images || []).every(img => {
+        if (img.complete) return true;
+        const rect = img.getBoundingClientRect();
+        const visible = rect.bottom > 0 && rect.top < viewportBottom && rect.width > 0;
+        return !visible;
+      });
+    };
+
+    const finishWhenReady = () => {
+      if (closed) return;
+      if (aboveFoldReady()) finish();
+      else window.setTimeout(finishWhenReady, 100);
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', finishWhenReady, { once: true });
+    } else {
+      finishWhenReady();
+    }
+    window.addEventListener('load', finish, { once: true });
     window.setTimeout(finish, maxDuration);
     window.addEventListener('pagehide', () => {
       if (raf) cancelAnimationFrame(raf);
@@ -157,31 +183,28 @@
       }
     };
 
+    // Разметка держит адрес ролика в data-src, а не в src: пока наблюдатель
+    // не «взведёт» видео, браузер не качает ни байта. Здесь только флаги
+    // воспроизведения — preload остаётся 'none' до armVideo().
     const prepareVideo = (video) => {
-      video.querySelectorAll('source[src]').forEach(source => {
-        source.dataset.caseSrc = source.src;
-      });
-      if (video.poster) video.dataset.casePoster = video.poster;
       video.muted = true;
       video.defaultMuted = true;
-      video.autoplay = true;
       video.loop = true;
       video.playsInline = true;
-      video.preload = 'metadata';
       video.setAttribute('muted', '');
       video.setAttribute('playsinline', '');
       video.setAttribute('webkit-playsinline', '');
-      video.setAttribute('preload', 'metadata');
       video.addEventListener('playing', () => video.classList.add('is-playing'), { once: true });
     };
 
     const armVideo = (video) => {
       if (video.dataset.caseVideoReady === 'true') return;
+      const sources = $$('source[data-src]', video);
+      if (!sources.length) return;
       video.dataset.caseVideoReady = 'true';
-      video.querySelectorAll('source[data-case-src]').forEach(source => {
-        source.src = source.dataset.caseSrc;
+      sources.forEach(source => {
+        source.src = source.dataset.src;
       });
-      if (video.dataset.casePoster) video.poster = video.dataset.casePoster;
       video.preload = 'auto';
       video.setAttribute('preload', 'auto');
       video.load();
@@ -210,7 +233,7 @@
     }
 
     const retryAll = () => videos.forEach(video => {
-      if (video.dataset.caseVideoReady === 'true') playVideo(video);
+      if (video.dataset.caseVideoReady === 'true' && video.paused) playVideo(video);
     });
     window.addEventListener('load', retryAll, { once: true });
     document.addEventListener('visibilitychange', () => {
