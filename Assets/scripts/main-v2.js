@@ -308,7 +308,7 @@
         'https://functions.yandexcloud.net/d4eig0m88v1fmtmml06q',
         'https://levmich-case-likes.michailinlevyk.workers.dev/case-likes',
       ],
-      slugs: ['limo', 'chess', 'three', 'wedding', 'front', 'lyutik'],
+      slugs: ['limo', 'chess', 'three', 'wedding', 'front', 'lyutik', 'azim'],
       toggleRpc: 'toggle_case_like',
       likeRpc: 'like_case',
       visitorKey: 'levmich-case-like-visitor:v1',
@@ -336,6 +336,7 @@
       caseWedding: 'wedding',
       caseFront: 'front',
       caseLyutik: 'lyutik',
+      caseAzim: 'azim',
     };
     const controlsBySlug = new Map();
     const countsBySlug = new Map(config.slugs.map(slug => [slug, 0]));
@@ -791,6 +792,7 @@
       ['/cases/three', '/cases/three'],
       ['/cases/wedding', '/cases/wedding'],
       ['/cases/lyutik', '/cases/lyutik'],
+      ['/cases/azim', '/cases/azim'],
     ]);
 
     const pageRoute = () => {
@@ -803,6 +805,7 @@
       if (caseId === 'caseThree') return '/cases/three';
       if (caseId === 'caseWedding') return '/cases/wedding';
       if (caseId === 'caseLyutik') return '/cases/lyutik';
+      if (caseId === 'caseAzim') return '/cases/azim';
       const current = stripLangFromPath();
       return routeMap.get(current) || current || '/main';
     };
@@ -882,8 +885,8 @@
         },
         portfolio: {
           title: 'Кейсы',
-          names: ['Лимо', 'Chess Sphere', 'Три Семёрки', 'Свадебный сайт', 'Front', 'Лютик'],
-          tags: ['Брендинг', 'Сайт', 'Брендинг', 'Приложение', 'Брендинг', 'Сайт', 'Брендинг', 'Сайт', 'Брендинг'],
+          names: ['Лимо', 'Chess Sphere', 'Три Семёрки', 'Свадебный сайт', 'Front', 'Лютик', 'Азим Чарыев'],
+          tags: ['Брендинг', 'Сайт', 'Брендинг', 'Приложение', 'Брендинг', 'Сайт', 'Брендинг', 'Сайт', 'Брендинг', 'Сайт'],
           cursor: 'Подробнее',
         },
         nav: {
@@ -907,6 +910,15 @@
           label: 'Переключить язык на английский',
           current: 'Ru',
           target: 'En',
+        },
+        caseAzim: {
+          title: 'Азим Чарыев',
+          pageTitle: 'Азим Чарыев — сайт режиссёра | Levmich Studio',
+          sections: [
+            ['Описание', 'Азим Чарыев — режиссёр и креативный продюсер, который создаёт видео, фотографии и контент для брендов. Нужно было объединить его авторский образ, портфолио и пять направлений услуг на одном сайте — передать характер работ и быстро подвести посетителя к обсуждению съёмки.'],
+            ['Решение', 'Сайт построен как живое режиссёрское портфолио: имя и позиционирование окружены вертикальными роликами и фотографиями, поэтому стиль Азима считывается с первого экрана. Тёмная кинематографичная среда, бирюзовое свечение и крупные скруглённые кадры объединяют контент. Интерактивные тарифы помогают сравнить услуги и стоимость, а кнопки выбора сразу открывают Telegram с подготовленным сообщением.'],
+            ['Результат', 'Сайт работает как шоурил, портфолио и точка входа в сотрудничество. Клиент знакомится с подходом Азима, выбирает услугу и переходит к обсуждению проекта с уже сформированным запросом. Новые работы и тарифы можно добавлять без перестройки страницы.'],
+          ],
         },
         caseLimo: {
           title: 'Лимо',
@@ -1031,8 +1043,8 @@
         },
         portfolio: {
           title: 'Cases',
-          names: ['LIMO', 'Chess Sphere', 'Three Sevens', 'Wedding website', 'Front', 'Lyutik'],
-          tags: ['Branding', 'Website', 'Branding', 'App', 'Branding', 'Website', 'Branding', 'Website', 'Branding'],
+          names: ['LIMO', 'Chess Sphere', 'Three Sevens', 'Wedding website', 'Front', 'Lyutik', 'Azim Charyev'],
+          tags: ['Branding', 'Website', 'Branding', 'App', 'Branding', 'Website', 'Branding', 'Website', 'Branding', 'Website'],
           cursor: 'Details',
         },
         nav: {
@@ -1056,6 +1068,15 @@
           label: 'Switch language to Russian',
           current: 'En',
           target: 'Ru',
+        },
+        caseAzim: {
+          title: 'Azim Charyev',
+          pageTitle: 'Azim Charyev — director portfolio website | Levmich Studio',
+          sections: [
+            ['Brief', 'Azim Charyev is a director and creative producer creating video, photography and branded content. The goal was to bring his identity, portfolio and five service lines into one website that communicates his style and quickly leads visitors towards discussing a shoot.'],
+            ['Solution', "The website works as a living director's portfolio: vertical videos and photography frame Azim's name and positioning, making his style clear from the first screen. A dark cinematic background, teal glow and rounded frames unite the content. Interactive pricing cards help visitors compare services and prices, while each action opens Telegram with a prepared message."],
+            ['Result', "The website now works as a showreel, portfolio and entry point for collaboration. Clients can understand Azim's approach, choose a service and start a conversation with a clear request. New work and packages can be added without rebuilding the page."],
+          ],
         },
         caseLimo: {
           title: 'LIMO',
@@ -1639,6 +1660,7 @@
       caseThree: '/cases/three',
       caseWedding: '/cases/wedding',
       caseLyutik: '/cases/lyutik',
+      caseAzim: '/cases/azim',
     };
 
     const pageCleanPath = () => {

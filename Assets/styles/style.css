@@ -1734,6 +1734,9 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   min-height: calc(var(--portfolio-grid-reserve) + (var(--portfolio-edge-clearance) * 2));
   overflow: visible;
 }
+.portfolio__grid:has(.portfolio-case[data-case="azim"]) {
+  --portfolio-grid-reserve: calc((var(--portfolio-card-reserve) * 3) + (var(--portfolio-gap) * 2) + clamp(48px, 4vw, 64px));
+}
 .portfolio__column {
   display: contents;
 }
@@ -1793,6 +1796,10 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
 .portfolio-case[data-case="lyutik"] {
   order: 6;
   transform-origin: calc(var(--portfolio-origin-x) - (var(--portfolio-card) * 2) - (var(--portfolio-gap) * 2)) calc(var(--portfolio-origin-y) - var(--portfolio-card-reserve) - var(--portfolio-gap));
+}
+.portfolio-case[data-case="azim"] {
+  order: 7;
+  transform-origin: center top;
 }
 .portfolio__grid:has(.portfolio-case[data-case="three"]:is(:hover, :focus-within)) .portfolio-case[data-case="front"] {
   --portfolio-shift-x: var(--portfolio-rest-delta);
@@ -3971,6 +3978,7 @@ body[data-lang="en"] .footer__meta-disclaimer {
   .portfolio-case[data-case="limo"] { order: 4; z-index: 4; grid-column: auto; grid-row: auto; }
   .portfolio-case[data-case="chess"] { order: 5; z-index: 5; grid-column: auto; grid-row: auto; }
   .portfolio-case[data-case="lyutik"] { order: 6; z-index: 6; grid-column: auto; grid-row: auto; }
+  .portfolio-case[data-case="azim"] { order: 7; z-index: 7; grid-column: auto; grid-row: auto; }
   .portfolio-case__media,
   .portfolio-case:is(:hover, :focus-within) .portfolio-case__media {
     width: 100%;
@@ -4267,6 +4275,7 @@ body.case--front   { --case-accent: #FF0750; }
 body.case--wedding { --case-accent: #888888; }
 body.case--limo    { --case-accent: #FBB603; }
 body.case--chess   { --case-accent: #7400FF; }
+body.case--azim    { --case-accent: #00B9B3; }
 
 /* Внешний контейнер контента (padding 40 top / 20 H, как у Figma Frame 226) */
 .case-layout {
@@ -4332,6 +4341,10 @@ body.case--chess   { --case-accent: #7400FF; }
 }
 .case-banner--chess-result {
   aspect-ratio: 1672 / 941;
+}
+.case-banner--azim-shot,
+.case-banner--azim-video {
+  aspect-ratio: 2752 / 1536;
 }
 .case-logo-strip {
   position: relative;
@@ -4633,6 +4646,10 @@ body.case--chess   { --case-accent: #7400FF; }
   }
   .case-banner--chess-result {
     aspect-ratio: 1672 / 941;
+  }
+  .case-banner--azim-shot,
+  .case-banner--azim-video {
+    aspect-ratio: 2752 / 1536;
   }
   .case-banner--case-video,
   .case-banner--front-video,

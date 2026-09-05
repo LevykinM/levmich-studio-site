@@ -1,5 +1,14 @@
 {
-  "version": 1,
-  "updatedAt": null,
-  "cases": []
+  "version": 2,
+  "updatedAt": "2026-09-06T00:00:00+05:00",
+  "cases": [
+    {
+      "slug": "azim",
+      "titleRu": "Азим Чарыев",
+      "titleEn": "Azim Charyev",
+      "kind": "site",
+      "kinds": ["site"],
+      "cover": "Assets/Case_Azim_Charyev/cover.webp"
+    }
+  ]
 }
