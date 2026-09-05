@@ -1927,6 +1927,11 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   --portfolio-shift-x: calc(0px - (var(--portfolio-rest-delta) * 2) - var(--portfolio-gap-delta));
   --portfolio-shift-y: calc(0px - var(--portfolio-half-gap-delta));
 }
+.portfolio__grid:has(.portfolio-case[data-case="limo"]:is(:hover, :focus-within)) .portfolio-case[data-case="azim"],
+.portfolio__grid:has(.portfolio-case[data-case="chess"]:is(:hover, :focus-within)) .portfolio-case[data-case="azim"],
+.portfolio__grid:has(.portfolio-case[data-case="lyutik"]:is(:hover, :focus-within)) .portfolio-case[data-case="azim"] {
+  --portfolio-shift-y: var(--portfolio-active-y-outset);
+}
 .portfolio-case__media {
   position: relative;
   display: block;

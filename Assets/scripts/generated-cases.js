@@ -133,8 +133,10 @@
     }
     if (heading) heading.textContent = title;
     if (tagWrap) {
+      const likeCounter = tagWrap.querySelector('.case-like');
       tagWrap.replaceChildren();
       tags.forEach(tag => tagWrap.append(createTag(tag, lang)));
+      if (likeCounter) tagWrap.append(likeCounter);
     }
     if (arrow) {
       arrow.href = href;
