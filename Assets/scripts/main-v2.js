@@ -845,7 +845,7 @@
         },
         hero: {
           slogan: 'Делаем красиво<br/>Некрасиво&nbsp;— не&nbsp;делаем',
-          titles: ['Лимо', 'Chess Sphere', 'Front', 'Три семёрки', 'Оксана и Костя', 'Лютик'],
+          titles: ['Лимо', 'Chess Sphere', 'Front', 'Три семёрки', 'Оксана и Костя', 'Лютик', 'Азим Чарыев'],
           descs: [
             'Сайт и визуальная система для спешелти-кофейни в Екатеринбурге',
             'Наша студия задизайнила логотип и сайт для крупного патентного бюро Front',
@@ -1003,7 +1003,7 @@
         },
         hero: {
           slogan: 'We make it beautiful<br/>Ugly&nbsp;— not&nbsp;our&nbsp;thing',
-          titles: ['LIMO', 'Chess Sphere', 'Front', 'Three Sevens', 'Oksana and Kostya', 'Lyutik'],
+          titles: ['LIMO', 'Chess Sphere', 'Front', 'Three Sevens', 'Oksana and Kostya', 'Lyutik', 'Azim Charyev'],
           descs: [
             'A website and visual system for a specialty coffee shop in Yekaterinburg',
             'We designed the logo and website for Front, a major patent bureau',
