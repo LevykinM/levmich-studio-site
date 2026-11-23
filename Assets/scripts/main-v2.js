@@ -1488,6 +1488,12 @@
       setText('#footer-consult-title', d.footer.title);
       setText('.footer__text', d.footer.text);
       setText('.footer__button', d.footer.button);
+      $$('a[href^="/brief/"]').forEach(link => {
+        const brief = new URL(link.href);
+        if (lang === 'en') brief.searchParams.set('lang', 'en');
+        else brief.searchParams.delete('lang');
+        link.href = brief.pathname + brief.search;
+      });
       setText('.footer__nav .footer__heading', d.nav.navigation);
       setLeadingTexts('.footer__nav-item', d.nav.items);
       setText('#footer-media-title', d.nav.media);

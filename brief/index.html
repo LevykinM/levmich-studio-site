@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="robots" content="noindex" />
+  <title>Бриф на проект | Levmich Studio</title>
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" />
+  <link rel="stylesheet" href="/Assets/styles/style.css?v=173" />
+  <link rel="stylesheet" href="/Assets/styles/brief.css" />
+  <script src="/Assets/scripts/brief.js" defer></script>
+</head>
+<body class="brief-page">
+  <main class="brief" id="brief">
+    <section class="brief__content" aria-labelledby="brief-title">
+      <header class="brief__intro">
+        <h1 id="brief-title" data-copy="title">Давайте сделаем<br />что-то крутое</h1>
+        <p data-copy="intro">Пара деталей о вашем проекте — и я лично свяжусь с вами, чтобы всё обсудить.</p>
+      </header>
+
+      <form class="brief__form" id="brief-form" method="post" novalidate>
+        <fieldset class="brief__section">
+          <legend class="brief__label" data-copy="serviceLabel">1. Что будем делать?</legend>
+          <div class="brief__choices">
+            <label class="brief__choice"><input type="radio" name="service" value="branding" /><span data-copy="branding">Брендинг</span></label>
+            <label class="brief__choice"><input type="radio" name="service" value="app" /><span data-copy="app">Дизайн приложения</span></label>
+            <label class="brief__choice"><input type="radio" name="service" value="website" /><span data-copy="website">Сайт</span></label>
+            <label class="brief__choice"><input type="radio" name="service" value="other" /><span data-copy="other">Что-то другое</span></label>
+            <label class="brief__choice"><input type="radio" name="service" value="vibe-site" /><span data-copy="vibe-site">Вайб-сайт</span></label>
+            <label class="brief__choice"><input type="radio" name="service" value="bot" /><span data-copy="bot">Бот</span></label>
+          </div>
+        </fieldset>
+
+        <div class="brief__section">
+          <label class="brief__label" for="contact" data-copy="contactLabel">2. Как с вами связаться?</label>
+          <div class="brief__field">
+            <input id="contact" name="contact" type="text" placeholder=" " required maxlength="240" aria-describedby="contact-hint" autocapitalize="off" spellcheck="false" />
+            <span class="brief__prompt" aria-hidden="true" data-copy="contactPrompt">Telegram, VK, email, телефон</span>
+          </div>
+          <p class="brief__hint" id="contact-hint" data-copy="contactHint">Только для связи по проекту</p>
+          <p class="brief__hint brief__error" id="contact-error" aria-live="polite" hidden></p>
+        </div>
+
+        <div class="brief__section">
+          <label class="brief__label" for="details" data-copy="detailsLabel">3. Расскажите о задаче</label>
+          <div class="brief__field brief__field--details">
+            <textarea id="details" name="details" rows="4" maxlength="2500" placeholder=" " aria-describedby="details-hint"></textarea>
+            <span class="brief__prompt" aria-hidden="true" data-copy="detailsPrompt">Например, нужен сайт для кофейни. Есть логотип или изображения…</span>
+          </div>
+          <p class="brief__sr-only" id="details-hint" data-copy="optional">Необязательное поле</p>
+        </div>
+
+        <label class="brief__trap" hidden>Website <input name="website_url" type="text" tabindex="-1" autocomplete="off" /></label>
+        <button class="brief__button" type="submit" data-copy="send" disabled>Отправить</button>
+        <p class="brief__hint brief__error brief__status" role="alert" hidden></p>
+        <noscript><p class="brief__hint">Для отправки заявки включите JavaScript.</p></noscript>
+      </form>
+    </section>
+
+    <section class="brief__success" aria-labelledby="brief-success-title" hidden>
+      <h1 id="brief-success-title" tabindex="-1" data-copy="successTitle">Кайф! Заявка отправлена</h1>
+      <p data-copy="successCopy">Спасибо, что обратились в Levmich Studio. Я посмотрю заявку и лично свяжусь с вами по указанному контакту.</p>
+      <a class="brief__button" href="/ru/main/" data-home data-copy="back">Вернуться на главную</a>
+    </section>
+  </main>
+  <footer class="footer" id="footer">
+    <div class="footer__top">
+      <section class="footer__consult" aria-labelledby="footer-consult-title">
+        <div class="footer__consult-copy">
+          <h2 class="footer__title" id="footer-consult-title" data-copy="consult">Не нашли ответ?</h2>
+          <p class="footer__text" data-copy="consultCopy">Просто оставьте заявку на консультацию, и мы с вами свяжемся.</p>
+        </div>
+        <a class="footer__button" href="#brief-form" data-copy="consultButton">Оставить заявку</a>
+      </section>
+
+      <nav class="footer__nav" aria-label="Навигация по сайту">
+        <h2 class="footer__heading" data-copy="navigation">Навигация</h2>
+        <a class="footer__nav-item" href="/ru/main/#about" data-home><span data-copy="about">Обо мне</span> <img decoding="async" loading="lazy" src="/Assets/SVG_files/mini_me.svg" alt=""/></a>
+        <a class="footer__nav-item" href="/ru/main/#services" data-home><span data-copy="services">Услуги</span> <img decoding="async" loading="lazy" src="/Assets/SVG_files/Consulation.svg" alt=""/></a>
+        <a class="footer__nav-item" href="/ru/info/#doc-oferta" data-info><span data-copy="process">Процесс работы</span> <img decoding="async" loading="lazy" src="/Assets/SVG_files/Brief_Process.svg" alt="" /></a>
+        <a class="footer__nav-item" href="/ru/main/#portfolio" data-home><span data-copy="cases">Кейсы</span> <img decoding="async" loading="lazy" src="/Assets/SVG_files/Case.svg" alt=""/></a>
+      </nav>
+
+      <section class="footer__media" aria-labelledby="footer-media-title">
+        <h2 class="footer__heading" id="footer-media-title" data-copy="media">Медиа</h2>
+        <div class="footer__socials">
+          <a href="https://t.me/levmich_design_and_branding" target="_blank" rel="noopener" aria-label="Telegram"><img decoding="async" loading="lazy" src="/Assets/SVG_files/Telegram.svg" alt=""/></a>
+          <a href="https://www.instagram.com/levmvich.studio/" target="_blank" rel="noopener" aria-label="Instagram"><img decoding="async" loading="lazy" src="/Assets/SVG_files/Instagram.svg" alt=""/></a>
+          <a href="https://www.threads.com/@levmvich.studio" target="_blank" rel="noopener" aria-label="Threads"><img decoding="async" loading="lazy" src="/Assets/SVG_files/Threads.svg" alt=""/></a>
+          <a href="https://www.behance.net/de60278c" target="_blank" rel="noopener" aria-label="Behance"><img decoding="async" loading="lazy" src="/Assets/SVG_files/Behance.svg" alt=""/></a>
+        </div>
+        <p class="footer__meta-disclaimer" data-copy="disclaimer">*Компания Meta — признана в России террористической организацией</p>
+      </section>
+    </div>
+
+    <div class="footer__bottom">
+      <a class="footer__logo-link" href="/ru/main/" data-home aria-label="На главную">
+        <img decoding="async" loading="lazy" class="footer__logo" src="/Assets/SVG_files/Levmich_Studio_Logo_01.svg" alt="Levmich Studio" />
+      </a>
+      <p class="footer__copyright">© Levmich Studio 2026</p>
+      <a class="footer__info-card" href="/ru/info/" data-info aria-label="Открыть информационную страницу">
+        <span class="footer__info-card-head">
+          <span class="footer__info-card-title" data-copy="info">Инфо</span>
+          <span class="footer__info-card-arrow" aria-hidden="true">
+            <svg viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </span>
+        <span class="footer__info-card-list">
+          <span data-copy="terms">Договор оферты</span>
+          <span data-copy="privacy">Политика конфиденциальности</span>
+          <span data-copy="agreement">Пользовательское соглашение</span>
+        </span>
+        <span class="footer__info-card-service-label" aria-hidden="true">К услугам</span>
+      </a>
+    </div>
+  </footer>
+</body>
+</html>
