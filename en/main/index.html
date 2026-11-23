@@ -647,54 +647,9 @@
     }
 
     body[data-page-version="v3"] .services.services--redesigned .services__explain.is-changing .services__explain-title,
-    body[data-page-version="v3"] .services.services--redesigned .services__explain.is-changing .services__explain-text,
-    body[data-page-version="v3"] .services.services--redesigned .services__explain.is-changing .services__explain-price {
+    body[data-page-version="v3"] .services.services--redesigned .services__explain.is-changing .services__explain-text {
       opacity: 0;
       transform: translate3d(0, -4px, 0);
-    }
-
-    /* Orange price card inside the explain panel — only for Additional pills. */
-    body[data-page-version="v3"] .services.services--redesigned .services__explain-price {
-      display: none;
-      flex-direction: column;
-      gap: 2px;
-      width: 100%;
-      margin-top: 16px;
-      padding: 12px 16px;
-      border: 1px solid rgba(255, 107, 0, 0.5);
-      border-radius: 20px;
-      background: rgba(255, 107, 0, 0.12);
-      color: #fff;
-      box-sizing: border-box;
-      transition:
-        opacity .16s var(--ease-soft),
-        transform .22s cubic-bezier(.22, 1, .36, 1);
-    }
-
-    body[data-page-version="v3"] .services.services--redesigned .services__explain.has-price .services__explain-price {
-      display: flex;
-    }
-
-    body[data-page-version="v3"] .services.services--redesigned .services__explain-price-amount {
-      color: #fff;
-      font-family: 'Geist', sans-serif;
-      font-size: 20px;
-      font-weight: 500;
-      line-height: 1.1;
-    }
-
-    body[data-page-version="v3"] .services.services--redesigned .services__explain-price-note {
-      color: rgba(255, 255, 255, 0.65);
-      font-family: 'Geist', sans-serif;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 1.2;
-    }
-
-    /* When an additional item has no note ("Оформление соцсетей") we keep
-       the price card tight — empty note collapses instead of leaving a gap. */
-    body[data-page-version="v3"] .services.services--redesigned .services__explain-price-note:empty {
-      display: none;
     }
 
     body[data-page-version="v3"] .services.services--redesigned .services__title {
@@ -860,6 +815,7 @@
          the intended height. */
       min-height: 377px !important;
       height: auto !important;
+      flex: 0 0 auto;
       display: grid;
       grid-template-columns: minmax(0, 570px) 246px;
       gap: clamp(40px, 8vw, 134px);
@@ -883,6 +839,31 @@
       border-color: rgba(255,255,255,.28);
       background: #0a0a0a;
       transform: translate3d(0, -2px, 0);
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service.service--bot {
+      --service-cta-fill: #009dff;
+      background: #041820;
+      border-color: #083244;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service__title-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 14px;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service__title-row .service__name {
+      width: auto;
+    }
+
+    body[data-page-version="v3"] .services.services--redesigned .service__badge {
+      padding: 5px 10px;
+      border-radius: 40px;
+      background: var(--service-cta-fill);
+      color: #0a0a0a;
+      font: 500 14px/1 'Geist', sans-serif;
     }
 
     body[data-page-version="v3"] .services.services--redesigned .service__main {
@@ -950,6 +931,7 @@
     body[data-page-version="v3"] .services.services--redesigned .service:hover .service__cta,
     body[data-page-version="v3"] .services.services--redesigned .service__cta:focus-visible {
       width: 286px;
+      max-width: 100%;
       height: 50px;
       display: inline-flex;
       align-items: center;
@@ -957,7 +939,7 @@
       padding: 16px 20px;
       margin: 0;
       border-radius: 20px;
-      background: var(--accent);
+      background: var(--service-cta-fill, var(--accent));
       color: #0a0a0a;
       font-family: 'Onest', sans-serif;
       font-size: 16px;
@@ -1013,18 +995,13 @@
       white-space: nowrap;
     }
 
-    body[data-page-version="v3"] .services.services--redesigned .service__pills,
-    body[data-page-version="v3"] .services.services--redesigned .service-toggle__panel {
+    body[data-page-version="v3"] .services.services--redesigned .service__pills {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: flex-start;
       gap: 10px;
       width: 100%;
-    }
-
-    body[data-page-version="v3"] .services.services--redesigned .service__pills--additional {
-      flex-direction: row;
     }
 
     body[data-page-version="v3"] .services.services--redesigned .service-pill {
@@ -1069,22 +1046,7 @@
       box-shadow: 0 6px 18px rgba(255, 255, 255, .12);
     }
 
-    body[data-page-version="v3"] .services.services--redesigned .service-pill--accent {
-      background: rgba(255,107,0,.1);
-      color: var(--accent);
-    }
-
-    /* Additional pill hover: solid accent fill + white text + subtle lift, per Figma 319-2307. */
-    body[data-page-version="v3"] .services.services--redesigned button.service-pill--accent:is(:hover, :focus-visible) {
-      background: var(--accent);
-      color: #0a0a0a;
-      font-weight: 500;
-      outline: none;
-      transform: translate3d(0, -1px, 0);
-      box-shadow: 0 6px 18px rgba(255, 107, 0, .25);
-    }
-
-    body[data-page-version="v3"] .services.services--redesigned .service__mobile-toggle {
+    body[data-page-version="v3"] .services.services--redesigned .service__mobile-details {
       display: none;
     }
 
@@ -1223,83 +1185,28 @@
         display: none;
       }
 
-      body[data-page-version="v3"] .services.services--redesigned .service__mobile-toggle {
+      body[data-page-version="v3"] .services.services--redesigned .service__mobile-details {
         width: 100%;
         min-height: 118px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: flex-start;
         gap: 10px;
         order: 2;
       }
 
-      body[data-page-version="v3"] .services.services--redesigned .service-toggle {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        min-height: 40px;
-        padding: 0;
-        border: 0;
-        background: transparent;
-        color: #fff;
-        font-family: 'Onest', sans-serif;
-        font-size: 20px;
-        font-weight: 400;
-        line-height: 1;
-        white-space: nowrap;
-        cursor: pointer;
+      body[data-page-version="v3"] .services.services--redesigned .service__mobile-details .service__detail-title {
+        font: 400 20px/1.15 'Onest', sans-serif;
+        text-align: center;
       }
 
-      body[data-page-version="v3"] .services.services--redesigned .service-toggle__icon {
-        width: 24px;
-        height: 24px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border: 0;
-        border-radius: 0;
-        color: #ffffff;
-        background: transparent;
-      }
-
-      body[data-page-version="v3"] .services.services--redesigned .service-toggle__icon svg {
-        width: 24px;
-        height: 24px;
-      }
-
-      /* FIXED panels area so the gap between the toggle row and the pills
-         never grows or shrinks when switching included ↔ additional.
-         Height is locked (not min-height) and pills are top-aligned. */
-      body[data-page-version="v3"] .services.services--redesigned .service-toggle__panels {
-        position: relative;
-        width: 100%;
-        height: 84px;
-        min-height: 84px;
-      }
-
-      body[data-page-version="v3"] .services.services--redesigned .service-toggle__panel {
-        position: absolute;
-        inset: 0;
+      body[data-page-version="v3"] .services.services--redesigned .service__mobile-details .service__pills {
         gap: 6px;
-        /* Override `align-items: center` from the base .service__pills rule
-           so pills sit at the top of the reserved area, not the middle. */
-        align-items: flex-start;
-        align-content: flex-start;
         justify-content: center;
-        opacity: 0;
-        transform: translate3d(0, 8px, 0);
-        pointer-events: none;
-        transition:
-          opacity .24s var(--ease-soft),
-          transform .34s cubic-bezier(.22, 1, .36, 1);
       }
 
-      body[data-page-version="v3"] .services.services--redesigned .service-toggle__panel.is-active {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-        pointer-events: auto;
+      body[data-page-version="v3"] .services.services--redesigned .service__title-row {
+        justify-content: center;
       }
 
       body[data-page-version="v3"] .services.services--redesigned .service-pill {
@@ -1326,7 +1233,7 @@
       body[data-page-version="v3"] .services.services--redesigned .service__cta:focus-visible {
         width: 100%;
         max-width: none;
-        background: var(--accent);
+        background: var(--service-cta-fill, var(--accent));
         border: 0;
         color: #0a0a0a;
       }
@@ -1429,8 +1336,7 @@
         line-height: 1.1;
       }
 
-      body[data-page-version="v3"] .services.services--redesigned .service__pills,
-      body[data-page-version="v3"] .services.services--redesigned .service-toggle__panel {
+      body[data-page-version="v3"] .services.services--redesigned .service__pills {
         gap: clamp(6px, 1cqw, 10px);
       }
 
@@ -1597,7 +1503,7 @@
     <section class="services services--redesigned" id="services">
       <div class="services__inner">
         <div class="services__grid">
-          <article class="service reveal" data-service-view="included">
+          <article class="service reveal">
             <div class="service__main">
               <div class="service__top">
                 <h3 class="service__name">Дизайн сайта</h3>
@@ -1608,47 +1514,29 @@
                 <a class="service__cta" href="https://t.me/levmich_studio_bot" target="_blank" rel="noopener">Начать бриф</a>
               </div>
             </div>
-            <div class="service__details" aria-label="Состав услуги">
+            <div class="service__details" aria-label="Service details">
               <div class="service__detail-group">
-                <h4 class="service__detail-title service__detail-title--included">В услугу входят:</h4>
-                <div class="service__pills service__pills--included" data-service-pills="included">
+                <h4 class="service__detail-title service__detail-title--included">Included:</h4>
+                <div class="service__pills service__pills--included">
                   <button class="service-pill service-pill--included" type="button" data-explain-key="prototype">Прототип</button>
                   <button class="service-pill service-pill--included" type="button" data-explain-key="adaptive">Адаптивы</button>
                   <button class="service-pill service-pill--included" type="button" data-explain-key="uikit">Ui-Kit</button>
                   <button class="service-pill service-pill--included" type="button" data-explain-key="design">Дизайн</button>
                 </div>
               </div>
-              <div class="service__detail-group">
-                <h4 class="service__detail-title service__detail-title--additional">Дополнительно:</h4>
-                <div class="service__pills service__pills--additional" data-service-pills="additional">
-                  <button class="service-pill service-pill--accent" type="button" data-explain-key="ai-image">ИИ изображение</button>
-                  <button class="service-pill service-pill--accent" type="button" data-explain-key="layout">Вёрстка</button>
-                </div>
-              </div>
             </div>
-            <div class="service__mobile-toggle">
-              <button class="service-toggle" type="button" aria-label="Переключить состав услуги">
-                <span class="service-toggle__icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 8.2a6 6 0 0 1 9.7-1.1l1.6 1.6M16.8 15.8a6 6 0 0 1-9.7 1.1l-1.6-1.6M18.5 4.8v3.9h-3.9M5.5 19.2v-3.9h3.9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </span>
-                <span class="service-toggle__label">В стоимость входят:</span>
-              </button>
-              <div class="service-toggle__panels">
-                <div class="service-toggle__panel is-active" data-toggle-panel="included">
-                  <span class="service-pill">Прототип</span>
-                  <span class="service-pill">Дизайн</span>
-                  <span class="service-pill">Адаптивы</span>
-                  <span class="service-pill">Ui-Kit</span>
-                </div>
-                <div class="service-toggle__panel" data-toggle-panel="additional">
-                  <span class="service-pill service-pill--accent">ИИ изображение</span>
-                  <span class="service-pill service-pill--accent">Вёрстка</span>
-                </div>
+            <div class="service__mobile-details">
+              <h4 class="service__detail-title service__detail-title--included">Included:</h4>
+              <div class="service__pills service__pills--included">
+                <span class="service-pill">Прототип</span>
+                <span class="service-pill">Дизайн</span>
+                <span class="service-pill">Адаптивы</span>
+                <span class="service-pill">Ui-Kit</span>
               </div>
             </div>
           </article>
 
-          <article class="service reveal" data-service-view="included">
+          <article class="service reveal">
             <div class="service__main">
               <div class="service__top">
                 <h3 class="service__name">Брендинг</h3>
@@ -1659,45 +1547,27 @@
                 <a class="service__cta" href="https://t.me/levmich_studio_bot" target="_blank" rel="noopener">Начать бриф</a>
               </div>
             </div>
-            <div class="service__details" aria-label="Состав услуги">
+            <div class="service__details" aria-label="Service details">
               <div class="service__detail-group">
-                <h4 class="service__detail-title service__detail-title--included">В услугу входят:</h4>
-                <div class="service__pills service__pills--included" data-service-pills="included">
+                <h4 class="service__detail-title service__detail-title--included">Included:</h4>
+                <div class="service__pills service__pills--included">
                   <button class="service-pill service-pill--included" type="button" data-explain-key="logo">Логотип</button>
                   <button class="service-pill service-pill--included" type="button" data-explain-key="identity">Фирменный стиль</button>
                   <button class="service-pill service-pill--included" type="button" data-explain-key="guideline">Гайдлайн</button>
                 </div>
               </div>
-              <div class="service__detail-group">
-                <h4 class="service__detail-title service__detail-title--additional">Дополнительно:</h4>
-                <div class="service__pills service__pills--additional" data-service-pills="additional">
-                  <button class="service-pill service-pill--accent" type="button" data-explain-key="social">Оформление соцсетей</button>
-                  <button class="service-pill service-pill--accent" type="button" data-explain-key="brandbook">Брендбук</button>
-                </div>
-              </div>
             </div>
-            <div class="service__mobile-toggle">
-              <button class="service-toggle" type="button" aria-label="Переключить состав услуги">
-                <span class="service-toggle__icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 8.2a6 6 0 0 1 9.7-1.1l1.6 1.6M16.8 15.8a6 6 0 0 1-9.7 1.1l-1.6-1.6M18.5 4.8v3.9h-3.9M5.5 19.2v-3.9h3.9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </span>
-                <span class="service-toggle__label">Дополнительно:</span>
-              </button>
-              <div class="service-toggle__panels">
-                <div class="service-toggle__panel is-active" data-toggle-panel="included">
-                  <span class="service-pill">Логотип</span>
-                  <span class="service-pill">Фирменный стиль</span>
-                  <span class="service-pill">Гайдлайн</span>
-                </div>
-                <div class="service-toggle__panel" data-toggle-panel="additional">
-                  <span class="service-pill service-pill--accent">Оформление соцсетей</span>
-                  <span class="service-pill service-pill--accent">Брендбук</span>
-                </div>
+            <div class="service__mobile-details">
+              <h4 class="service__detail-title service__detail-title--included">Included:</h4>
+              <div class="service__pills service__pills--included">
+                <span class="service-pill">Логотип</span>
+                <span class="service-pill">Фирменный стиль</span>
+                <span class="service-pill">Гайдлайн</span>
               </div>
             </div>
           </article>
 
-          <article class="service reveal" data-service-view="included">
+          <article class="service reveal">
             <div class="service__main">
               <div class="service__top">
                 <h3 class="service__name">Дизайн приложений</h3>
@@ -1708,40 +1578,94 @@
                 <a class="service__cta" href="https://t.me/levmich_studio_bot" target="_blank" rel="noopener">Начать бриф</a>
               </div>
             </div>
-            <div class="service__details" aria-label="Состав услуги">
+            <div class="service__details" aria-label="Service details">
               <div class="service__detail-group">
-                <h4 class="service__detail-title service__detail-title--included">В услугу входят:</h4>
-                <div class="service__pills service__pills--included" data-service-pills="included">
+                <h4 class="service__detail-title service__detail-title--included">Included:</h4>
+                <div class="service__pills service__pills--included">
                   <button class="service-pill service-pill--included" type="button" data-explain-key="userflow">Пользовательский сценарий</button>
                   <button class="service-pill service-pill--included" type="button" data-explain-key="design">Дизайн</button>
                   <button class="service-pill service-pill--included" type="button" data-explain-key="prototype">Прототип</button>
                   <button class="service-pill service-pill--included" type="button" data-explain-key="uikit">Ui-Kit</button>
                 </div>
               </div>
+            </div>
+            <div class="service__mobile-details">
+              <h4 class="service__detail-title service__detail-title--included">Included:</h4>
+              <div class="service__pills service__pills--included">
+                <span class="service-pill">Пользовательский сценарий</span>
+                <span class="service-pill">Дизайн</span>
+                <span class="service-pill">Прототип</span>
+                <span class="service-pill">Ui-Kit</span>
+              </div>
+            </div>
+          </article>
+          <article class="service reveal">
+            <div class="service__main">
+              <div class="service__top">
+                <h3 class="service__name">Vibe Landing Page</h3>
+                <p class="service__desc">Launch a service, product or idea with a site built quickly using vibe coding and modern AI tools. I tailor the design to your needs. The starting price covers one page with a contact form.</p>
+              </div>
+              <div class="service__bottom">
+                <p class="service__price">from 5,000 ₽</p>
+                <a class="service__cta" href="https://t.me/levmich_studio_bot" target="_blank" rel="noopener">Start brief</a>
+              </div>
+            </div>
+            <div class="service__details" aria-label="Service details">
               <div class="service__detail-group">
-                <h4 class="service__detail-title service__detail-title--additional">Дополнительно:</h4>
-                <div class="service__pills service__pills--additional" data-service-pills="additional">
-                  <button class="service-pill service-pill--accent" type="button" data-explain-key="ai-image">ИИ изображение</button>
+                <h4 class="service__detail-title service__detail-title--included">Included:</h4>
+                <div class="service__pills service__pills--included">
+                  <button class="service-pill service-pill--included" type="button" data-explain-key="single-page">One page</button>
+                  <button class="service-pill service-pill--included" type="button" data-explain-key="responsive-site">Responsive site</button>
+                  <button class="service-pill service-pill--included" type="button" data-explain-key="lead-form">Contact form</button>
+                  <button class="service-pill service-pill--included" type="button" data-explain-key="publishing">Publishing</button>
                 </div>
               </div>
             </div>
-            <div class="service__mobile-toggle">
-              <button class="service-toggle" type="button" aria-label="Переключить состав услуги">
-                <span class="service-toggle__icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 8.2a6 6 0 0 1 9.7-1.1l1.6 1.6M16.8 15.8a6 6 0 0 1-9.7 1.1l-1.6-1.6M18.5 4.8v3.9h-3.9M5.5 19.2v-3.9h3.9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </span>
-                <span class="service-toggle__label">Дополнительно:</span>
-              </button>
-              <div class="service-toggle__panels">
-                <div class="service-toggle__panel is-active" data-toggle-panel="included">
-                  <span class="service-pill">Пользовательский сценарий</span>
-                  <span class="service-pill">Дизайн</span>
-                  <span class="service-pill">Прототип</span>
-                  <span class="service-pill">Ui-Kit</span>
+            <div class="service__mobile-details">
+              <h4 class="service__detail-title service__detail-title--included">Included:</h4>
+              <div class="service__pills service__pills--included">
+                <span class="service-pill service-pill--included">One page</span>
+                <span class="service-pill service-pill--included">Responsive site</span>
+                <span class="service-pill service-pill--included">Contact form</span>
+                <span class="service-pill service-pill--included">Publishing</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="service reveal service--bot">
+            <div class="service__main">
+              <div class="service__top">
+                <div class="service__title-row">
+                  <h3 class="service__name">Bot on Call</h3>
+                  <span class="service__badge">NEW</span>
                 </div>
-                <div class="service-toggle__panel" data-toggle-panel="additional">
-                  <span class="service-pill service-pill--accent">ИИ изображение</span>
+                <p class="service__desc">I use vibe coding to build a bot for Telegram, VK or any other social platform that supports bots. It can answer common questions, collect inquiries and notify you about new requests.</p>
+              </div>
+              <div class="service__bottom">
+                <p class="service__price">from 10,000 ₽</p>
+                <a class="service__cta" href="https://t.me/levmich_studio_bot" target="_blank" rel="noopener">Start brief</a>
+              </div>
+            </div>
+            <div class="service__details" aria-label="Service details">
+              <div class="service__detail-group">
+                <h4 class="service__detail-title service__detail-title--included">Included:</h4>
+                <div class="service__pills service__pills--included">
+                  <button class="service-pill service-pill--included" type="button" data-explain-key="bot-flow">Bot flow</button>
+                  <button class="service-pill service-pill--included" type="button" data-explain-key="bot-buttons">Commands and buttons</button>
+                  <button class="service-pill service-pill--included" type="button" data-explain-key="bot-leads">Lead collection</button>
+                  <button class="service-pill service-pill--included" type="button" data-explain-key="bot-alerts">Notifications</button>
+                  <button class="service-pill service-pill--included" type="button" data-explain-key="bot-launch">Bot launch</button>
                 </div>
+              </div>
+            </div>
+            <div class="service__mobile-details">
+              <h4 class="service__detail-title service__detail-title--included">Included:</h4>
+              <div class="service__pills service__pills--included">
+                <span class="service-pill service-pill--included">Bot flow</span>
+                <span class="service-pill service-pill--included">Commands and buttons</span>
+                <span class="service-pill service-pill--included">Lead collection</span>
+                <span class="service-pill service-pill--included">Notifications</span>
+                <span class="service-pill service-pill--included">Bot launch</span>
               </div>
             </div>
           </article>
@@ -1766,10 +1690,6 @@
           <div class="services__explain is-visible" aria-live="polite">
             <strong class="services__explain-title">Что входит в услугу?</strong>
             <p class="services__explain-text">Наведите курсор на плашку и в этом окне появится пояснение к компоненту услуги</p>
-            <div class="services__explain-price" aria-hidden="true">
-              <span class="services__explain-price-amount"></span>
-              <span class="services__explain-price-note"></span>
-            </div>
           </div>
         </header>
       </div>
@@ -2020,7 +1940,7 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
   <script src="Assets/scripts/generated-cases.js?v=4" defer></script>
-  <script src="Assets/scripts/main-v2.js?v=110" defer></script>
+  <script src="Assets/scripts/main-v2.js?v=111" defer></script>
 
   <script>
   /* ═══════════════════════════════════════════════════
@@ -2924,19 +2844,6 @@
   (function() {
     'use strict';
 
-    var labels = {
-      ru: {
-        included: 'В стоимость входят:',
-        additional: 'Дополнительно:',
-        aria: 'Переключить состав услуги'
-      },
-      en: {
-        included: 'Included:',
-        additional: 'Additional:',
-        aria: 'Switch service details'
-      }
-    };
-
     var explanations = {
       ru: {
         prototype: {
@@ -2971,27 +2878,41 @@
           title: 'Пользовательский сценарий',
           text: 'Пользовательский сценарий — это путь человека внутри продукта: что он видит, куда нажимает и как приходит к нужному действию.'
         },
-        'ai-image': {
-          title: 'ИИ изображение',
-          text: 'Генерация или доработка изображения с помощью ИИ под стиль проекта. Подходит для обложек, карточек, визуалов и презентаций.',
-          price: '+500 ₽ к общей цене',
-          priceNote: '*Цена за 1 изображение'
+        'single-page': {
+          title: 'Одна страница',
+          text: 'Опубликованная страница для вашей услуги, продукта или идеи.'
         },
-        layout: {
-          title: 'Вёрстка',
-          text: 'Перенос готового дизайна в работающую веб-страницу с адаптивом и базовой настройкой поведения.',
-          price: '+10.000 ₽ к общей цене',
-          priceNote: '*Цена за 1 страницу'
+        'responsive-site': {
+          title: 'Адаптивный сайт',
+          text: 'Страница подстраивается под размер экрана телефона, планшета или компьютера.'
         },
-        brandbook: {
-          title: 'Брендбук',
-          text: 'Подробный гайд со всеми правилами использования фирстиля: логотип, шрифты, цвета, примеры на носителях и в соцсетях.',
-          price: '+15.000 ₽ к общей цене'
+        'lead-form': {
+          title: 'Форма заявки',
+          text: 'Посетители смогут оставить контакт и отправить заявку прямо с сайта.'
         },
-        social: {
-          title: 'Оформление соцсетей',
-          text: 'Визуальные шаблоны и оформление профиля, чтобы бренд выглядел цельно в соцсетях.',
-          price: '+8.000 ₽ к общей цене'
+        'publishing': {
+          title: 'Публикация',
+          text: 'Настрою публикацию и проверю, что страница открывается, а форма принимает заявки.'
+        },
+        'bot-flow': {
+          title: 'Сценарий бота',
+          text: 'Продумываю, какие вопросы бот задаёт и как ведёт человека к нужному действию.'
+        },
+        'bot-buttons': {
+          title: 'Команды и кнопки',
+          text: 'Настраиваю меню, команды и кнопки под задачи бота.'
+        },
+        'bot-leads': {
+          title: 'Сбор заявок',
+          text: 'Бот запрашивает нужные данные и собирает обращения по заданному сценарию.'
+        },
+        'bot-alerts': {
+          title: 'Уведомления',
+          text: 'Настраиваю уведомления о новых заявках, чтобы вы могли вовремя ответить.'
+        },
+        'bot-launch': {
+          title: 'Запуск бота',
+          text: 'Подключаю бота на выбранной платформе и проверяю его сценарии перед запуском.'
         }
       },
       en: {
@@ -3027,27 +2948,41 @@
           title: 'User flow',
           text: 'A user flow is the path a person takes inside the product: what they see, where they tap and how they reach the target action.'
         },
-        'ai-image': {
-          title: 'AI image',
-          text: 'Generating or refining an image with AI to match the project style. Useful for covers, cards, visuals and presentations.',
-          price: '+$6 to the total',
-          priceNote: '*Price per image'
+        'single-page': {
+          title: 'One page',
+          text: 'A published page for your service, product or idea.'
         },
-        layout: {
-          title: 'Coding',
-          text: 'Turning the approved design into a working responsive web page with basic interaction setup.',
-          price: '+$125 to the total',
-          priceNote: '*Price per page'
+        'responsive-site': {
+          title: 'Responsive site',
+          text: 'The page adapts to phone, tablet and desktop screens.'
         },
-        brandbook: {
-          title: 'Brand book',
-          text: 'A detailed guide with all the rules for using the identity: logo, fonts, colors and examples across touchpoints and social.',
-          price: '+$188 to the total'
+        'lead-form': {
+          title: 'Contact form',
+          text: 'Visitors can leave their contact details and send an inquiry from the site.'
         },
-        social: {
-          title: 'Social media kit',
-          text: 'Visual templates and profile styling so the brand looks consistent across social media.',
-          price: '+$100 to the total'
+        'publishing': {
+          title: 'Publishing',
+          text: 'I publish the page and check that the site loads and the form accepts inquiries.'
+        },
+        'bot-flow': {
+          title: 'Bot flow',
+          text: 'I plan the questions and how the bot guides people to the intended action.'
+        },
+        'bot-buttons': {
+          title: 'Commands and buttons',
+          text: 'I set up menus, commands and buttons for the bot’s tasks.'
+        },
+        'bot-leads': {
+          title: 'Lead collection',
+          text: 'The bot asks for the necessary details and collects inquiries using the agreed flow.'
+        },
+        'bot-alerts': {
+          title: 'Notifications',
+          text: 'I set up alerts for new inquiries so you can respond promptly.'
+        },
+        'bot-launch': {
+          title: 'Bot launch',
+          text: 'I connect the bot to the chosen platform and test its flows before launch.'
         }
       }
     };
@@ -3062,16 +2997,11 @@
       var panel = section.querySelector('.services__explain');
       var title = section.querySelector('.services__explain-title');
       var text = section.querySelector('.services__explain-text');
-      var priceAmount = section.querySelector('.services__explain-price-amount');
-      var priceNote = section.querySelector('.services__explain-price-note');
-      var priceBox = section.querySelector('.services__explain-price');
-      // Both Included AND Additional pills feed the explain panel.
-      var pills = section.querySelectorAll('.service__pills--included .service-pill[data-explain-key], .service__pills--additional .service-pill[data-explain-key]');
+      var pills = section.querySelectorAll('.service__details .service-pill[data-explain-key]');
       if (!panel || !title || !text || !pills.length) return;
 
       section.dataset.explainBound = 'true';
       var activeKey = '';
-      var activeKind = '';
       var hideTimer = 0;
       var changeTimer = 0;
       var heightTimer = 0;
@@ -3140,15 +3070,11 @@
       function setDefault() {
         window.clearTimeout(changeTimer);
         activeKey = '';
-        activeKind = '';
         var data = defaultCopy();
         mutatePanel(function() {
           title.textContent = data.title;
           text.textContent = data.text;
-          if (priceAmount) priceAmount.textContent = '';
-          if (priceNote) priceNote.textContent = '';
-          if (priceBox) priceBox.setAttribute('aria-hidden', 'true');
-          panel.classList.remove('is-additional', 'has-price', 'is-changing');
+          panel.classList.remove('is-changing');
           panel.classList.toggle('is-visible', !mobileMQ.matches);
         }, !hasMeasuredHeight);
       }
@@ -3158,35 +3084,19 @@
         setDefault();
       }
 
-      function show(key, kind) {
+      function show(key) {
         if (mobileMQ.matches) return hide();
         var data = explanations[currentLang()][key];
         if (!data) return hide();
         window.clearTimeout(hideTimer);
         window.clearTimeout(changeTimer);
-        var nextKind = kind || 'included';
-        var sameContent = activeKey === key && activeKind === nextKind;
+        var sameContent = activeKey === key;
 
         function render() {
           mutatePanel(function() {
             activeKey = key;
-            activeKind = nextKind;
             title.textContent = data.title;
             text.textContent = data.text;
-            // The price card lives inside the panel; toggle it via `has-price`
-            // so only Additional items reveal the orange price box.
-            if (data.price && priceAmount && priceNote) {
-              priceAmount.textContent = data.price;
-              priceNote.textContent = data.priceNote || '';
-              if (priceBox) priceBox.setAttribute('aria-hidden', 'false');
-              panel.classList.add('has-price');
-            } else {
-              if (priceAmount) priceAmount.textContent = '';
-              if (priceNote) priceNote.textContent = '';
-              if (priceBox) priceBox.setAttribute('aria-hidden', 'true');
-              panel.classList.remove('has-price');
-            }
-            panel.classList.toggle('is-additional', activeKind === 'additional');
             panel.classList.add('is-visible');
           }, false);
         }
@@ -3206,9 +3116,8 @@
       }
 
       pills.forEach(function(pill) {
-        var kind = pill.classList.contains('service-pill--accent') ? 'additional' : 'included';
-        pill.addEventListener('mouseenter', function() { show(pill.dataset.explainKey, kind); });
-        pill.addEventListener('focus', function() { show(pill.dataset.explainKey, kind); });
+        pill.addEventListener('mouseenter', function() { show(pill.dataset.explainKey); });
+        pill.addEventListener('focus', function() { show(pill.dataset.explainKey); });
         pill.addEventListener('mouseleave', function() {
           window.clearTimeout(hideTimer);
           hideTimer = window.setTimeout(hide, 90);
@@ -3224,54 +3133,18 @@
       });
 
       new MutationObserver(function() {
-        if (activeKey) show(activeKey, activeKind);
+        if (activeKey) show(activeKey);
         else setDefault();
       }).observe(document.body, { attributes: true, attributeFilter: ['data-lang'] });
 
       setDefault();
     }
 
-    function syncServiceToggle(card) {
-      var lang = currentLang();
-      var view = card.getAttribute('data-service-view') === 'additional' ? 'additional' : 'included';
-      var button = card.querySelector('.service-toggle');
-      var label = card.querySelector('.service-toggle__label');
-      var panels = card.querySelectorAll('.service-toggle__panel');
-
-      if (button) {
-        button.setAttribute('aria-label', labels[lang].aria);
-        button.setAttribute('aria-pressed', String(view === 'additional'));
-      }
-      if (label) label.textContent = labels[lang][view];
-      panels.forEach(function(panel) {
-        panel.classList.toggle('is-active', panel.getAttribute('data-toggle-panel') === view);
-      });
-    }
-
-    function initServiceToggles() {
-      document.querySelectorAll('.services--redesigned .service').forEach(function(card) {
-        syncServiceToggle(card);
-        var button = card.querySelector('.service-toggle');
-        if (!button || button.dataset.bound === 'true') return;
-        button.dataset.bound = 'true';
-        button.addEventListener('click', function() {
-          var current = card.getAttribute('data-service-view') === 'additional' ? 'additional' : 'included';
-          card.setAttribute('data-service-view', current === 'included' ? 'additional' : 'included');
-          syncServiceToggle(card);
-        });
-      });
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initServicesExplain, { once: true });
+    } else {
       initServicesExplain();
     }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initServiceToggles, { once: true });
-    } else {
-      initServiceToggles();
-    }
-
-    new MutationObserver(function() {
-      document.querySelectorAll('.services--redesigned .service').forEach(syncServiceToggle);
-    }).observe(document.body, { attributes: true, attributeFilter: ['data-lang'] });
   })();
   </script>
 

@@ -867,19 +867,21 @@
           infoLabel: 'Инфо',
           notice: 'Нажимая кнопку «Начать бриф», вы даёте согласие с пользовательским соглашением и политикой конфиденциальности.',
           includedTitle: 'В услугу входят:',
-          mobileIncludedTitle: 'В стоимость входят:',
-          additionalTitle: 'Дополнительно:',
-          names: ['Дизайн сайта', 'Брендинг', 'Дизайн приложений'],
+          names: ['Дизайн сайта', 'Брендинг', 'Дизайн приложений', 'Вайб-лендинг', 'Бот на связи'],
           descs: [
             'Сайт, который не просто красиво выглядит, а приводит клиентов. Продумываю структуру, поведение пользователя — чтобы посетитель за 30 секунд понял, чем вы можете быть ему полезны, и оставил контакт.',
             'Не только логотип. Целостная визуальная система: знак, шрифт, цвета, паттерны — и применение во всех точках контакта. Чтобы бренд узнавался без подписи.',
             'Интерфейс, в котором пользователь не теряется. Проектирую путь от первого экрана до целевого действия так, чтобы каждый шаг был очевиден. Ваше приложение получает не просто красивые экраны, а продуманную логику взаимодействия.',
+            'Быстро соберу сайт для запуска услуги, продукта или идеи. С помощью вайб-кодинга и современных нейросетей подстрою дизайн под ваши пожелания. Стартовая цена — за одну страницу с формой заявки.',
+            'Создам бота с помощью вайб-кодинга для Telegram, ВКонтакте или другой соцсети с поддержкой ботов. Он сможет отвечать на частые вопросы, собирать заявки и уведомлять вас о новых обращениях.',
           ],
-          prices: ['от 23.000 ₽', 'от 25.000 ₽', 'от 41.000 ₽'],
+          prices: ['от 23.000 ₽', 'от 25.000 ₽', 'от 41.000 ₽', 'от 5 000 ₽', 'от 10 000 ₽'],
           details: [
-            { included: ['Прототип', 'Адаптивы', 'Ui-Kit', 'Дизайн'], additional: ['ИИ изображение', 'Вёрстка'] },
-            { included: ['Логотип', 'Фирменный стиль', 'Гайдлайн'], additional: ['Оформление соцсетей', 'Брендбук'] },
-            { included: ['Пользовательский сценарий', 'Дизайн', 'Прототип', 'Ui-Kit'], additional: ['ИИ изображение'] },
+            ['Прототип', 'Адаптивы', 'Ui-Kit', 'Дизайн'],
+            ['Логотип', 'Фирменный стиль', 'Гайдлайн'],
+            ['Пользовательский сценарий', 'Дизайн', 'Прототип', 'Ui-Kit'],
+            ['Одна страница', 'Адаптивный сайт', 'Форма заявки', 'Публикация'],
+            ['Сценарий бота', 'Команды и кнопки', 'Сбор заявок', 'Уведомления', 'Запуск бота'],
           ],
           cta: 'Начать бриф',
         },
@@ -1025,19 +1027,21 @@
           infoLabel: 'Info',
           notice: 'By clicking the "Start brief" button you agree with the User Agreement and the Privacy Policy.',
           includedTitle: 'Included:',
-          mobileIncludedTitle: 'Included:',
-          additionalTitle: 'Additional:',
-          names: ['Website design', 'Branding', 'App design'],
+          names: ['Website design', 'Branding', 'App design', 'Vibe Landing Page', 'Bot on Call'],
           descs: [
             'A website that does more than look good: it brings in clients. I think through structure, copy, navigation cues and user behavior so visitors understand your value in 30 seconds and leave a contact.',
             'Not just a logo. A complete visual system: mark, type, colors, patterns and their use across every touchpoint. So the brand is recognized without a caption.',
             'An interface where the user never gets lost. I design the path from the first screen to the target action so every step feels obvious. Your app gets not just beautiful screens, but thoughtful interaction logic.',
+            'Launch a service, product or idea with a site built quickly using vibe coding and modern AI tools. I tailor the design to your needs. The starting price covers one page with a contact form.',
+            'I use vibe coding to build a bot for Telegram, VK or any other social platform that supports bots. It can answer common questions, collect inquiries and notify you about new requests.',
           ],
-          prices: ['from $287.50', 'from $312.50', 'from $512.50'],
+          prices: ['from $287.50', 'from $312.50', 'from $512.50', 'from 5,000 ₽', 'from 10,000 ₽'],
           details: [
-            { included: ['Prototype', 'Responsive layouts', 'Ui-Kit', 'Design'], additional: ['AI image', 'Development'] },
-            { included: ['Logo', 'Visual identity', 'Guideline'], additional: ['Social media design', 'Brandbook'] },
-            { included: ['User flow', 'Design', 'Prototype', 'Ui-Kit'], additional: ['AI image'] },
+            ['Prototype', 'Responsive layouts', 'Ui-Kit', 'Design'],
+            ['Logo', 'Visual identity', 'Guideline'],
+            ['User flow', 'Design', 'Prototype', 'Ui-Kit'],
+            ['One page', 'Responsive site', 'Contact form', 'Publishing'],
+            ['Bot flow', 'Commands and buttons', 'Lead collection', 'Notifications', 'Bot launch'],
           ],
           cta: 'Start brief',
         },
@@ -1451,19 +1455,14 @@
       $$('.service__note').forEach(el => { el.textContent = d.services.notice; });
       $$('.service__cta').forEach(el => { el.textContent = d.services.cta; });
       $$('.service__detail-title--included').forEach(el => { el.textContent = d.services.includedTitle; });
-      $$('.service__detail-title--additional').forEach(el => { el.textContent = d.services.additionalTitle; });
       $$('.services--redesigned .service').forEach((service, i) => {
-        const detail = d.services.details?.[i];
-        if (!detail) return;
-        const setScopedTexts = (selector, values) => {
-          Array.from(service.querySelectorAll(selector)).forEach((el, j) => {
-            if (values[j] !== undefined) el.textContent = values[j];
+        const included = d.services.details[i];
+        if (!included) return;
+        service.querySelectorAll('.service__pills--included').forEach(pills => {
+          pills.querySelectorAll('.service-pill').forEach((pill, j) => {
+            if (included[j] !== undefined) pill.textContent = included[j];
           });
-        };
-        setScopedTexts('.service__pills--included .service-pill', detail.included);
-        setScopedTexts('.service__pills--additional .service-pill', detail.additional);
-        setScopedTexts('.service-toggle__panel[data-toggle-panel="included"] .service-pill', detail.included);
-        setScopedTexts('.service-toggle__panel[data-toggle-panel="additional"] .service-pill', detail.additional);
+        });
       });
 
       setText('.portfolio__title', d.portfolio.title);
