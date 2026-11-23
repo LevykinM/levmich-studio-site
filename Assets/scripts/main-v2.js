@@ -867,7 +867,7 @@
           infoLabel: 'Инфо',
           notice: 'Нажимая кнопку «Начать бриф», вы даёте согласие с пользовательским соглашением и политикой конфиденциальности.',
           includedTitle: 'В услугу входят:',
-          names: ['Дизайн сайта', 'Брендинг', 'Дизайн приложений', 'Вайб-лендинг', 'Бот на связи'],
+          names: ['Дизайн сайта', 'Брендинг', 'Дизайн приложений', 'Вайб-сайт', 'Бот'],
           descs: [
             'Сайт, который не просто красиво выглядит, а приводит клиентов. Продумываю структуру, поведение пользователя — чтобы посетитель за 30 секунд понял, чем вы можете быть ему полезны, и оставил контакт.',
             'Не только логотип. Целостная визуальная система: знак, шрифт, цвета, паттерны — и применение во всех точках контакта. Чтобы бренд узнавался без подписи.',
@@ -1027,7 +1027,7 @@
           infoLabel: 'Info',
           notice: 'By clicking the "Start brief" button you agree with the User Agreement and the Privacy Policy.',
           includedTitle: 'Included:',
-          names: ['Website design', 'Branding', 'App design', 'Vibe Landing Page', 'Bot on Call'],
+          names: ['Website design', 'Branding', 'App design', 'Vibe Website', 'Bot'],
           descs: [
             'A website that does more than look good: it brings in clients. I think through structure, copy, navigation cues and user behavior so visitors understand your value in 30 seconds and leave a contact.',
             'Not just a logo. A complete visual system: mark, type, colors, patterns and their use across every touchpoint. So the brand is recognized without a caption.',
