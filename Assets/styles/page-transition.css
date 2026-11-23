@@ -1,0 +1,29 @@
+@media (prefers-reduced-motion: no-preference) {
+  html[data-page-transition]::after {
+    content: '';
+    position: fixed;
+    z-index: 200000;
+    inset: 0;
+    background: #020202;
+    pointer-events: none;
+  }
+
+  html[data-page-transition='cover']::after {
+    animation: site-cover .25s ease-in both;
+    pointer-events: auto;
+  }
+
+  html[data-page-transition='reveal']::after {
+    animation: site-reveal .52s cubic-bezier(.22, .61, .36, 1) both;
+  }
+
+  @keyframes site-cover {
+    from { opacity: 0; backdrop-filter: blur(0); }
+    to { opacity: 1; backdrop-filter: blur(7px); }
+  }
+
+  @keyframes site-reveal {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+}

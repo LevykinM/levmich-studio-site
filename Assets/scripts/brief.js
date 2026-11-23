@@ -38,8 +38,9 @@
       detailsLabel: '3. Tell me about your project',
       detailsPrompt: 'For example, I need a website for a coffee shop. I already have a logo or photos…',
       optional: 'Optional', send: 'Send brief',
-      successTitle: 'Your brief is on its way!',
+      successTitle: 'Awesome! Your brief has been sent',
       successCopy: 'Thanks for reaching out to Levmich Studio. I’ll review your brief and get in touch using the contact details you provided.',
+      successNext: 'We’ll discuss your project, clarify the details and decide where to start.',
       back: 'Back to the homepage', consult: 'Have a question?',
       consultCopy: 'Tell me a little about your project and I’ll get in touch.', consultButton: 'Fill out the brief',
       navigation: 'Navigation', about: 'About me', services: 'Services', process: 'How I work', cases: 'Cases', media: 'Socials',
@@ -51,6 +52,9 @@
     document.querySelectorAll('[data-copy]').forEach(node => {
       const translation = copy[node.dataset.copy];
       if (translation) node.textContent = translation;
+    });
+    form.querySelectorAll('[data-placeholder]').forEach(node => {
+      node.placeholder = copy[node.dataset.placeholder];
     });
     document.querySelectorAll('[data-home]').forEach(link => { link.pathname = '/en/main/'; });
     document.querySelectorAll('[data-info]').forEach(link => { link.pathname = '/en/info/'; });
@@ -138,13 +142,19 @@
       const result = await response.json();
       if (!response.ok || result.ok !== true) throw new Error('Brief delivery failed');
 
-      document.querySelector('.brief__content').hidden = true;
-      document.querySelector('.brief').classList.add('is-complete');
-      document.querySelector('.footer').hidden = true;
-      success.hidden = false;
-      success.querySelector('h1').focus({ preventScroll: true });
-      window.scrollTo(0, 0);
-      form.reset();
+      const showSuccess = () => {
+        document.querySelector('.brief__content').hidden = true;
+        document.querySelector('.brief').classList.add('is-complete');
+        document.documentElement.classList.add('brief-complete');
+        document.querySelector('.footer').hidden = true;
+        success.hidden = false;
+        document.title = english ? 'Brief sent | Levmich Studio' : 'Заявка отправлена | Levmich Studio';
+        success.querySelector('h1').focus({ preventScroll: true });
+        window.scrollTo(0, 0);
+        form.reset();
+      };
+      if (window.levmichPageTransition) await window.levmichPageTransition.swap(showSuccess);
+      else showSuccess();
     } catch (_) {
       showStatus(messages.failed);
     } finally {

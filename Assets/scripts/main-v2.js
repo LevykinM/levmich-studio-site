@@ -12,6 +12,10 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isPortrait = () => window.innerWidth < window.innerHeight;
   const langCodes = new Set(['ru', 'en']);
+  const navigate = href => {
+    if (window.levmichPageTransition) window.levmichPageTransition.navigate(href);
+    else window.location.assign(href);
+  };
 
   const pathSegments = (path = window.location.pathname) => path.split('/').filter(Boolean);
   const routeLangFromPath = (path = window.location.pathname) => {
@@ -1559,7 +1563,7 @@
       try {
         localStorage.setItem(storageKey, nextLang);
       } catch (_) {}
-      window.location.assign(`${langRoute(pageRoute(), nextLang)}${searchWithoutLang()}${window.location.hash || ''}`);
+      navigate(`${langRoute(pageRoute(), nextLang)}${searchWithoutLang()}${window.location.hash || ''}`);
     });
   }
 
@@ -1965,9 +1969,9 @@
       card.style.cursor = 'pointer';
       card.addEventListener('click', (e) => {
         // Respect modifier / middle clicks (open in new tab, etc.).
-        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+        if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
         e.preventDefault();
-        window.location.href = href;
+        navigate(href);
       });
     });
   }
@@ -2687,7 +2691,9 @@
           return;
         }
         const href = card.dataset.href;
-        if (href) window.location.href = new URL(href, document.baseURI).href;
+        if (!href || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+        e.preventDefault();
+        navigate(new URL(href, document.baseURI).href);
       });
     });
 

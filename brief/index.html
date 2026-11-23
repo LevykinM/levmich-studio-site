@@ -8,8 +8,10 @@
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" />
   <link rel="stylesheet" href="/Assets/styles/style.css?v=173" />
-  <link rel="stylesheet" href="/Assets/styles/brief.css" />
-  <script src="/Assets/scripts/brief.js" defer></script>
+  <link rel="stylesheet" href="/Assets/styles/brief.css?v=2" />
+  <script src="/Assets/scripts/brief.js?v=2" defer></script>
+  <link rel="stylesheet" href="/Assets/styles/page-transition.css" />
+  <script src="/Assets/scripts/page-transition.js"></script>
 </head>
 <body class="brief-page">
   <main class="brief" id="brief">
@@ -35,8 +37,7 @@
         <div class="brief__section">
           <label class="brief__label" for="contact" data-copy="contactLabel">2. Как с вами связаться?</label>
           <div class="brief__field">
-            <input id="contact" name="contact" type="text" placeholder=" " required maxlength="240" aria-describedby="contact-hint" autocapitalize="off" spellcheck="false" />
-            <span class="brief__prompt" aria-hidden="true" data-copy="contactPrompt">Telegram, VK, email, телефон</span>
+            <input id="contact" name="contact" type="text" placeholder="Telegram, VK, email, телефон" data-placeholder="contactPrompt" required maxlength="240" aria-describedby="contact-hint" autocapitalize="off" spellcheck="false" />
           </div>
           <p class="brief__hint" id="contact-hint" data-copy="contactHint">Только для связи по проекту</p>
           <p class="brief__hint brief__error" id="contact-error" aria-live="polite" hidden></p>
@@ -45,8 +46,7 @@
         <div class="brief__section">
           <label class="brief__label" for="details" data-copy="detailsLabel">3. Расскажите о задаче</label>
           <div class="brief__field brief__field--details">
-            <textarea id="details" name="details" rows="4" maxlength="2500" placeholder=" " aria-describedby="details-hint"></textarea>
-            <span class="brief__prompt" aria-hidden="true" data-copy="detailsPrompt">Например, нужен сайт для кофейни. Есть логотип или изображения…</span>
+            <textarea id="details" name="details" rows="4" maxlength="2500" placeholder="Например, нужен сайт для кофейни. Есть логотип или изображения…" data-placeholder="detailsPrompt" aria-describedby="details-hint"></textarea>
           </div>
           <p class="brief__sr-only" id="details-hint" data-copy="optional">Необязательное поле</p>
         </div>
@@ -58,10 +58,21 @@
       </form>
     </section>
 
-    <section class="brief__success" aria-labelledby="brief-success-title" hidden>
-      <h1 id="brief-success-title" tabindex="-1" data-copy="successTitle">Кайф! Заявка отправлена</h1>
-      <p data-copy="successCopy">Спасибо, что обратились в Levmich Studio. Я посмотрю заявку и лично свяжусь с вами по указанному контакту.</p>
-      <a class="brief__button" href="/ru/main/" data-home data-copy="back">Вернуться на главную</a>
+    <section class="brief__success not-found" aria-labelledby="brief-success-title" hidden>
+      <h1 class="not-found__sr" id="brief-success-title" tabindex="-1" data-copy="successTitle">Кайф! Заявка отправлена</h1>
+      <div class="brief__success-art" aria-hidden="true">
+        <img class="brief__success-title" src="/public/figma-assets/brief-success-title.svg" alt="" width="1109" height="384" />
+        <img class="brief__success-subtitle" src="/public/figma-assets/brief-success-subtitle.svg" alt="" width="715" height="71" />
+        <p class="brief__success-subtitle-en" lang="en">Your brief has been sent</p>
+      </div>
+      <div class="brief__success-copy">
+        <p data-copy="successCopy">Спасибо, что обратились в Levmich Studio. Я посмотрю вашу заявку и лично свяжусь с вами по контакту, который вы оставили.</p>
+        <p data-copy="successNext">Обсудим вашу задачу, уточним детали и вместе решим, с чего начать проект.</p>
+      </div>
+      <a class="not-found__return brief__success-back" href="/ru/main/" data-home>
+        <span data-copy="back">Вернуться на главную страницу</span>
+        <img src="/public/figma-assets/brief-success-arrow.svg" alt="" width="22" height="45" />
+      </a>
     </section>
   </main>
   <footer class="footer" id="footer">
