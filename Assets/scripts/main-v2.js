@@ -32,8 +32,8 @@
     return bodyLang === 'en' || bodyLang === 'ru' ? bodyLang : (routeLangFromPath() || 'ru');
   };
   const langRoute = (route, lang = currentRouteLang()) => {
-    const cleanRoute = `/${String(route || '').replace(/^\/+|\/+$/g, '')}`.replace(/\/$/, '') || '/main';
-    return `/${lang}${cleanRoute}`;
+    const cleanRoute = String(route || '').replace(/^\/+|\/+$/g, '') || 'main';
+    return `/${lang}/${cleanRoute}/`;
   };
   const searchWithoutLang = () => {
     const params = new URLSearchParams(window.location.search);
@@ -844,11 +844,11 @@
     const copy = {
       ru: {
         meta: {
-          title: 'Levmich Studio — дизайн сайтов, брендинг и интерфейсы',
-          description: 'Студия дизайна Михаила Левыкина: сайты, брендинг, дизайн приложений.',
+          title: 'Дизайн сайтов и брендинг в Екатеринбурге — Levmich Studio',
+          description: 'Михаил Левыкин — дизайнер из Екатеринбурга. Дизайн сайтов от 23 000 ₽, брендинг от 25 000 ₽, интерфейсы и боты. Посмотрите кейсы и оставьте заявку.',
         },
         hero: {
-          slogan: 'Делаем красиво<br/>Некрасиво&nbsp;— не&nbsp;делаем',
+          slogan: 'Дизайн сайтов и&nbsp;брендинг<br/>Екатеринбург и&nbsp;онлайн',
           titles: ['Лимо', 'Chess Sphere', 'Front', 'Три семёрки', 'Оксана и Костя', 'Лютик', 'Азим Чарыев'],
           descs: [
             'Сайт и визуальная система для спешелти-кофейни в Екатеринбурге',
@@ -1004,11 +1004,11 @@
       },
       en: {
         meta: {
-          title: 'Levmich Studio — websites, branding and interfaces',
-          description: 'Design studio by Mikhail Levykin: websites, branding and app interfaces.',
+          title: 'Website Design and Branding in Yekaterinburg | Levmich Studio',
+          description: 'Website design, branding, app interfaces and bots by Mikhail Levykin, a designer based in Yekaterinburg. Explore selected work and discuss your project.',
         },
         hero: {
-          slogan: 'We make it beautiful<br/>Ugly&nbsp;— not&nbsp;our&nbsp;thing',
+          slogan: 'Website design and branding<br/>Yekaterinburg and online',
           titles: ['LIMO', 'Chess Sphere', 'Front', 'Three Sevens', 'Oksana and Kostya', 'Lyutik', 'Azim Charyev'],
           descs: [
             'A website and visual system for a specialty coffee shop in Yekaterinburg',
@@ -1192,8 +1192,6 @@
     };
 
     const infoPageEn = {
-      title: 'Documents and agreements — Levmich Studio',
-      description: 'Offer agreement, privacy policy and user agreement of Levmich Studio.',
       completeTitle: 'Thank you for reading the information!',
       completeText: 'Now you can return to services and choose exactly what you need.',
       completeButton: 'To services',
@@ -1322,9 +1320,6 @@
     function renderInfoPageEn() {
       if (!document.body.classList.contains('info-page')) return;
 
-      document.title = infoPageEn.title;
-      $('meta[name="description"]')?.setAttribute('content', infoPageEn.description);
-
       const content = $('.info-content');
       if (content) {
         content.innerHTML = infoPageEn.docs.map(doc => `
@@ -1424,10 +1419,10 @@
       document.documentElement.lang = lang;
       document.body.dataset.lang = lang;
       localizeInternalRoutes(lang);
-      document.title = document.body.classList.contains('info-page')
-        ? (lang === 'ru' ? 'Документы и соглашения — Levmich Studio' : 'Documents and agreements — Levmich Studio')
-        : d.meta.title;
-      $('meta[name="description"]')?.setAttribute('content', d.meta.description);
+      if (document.body.dataset.pageVersion === 'v3') {
+        document.title = d.meta.title;
+        $('meta[name="description"]')?.setAttribute('content', d.meta.description);
+      }
 
       setHtml('.hero__slogan', d.hero.slogan);
       // Hero card plaques were removed — only the mobile hint pill remains.
@@ -1550,9 +1545,8 @@
             if (textEl && pair[1] !== undefined) textEl.textContent = pair[1];
           });
         }
-        $$('.case-layout img').forEach((img, i) => img.setAttribute('alt', `${caseData.title} image ${i + 1}`));
         // Title тэга страницы под кейс
-        document.title = caseData.pageTitle || `${caseData.title} | Levmich Studio`;
+        if (!pathLang && lang === 'en') document.title = caseData.pageTitle || `${caseData.title} | Levmich Studio`;
       }
     }
 
@@ -1686,15 +1680,13 @@
       const cleanPath = pageCleanPath();
       if (!cleanPath && !window.location.search.includes('lang=')) return;
       const rawPath = window.location.pathname;
-      const normalizedPath = rawPath.replace(/\/$/, '') || '/';
       if (
         cleanPath &&
-        normalizedPath === cleanPath &&
         rawPath === cleanPath &&
         routeLangFromPath() === currentRouteLang() &&
         !window.location.search.includes('lang=')
       ) return;
-      window.history.replaceState(null, '', withCurrentSearch(cleanPath));
+      window.history.replaceState(null, '', `${withCurrentSearch(cleanPath || rawPath)}${window.location.hash}`);
     };
 
     const scrollToHomeSection = (section, instant = false) => {
