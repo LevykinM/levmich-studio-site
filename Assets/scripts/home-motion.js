@@ -135,10 +135,6 @@
     new MutationObserver(prepareCases).observe(gallery, { childList: true, subtree: true });
   }
 
-  document.querySelectorAll('.footer__consult, .footer__nav, .footer__media, .footer__logo-link, .footer__info-card').forEach(block => {
-    register(block, [block], [...block.querySelectorAll('h2, p, .footer__button, .footer__nav-item, .footer__info-card-title, .footer__info-card-list > span')]);
-  });
-
   window.addEventListener('scroll', requestCheck, { passive: true });
   window.addEventListener('resize', requestCheck, { passive: true });
   window.addEventListener('pageshow', requestCheck);
