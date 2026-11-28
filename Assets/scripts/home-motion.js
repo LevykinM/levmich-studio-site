@@ -7,11 +7,8 @@
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
   const active = new Map();
   const registered = new WeakSet();
-  const waitingText = new Set();
-  const textTrigger = .35;
+  const entryLine = .8;
   let frame = 0;
-  let lastTick = 0;
-  let measurePending = true;
 
   function splitWords(element) {
     const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
@@ -41,26 +38,15 @@
     });
   }
 
-  function finishText(element) {
-    waitingText.delete(element);
-    delete element.dataset.homeText;
-  }
-
   function prepareText(elements) {
     for (const element of elements) {
       if (element.querySelector('.home-motion-word')) continue;
       const words = splitWords(element);
-      if (!words.length) continue;
-
-      const stagger = Math.min(65, 850 / Math.max(1, words.length - 1));
+      const stagger = Math.min(55, 260 / Math.max(1, words.length - 1));
       words.forEach((word, index) => {
         word.style.setProperty('--home-word-delay', `${stagger * index}ms`);
       });
-      words.at(-1).addEventListener('animationend', () => finishText(element), { once: true });
-      element.dataset.homeText = 'waiting';
-      waitingText.add(element);
     }
-    requestMeasurement();
   }
 
   function register(anchor, layers, text) {
@@ -68,71 +54,36 @@
     registered.add(anchor);
     prepareText(text);
     layers.forEach(layer => layer.classList.add('home-motion-layer'));
-    anchor.dataset.homeRevealing = '';
-    active.set(anchor, { layers, movesAnchor: layers.includes(anchor), current: 0, target: 0 });
-    requestMeasurement();
+    anchor.dataset.homeRevealing = 'waiting';
+    active.set(anchor, layers);
+    requestCheck();
   }
 
-  function finish(anchor, entry) {
+  function finish(anchor) {
     delete anchor.dataset.homeRevealing;
-    anchor.style.removeProperty('--home-reveal');
-    entry.layers.forEach(layer => layer.classList.remove('home-motion-layer'));
+    active.get(anchor).forEach(layer => layer.classList.remove('home-motion-layer'));
     active.delete(anchor);
   }
 
-  function requestFrame() {
-    if (!frame && (active.size || waitingText.size)) frame = requestAnimationFrame(update);
+  function requestCheck() {
+    if (!frame && active.size) frame = requestAnimationFrame(checkEntries);
   }
 
-  function requestMeasurement() {
-    measurePending = true;
-    requestFrame();
-  }
-
-  function update(time) {
+  function checkEntries() {
     frame = 0;
-    const elapsed = lastTick ? Math.min(time - lastTick, 64) : 16;
-    lastTick = time;
-    if (measurePending) {
-      measurePending = false;
-      const viewport = window.innerHeight;
-      const atBottom = window.scrollY + viewport >= document.documentElement.scrollHeight - 2;
-      const readyToPlay = [];
-      for (const [anchor, entry] of active) {
-        const bounds = anchor.getBoundingClientRect();
-        // Own translation affects the rect but not when the block should enter.
-        const offset = entry.movesAnchor ? 30 * (1 - entry.current) ** 2 : 0;
-        const distance = Math.min(viewport * .4, Math.max(116, bounds.height * .68));
-        const progress = (viewport * .985 - bounds.top + offset) / distance;
-        entry.target = Math.max(entry.target, clamp(progress));
-      }
-      for (const element of waitingText) {
-        const bounds = element.getBoundingClientRect();
-        if (bounds.height && (bounds.top <= viewport * textTrigger || (atBottom && bounds.top < viewport))) {
-          readyToPlay.push(element);
-        }
-      }
-      for (const element of readyToPlay) {
-        waitingText.delete(element);
-        element.dataset.homeText = 'playing';
+    const viewport = window.innerHeight;
+    const atBottom = window.scrollY + viewport >= document.documentElement.scrollHeight - 2;
+    const started = [];
+    for (const [anchor, layers] of active) {
+      if (anchor.dataset.homeRevealing !== 'waiting') continue;
+      const bounds = anchor.getBoundingClientRect();
+      // Use the layout position even when the block itself starts 30 px lower.
+      const top = bounds.top - (layers.includes(anchor) ? 30 : 0);
+      if (bounds.height && (top <= viewport * entryLine || (atBottom && top < viewport))) {
+        started.push(anchor);
       }
     }
-
-    const settle = 1 - Math.exp(-elapsed / 88);
-    let needsFrame = false;
-    for (const [anchor, entry] of active) {
-      if (entry.current === entry.target) continue;
-      entry.current += (entry.target - entry.current) * settle;
-      if (entry.target - entry.current < .003) entry.current = entry.target;
-      if (entry.current === 1) finish(anchor, entry);
-      else anchor.style.setProperty('--home-reveal', String(entry.current));
-      needsFrame ||= entry.current < entry.target;
-    }
-    if (needsFrame) {
-      measurePending ||= waitingText.size > 0;
-      requestFrame();
-    }
-    else lastTick = 0;
+    started.forEach(anchor => { anchor.dataset.homeRevealing = 'playing'; });
   }
 
   const about = document.querySelector('.studio-intro');
@@ -188,21 +139,22 @@
     register(block, [block], [...block.querySelectorAll('h2, p, .footer__button, .footer__nav-item, .footer__info-card-title, .footer__info-card-list > span')]);
   });
 
-  window.addEventListener('scroll', requestMeasurement, { passive: true });
-  window.addEventListener('resize', requestMeasurement, { passive: true });
-  window.addEventListener('pageshow', requestMeasurement);
-  window.addEventListener('load', requestMeasurement, { once: true });
-  document.fonts?.ready.then(requestMeasurement);
+  window.addEventListener('scroll', requestCheck, { passive: true });
+  window.addEventListener('resize', requestCheck, { passive: true });
+  window.addEventListener('pageshow', requestCheck);
+  window.addEventListener('load', requestCheck, { once: true });
+  document.fonts?.ready.then(requestCheck);
+  document.addEventListener('animationend', event => {
+    if (event.animationName !== 'home-block-reveal') return;
+    const anchor = event.target.closest('[data-home-revealing]');
+    if (anchor) finish(anchor);
+  });
   document.addEventListener('focusin', event => {
     const anchor = event.target.closest('[data-home-revealing]');
-    if (anchor) finish(anchor, active.get(anchor));
-    const text = event.target.closest('[data-home-text]');
-    if (text) finishText(text);
-    event.target.querySelectorAll('[data-home-text]').forEach(finishText);
+    if (anchor) finish(anchor);
   });
   reducedMotion.addEventListener('change', () => {
     if (!reducedMotion.matches) return;
-    for (const [anchor, entry] of active) finish(anchor, entry);
-    document.querySelectorAll('[data-home-text]').forEach(finishText);
+    for (const anchor of active.keys()) finish(anchor);
   });
 })();
