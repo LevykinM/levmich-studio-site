@@ -7,13 +7,13 @@
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
   const active = new Map();
   const registered = new WeakSet();
+  const waitingText = new Set();
+  const textTrigger = .35;
   let frame = 0;
   let lastTick = 0;
   let measurePending = true;
 
   function splitWords(element) {
-    if (element.querySelector('.home-motion-word')) return [...element.querySelectorAll('.home-motion-word')];
-
     const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
     const textNodes = [];
     while (walker.nextNode()) {
@@ -41,11 +41,26 @@
     });
   }
 
+  function finishText(element) {
+    waitingText.delete(element);
+    delete element.dataset.homeText;
+  }
+
   function prepareText(elements) {
-    const words = elements.flatMap(splitWords);
-    words.forEach((word, index) => {
-      word.style.setProperty('--home-word-delay', String(0.58 * index / Math.max(1, words.length - 1)));
-    });
+    for (const element of elements) {
+      if (element.querySelector('.home-motion-word')) continue;
+      const words = splitWords(element);
+      if (!words.length) continue;
+
+      const stagger = Math.min(65, 850 / Math.max(1, words.length - 1));
+      words.forEach((word, index) => {
+        word.style.setProperty('--home-word-delay', `${stagger * index}ms`);
+      });
+      words.at(-1).addEventListener('animationend', () => finishText(element), { once: true });
+      element.dataset.homeText = 'waiting';
+      waitingText.add(element);
+    }
+    requestMeasurement();
   }
 
   function register(anchor, layers, text) {
@@ -66,7 +81,7 @@
   }
 
   function requestFrame() {
-    if (!frame && active.size) frame = requestAnimationFrame(update);
+    if (!frame && (active.size || waitingText.size)) frame = requestAnimationFrame(update);
   }
 
   function requestMeasurement() {
@@ -81,6 +96,8 @@
     if (measurePending) {
       measurePending = false;
       const viewport = window.innerHeight;
+      const atBottom = window.scrollY + viewport >= document.documentElement.scrollHeight - 2;
+      const readyToPlay = [];
       for (const [anchor, entry] of active) {
         const bounds = anchor.getBoundingClientRect();
         // Own translation affects the rect but not when the block should enter.
@@ -88,6 +105,16 @@
         const distance = Math.min(viewport * .4, Math.max(116, bounds.height * .68));
         const progress = (viewport * .985 - bounds.top + offset) / distance;
         entry.target = Math.max(entry.target, clamp(progress));
+      }
+      for (const element of waitingText) {
+        const bounds = element.getBoundingClientRect();
+        if (bounds.height && (bounds.top <= viewport * textTrigger || (atBottom && bounds.top < viewport))) {
+          readyToPlay.push(element);
+        }
+      }
+      for (const element of readyToPlay) {
+        waitingText.delete(element);
+        element.dataset.homeText = 'playing';
       }
     }
 
@@ -101,7 +128,10 @@
       else anchor.style.setProperty('--home-reveal', String(entry.current));
       needsFrame ||= entry.current < entry.target;
     }
-    if (needsFrame) requestFrame();
+    if (needsFrame) {
+      measurePending ||= waitingText.size > 0;
+      requestFrame();
+    }
     else lastTick = 0;
   }
 
@@ -146,7 +176,7 @@
         const layers = [...card.querySelectorAll('.portfolio-case__media, .portfolio-case__meta')];
         if (!title || !layers.length) return;
         if (!registered.has(card)) register(card, layers, [title]);
-        else if (active.has(card) && !title.querySelector('.home-motion-word')) prepareText([title]);
+        else if (!title.querySelector('.home-motion-word')) prepareText([title]);
       });
     }
     prepareCases();
@@ -166,9 +196,13 @@
   document.addEventListener('focusin', event => {
     const anchor = event.target.closest('[data-home-revealing]');
     if (anchor) finish(anchor, active.get(anchor));
+    const text = event.target.closest('[data-home-text]');
+    if (text) finishText(text);
+    event.target.querySelectorAll('[data-home-text]').forEach(finishText);
   });
   reducedMotion.addEventListener('change', () => {
     if (!reducedMotion.matches) return;
     for (const [anchor, entry] of active) finish(anchor, entry);
+    document.querySelectorAll('[data-home-text]').forEach(finishText);
   });
 })();
