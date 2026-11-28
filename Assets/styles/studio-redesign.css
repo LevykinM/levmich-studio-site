@@ -3,14 +3,16 @@
   margin-inline: auto;
 }
 
+body[data-page-version="v3"] .hero,
 .studio-intro,
 .home-services,
-body[data-page-version="v3"] .portfolio {
-  background: #020202;
-  font-family: Onest, sans-serif;
-}
+body[data-page-version="v3"] .portfolio,
+body[data-page-version="v3"] .footer { background-color: #020202; }
 
-body[data-page-version="v3"] .footer { background: #020202; }
+.studio-intro,
+.home-services,
+body[data-page-version="v3"] .portfolio { font-family: Onest, sans-serif; }
+
 body[data-page-version="v3"] .footer__info-card { background: rgb(255 255 255 / 8%); }
 body[data-page-version="v3"] .footer__info-card:hover { background: rgb(255 255 255 / 12%); }
 

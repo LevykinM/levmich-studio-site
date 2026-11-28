@@ -105,11 +105,12 @@
     else lastTick = 0;
   }
 
-  const about = document.querySelector('.studio-intro__inner');
+  const about = document.querySelector('.studio-intro');
   if (about) {
-    const portraits = about.querySelector('.studio-intro__portraits');
-    const bio = about.querySelector('.studio-intro__text');
-    register(about, [portraits, bio], [...bio.querySelectorAll('h2, li, p')]);
+    const intro = about.querySelector('.studio-intro__inner');
+    const portraits = intro.querySelector('.studio-intro__portraits');
+    const bio = intro.querySelector('.studio-intro__text');
+    register(intro, [portraits, bio], [...bio.querySelectorAll('h2, li, p')]);
 
     const pointer = window.matchMedia('(any-hover: hover) and (any-pointer: fine)');
     const resetPortraits = () => {
@@ -118,7 +119,7 @@
     };
     about.addEventListener('pointermove', event => {
       if (!pointer.matches || reducedMotion.matches || event.pointerType === 'touch') return;
-      const bounds = about.getBoundingClientRect();
+      const bounds = intro.getBoundingClientRect();
       const x = clamp((event.clientX - bounds.left) / bounds.width) * 2 - 1;
       const y = clamp((event.clientY - bounds.top) / bounds.height) * 2 - 1;
       portraits.style.setProperty('--portrait-motion-x', `${x * 17}px`);
