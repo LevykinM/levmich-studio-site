@@ -7,9 +7,9 @@
   <title>Бриф на проект | Levmich Studio</title>
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" />
-  <link rel="stylesheet" href="/Assets/styles/style.css?v=173" />
-  <link rel="stylesheet" href="/Assets/styles/brief.css?v=2" />
-  <script src="/Assets/scripts/brief.js?v=2" defer></script>
+  <link rel="stylesheet" href="/Assets/styles/style.css?v=174" />
+  <link rel="stylesheet" href="/Assets/styles/brief.css?v=3" />
+  <script src="/Assets/scripts/brief.js?v=3" defer></script>
   <link rel="stylesheet" href="/Assets/styles/page-transition.css" />
   <script src="/Assets/scripts/page-transition.js"></script>
 </head>
@@ -25,28 +25,36 @@
         <fieldset class="brief__section">
           <legend class="brief__label" data-copy="serviceLabel">1. Что будем делать?</legend>
           <div class="brief__choices">
-            <label class="brief__choice"><input type="radio" name="service" value="branding" /><span data-copy="branding">Брендинг</span></label>
-            <label class="brief__choice"><input type="radio" name="service" value="app" /><span data-copy="app">Дизайн приложения</span></label>
-            <label class="brief__choice"><input type="radio" name="service" value="website" /><span data-copy="website">Сайт</span></label>
-            <label class="brief__choice"><input type="radio" name="service" value="other" /><span data-copy="other">Что-то другое</span></label>
-            <label class="brief__choice"><input type="radio" name="service" value="vibe-site" /><span data-copy="vibe-site">Вайб-сайт</span></label>
-            <label class="brief__choice"><input type="radio" name="service" value="bot" /><span data-copy="bot">Бот</span></label>
+            <label class="brief__choice brief__choice--vibe"><input type="radio" name="service" value="vibe-site" /><span><img src="/Assets/Redesign/vibe-launch.svg" width="24" height="24" alt="" /><span data-copy="vibe-site">Вайб-сайт</span></span></label>
+            <label class="brief__choice brief__choice--website"><input type="radio" name="service" value="website" /><span><img src="/Assets/Redesign/website-layout.svg" width="24" height="24" alt="" /><span data-copy="website">Сайт</span></span></label>
+            <label class="brief__choice brief__choice--branding"><input type="radio" name="service" value="branding" /><span><img src="/Assets/Redesign/brand-spark.svg" width="24" height="24" alt="" /><span data-copy="branding">Брендинг</span></span></label>
+            <label class="brief__choice brief__choice--app"><input type="radio" name="service" value="app" /><span><img src="/Assets/Redesign/app-grid.svg" width="24" height="24" alt="" /><span data-copy="app">Приложение</span></span></label>
+            <label class="brief__choice brief__choice--bot"><input type="radio" name="service" value="bot" /><span><img src="/Assets/Redesign/chat-bot.svg" width="24" height="24" alt="" /><span data-copy="bot">Бот</span></span></label>
+            <label class="brief__choice brief__choice--other"><input type="radio" name="service" value="other" /><span><span data-copy="other">Что-то другое</span></span></label>
           </div>
         </fieldset>
 
-        <div class="brief__section">
-          <label class="brief__label" for="contact" data-copy="contactLabel">2. Как с вами связаться?</label>
+        <fieldset class="brief__section">
+          <legend class="brief__label" data-copy="contactLabel">2. Как с вами связаться?</legend>
+          <div class="brief__choices brief__channels">
+            <label class="brief__choice"><input type="radio" name="channel" value="telegram" /><span>Telegram</span></label>
+            <label class="brief__choice"><input type="radio" name="channel" value="vk" /><span data-copy="vk">ВК</span></label>
+            <label class="brief__choice"><input type="radio" name="channel" value="phone" checked /><span data-copy="phone">Телефон</span></label>
+            <label class="brief__choice"><input type="radio" name="channel" value="email" /><span>Email</span></label>
+          </div>
           <div class="brief__field">
-            <input id="contact" name="contact" type="text" placeholder="Telegram, VK, email, телефон" data-placeholder="contactPrompt" required maxlength="240" aria-describedby="contact-hint" autocapitalize="off" spellcheck="false" />
+            <label class="brief__sr-only" for="contact" data-contact-name>Номер телефона</label>
+            <input id="contact" name="contact" type="text" placeholder="+7" required maxlength="240" aria-describedby="contact-hint" autocapitalize="off" spellcheck="false" />
           </div>
           <p class="brief__hint" id="contact-hint" data-copy="contactHint">Только для связи по проекту</p>
           <p class="brief__hint brief__error" id="contact-error" aria-live="polite" hidden></p>
-        </div>
+        </fieldset>
 
         <div class="brief__section">
           <label class="brief__label" for="details" data-copy="detailsLabel">3. Расскажите о задаче</label>
           <div class="brief__field brief__field--details">
-            <textarea id="details" name="details" rows="4" maxlength="2500" placeholder="Например, нужен сайт для кофейни. Есть логотип или изображения…" data-placeholder="detailsPrompt" aria-describedby="details-hint"></textarea>
+            <textarea id="details" name="details" rows="4" maxlength="700" placeholder="Например, нужен сайт для кофейни. Есть логотип или изображения…" data-placeholder="detailsPrompt" aria-describedby="details-hint"></textarea>
+            <span class="brief__count" data-details-count aria-hidden="true">0/700</span>
           </div>
           <p class="brief__sr-only" id="details-hint" data-copy="optional">Необязательное поле</p>
         </div>

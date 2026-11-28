@@ -17,7 +17,7 @@
 }
 
 .brief__content {
-  width: min(100%, clamp(566px, 48vw, 708px));
+  width: min(100%, 566px);
 }
 
 .brief__intro {
@@ -43,11 +43,10 @@
 
 .brief__form {
   display: grid;
-  gap: clamp(16px, 2.2svh, 22px);
-  padding: clamp(19px, 2vw, 25px);
-  border: 1px solid rgba(255, 255, 255, .4);
+  gap: 20px;
+  padding: 20px;
   border-radius: 40px;
-  background: rgba(255, 255, 255, .01);
+  background: rgba(255, 255, 255, .08);
   font-family: 'Geist', 'Onest', sans-serif;
 }
 
@@ -90,27 +89,39 @@
   white-space: nowrap;
 }
 
-.brief__choice span {
+.brief__choice > span {
   display: flex;
   align-items: center;
-  min-height: 40px;
-  padding: 6px 29px;
-  border: 1px solid rgba(255, 255, 255, .5);
+  gap: 7px;
+  min-height: 36px;
+  padding: 5px 10px;
+  border: 1px solid transparent;
   border-radius: 20px;
-  font-size: 18px;
+  color: rgb(var(--brief-choice, 255 255 255));
+  background: rgb(var(--brief-choice, 255 255 255) / 20%);
+  font-size: 16px;
   line-height: 1.25;
   font-weight: 500;
 }
 
-.brief__choice:hover span {
-  border-color: #fff;
+.brief__choice img { flex: none; }
+.brief__choice--website { --brief-choice: 169 255 10; }
+.brief__choice--vibe { --brief-choice: 255 0 178; }
+.brief__choice--app { --brief-choice: 255 255 0; }
+.brief__choice--branding { --brief-choice: 255 119 0; }
+.brief__choice--bot { --brief-choice: 87 148 255; }
+
+.brief__choice:hover > span {
+  border-color: rgb(255 255 255 / 65%);
 }
 
 .brief__choice input:checked + span {
-  border-color: var(--accent);
-  background: rgba(255, 107, 0, .1);
-  color: var(--accent);
+  border-color: currentColor;
 }
+
+.brief__channels { margin-bottom: 10px; }
+.brief__channels .brief__choice > span { min-height: 40px; padding: 6px 28px; background: rgb(255 255 255 / 10%); font-size: 18px; }
+.brief__channels .brief__choice input:checked + span { color: #020202; background: #fefefe; border-color: transparent; }
 
 .brief__choice input:focus-visible + span,
 .brief__button:focus-visible {
@@ -128,19 +139,22 @@
   width: 100%;
   min-height: 52px;
   padding: 12px 16px;
-  border: 1px solid rgba(255, 255, 255, .4);
+  border: 1px solid transparent;
   border-radius: 40px;
-  background: transparent;
+  background: rgba(255, 255, 255, .04);
   color: #fff;
   font: 500 16px/1.4 'Geist', 'Onest', sans-serif;
 }
 
 .brief__field textarea {
   min-height: 145px;
-  height: clamp(145px, calc(100svh - 640px), 310px);
-  padding: 15px 16px;
+  height: clamp(160px, 28svh, 227px);
+  padding: 15px 16px 36px;
+  border-radius: 20px;
   resize: vertical;
 }
+
+.brief__count { position: absolute; inset: auto 16px 12px auto; color: #a0a0a0; font-size: 14px; pointer-events: none; }
 
 .brief__field :is(input, textarea)::placeholder {
   color: #969696;
@@ -158,8 +172,7 @@
 }
 
 .brief__field :is(input, textarea):not(:placeholder-shown):not(:focus) {
-  border-color: var(--accent);
-  background: rgba(255, 107, 0, .1);
+  border-color: rgba(255, 255, 255, .24);
 }
 
 .brief__field :is(input, textarea)[aria-invalid="true"] {
@@ -187,6 +200,7 @@
   align-items: center;
   justify-content: center;
   min-height: 50px;
+  width: min(100%, 211px);
   padding: 10px 20px;
   border-radius: 20px;
   background: var(--accent);
@@ -288,22 +302,16 @@ html.brief-complete {
 .brief__success-back img {
   width: 22px;
   height: 45px;
-}
-
-.brief__success-back:is(:hover, :focus-visible) img {
-  filter: var(--icon-orange-filter);
+  filter: brightness(0);
 }
 
 @media (hover: none) {
   .brief__success .brief__success-back:hover:not(:focus-visible) {
     background: var(--accent);
-    color: #fff;
+    color: #020202;
     transform: none;
   }
 
-  .brief__success-back:hover:not(:focus-visible) img {
-    filter: none;
-  }
 }
 
 .brief-page .footer {
@@ -321,7 +329,8 @@ html.brief-complete {
     border-radius: 28px;
   }
 
-  .brief__choice span {
+  .brief__choice > span,
+  .brief__channels .brief__choice > span {
     min-height: 44px;
     padding-inline: 15px;
     font-size: 16px;
@@ -365,14 +374,14 @@ html.brief-complete {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .brief__choice span,
+  .brief__choice > span,
   .brief__button,
   .brief__field :is(input, textarea) {
     transition: color .23s var(--ease-soft), border-color .23s var(--ease-soft),
       background-color .23s var(--ease-soft), transform .23s var(--ease-soft);
   }
 
-  .brief__choice:active span,
+  .brief__choice:active > span,
   .brief__button:not(:disabled):active {
     transform: scale(.97);
   }

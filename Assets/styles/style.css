@@ -24,10 +24,11 @@
   --text:          #ffffff;
   --text-dim:      #9b9ba1;
   --text-faint:    #5e5e64;
-  --accent:        #FF6B00; /* Figma Main_Orange */
-  --accent-hot:    #ff8443;
-  --accent-deep:   #d24a00;
-  --icon-orange-filter: brightness(0) saturate(100%) invert(47%) sepia(96%) saturate(2681%) hue-rotate(0deg) brightness(102%) contrast(106%);
+  --accent:        #FFFFFF;
+  --on-accent:     #020202;
+  --accent-hot:    #E6E6E6;
+  --accent-deep:   #CFCFCF;
+  --icon-accent-filter: brightness(0) invert(1);
   --radius-lg:     28px;
   --radius-md:     20px;
   --radius-sm:     14px;
@@ -368,7 +369,7 @@ body.error-page {
   padding: 30px;
   border-radius: 40px;
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   font-family: 'Onest', sans-serif;
   font-size: 34px;
   font-weight: 500;
@@ -378,8 +379,8 @@ body.error-page {
 
 .not-found__return:hover,
 .not-found__return:focus-visible {
-  background: #fff;
-  color: var(--accent);
+  background: var(--accent-hot);
+  color: var(--on-accent);
   transform: translateY(-2px);
   outline: none;
 }
@@ -399,7 +400,7 @@ body.error-page {
   padding: 30px;
   border: 0;
   border-radius: 40px;
-  background: rgba(255,255,255,.2);
+  background: rgba(255,255,255,.08);
 }
 
 .not-found__menu-list {
@@ -622,7 +623,7 @@ body.error-page {
   padding: 0 28px;
   border-radius: 999px;
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   font-weight: 700;
   font-size: 16px;
   letter-spacing: 0;
@@ -1116,7 +1117,7 @@ body[data-lang="en"] .hero__info-body {
   min-height: 32px;
   padding: 4px 10px;
   border-radius: 20px;
-  background: #FF6B00;
+  background: #FFFFFF;
   color: #0A0A0A;
   font-family: 'Onest', var(--font-main);
   font-size: 20px;
@@ -1216,7 +1217,7 @@ body[data-lang="en"] .hero__info-body {
   padding: 10px;
   border: 0;
   border-radius: 40px;
-  background: rgba(255, 107, 0, 0.10);
+  background: rgba(255, 255, 255, 0.10);
   box-sizing: border-box;
 
   display: flex;
@@ -1431,7 +1432,7 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
    оранжево-коричневый фон. Кнопка "Начать бриф" появляется внизу. */
 .service:hover {
   border-color: var(--accent);
-  background: rgba(255, 107, 0, 0.10);
+  background: rgba(255, 255, 255, 0.10);
 }
 
 /* Верхняя группа: название + описание (gap 8) */
@@ -1485,7 +1486,7 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
 }
 
 /* CTA "Начать бриф": НЕ pill, прямоугольная с rounded-20.
-   Figma: bg #FF6B00, h 55, px 20, py 16, rounded 20, w-full.
+   Figma: bg #FFFFFF, h 55, px 20, py 16, rounded 20, w-full.
    Текст: Onest Medium 18, white. */
 /* Кнопка "Начать бриф" — в default СКРЫТА (Figma 184:1750).
    Появляется на hover карточки: высота 0→55, margin-top 0→10, opacity 0→1. */
@@ -2189,12 +2190,12 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
 }
 
 .footer__title {
-  font-weight: 800;
+  font-weight: 500;
   white-space: nowrap;
 }
 
 .footer__heading {
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .footer__text {
@@ -2216,8 +2217,8 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
   padding: 0 16px;
   border-radius: 20px;
   border: 1px solid rgba(255,255,255,.1);
-  background: rgba(255,255,255,.1);
-  color: #fff;
+  background: #fefefe;
+  color: #020202;
   font-family: 'Geist', 'Onest', sans-serif;
   font-size: 18px;
   font-weight: 500;
@@ -2235,9 +2236,9 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
 
 .footer__button:hover,
 .footer__button:focus-visible {
-  background: rgba(255,107,0,.2);
-  border-color: var(--accent);
-  color: var(--accent);
+  background: var(--accent-hot);
+  border-color: var(--accent-hot);
+  color: #020202;
   transform: scale(1.03);
 }
 
@@ -2281,7 +2282,7 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
 
 .footer__nav-item:hover,
 .footer__nav-item:focus-visible {
-  background: rgba(255,107,0,.2);
+  background: rgba(255, 255, 255,.2);
   border-color: var(--accent);
   color: var(--accent);
   font-size: 18px;
@@ -2300,7 +2301,7 @@ body[data-lang="en"] .services:has(.service__cta:is(:hover, :focus-visible)) .se
 
 .footer__nav-item:hover img,
 .footer__nav-item:focus-visible img {
-  filter: var(--icon-orange-filter);
+  filter: var(--icon-accent-filter);
   transform: scale(1.08);
 }
 
@@ -2535,7 +2536,7 @@ body[data-lang="en"] .footer__meta-disclaimer {
   display: block;
   width: 6px;
   height: 10px;
-  color: #fff;
+  color: inherit;
 }
 
 @media (orientation: landscape) {
@@ -2544,6 +2545,7 @@ body[data-lang="en"] .footer__meta-disclaimer {
     min-width: 116px;
     gap: 10px;
     background: var(--accent);
+    color: var(--on-accent);
   }
   .dock__lang-btn:hover .dock__lang-arrow,
   .dock__lang-btn:hover .dock__lang-target,
@@ -2591,7 +2593,7 @@ body[data-lang="en"] .footer__meta-disclaimer {
   padding: 0;
   border-radius: 80px;
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   font-weight: 600;
   font-size: 15px;
   white-space: nowrap;
@@ -3049,7 +3051,7 @@ body[data-lang="en"] .footer__meta-disclaimer {
 }
 .dock__menu-list a:hover,
 .dock__menu-list a:focus-visible {
-  background: rgba(255,107,0,.2);
+  background: rgba(255, 255, 255,.2);
   border-color: var(--accent);
   color: var(--accent);
   transform: scale(1.03);
@@ -3065,7 +3067,7 @@ body[data-lang="en"] .footer__meta-disclaimer {
 }
 .dock__menu-list a:hover img,
 .dock__menu-list a:focus-visible img {
-  filter: var(--icon-orange-filter);
+  filter: var(--icon-accent-filter);
   transform: scale(1.08);
 }
 
@@ -3130,7 +3132,7 @@ body[data-lang="en"] .footer__meta-disclaimer {
   inset: 0;
   background:
     radial-gradient(circle at 16% 12%, rgba(255,255,255,.08), transparent 32%),
-    radial-gradient(circle at 84% 18%, rgba(255,107,0,.08), transparent 34%),
+    radial-gradient(circle at 84% 18%, rgba(255, 255, 255,.08), transparent 34%),
     linear-gradient(180deg, rgba(0,0,0,.34), rgba(0,0,0,.58));
   backdrop-filter: blur(24px) saturate(92%) brightness(.78);
   -webkit-backdrop-filter: blur(24px) saturate(92%) brightness(.78);
@@ -3786,7 +3788,7 @@ body[data-lang="en"] .footer__meta-disclaimer {
     border-radius: 30px;
     display: flex;
     justify-content: center;
-    background: rgba(255,107,0,.1);
+    background: rgba(255, 255, 255,.1);
     color: var(--accent);
     pointer-events: none;
   }
@@ -4267,6 +4269,7 @@ body[data-lang="en"] .footer__meta-disclaimer {
    951 wide. У части кейсов есть строка "Было разработано" из 3 карточек.
    ============================================================ */
 body.case-page {
+  --bg: #020202;
   background: var(--bg);
   color: #fff;
   min-height: 100vh;
@@ -4284,7 +4287,7 @@ body.case--azim    { --case-accent: #00B9B3; }
 
 /* Внешний контейнер контента (padding 40 top / 20 H, как у Figma Frame 226) */
 .case-layout {
-  max-width: 1400px;
+  max-width: 1440px;
   margin: 0 auto;
   padding: 40px 20px 120px;
   box-sizing: border-box;
@@ -4543,6 +4546,7 @@ body.case--azim    { --case-accent: #00B9B3; }
   height: 42px;
   border-radius: 20px;
   background: var(--accent);
+  color: var(--on-accent);
   flex-shrink: 0;
   text-decoration: none;
   transition: background .25s var(--ease-soft);
@@ -4946,6 +4950,7 @@ body.info-page {
   transform: scale(1.05);
 }
 .info-side__item.is-read .info-side__check-icon {
+  color: var(--on-accent);
   opacity: 1;
   transform: scale(1);
 }
@@ -5104,7 +5109,7 @@ body.info-page {
   transition: background .25s var(--ease-soft), border-color .25s var(--ease-soft), transform .25s var(--ease-soft);
 }
 .footer__info-card:hover {
-  background: rgba(255, 107, 0, 0.12);
+  background: rgba(255, 255, 255, 0.12);
   border-color: var(--accent);
   transform: translateY(-2px);
 }
@@ -5533,7 +5538,7 @@ body.info-page .info-complete.is-visible {
   padding: 0 20px;
   border-radius: 20px;
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   text-decoration: none;
   font-family: 'Onest', sans-serif;
   font-size: 18px;
@@ -5591,7 +5596,7 @@ body.info-page .info-complete.is-visible {
 .info-mobile-status.is-all-read {
   background: var(--accent);
   border-color: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   font-weight: 500;
   gap: 0;
   padding: 10px 22px;

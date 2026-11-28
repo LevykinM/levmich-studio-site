@@ -783,6 +783,10 @@
       : queryLang === 'en' || queryLang === 'ru'
       ? queryLang
       : (savedLang === 'en' || savedLang === 'ru' ? savedLang : 'ru');
+    if (!pathLang && lang === 'en' && document.body.dataset.pageVersion === 'v3') {
+      window.location.replace(`${langRoute('/main', lang)}${searchWithoutLang()}${url.hash}`);
+      return;
+    }
     try {
       localStorage.setItem(storageKey, lang);
     } catch (_) {}

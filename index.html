@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Host+Grotesk:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Host+Grotesk:wght@400;500;600;700;800&display=swap" /></noscript>
-  <link rel="stylesheet" href="Assets/styles/style.css?v=173" />
+  <link rel="stylesheet" href="Assets/styles/style.css?v=174" />
   <style>
     body[data-page-version="v3"] {
       /* Desktop: section rhythm is capped at 100px per latest spec. */
@@ -694,7 +694,7 @@
       gap: 14px;
       padding: 20px;
       border-radius: 40px;
-      background: rgba(255, 107, 0, 0.10);
+      background: rgba(255, 255, 255, 0.10);
       opacity: 1;
       filter: none;
       transform: none;
@@ -1246,7 +1246,7 @@
       }
 
       body[data-page-version="v3"] .services.services--redesigned .service__cta:active {
-        background: rgba(255, 107, 0, 0.18);
+        background: rgba(255, 255, 255, 0.18);
       }
 
       @media (max-width: 360px) {
@@ -1419,6 +1419,7 @@
   </style>
   <link rel="stylesheet" href="/Assets/styles/page-transition.css" />
   <script src="/Assets/scripts/page-transition.js"></script>
+  <link rel="stylesheet" href="/Assets/styles/studio-redesign.css?v=1" />
 </head>
 <body data-lang="ru" data-page-version="v3">
   <div class="site-loader" id="site-loader" role="status" aria-live="polite" aria-label="Сайт загружается">
@@ -1480,227 +1481,97 @@
       </div>
     </section>
 
-    <section class="about" id="about">
-      <div class="about__inner">
-        <header class="about__head reveal">
-          <h2 class="about__title">Your <br/>GOAT</h2>
-          <p class="about__lede">Человек, который считается непревзойдённым в&nbsp;своей сфере.</p>
-        </header>
-
-        <div class="about__photos reveal" data-about-parallax>
-          <figure class="about__photo-small">
-            <img decoding="async" loading="lazy" src="Assets/2a144ef9aad2531389597825e180388d3c0aa5f1.webp" alt="Михаил Левыкин" />
-          </figure>
-          <figure class="about__photo-large">
-            <img decoding="async" loading="lazy" src="Assets/7b06567811b6b765380e41ba4878fd538873b93f.webp" alt="Михаил Левыкин" />
-          </figure>
+    <section class="studio-intro" id="about" aria-labelledby="studio-intro-title">
+      <div class="home-width studio-intro__inner">
+        <div class="studio-intro__portraits">
+          <img class="studio-intro__at-work" src="/Assets/Redesign/about-work.png" alt="" loading="lazy" decoding="async" />
+          <img class="studio-intro__portrait" src="/Assets/Redesign/about-heart.webp" alt="Михаил Левыкин" loading="lazy" decoding="async" />
         </div>
-
-        <div class="about__bio reveal">
-          <div class="about__person">
-            <h3 class="about__name">Михаил</h3>
-            <div class="about__roles" aria-label="Роли">
-              <span class="chip">Дизайнер</span>
-              <span class="chip">Фаундер</span>
-            </div>
-          </div>
+        <div class="studio-intro__text">
+          <h2 id="studio-intro-title">Михаил Левыкин</h2>
+          <ul class="studio-intro__roles"><li>Дизайнер</li><li>Фаундер</li></ul>
           <p>Я делаю современные сайты, удобные интерфейсы и запоминающийся брендинг, объединяя стильный минимализм с продуманной структурой и ярким образом, чтобы дизайн вызывал доверие и эмоции.</p>
         </div>
       </div>
     </section>
 
-    <section class="services services--redesigned" id="services">
-      <div class="services__inner">
-        <div class="services__grid">
-          <article class="service reveal">
-            <div class="service__main">
-              <div class="service__top">
-                <h3 class="service__name">Дизайн сайта</h3>
-                <p class="service__desc">Сайт, который не просто красиво выглядит, а приводит клиентов. Продумываю структуру, поведение пользователя — чтобы посетитель за 30 секунд понял, чем вы можете быть ему полезны, и оставил контакт.</p>
-              </div>
-              <div class="service__bottom">
-                <p class="service__price">от 23.000 ₽</p>
-                <a class="service__cta" href="/brief/?service=website">Начать бриф</a>
-              </div>
+    <section class="services home-services" id="services" aria-labelledby="home-services-title">
+      <div class="home-width">
+        <h2 class="home-section-title" id="home-services-title">Услуги</h2>
+        <div class="home-services__grid">
+          <article class="home-service home-service--website">
+            <div>
+              <h3>Дизайн сайта<span class="service-mark"><img src="/Assets/Redesign/website-layout.svg" width="24" height="24" alt="" /></span></h3>
+              <p class="home-service__description">Продумываю структуру и дизайн сайта в Figma. Посетителю будет проще понять ваше предложение, найти нужную информацию и оставить заявку. Подготовлю макеты для компьютера и телефона.</p>
             </div>
-            <div class="service__details" aria-label="Состав услуги">
-              <div class="service__detail-group">
-                <h4 class="service__detail-title service__detail-title--included">В услугу входят:</h4>
-                <div class="service__pills service__pills--included">
-                  <button class="service-pill service-pill--included" type="button" data-explain-key="prototype">Прототип</button>
-                  <button class="service-pill service-pill--included" type="button" data-explain-key="adaptive">Адаптивы</button>
-                  <button class="service-pill service-pill--included" type="button" data-explain-key="uikit">Ui-Kit</button>
-                  <button class="service-pill service-pill--included" type="button" data-explain-key="design">Дизайн</button>
-                </div>
-              </div>
-            </div>
-            <div class="service__mobile-details">
-              <h4 class="service__detail-title service__detail-title--included">В услугу входят:</h4>
-              <div class="service__pills service__pills--included">
-                <span class="service-pill">Прототип</span>
-                <span class="service-pill">Дизайн</span>
-                <span class="service-pill">Адаптивы</span>
-                <span class="service-pill">Ui-Kit</span>
+            <div class="home-service__bottom">
+              <p class="home-service__price">от 23 000 ₽</p>
+              <div class="home-service__actions">
+                <a class="studio-button" href="/brief/?service=website">Начать бриф</a>
+                <a class="studio-button studio-button--secondary" href="/ru/services/web-design/" aria-label="Подробнее — Дизайн сайта">Подробнее<img src="/Assets/Redesign/arrow-diagonal.svg" width="24" height="24" alt="" /></a>
               </div>
             </div>
           </article>
-
-          <article class="service reveal">
-            <div class="service__main">
-              <div class="service__top">
-                <h3 class="service__name">Брендинг</h3>
-                <p class="service__desc">Не только логотип. Целостная визуальная система: знак, шрифт, цвета, паттерны — и применение во всех точках контакта. Чтобы бренд узнавался без подписи.</p>
-              </div>
-              <div class="service__bottom">
-                <p class="service__price">от 25.000 ₽</p>
-                <a class="service__cta" href="/brief/?service=branding">Начать бриф</a>
-              </div>
+          <article class="home-service home-service--vibe-site">
+            <div>
+              <h3>Вайб-сайт<span class="service-mark"><img src="/Assets/Redesign/vibe-launch.svg" width="24" height="24" alt="" /></span></h3>
+              <p class="home-service__description">С помощью нейросетей быстро соберу и опубликую одностраничный сайт для вашей услуги или продукта. Страница будет работать на телефоне и компьютере, а клиенты смогут оставлять заявки через форму.</p>
             </div>
-            <div class="service__details" aria-label="Состав услуги">
-              <div class="service__detail-group">
-                <h4 class="service__detail-title service__detail-title--included">В услугу входят:</h4>
-                <div class="service__pills service__pills--included">
-                  <button class="service-pill service-pill--included" type="button" data-explain-key="logo">Логотип</button>
-                  <button class="service-pill service-pill--included" type="button" data-explain-key="identity">Фирменный стиль</button>
-                  <button class="service-pill service-pill--included" type="button" data-explain-key="guideline">Гайдлайн</button>
-                </div>
-              </div>
-            </div>
-            <div class="service__mobile-details">
-              <h4 class="service__detail-title service__detail-title--included">В услугу входят:</h4>
-              <div class="service__pills service__pills--included">
-                <span class="service-pill">Логотип</span>
-                <span class="service-pill">Фирменный стиль</span>
-                <span class="service-pill">Гайдлайн</span>
+            <div class="home-service__bottom">
+              <p class="home-service__price">от 5 000 ₽</p>
+              <div class="home-service__actions">
+                <a class="studio-button" href="/brief/?service=vibe-site">Начать бриф</a>
+                <a class="studio-button studio-button--secondary" href="/ru/services/vibe-site/" aria-label="Подробнее — Вайб-сайт">Подробнее<img src="/Assets/Redesign/arrow-diagonal.svg" width="24" height="24" alt="" /></a>
               </div>
             </div>
           </article>
-
-          <article class="service reveal">
-            <div class="service__main">
-              <div class="service__top">
-                <h3 class="service__name">Дизайн приложений</h3>
-                <p class="service__desc">Интерфейс, в котором пользователь не теряется. Проектирую путь от первого экрана до целевого действия так, чтобы каждый шаг был очевиден. Ваше приложение получает не просто красивые экраны, а продуманную логику взаимодействия.</p>
-              </div>
-              <div class="service__bottom">
-                <p class="service__price">от 41.000 ₽</p>
-                <a class="service__cta" href="/brief/?service=app">Начать бриф</a>
-              </div>
+          <article class="home-service home-service--app">
+            <div>
+              <h3>Дизайн приложений<span class="service-mark"><img src="/Assets/Redesign/app-grid.svg" width="24" height="24" alt="" /></span></h3>
+              <p class="home-service__description">Спроектирую интерфейс мобильного или веб-приложения. Продумаю путь от первого экрана до нужного действия и соберу кликабельный прототип, чтобы проверить сценарий до разработки.</p>
             </div>
-            <div class="service__details" aria-label="Состав услуги">
-              <div class="service__detail-group">
-                <h4 class="service__detail-title service__detail-title--included">В услугу входят:</h4>
-                <div class="service__pills service__pills--included">
-                  <button class="service-pill service-pill--included" type="button" data-explain-key="userflow">Пользовательский сценарий</button>
-                  <button class="service-pill service-pill--included" type="button" data-explain-key="design">Дизайн</button>
-                  <button class="service-pill service-pill--included" type="button" data-explain-key="prototype">Прототип</button>
-                  <button class="service-pill service-pill--included" type="button" data-explain-key="uikit">Ui-Kit</button>
-                </div>
-              </div>
-            </div>
-            <div class="service__mobile-details">
-              <h4 class="service__detail-title service__detail-title--included">В услугу входят:</h4>
-              <div class="service__pills service__pills--included">
-                <span class="service-pill">Пользовательский сценарий</span>
-                <span class="service-pill">Дизайн</span>
-                <span class="service-pill">Прототип</span>
-                <span class="service-pill">Ui-Kit</span>
+            <div class="home-service__bottom">
+              <p class="home-service__price">от 41 000 ₽</p>
+              <div class="home-service__actions">
+                <a class="studio-button" href="/brief/?service=app">Начать бриф</a>
+                <a class="studio-button studio-button--secondary" href="/ru/services/app-design/" aria-label="Подробнее — Дизайн приложений">Подробнее<img src="/Assets/Redesign/arrow-diagonal.svg" width="24" height="24" alt="" /></a>
               </div>
             </div>
           </article>
-          <article class="service reveal">
-            <div class="service__main">
-              <div class="service__top">
-                <h3 class="service__name">Вайб-сайт</h3>
-                <p class="service__desc">С помощью нейросетей быстро соберу сайт под вашу задачу. Подойдёт для запуска услуги, продукта или идеи. Стартовая цена — за одну страницу с формой заявки.</p>
-              </div>
-              <div class="service__bottom">
-                <p class="service__price">от 5 000 ₽</p>
-                <a class="service__cta" href="/brief/?service=vibe-site">Начать бриф</a>
-              </div>
+          <article class="home-service home-service--branding">
+            <div>
+              <h3>Брендинг<span class="service-mark"><img src="/Assets/Redesign/brand-spark.svg" width="24" height="24" alt="" /></span></h3>
+              <p class="home-service__description">Разработаю логотип, подберу цвета, шрифты и графику. Покажу, как фирменный стиль работает на ваших носителях, и соберу правила, по которым команда сможет оформлять новые материалы.</p>
             </div>
-            <div class="service__details" aria-label="Состав услуги">
-              <div class="service__detail-group">
-                <h4 class="service__detail-title service__detail-title--included">В услугу входят:</h4>
-                <div class="service__pills service__pills--included">
-                  <button class="service-pill service-pill--included" type="button" data-explain-key="single-page">Одна страница</button>
-                  <button class="service-pill service-pill--included" type="button" data-explain-key="responsive-site">Адаптивный сайт</button>
-                  <button class="service-pill service-pill--included" type="button" data-explain-key="lead-form">Форма заявки</button>
-                  <button class="service-pill service-pill--included" type="button" data-explain-key="publishing">Публикация</button>
-                </div>
-              </div>
-            </div>
-            <div class="service__mobile-details">
-              <h4 class="service__detail-title service__detail-title--included">В услугу входят:</h4>
-              <div class="service__pills service__pills--included">
-                <span class="service-pill service-pill--included">Одна страница</span>
-                <span class="service-pill service-pill--included">Адаптивный сайт</span>
-                <span class="service-pill service-pill--included">Форма заявки</span>
-                <span class="service-pill service-pill--included">Публикация</span>
+            <div class="home-service__bottom">
+              <p class="home-service__price">от 25 000 ₽</p>
+              <div class="home-service__actions">
+                <a class="studio-button" href="/brief/?service=branding">Начать бриф</a>
+                <a class="studio-button studio-button--secondary" href="/ru/services/branding/" aria-label="Подробнее — Брендинг">Подробнее<img src="/Assets/Redesign/arrow-diagonal.svg" width="24" height="24" alt="" /></a>
               </div>
             </div>
           </article>
-
-          <article class="service reveal service--bot">
-            <div class="service__main">
-              <div class="service__top">
-                <div class="service__title-row">
-                  <h3 class="service__name">Бот</h3>
-                  <span class="service__badge">NEW</span>
-                </div>
-                <p class="service__desc">Разработаю бота на коде для Telegram, ВКонтакте или другой платформы с поддержкой ботов. Он сможет отвечать на частые вопросы, собирать заявки и уведомлять вас о новых обращениях.</p>
-              </div>
-              <div class="service__bottom">
-                <p class="service__price">от 10 000 ₽</p>
-                <a class="service__cta" href="/brief/?service=bot">Начать бриф</a>
+          <article class="home-service home-service--bot">
+            <div>
+              <h3>Бот<span class="service-mark"><img src="/Assets/Redesign/chat-bot.svg" width="24" height="24" alt="" /></span></h3>
+              <p class="home-service__description">Напишу бота для Telegram, ВКонтакте или другой платформы с поддержкой ботов. Он сможет отвечать на частые вопросы, собирать заявки и уведомлять вас о новых обращениях.</p>
+            </div>
+            <div class="home-service__bottom">
+              <p class="home-service__price">от 10 000 ₽</p>
+              <div class="home-service__actions">
+                <a class="studio-button" href="/brief/?service=bot">Начать бриф</a>
+                <a class="studio-button studio-button--secondary" href="/ru/services/bot/" aria-label="Подробнее — Бот">Подробнее<img src="/Assets/Redesign/arrow-diagonal.svg" width="24" height="24" alt="" /></a>
               </div>
             </div>
-            <div class="service__details" aria-label="Состав услуги">
-              <div class="service__detail-group">
-                <h4 class="service__detail-title service__detail-title--included">В услугу входят:</h4>
-                <div class="service__pills service__pills--included">
-                  <button class="service-pill service-pill--included" type="button" data-explain-key="bot-flow">Сценарий бота</button>
-                  <button class="service-pill service-pill--included" type="button" data-explain-key="bot-buttons">Команды и кнопки</button>
-                  <button class="service-pill service-pill--included" type="button" data-explain-key="bot-leads">Сбор заявок</button>
-                  <button class="service-pill service-pill--included" type="button" data-explain-key="bot-alerts">Уведомления</button>
-                  <button class="service-pill service-pill--included" type="button" data-explain-key="bot-launch">Запуск бота</button>
-                </div>
-              </div>
+          </article>
+          <article class="home-service home-service--contact">
+            <div>
+              <h3>Обсудим вашу задачу?</h3>
+              <p class="home-service__description">Напишите, что хотите сделать. Я задам пару вопросов и подскажу, с чего начать и какой формат работы вам подойдёт.</p>
             </div>
-            <div class="service__mobile-details">
-              <h4 class="service__detail-title service__detail-title--included">В услугу входят:</h4>
-              <div class="service__pills service__pills--included">
-                <span class="service-pill service-pill--included">Сценарий бота</span>
-                <span class="service-pill service-pill--included">Команды и кнопки</span>
-                <span class="service-pill service-pill--included">Сбор заявок</span>
-                <span class="service-pill service-pill--included">Уведомления</span>
-                <span class="service-pill service-pill--included">Запуск бота</span>
-              </div>
-            </div>
+            <div class="home-service__actions"><a class="studio-button" href="/brief/?service=other">Написать</a></div>
           </article>
         </div>
-
-        <header class="services__head reveal">
-          <h2 class="services__title">Услуги</h2>
-          <div class="services__info" tabindex="0" aria-label="Информация о согласии">
-            <span class="services__notice">
-              <a class="services__notice-badge" href="/ru/info/" aria-label="Инфо">
-                <span class="services__icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2C17.523 2 22 6.477 22 12C22 17.523 17.523 22 12 22C6.477 22 2 17.523 2 12ZM10.5 8C10.5 7.60218 10.658 7.22064 10.9393 6.93934C11.2206 6.65804 11.6022 6.5 12 6.5H12.01C12.4078 6.5 12.7894 6.65804 13.0707 6.93934C13.352 7.22064 13.51 7.60218 13.51 8V8.01C13.51 8.40782 13.352 8.78936 13.0707 9.07066C12.7894 9.35196 12.4078 9.51 12.01 9.51H12C11.6022 9.51 11.2206 9.35196 10.9393 9.07066C10.658 8.78936 10.5 8.40782 10.5 8.01V8ZM12 11C12.2652 11 12.5196 11.1054 12.7071 11.2929C12.8946 11.4804 13 11.7348 13 12V16C13 16.2652 12.8946 16.5196 12.7071 16.7071C12.5196 16.8946 12.2652 17 12 17C11.7348 17 11.4804 16.8946 11.2929 16.7071C11.1054 16.5196 11 16.2652 11 16V12C11 11.7348 11.1054 11.4804 11.2929 11.2929C11.4804 11.1054 11.7348 11 12 11Z" fill="currentColor"/></svg>
-                </span>
-                <span class="services__notice-label">Инфо</span>
-                <span class="services__notice-arrow" aria-hidden="true">
-                  <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </span>
-              </a>
-              <span class="services__notice-text">Нажимая кнопку «Начать бриф», вы&nbsp;даёте согласие с&nbsp;пользовательским соглашением и&nbsp;политикой конфиденциальности.</span>
-            </span>
-          </div>
-          <div class="services__explain is-visible" aria-live="polite">
-            <strong class="services__explain-title">Что входит в услугу?</strong>
-            <p class="services__explain-text">Наведите курсор на плашку и в этом окне появится пояснение к компоненту услуги</p>
-          </div>
-        </header>
       </div>
     </section>
 
@@ -1713,18 +1584,7 @@
               <img decoding="async" loading="lazy" class="portfolio-case__img" src="Assets/Case_Limo/cover.webp" alt="Лимо" />
             </a>
             <div class="portfolio-case__meta">
-              <div class="portfolio-case__copy">
-                <h3 class="portfolio-case__title">Лимо</h3>
-                <div class="portfolio-case__tags">
-                  <span class="portfolio-tag portfolio-tag--branding">Брендинг <img decoding="async" loading="lazy" src="Assets/SVG_files/mage_stars-c.svg" alt="" /></span>
-                  <span class="portfolio-tag portfolio-tag--site">Сайт <img decoding="async" loading="lazy" src="Assets/SVG_files/dashicons_admin-site-alt3.svg" alt="" /></span>
-                </div>
-              </div>
-              <a class="portfolio-case__arrow" href="/ru/cases/limo/" aria-label="Открыть кейс">
-                <img decoding="async" loading="lazy" src="Assets/SVG_files/arrow-forward.svg" alt="" />
-                <svg viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </a>
-              <a class="portfolio-case__button" href="/ru/cases/limo/">Подробнее</a>
+              <h3 class="portfolio-case__title">Лимо</h3>
             </div>
           </article>
 
@@ -1733,76 +1593,34 @@
               <img decoding="async" loading="lazy" class="portfolio-case__img" src="Assets/Case_Chess_Sphere/cover.webp" alt="Chess Sphere" />
             </a>
             <div class="portfolio-case__meta">
-              <div class="portfolio-case__copy">
-                <h3 class="portfolio-case__title">Chess Sphere</h3>
-                <div class="portfolio-case__tags">
-                  <span class="portfolio-tag portfolio-tag--branding">Брендинг <img decoding="async" loading="lazy" src="Assets/SVG_files/mage_stars-c.svg" alt="" /></span>
-                  <span class="portfolio-tag portfolio-tag--app">Приложение <img decoding="async" loading="lazy" src="Assets/SVG_files/d993ea73e12948be8f36d51ca7bb2bc8c0f1f7bc.svg" alt="" /></span>
-                </div>
-              </div>
-              <a class="portfolio-case__arrow" href="/ru/cases/chess/" aria-label="Открыть кейс">
-                <img decoding="async" loading="lazy" src="Assets/SVG_files/arrow-forward.svg" alt="" />
-                <svg viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </a>
-              <a class="portfolio-case__button" href="/ru/cases/chess/">Подробнее</a>
+              <h3 class="portfolio-case__title">Chess Sphere</h3>
             </div>
           </article>
 
           <article class="portfolio-case reveal" data-case="three">
             <a class="portfolio-case__media" href="/ru/cases/three/" aria-label="Открыть кейс Три Семёрки">
-              <img decoding="async" loading="lazy" class="portfolio-case__img" src="Assets/Main_page/Property 1=Photo 3.webp" alt="Три Семёрки" />
+              <img decoding="async" loading="lazy" class="portfolio-case__img" src="/Assets/Redesign/case-three.webp" alt="Три Семёрки" />
             </a>
             <div class="portfolio-case__meta">
-              <div class="portfolio-case__copy">
-                <h3 class="portfolio-case__title">Три Семёрки</h3>
-                <div class="portfolio-case__tags">
-                  <span class="portfolio-tag portfolio-tag--branding">Брендинг <img decoding="async" loading="lazy" src="Assets/SVG_files/mage_stars-c.svg" alt="" /></span>
-                </div>
-              </div>
-              <a class="portfolio-case__arrow" href="/ru/cases/three/" aria-label="Открыть кейс">
-                <img decoding="async" loading="lazy" src="Assets/SVG_files/arrow-forward.svg" alt="" />
-                <svg viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </a>
-              <a class="portfolio-case__button" href="/ru/cases/three/">Подробнее</a>
+              <h3 class="portfolio-case__title">Три Семёрки</h3>
             </div>
           </article>
 
           <article class="portfolio-case reveal" data-case="wedding">
             <a class="portfolio-case__media" href="/ru/cases/wedding/" aria-label="Открыть кейс Свадебный сайт">
-              <img decoding="async" loading="lazy" class="portfolio-case__img" src="Assets/Main_page/Property 1=Photo 2.webp" alt="Свадебный сайт" />
+              <img decoding="async" loading="lazy" class="portfolio-case__img" src="/Assets/Redesign/case-wedding.webp" alt="Свадебный сайт" />
             </a>
             <div class="portfolio-case__meta">
-              <div class="portfolio-case__copy">
-                <h3 class="portfolio-case__title">Свадебный сайт</h3>
-                <div class="portfolio-case__tags">
-                  <span class="portfolio-tag portfolio-tag--site">Сайт <img decoding="async" loading="lazy" src="Assets/SVG_files/dashicons_admin-site-alt3.svg" alt="" /></span>
-                </div>
-              </div>
-              <a class="portfolio-case__arrow" href="/ru/cases/wedding/" aria-label="Открыть кейс">
-                <img decoding="async" loading="lazy" src="Assets/SVG_files/arrow-forward.svg" alt="" />
-                <svg viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </a>
-              <a class="portfolio-case__button" href="/ru/cases/wedding/">Подробнее</a>
+              <h3 class="portfolio-case__title">Свадебный сайт</h3>
             </div>
           </article>
 
           <article class="portfolio-case reveal" data-case="front">
             <a class="portfolio-case__media" href="/ru/cases/front/" aria-label="Открыть кейс Front">
-              <img decoding="async" loading="lazy" class="portfolio-case__img" src="Assets/Main_page/Property 1=Photo 1.webp" alt="Front" />
+              <img decoding="async" loading="lazy" class="portfolio-case__img" src="/Assets/Redesign/case-front.webp" alt="Front" />
             </a>
             <div class="portfolio-case__meta">
-              <div class="portfolio-case__copy">
-                <h3 class="portfolio-case__title">Front</h3>
-                <div class="portfolio-case__tags">
-                  <span class="portfolio-tag portfolio-tag--branding">Брендинг <img decoding="async" loading="lazy" src="Assets/SVG_files/mage_stars-c.svg" alt="" /></span>
-                  <span class="portfolio-tag portfolio-tag--site">Сайт <img decoding="async" loading="lazy" src="Assets/SVG_files/dashicons_admin-site-alt3.svg" alt="" /></span>
-                </div>
-              </div>
-              <a class="portfolio-case__arrow" href="/ru/cases/front/" aria-label="Открыть кейс">
-                <img decoding="async" loading="lazy" src="Assets/SVG_files/arrow-forward.svg" alt="" />
-                <svg viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </a>
-              <a class="portfolio-case__button" href="/ru/cases/front/">Подробнее</a>
+              <h3 class="portfolio-case__title">Front</h3>
             </div>
           </article>
 
@@ -1811,17 +1629,7 @@
               <img decoding="async" loading="lazy" class="portfolio-case__img" src="Assets/Case_Lyutik/cover.webp" alt="Лютик" />
             </a>
             <div class="portfolio-case__meta">
-              <div class="portfolio-case__copy">
-                <h3 class="portfolio-case__title">Лютик</h3>
-                <div class="portfolio-case__tags">
-                  <span class="portfolio-tag portfolio-tag--branding">Брендинг <img decoding="async" loading="lazy" src="Assets/SVG_files/mage_stars-c.svg" alt="" /></span>
-                </div>
-              </div>
-              <a class="portfolio-case__arrow" href="/ru/cases/lyutik/" aria-label="Открыть кейс">
-                <img decoding="async" loading="lazy" src="Assets/SVG_files/arrow-forward.svg" alt="" />
-                <svg viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </a>
-              <a class="portfolio-case__button" href="/ru/cases/lyutik/">Подробнее</a>
+              <h3 class="portfolio-case__title">Лютик</h3>
             </div>
           </article>
 
@@ -1830,17 +1638,7 @@
               <img decoding="async" loading="lazy" class="portfolio-case__img" src="Assets/Case_Azim_Charyev/cover.webp?v=2" alt="Азим Чарыев" />
             </a>
             <div class="portfolio-case__meta">
-              <div class="portfolio-case__copy">
-                <h3 class="portfolio-case__title">Азим Чарыев</h3>
-                <div class="portfolio-case__tags">
-                  <span class="portfolio-tag portfolio-tag--site">Сайт <img decoding="async" loading="lazy" src="Assets/SVG_files/dashicons_admin-site-alt3.svg" alt="" /></span>
-                </div>
-              </div>
-              <a class="portfolio-case__arrow" href="/ru/cases/azim/" aria-label="Открыть кейс">
-                <img decoding="async" loading="lazy" src="Assets/SVG_files/arrow-forward.svg" alt="" />
-                <svg viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1L5 5L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </a>
-              <a class="portfolio-case__button" href="/ru/cases/azim/">Подробнее</a>
+              <h3 class="portfolio-case__title">Азим Чарыев</h3>
             </div>
           </article>
         </div>
@@ -1949,7 +1747,7 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
   <script src="Assets/scripts/generated-cases.js?v=4" defer></script>
-  <script src="Assets/scripts/main-v2.js?v=116" defer></script>
+  <script src="Assets/scripts/main-v2.js?v=117" defer></script>
 
   <script>
   /* ═══════════════════════════════════════════════════

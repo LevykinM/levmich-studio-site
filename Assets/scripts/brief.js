@@ -11,6 +11,9 @@
   const status = form.querySelector('.brief__status');
   const submit = form.querySelector('[type="submit"]');
   const success = document.querySelector('.brief__success');
+  const channels = form.elements.channel;
+  const contactName = form.querySelector('[data-contact-name]');
+  const detailsCount = form.querySelector('[data-details-count]');
 
   const messages = english ? {
     required: 'This field is required',
@@ -31,9 +34,9 @@
       title: 'Let’s make something\nworth sharing',
       intro: 'Share a few details about your project and I’ll get in touch personally to discuss it.',
       serviceLabel: '1. What are we making?',
-      branding: 'Branding', app: 'App design', website: 'Website', other: 'Something else',
+      branding: 'Branding', app: 'App', website: 'Website', other: 'Something else',
       'vibe-site': 'Vibe Website', bot: 'Bot',
-      contactLabel: '2. How can I reach you?', contactPrompt: 'Telegram, VK, email, or phone',
+      contactLabel: '2. How can I reach you?', phone: 'Phone', vk: 'VK',
       contactHint: 'Only used to contact you about the project',
       detailsLabel: '3. Tell me about your project',
       detailsPrompt: 'For example, I need a website for a coffee shop. I already have a logo or photos…',
@@ -67,9 +70,46 @@
     choice.checked = choice.value === params.get('service');
   }
 
+  const contactByChannel = {
+    telegram: { placeholder: '@username', label: english ? 'Telegram username' : 'Имя пользователя в Telegram', inputMode: 'text', autocomplete: 'off' },
+    vk: { placeholder: 'vk.com/username', label: english ? 'VK profile' : 'Профиль ВКонтакте', inputMode: 'url', autocomplete: 'off' },
+    phone: { placeholder: '+7', label: english ? 'Phone number' : 'Номер телефона', inputMode: 'tel', autocomplete: 'tel' },
+    email: { placeholder: 'name@example.com', label: 'Email', inputMode: 'email', autocomplete: 'email' },
+  };
+  const channelValues = {};
+  let channel = channels.value;
+
+  function configureContact() {
+    const config = contactByChannel[channel];
+    contact.placeholder = config.placeholder;
+    contact.inputMode = config.inputMode;
+    contact.autocomplete = config.autocomplete;
+    contactName.textContent = config.label;
+  }
+
+  form.querySelector('.brief__channels').addEventListener('change', () => {
+    channelValues[channel] = contact.value;
+    channel = channels.value;
+    configureContact();
+    contact.value = channelValues[channel] || '';
+    showContactError('');
+  });
+  configureContact();
+
+  const updateCount = () => { detailsCount.textContent = `${details.value.length}/${details.maxLength}`; };
+  details.value = (params.get('estimate') || '').slice(0, details.maxLength);
+  details.addEventListener('input', updateCount);
+  updateCount();
+
   function contactProblem() {
     const value = contact.value.trim();
     if (!value) return messages.required;
+    if (channel === 'phone' && (!/^\+?[\d\s().-]+$/.test(value) || !/^\d{10,15}$/.test(value.replace(/\D/g, '')))) {
+      return english ? 'Enter a phone number' : 'Укажите номер телефона';
+    }
+    if (channel === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      return english ? 'Enter a valid email address' : 'Укажите корректный email';
+    }
     return /[\p{L}\p{N}]/u.test(value) ? '' : messages.invalid;
   }
 
@@ -152,6 +192,7 @@
         success.querySelector('h1').focus({ preventScroll: true });
         window.scrollTo(0, 0);
         form.reset();
+        updateCount();
       };
       if (window.levmichPageTransition) await window.levmichPageTransition.swap(showSuccess);
       else showSuccess();
