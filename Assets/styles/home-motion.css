@@ -1,0 +1,28 @@
+.home-motion-word { display: inline-block; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .home-motion-layer {
+    --home-unrevealed: calc(1 - var(--home-reveal, 0));
+    opacity: calc(1 - var(--home-unrevealed) * var(--home-unrevealed));
+    translate: 0 calc(30px * var(--home-unrevealed) * var(--home-unrevealed));
+  }
+
+  [data-home-revealing] .home-motion-word {
+    --home-word-in: clamp(0, calc((var(--home-reveal, 0) - var(--home-word-delay, 0)) * 2.38095), 1);
+    --home-word-rest: calc(1 - var(--home-word-in));
+    opacity: calc(1 - var(--home-word-rest) * var(--home-word-rest) * var(--home-word-rest));
+    translate: 0 calc(.52em * var(--home-word-rest) * var(--home-word-rest));
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (any-hover: hover) and (any-pointer: fine) {
+  .studio-intro__at-work {
+    translate: calc(var(--portrait-motion-x, 0px) * .52) calc(var(--portrait-motion-y, 0px) * .52);
+    transition: translate .58s cubic-bezier(.16, 1, .3, 1);
+  }
+
+  .studio-intro__portrait {
+    translate: var(--portrait-motion-x, 0px) var(--portrait-motion-y, 0px);
+    transition: translate .46s cubic-bezier(.16, 1, .3, 1);
+  }
+}
